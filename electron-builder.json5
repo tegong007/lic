@@ -36,8 +36,9 @@
   },
   "linux": {
     "target": [
-      "AppImage"
+      "deb"
     ],
+    "maintainer": "dascom.com",
     "artifactName": "${productName}-Linux-${version}.${ext}"
   }
 }
