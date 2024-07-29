@@ -5,6 +5,7 @@ export default antfu({
   yaml: false,
   unocss: true,
   formatters: true,
+  jsx: false,
   stylistic: {
     indent: 2,
     semi: true,
@@ -43,4 +44,7 @@ export default antfu({
   },
 }, {
   files: ['**/src/**'],
+  settings: {
+    'import/core-modules': ['vue-router/auto-routes'],
+  },
 });

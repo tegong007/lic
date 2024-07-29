@@ -1,13 +1,16 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import electron from 'vite-plugin-electron/simple';
-import vue from '@vitejs/plugin-vue';
+import Vue from '@vitejs/plugin-vue';
 import { defineConfig } from 'vite';
 import Unocss from 'unocss/vite';
 import Components from 'unplugin-vue-components/vite';
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers';
 import AutoImport from 'unplugin-auto-import/vite';
 import removeNoMatch from 'vite-plugin-router-warn';
+import VueRouter from 'unplugin-vue-router/vite';
+import VueMacros from 'unplugin-vue-macros/vite';
+import { VueRouterAutoImports } from 'unplugin-vue-router';
 import pkg from './package.json';
 
 // https://vitejs.dev/config/
@@ -21,16 +24,37 @@ export default defineConfig(({ command }) => {
 
   return {
     plugins: [
-      vue(),
-      Unocss(),
+      VueRouter({
+        extensions: ['.vue'],
+        dts: 'src/typed-router.d.ts',
+      }),
+      VueMacros({
+        plugins: {
+          vue: Vue(),
+        },
+      }),
       AutoImport({
-        imports: ['vue', 'vue-router'],
-        dts: false,
+        imports: [
+          'vue',
+          '@vueuse/head',
+          '@vueuse/core',
+          VueRouterAutoImports,
+          {
+            // add any other imports you were relying on
+            'vue-router/auto': ['useLink'],
+          },
+        ],
+        dts: 'src/auto-imports.d.ts',
+        dirs: [
+          'src/composables',
+        ],
+        vueTemplate: true,
       }),
       Components({
         resolvers: [NaiveUiResolver()],
         dts: false,
       }),
+      Unocss(),
       electron({
         main: {
           // Shortcut of `build.lib.entry`

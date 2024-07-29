@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { darkTheme, dateZhCN, zhCN } from 'naive-ui';
-import { RouterView } from 'vue-router';
 import { watchEffect } from 'vue';
 import { useAppStore } from './store';
 
@@ -13,6 +12,10 @@ watchEffect(() => {
 
 <template>
   <n-config-provider class="wh-full" :locale="zhCN" :date-locale="dateZhCN" :theme="appStore.isDark ? darkTheme : undefined" :theme-overrides="appStore.naiveThemeOverrides">
-    <RouterView />
+    <router-view v-slot="{ Component, route: curRoute }">
+      <KeepAlive>
+        <component :is="Component" :key="curRoute.fullPath" />
+      </KeepAlive>
+    </router-view>
   </n-config-provider>
 </template>
