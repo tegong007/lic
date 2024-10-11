@@ -3,7 +3,7 @@
   "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
   "appId": "com.dascom.cabinet",
   "asar": true,
-  "productName": "Dascom-ImportantCabinet-App",
+  "productName": "Light-Ink-Craftsman",
   "directories": {
     "buildResources": "public",
     "output": "release/${version}"
@@ -33,6 +33,6 @@
     "target": ["deb"],
     "maintainer": "dascom.com",
     "artifactName": "${productName}-${os}-${arch}-v${version}.${ext}",
-    "icon": "./public/512x512.png"
+    "icon": "./public/logo.png"
   }
 }
