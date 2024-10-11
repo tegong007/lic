@@ -8,15 +8,9 @@
     "buildResources": "public",
     "output": "release/${version}"
   },
-  "files": [
-    "dist",
-    "dist-electron",
-    "public"
-  ],
+  "files": ["dist", "dist-electron", "public"],
   "mac": {
-    "target": [
-      "dmg"
-    ],
+    "target": ["dmg"],
     "artifactName": "${productName}-Mac-${version}-Installer.${ext}"
   },
   "win": {
@@ -24,10 +18,7 @@
     "target": [
       {
         "target": "nsis",
-        "arch": [
-          "x64",
-          "arm64"
-        ]
+        "arch": ["ia32"]
       }
     ],
     "artifactName": "${productName}-Windows-${version}-Setup.${ext}"
@@ -39,9 +30,7 @@
     "deleteAppDataOnUninstall": false
   },
   "linux": {
-    "target": [
-      "deb"
-    ],
+    "target": ["deb"],
     "maintainer": "dascom.com",
     "artifactName": "${productName}-${os}-${arch}-v${version}.${ext}",
     "icon": "./public/512x512.png"
