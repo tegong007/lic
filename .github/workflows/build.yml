@@ -1,0 +1,97 @@
+name: Build and Release Electron App
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    strategy:
+      matrix:
+        architecture: [ x64, arm64 ]  # 指定架构
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install yarn
+        run: |
+          npm install -g yarn
+          echo "$(npm bin -g)" >> $GITHUB_PATH
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Install Ruby and fpm
+        run: |
+          sudo apt update
+          sudo apt install ruby -y
+          sudo gem install fpm
+
+      - name: Get Version Number
+        id: get_version
+        run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+
+      - name: Set DEB_ARCH variable
+        run: |
+          if [ "${{ matrix.architecture }}" == "x64" ]; then
+            echo "DEB_ARCH=amd64" >> $GITHUB_ENV
+          else
+            echo "DEB_ARCH=${{ matrix.architecture }}" >> $GITHUB_ENV
+          fi
+
+      - name: Build the Electron app
+        env:
+          USE_SYSTEM_FPM: "true"
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: yarn run build:linux
+
+      - name: Upload Specific Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-${{ matrix.architecture }}
+          path: |
+            ./release/${{ env.VERSION }}/*-${{ env.DEB_ARCH }}-*.deb
+          if-no-files-found: error  # 如果未找到文件，则抛出错误
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    strategy:
+      matrix:
+        architecture: [ x64, arm64 ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set DEB_ARCH variable
+        run: |
+          if [ "${{ matrix.architecture }}" == "x64" ]; then
+            echo "DEB_ARCH=amd64" >> $GITHUB_ENV
+          else
+            echo "DEB_ARCH=${{ matrix.architecture }}" >> $GITHUB_ENV
+          fi
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts-${{ matrix.architecture }}
+          path: artifacts/${{ matrix.architecture }}
+
+      - name: Create Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload ${{ github.ref_name }} \
+            artifacts/${{ matrix.architecture }}/*-${{ env.DEB_ARCH }}-*.deb \
+            --clobber
