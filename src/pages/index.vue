@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="h-full text-[18px] text-white">
+  <div class="bg h-full text-[18px] text-white">
     <Header :is-show-test-btn="true" />
     <div class="content flex justify-between p-[20px]">
       <div
@@ -171,39 +171,39 @@ async function getStatus() {
       currentObj.value = formatData;
       // 左边标题
       if (formatData.status.includes('Camera')) {
-        titleStatus.value
-          = `${moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
-          }，OCR识别中`;
+        titleStatus.value = `${
+          moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
+        }，OCR识别中`;
       }
       else if (formatData.status.includes('Reader')) {
-        titleStatus.value
-          = `${moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
-          }，读写中`;
+        titleStatus.value = `${
+          moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
+        }，读写中`;
       }
       else if (formatData.status.includes('Laser')) {
-        titleStatus.value
-          = `${moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
-          }，激光雕刻中`;
+        titleStatus.value = `${
+          moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
+        }，激光雕刻中`;
       }
       else if (formatData.status.includes('UV')) {
-        titleStatus.value
-          = `${moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
-          }，喷墨打印中`;
+        titleStatus.value = `${
+          moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
+        }，喷墨打印中`;
       }
       else if (formatData.status.includes('Turn')) {
-        titleStatus.value
-          = `${moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
-          }，翻页中`;
+        titleStatus.value = `${
+          moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
+        }，翻页中`;
       }
       else if (formatData.status.includes('Product')) {
-        titleStatus.value
-          = `${moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
-          }，已完成证本打印`;
+        titleStatus.value = `${
+          moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
+        }，已完成证本打印`;
       }
       else if (formatData.status.includes('Obsolete')) {
-        titleStatus.value
-          = `${moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
-          }失败，请重试`;
+        titleStatus.value = `${
+          moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
+        }失败，请重试`;
       }
       //  图片状态
       switch (formatData.status) {
@@ -340,7 +340,7 @@ function formatDateTime() {
 </script>
 
 <style scoped>
-#app {
+.bg {
   background-image: url('../assets/image/bg_dark.png');
   background-size: 100% 100%;
   background-repeat: 'no-repeat';
@@ -350,7 +350,7 @@ function formatDateTime() {
   height: calc(100vh - 66px);
 }
 .printBtn {
-  background-image: url('../../assets/image/printBtn.png');
+  background-image: url('../assets/image/printBtn.png');
   background-size: 100% 100%;
   background-repeat: no-repeat; /* 不重复 */
 }

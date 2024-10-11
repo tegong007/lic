@@ -50,9 +50,20 @@ async function createWindow() {
     icon: path.join(process.env.VITE_PUBLIC, 'favicon.ico'),
     width: 1920,
     height: 1080,
+    frame: true, // 边框显示
+    disableAutoHideCursor: false, // 隐藏鼠标
+    // fullscreen: true,
+    autoHideMenuBar: true, // 隐藏工具栏
     center: true,
     // useContentSize: true,
     webPreferences: {
+      contextIsolation: true, // 隔离上下文
+      webSecurity: false, // 跨域
+      nodeIntegration: true,
+      images: true, // 支持图片
+      textAreasAreResizable: false, // 文本域可拉伸
+      webgl: false, // 支持webgl/canvas
+      backgroundThrottling: true, // 页面隐藏时节能
       preload,
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
       // nodeIntegration: true,
