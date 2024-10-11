@@ -48,10 +48,10 @@ async function createWindow() {
   win = new BrowserWindow({
     title: 'Main window',
     icon: path.join(process.env.VITE_PUBLIC, 'favicon.ico'),
-    width: 1280,
-    height: 800,
+    width: 1920,
+    height: 1080,
     center: true,
-    useContentSize: true,
+    // useContentSize: true,
     webPreferences: {
       preload,
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
@@ -63,7 +63,8 @@ async function createWindow() {
     },
   });
 
-  if (VITE_DEV_SERVER_URL) { // #298
+  if (VITE_DEV_SERVER_URL) {
+    // #298
     win.loadURL(VITE_DEV_SERVER_URL);
     // Open devTool if the app is not packaged
     win.webContents.openDevTools({ mode: 'detach' });

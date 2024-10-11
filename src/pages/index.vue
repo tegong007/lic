@@ -1,4 +1,97 @@
+<template>
+  <div id="app" class="h-full text-[18px] text-white">
+    <Header :is-show-test-btn="true" />
+    <div class="content flex justify-between p-[20px]">
+      <div
+        class="w-[49.5%] flex flex-col border-[4px] border-[#3F89DD] from-[#ffffff44] bg-gradient-to-t"
+      >
+        <div
+          class="title relative z-10 h-[50px] w-full flex items-center justify-between bg-[#fff]/[0.2] pl-[20px] font-bold"
+        >
+          <span class="text-[20px]">证本预览</span>
+        </div>
+        <div
+          class="relative h-full w-full flex flex-col items-center justify-evenly"
+        >
+          <span v-if="imgIndex" class="text-[50px]">{{ titleStatus }}</span>
+          <span v-if="!imgIndex" class="absolute z-[999] text-[80px] font-bold">准备打印</span>
+          <a-image :width="480" :src="imgStatus[imgIndex]" />
+        </div>
+      </div>
+      <div class="w-[49.5%] flex flex-col justify-between">
+        <div
+          class="h-[78%] flex flex-col border-[4px] border-[#3F89DD] from-[#ffffff44] bg-gradient-to-t"
+        >
+          <div
+            class="title relative z-10 h-[50px] w-full flex items-center justify-between bg-[#fff]/[0.2] pl-[20px] font-bold"
+          >
+            <span class="text-[20px]">打印信息</span>
+          </div>
+          <div
+            class="info-box scrollable-box w-full overflow-auto p-[20px] leading-[25px]"
+          >
+            <div v-for="(item, index) in flowData" :key="index">
+              <div class="pl-[40px]">
+                <span>
+                  {{ item.time }} 证本已到达【{{ statusTypes[item.status] }}】
+                </span>
+                <span>
+                  <span v-if="item.ocrData && isIncludes(item.status)">证本已完成OCR识别，结果：<span class="text-amber-100">{{
+                    item.ocrData
+                  }}</span>
+                  </span>
+                  <span v-if="item.readerData && isIncludes(item.status)">证本已完成芯片读取，数据：<span class="text-amber-100">{{
+                    item.readerData
+                  }}</span>
+                  </span>
+                </span>
+                <div
+                  v-if="item.imgData && isIncludes(item.status)"
+                  class="py-[10px]"
+                >
+                  <a-image :width="100" :src="item.imgData" />
+                </div>
+              </div>
+              <div
+                v-if="getModelStart(item.status) !== ''"
+                class="leading-[55px]"
+              >
+                *********************************************{{
+                  getModelStart(item.status)
+                }}**************************************************
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="printBtn relative h-[20%] flex items-center justify-center">
+          <span class="relative text-[50px] font-bold">证本打印</span>
+          <!-- <div class="bg-[#fff]/[0] absolute hover:bg-[#fff]/[0.3] w-full h-full rounded-lg cursor-pointer active:bg-[#000]/[0.4]" @click="startInterval"></div> -->
+          <div
+            :class="
+              `${canClick ? 'bg-[#fff]/[0]  cursor-pointer hover:bg-[#fff]/[0.3]  active:bg-[#000]/[0.4]' : 'bg-[#000]/[0.4] pointer-events-none'}`
+                + ' absolute w-full h-full rounded-lg '
+            "
+            @click="startInterval"
+          />
+        </div>
+        <!-- <a-button @click="stopInterval">stop</a-button> -->
+      </div>
+    </div>
+    <context-holder />
+  </div>
+</template>
+
 <script setup lang="ts">
+import { message } from 'ant-design-vue';
+import Header from '@/components/TheHeader.vue';
+import { getDocStatus, startOrStopPrintTask } from '@/apis/webApi';
+import { throttle } from '@/utils/throttle.js';
+import readyImg from '@/assets/image/ready.png';
+import defaultImg from '@/assets/image/default.png';
+import laser1Img from '@/assets/image/laser1.png';
+import laser2Img from '@/assets/image/laser2.png';
+import lnkjetImg from '@/assets/image/lnkjet.png';
+
 defineOptions({ name: 'IndexPage' });
 
 definePage({
@@ -8,58 +101,280 @@ definePage({
   },
 });
 
-const formatted = useDateFormat(useNow(), 'HH:mm');
+const [contextHolder] = message.useMessage();
+const imgStatus = [readyImg, defaultImg, laser1Img, laser2Img, lnkjetImg];
+const statusTypes = {
+  'M1-Ready': '模组一发证位',
+  'M1-Camera': '模组一摄像位',
+  'M2-Reader-1': '模组二读写位1',
+  'M2-Reader-2': '模组二读写位2',
+  'M2-Reader-3': '模组二读写位3',
+  'M2-Obsolete': '模组二废本槽',
+  'M2-Laser-1': '模组二激光位1',
+  'M2-Laser-2': '模组二激光位2',
+  'M2-Laser-3': '模组二激光位3',
+  'M2-Camera': '模组二摄像位', // 第一次
+  'M3-Reader-1': '模组三读写位1',
+  'M3-Reader-2': '模组三读写位2',
+  'M3-Reader-3': '模组三读写位3',
+  'M3-Laser-1': '模组三激光位1',
+  'M3-Laser-2': '模组三激光位2',
+  'M3-Laser-3': '模组三激光位3',
+  'M3-UV': '模组三喷墨位', // 第二次
+  'M3-Camera': '模组三摄像位', // 第三次
+  'M4-Turn': '模组四翻页器',
+  'M5-Reader-1': '模组五读写位1',
+  'M5-Reader-2': '模组五读写位2',
+  'M5-Reader-3': '模组五读写位3',
+  'M5-UV': '模组五喷墨位',
+  'M5-Camera': '模组五摄像位',
+  'M6-Product': '模组六成品槽', // 结束
+  'M6-Obsolete': '模组六废品槽',
+};
+interface T {
+  time?: string;
+  description?: string;
+  ocrData?: string;
+  readerData?: string;
+  status: string;
+  imgData?: string;
+}
+
+// 数据流
+const flowData = ref<T[]>([]);
+
+const currentObj = ref<T>(); // 当前对象
+const canClick = ref(true); // 是否可以点击打印
+const intervalRef = ref<number | null>(null); // 定时器
+const imgIndex = ref(0); // 当前图片所处于的位置
+const titleStatus = ref('送本中');
+
+const moduleMap = {
+  M1: '模组一',
+  M2: '模组二',
+  M3: '模组三',
+  M4: '模组四',
+  M5: '模组五',
+  M6: '模组六',
+};
+
+async function getStatus() {
+  try {
+    const data = await getDocStatus();
+    const formatData: T = {
+      status: `${data?.status}`,
+      ocrData: data?.ocrData,
+      imgData: data?.imgData,
+      readerData: data?.readerData,
+    };
+    if (JSON.stringify(currentObj.value) !== JSON.stringify(formatData)) {
+      currentObj.value = formatData;
+      // 左边标题
+      if (formatData.status.includes('Camera')) {
+        titleStatus.value
+          = `${moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
+          }，OCR识别中`;
+      }
+      else if (formatData.status.includes('Reader')) {
+        titleStatus.value
+          = `${moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
+          }，读写中`;
+      }
+      else if (formatData.status.includes('Laser')) {
+        titleStatus.value
+          = `${moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
+          }，激光雕刻中`;
+      }
+      else if (formatData.status.includes('UV')) {
+        titleStatus.value
+          = `${moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
+          }，喷墨打印中`;
+      }
+      else if (formatData.status.includes('Turn')) {
+        titleStatus.value
+          = `${moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
+          }，翻页中`;
+      }
+      else if (formatData.status.includes('Product')) {
+        titleStatus.value
+          = `${moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
+          }，已完成证本打印`;
+      }
+      else if (formatData.status.includes('Obsolete')) {
+        titleStatus.value
+          = `${moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
+          }失败，请重试`;
+      }
+      //  图片状态
+      switch (formatData.status) {
+        case 'M1-Ready':
+          imgIndex.value = 1;
+          break;
+        case 'M2-Camera':
+          imgIndex.value = 2;
+          break;
+        case 'M3-UV':
+          imgIndex.value = 3;
+          break;
+        case 'M3-Camera':
+          imgIndex.value = 4;
+          break;
+      }
+      const newData: T = {
+        time: formatDateTime(),
+        status: formatData.status,
+        ocrData: formatData.ocrData,
+        imgData: formatData.imgData,
+        readerData: formatData.readerData,
+      };
+      flowData.value.unshift(newData);
+      if (
+        formatData.status === 'M6-Product'
+        || formatData.status === 'M6-Obsolete'
+      ) {
+        stopInterval();
+      }
+    }
+  }
+  catch (error) {
+    error;
+    stopInterval();
+    message.error('出错了，请联系管理员');
+  }
+}
+//  判断状态
+function isIncludes(status: string) {
+  return status.includes('Reader') || status.includes('Camera');
+}
+
+//  分界线
+function getModelStart(status: string) {
+  let endStatus = '';
+  if (
+    status.includes('M2-Reader-1')
+    || status.includes('M2-Reader-2')
+    || status.includes('M2-Reader-3')
+  ) {
+    endStatus = '模組一';
+  }
+  else if (
+    status.includes('M3-Reader-1')
+    || status.includes('M3-Reader-2')
+    || status.includes('M3-Reader-3')
+  ) {
+    endStatus = '模組二';
+  }
+  else if (status.includes('M4-Turn')) {
+    endStatus = '模組三';
+  }
+  else if (
+    status.includes('M5-Reader-1')
+    || status.includes('M5-Reader-2')
+    || status.includes('M5-Reader-3')
+  ) {
+    endStatus = '模組四';
+  }
+  else if (status.includes('M6-Product') || status.includes('M6-Obsolete')) {
+    endStatus = '模組五';
+  }
+  else {
+    endStatus = '';
+  }
+  return endStatus;
+}
+
+//  开始任务
+async function startTask() {
+  try {
+    imgIndex.value = 0;
+    titleStatus.value = '送本中';
+    const data = await startOrStopPrintTask({ operate: 1 });
+    console.log('🚀 ~ startTask ~ data:', data);
+  }
+  catch (error) {
+    error;
+    stopInterval();
+    message.error('打印任务开始失败');
+  }
+}
+
+function startInterval() {
+  canClick.value = false;
+  startTask();
+  intervalRef.value = setInterval(
+    throttle(getStatus, 1000),
+    1000,
+  ) as unknown as number;
+}
+//  清除定时器时
+function stopInterval() {
+  if (intervalRef.value !== null) {
+    canClick.value = true;
+    clearInterval(intervalRef.value);
+    intervalRef.value = null;
+  }
+}
+
+function formatDateTime() {
+  const now = new Date();
+  const year = now.getFullYear(); // 获取年份
+  const month = now.getMonth() + 1; // 获取月份，月份从0开始，所以需要+1
+  const day = now.getDate(); // 获取日
+  const hours = now.getHours(); // 获取小时
+  const minutes = now.getMinutes(); // 获取分钟
+  const seconds = now.getSeconds(); // 获取分钟
+
+  // 使用padStart方法确保月份和日期始终是两位数
+  const formattedMonth = month.toString().padStart(2, '0');
+  const formattedDay = day.toString().padStart(2, '0');
+  const formattedHours = hours.toString().padStart(2, '0');
+  const formattedMinutes = minutes.toString().padStart(2, '0');
+  const formattedSeconds = seconds.toString().padStart(2, '0');
+
+  // 拼接成指定格式
+  const formattedDateTime = `${year}-${formattedMonth}-${formattedDay} ${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+  return formattedDateTime;
+}
+
+// const formatted = useDateFormat(useNow(), "HH:mm");
 </script>
 
-<template>
-  <div class="bg wh-full flex-col">
-    <!-- top -->
-    <div class="flex items-center justify-between px-52 pb-10 pt-33">
-      <!--  -->
-      <div class="flex items-end justify-center">
-        <div class="pl-20 text-0">
-          <img src="@/assets/images/shouye/logo2.png" alt="" class="border-none">
-        </div>
-        <div class="pb-12 text-20 text-gray:50" style="line-height: normal;">
-          <span>版本号: </span><span class="pl-6">1.0.0</span>
-        </div>
-      </div>
-      <!--  -->
-      <div v-show="!false" class="flex items-center justify-center gap-26">
-        <div class="text-40 font-bold line-height-none">
-          {{ formatted }}
-          <!-- <span>{{ formatted }}</span> -->
-        </div>
-        <!-- color="#ffffff40" -->
-        <n-button color="#ffffffba" text-color="#000" round size="large" style="--n-font-size: 26px;font-weight: bold;--n-height: 60px;--n-icon-size: 28px">
-          <template #icon>
-            <div class="text-0">
-              <img src="@/assets/images/shouye/icon-setting.png" alt="">
-            </div>
-          </template>
-          设置
-        </n-button>
-      </div>
-    </div>
-    <!-- content -->
-    <div class="flex-1 px-47">
-      <div class="grid grid-cols-4 grid-rows-3 wh-full">
-        <div class="btn-bg-1 pos-relative wh-full">
-          <div class="pos-absolute left-18 top-18">
-            <div class="w-110 text-0">
-              <img src="@/assets/images/shouye/btn-logo-1.png" alt="">
-            </div>
-          </div>
-          <div class="pos-absolute bottom-32 right-20">
-            <div class="flex-col gap-4 text-right text-31px text-#fff font-bold line-height-none">
-              <div>重要实物</div>
-              <div>出入库</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- footer -->
-    <div class="h-48" />
-  </div>
-</template>
+<style scoped>
+#app {
+  background-image: url('../assets/image/bg_dark.png');
+  background-size: 100% 100%;
+  background-repeat: 'no-repeat';
+}
+
+.content {
+  height: calc(100vh - 66px);
+}
+.printBtn {
+  background-image: url('../../assets/image/printBtn.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat; /* 不重复 */
+}
+.info-box {
+  height: calc(100% - 50px);
+}
+/* 自定义滚动条样式 */
+.scrollable-box::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.scrollable-box::-webkit-scrollbar-thumb {
+  background-color: #ffffff38;
+  border-radius: 6px;
+}
+
+.scrollable-box::-webkit-scrollbar-track {
+  /* background-color: #f1f1f1; */
+  background-image: linear-gradient(to bottom, rgba(0, 140, 255, 0.329) 0%, rgba(255, 255, 255, 0.205) 100%);
+  /* border-radius: 6px; */
+}
+
+.scrollable-box::-webkit-scrollbar-button {
+  display: none;
+}
+</style>

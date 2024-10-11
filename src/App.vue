@@ -11,7 +11,13 @@ watchEffect(() => {
 </script>
 
 <template>
-  <n-config-provider class="wh-full" :locale="zhCN" :date-locale="dateZhCN" :theme="appStore.isDark ? darkTheme : undefined" :theme-overrides="appStore.naiveThemeOverrides">
+  <n-config-provider
+    class="wh-full"
+    :locale="zhCN"
+    :date-locale="dateZhCN"
+    :theme="appStore.isDark ? darkTheme : undefined"
+    :theme-overrides="appStore.naiveThemeOverrides"
+  >
     <router-view v-slot="{ Component, route: curRoute }">
       <KeepAlive>
         <component :is="Component" :key="curRoute.fullPath" />
