@@ -11,7 +11,8 @@ jobs:
 #    runs-on: [self-hosted,Linux,ARM64]
     strategy:
       matrix:
-        architecture: [ arm64 ]  # 指定 ARM 架构
+        # architecture: [ arm64 ]  # 指定 ARM 架构
+        architecture: [ x64 ]  # 指定 ARM 架构
 
     steps:
       - name: Checkout code
