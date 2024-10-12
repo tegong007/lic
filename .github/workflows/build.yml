@@ -12,7 +12,7 @@ jobs:
       contents: write
     strategy:
       matrix:
-        architecture: [amd64] # 指定架构
+        architecture: [x64] # 指定架构
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -40,14 +40,6 @@ jobs:
         id: get_version
         run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
-      - name: Set DEB_ARCH variable
-        run: |
-          if [ "${{ matrix.architecture }}" == "x64" ]; then
-            echo "DEB_ARCH=amd64" >> $GITHUB_ENV
-          else
-            echo "DEB_ARCH=${{ matrix.architecture }}" >> $GITHUB_ENV
-          fi
-
       - name: Build the Electron app
         env:
           USE_SYSTEM_FPM: "true"
@@ -59,7 +51,7 @@ jobs:
         with:
           name: build-artifacts-${{ matrix.architecture }}
           path: |
-            ./release/${{ env.VERSION }}/*-${{ env.DEB_ARCH }}-*.deb
+            ./release/${{ env.VERSION }}/*.deb
           if-no-files-found: error # 如果未找到文件，则抛出错误
 
   release:
@@ -67,20 +59,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    strategy:
-      matrix:
-        architecture: [amd64]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Set DEB_ARCH variable
-        run: |
-          if [ "${{ matrix.architecture }}" == "x64" ]; then
-            echo "DEB_ARCH=amd64" >> $GITHUB_ENV
-          else
-            echo "DEB_ARCH=${{ matrix.architecture }}" >> $GITHUB_ENV
-          fi
 
       - name: Download artifact
         uses: actions/download-artifact@v4
@@ -88,10 +69,18 @@ jobs:
           name: build-artifacts-${{ matrix.architecture }}
           path: artifacts/${{ matrix.architecture }}
 
-      - name: Create Release
+      - name: Upload Assets to Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release upload ${{ github.ref_name }} \
-            artifacts/${{ matrix.architecture }}/*-${{ env.DEB_ARCH }}-*.deb \
+            artifacts/${{ matrix.architecture }}/*.deb \
             --clobber
+
+      - name: Create Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create ${{ github.ref_name }} \
+            --notes "Release ${{ github.ref_name }}" \
+            --title "Release ${{ github.ref_name }}"
