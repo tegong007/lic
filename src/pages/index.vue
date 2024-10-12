@@ -31,6 +31,14 @@
             class="info-box scrollable-box w-full overflow-auto p-[20px] leading-[25px]"
           >
             <div v-for="(item, index) in flowData" :key="index">
+              <!-- 结束线 -->
+              <div
+                v-if="item.status === 'M6-Product'"
+                class="mt-[20px] color-gray leading-[55px]"
+              >
+                ******↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*****已完成以下证本打印流程*****↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓******
+              </div>
+              <!-- 内容 -->
               <div class="pl-[40px]">
                 <span>
                   {{ item.time }} 证本已到达【{{ statusTypes[item.status] }}】
@@ -52,6 +60,7 @@
                   <a-image :width="100" :src="item.imgData" />
                 </div>
               </div>
+              <!-- 分割线 -->
               <div
                 v-if="getModelStart(item.status) !== ''"
                 class="leading-[55px]"
