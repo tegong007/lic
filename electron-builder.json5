@@ -30,7 +30,12 @@
     "deleteAppDataOnUninstall": false
   },
   "linux": {
-    "target": ["deb"],
+    "target": [
+      {
+        "target": "deb",
+        "arch": ["x64"]
+      }
+    ],
     "maintainer": "dascom.com",
     "artifactName": "${productName}-${os}-${arch}-v${version}.${ext}",
     "icon": "./public/logo.png"

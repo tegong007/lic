@@ -3,7 +3,7 @@ name: Build and Release Electron App
 on:
   push:
     tags:
-      - '*'
+      - "*"
 
 jobs:
   build:
@@ -12,7 +12,7 @@ jobs:
       contents: write
     strategy:
       matrix:
-        architecture: [ x64, arm64 ]  # 指定架构
+        architecture: [x64, arm64] # 指定架构
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -20,7 +20,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Install yarn
         run: |
@@ -43,7 +43,7 @@ jobs:
       - name: Set DEB_ARCH variable
         run: |
           if [ "${{ matrix.architecture }}" == "x64" ]; then
-            echo "DEB_ARCH=amd64" >> $GITHUB_ENV
+            echo "DEB_ARCH=x64" >> $GITHUB_ENV
           else
             echo "DEB_ARCH=${{ matrix.architecture }}" >> $GITHUB_ENV
           fi
@@ -60,7 +60,7 @@ jobs:
           name: build-artifacts-${{ matrix.architecture }}
           path: |
             ./release/${{ env.VERSION }}/*-${{ env.DEB_ARCH }}-*.deb
-          if-no-files-found: error  # 如果未找到文件，则抛出错误
+          if-no-files-found: error # 如果未找到文件，则抛出错误
 
   release:
     needs: build
@@ -69,7 +69,7 @@ jobs:
       contents: write
     strategy:
       matrix:
-        architecture: [ x64, arm64 ]
+        architecture: [x64, arm64]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -77,7 +77,7 @@ jobs:
       - name: Set DEB_ARCH variable
         run: |
           if [ "${{ matrix.architecture }}" == "x64" ]; then
-            echo "DEB_ARCH=amd64" >> $GITHUB_ENV
+            echo "DEB_ARCH=x64" >> $GITHUB_ENV
           else
             echo "DEB_ARCH=${{ matrix.architecture }}" >> $GITHUB_ENV
           fi
