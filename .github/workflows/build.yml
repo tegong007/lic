@@ -51,7 +51,7 @@ jobs:
         with:
           name: build-artifacts-${{ matrix.architecture }}
           path: |
-            ./release/${{ env.VERSION }}/*
+            ./release/${{ env.VERSION }}/*.deb
             !**/linux-unpacked/**
           if-no-files-found: error # 如果未找到文件，则抛出错误
 
