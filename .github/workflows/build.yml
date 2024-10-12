@@ -38,8 +38,7 @@ jobs:
 
       - name: Get Version Number
         id: get_version
-        run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
-
+        run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_EN
       - name: Build the Electron app
         env:
           USE_SYSTEM_FPM: "true"
@@ -51,7 +50,8 @@ jobs:
         with:
           name: build-artifacts-${{ matrix.architecture }}
           path: |
-            ./release/${{ env.VERSION }}/*.deb
+            ./release/${{ env.VERSION }}/*
+            !**/linux-unpacked/**
           if-no-files-found: error # 如果未找到文件，则抛出错误
 
   release:
@@ -63,24 +63,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Download artifact
+      - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
-          name: build-artifacts-${{ matrix.architecture }}
-          path: artifacts/${{ matrix.architecture }}
+          path: release/${{ env.VERSION }} # 将所有制品下载到 release/${{ env.VERSION }} 目录
 
-      - name: Upload Assets to Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Compress artifacts
         run: |
-          gh release upload ${{ github.ref_name }} \
-            artifacts/${{ matrix.architecture }}/*.deb \
-            --clobber
+          cd release/${{ env.VERSION }}
+          zip -r ../release-${{ github.ref_name }}.zip .
 
       - name: Create Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create ${{ github.ref_name }} \
-            --notes "Release ${{ github.ref_name }}" \
+          gh release create ${{ github.ref_name }} release-${{ github.ref_name }}.zip \
+            --generate-notes \
             --title "Release ${{ github.ref_name }}"
