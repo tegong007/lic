@@ -33,7 +33,7 @@
     "target": [
       {
         "target": "deb",
-        "arch": ["amd64"]
+        "arch": ["x64"]
       }
     ],
     "maintainer": "dascom.com",

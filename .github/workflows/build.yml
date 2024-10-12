@@ -42,7 +42,7 @@ jobs:
 
       - name: Set DEB_ARCH variable
         run: |
-          if [ "${{ matrix.architecture }}" == "amd64" ]; then
+          if [ "${{ matrix.architecture }}" == "x64" ]; then
             echo "DEB_ARCH=amd64" >> $GITHUB_ENV
           else
             echo "DEB_ARCH=${{ matrix.architecture }}" >> $GITHUB_ENV
@@ -76,7 +76,7 @@ jobs:
 
       - name: Set DEB_ARCH variable
         run: |
-          if [ "${{ matrix.architecture }}" == "amd64" ]; then
+          if [ "${{ matrix.architecture }}" == "x64" ]; then
             echo "DEB_ARCH=amd64" >> $GITHUB_ENV
           else
             echo "DEB_ARCH=${{ matrix.architecture }}" >> $GITHUB_ENV
