@@ -12,7 +12,7 @@ jobs:
       contents: write
     strategy:
       matrix:
-        architecture: [x64] # 指定架构
+        architecture: [amd64] # 指定架构
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -42,8 +42,8 @@ jobs:
 
       - name: Set DEB_ARCH variable
         run: |
-          if [ "${{ matrix.architecture }}" == "x64" ]; then
-            echo "DEB_ARCH=x64" >> $GITHUB_ENV
+          if [ "${{ matrix.architecture }}" == "amd64" ]; then
+            echo "DEB_ARCH=amd64" >> $GITHUB_ENV
           else
             echo "DEB_ARCH=${{ matrix.architecture }}" >> $GITHUB_ENV
           fi
@@ -69,15 +69,15 @@ jobs:
       contents: write
     strategy:
       matrix:
-        architecture: [x64]
+        architecture: [amd64]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set DEB_ARCH variable
         run: |
-          if [ "${{ matrix.architecture }}" == "x64" ]; then
-            echo "DEB_ARCH=x64" >> $GITHUB_ENV
+          if [ "${{ matrix.architecture }}" == "amd64" ]; then
+            echo "DEB_ARCH=amd64" >> $GITHUB_ENV
           else
             echo "DEB_ARCH=${{ matrix.architecture }}" >> $GITHUB_ENV
           fi
