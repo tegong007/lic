@@ -12,7 +12,7 @@ jobs:
       contents: write
     strategy:
       matrix:
-        architecture: [x64] # 指定架构
+        architecture: [arm64] # 指定架构
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
