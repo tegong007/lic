@@ -60,11 +60,11 @@ function goHome() {
 function getarrJson(model: string) {
   const json = {
     m1: {
-      transURL: ['send-doc', 'get-doc-status'],
+      transURI: ['send-doc', 'get-doc-status'],
       paraIn: ['M1-Ready', 'M1-Camera'],
     },
     m2: {
-      transURL: ['send-doc', 'get-doc-status'],
+      transURI: ['send-doc', 'get-doc-status'],
       paraIn: [
         'M2-Reader-1',
         'M2-Reader-2',
@@ -77,7 +77,7 @@ function getarrJson(model: string) {
       ],
     },
     m3: {
-      transURL: ['send-doc', 'get-doc-status'],
+      transURI: ['send-doc', 'get-doc-status'],
       paraIn: [
         'M3-Reader-1',
         'M3-Reader-2',
@@ -90,11 +90,11 @@ function getarrJson(model: string) {
       ],
     },
     m4: {
-      transURL: ['send-doc', 'get-doc-status'],
+      transURI: ['send-doc', 'get-doc-status'],
       paraIn: ['M4-Turn'],
     },
     m5: {
-      transURL: ['send-doc', 'get-doc-status'],
+      transURI: ['send-doc', 'get-doc-status'],
       paraIn: [
         'M5-Reader-1',
         'M5-Reader-2',
@@ -104,7 +104,7 @@ function getarrJson(model: string) {
       ],
     },
     m6: {
-      transURL: ['send-doc', 'get-doc-status'],
+      transURI: ['send-doc', 'get-doc-status'],
       paraIn: ['M6-Product', 'M6-Obsolete'],
     },
   };

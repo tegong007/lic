@@ -8,9 +8,15 @@
       <img src="../assets/image/logo.png" alt="" class="h-[22px]">
       <span>光墨匠人</span>
     </div>
-    <a-button v-if="props.isShowTestBtn" @click="goModalTestPage">
-      测试
-    </a-button>
+
+    <a-space wrap>
+      <a-button v-if="props.parentMethod" @click="parentMethod">
+        停止
+      </a-button>
+      <a-button v-if="props.isShowTestBtn" @click="goModalTestPage">
+        测试
+      </a-button>
+    </a-space>
   </div>
 </template>
 
@@ -20,6 +26,7 @@ import router from '@/router/index.ts';
 
 const props = defineProps({
   isShowTestBtn: Boolean,
+  parentMethod: Function,
 });
 
 function goModalTestPage() {

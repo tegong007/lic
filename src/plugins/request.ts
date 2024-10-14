@@ -17,12 +17,15 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   (res: AxiosResponse) => {
     if (res.status === 200) {
-      if (res.data.code === 0)
+      if (res.data.code === 0) {
         return res.data.respData;
-      else return Promise.reject(res.data.msg);
+      }
+      else {
+        return Promise.reject(res.data.msg);
+      }
     }
     else {
-      return Promise.reject(res.data.statusText);
+      return Promise.reject(res.data);
     }
   },
   (err) => {

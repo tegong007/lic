@@ -1,6 +1,6 @@
 <template>
   <div class="bg h-full text-[18px] text-white">
-    <Header :is-show-test-btn="true" />
+    <Header :is-show-test-btn="true" :parent-method="stopInterval" />
     <div class="content flex justify-between p-[20px]">
       <div
         class="w-[49.5%] flex flex-col border-[4px] border-[#3F89DD] from-[#ffffff44] bg-gradient-to-t"
@@ -298,7 +298,7 @@ async function startTask() {
     imgIndex.value = 0;
     titleStatus.value = '送本中';
     const data = await startOrStopPrintTask({ operate: 1 });
-    console.log('🚀 ~ startTask ~ data:', data);
+    console.log('🚀 ~ 开始任务成功', data);
   }
   catch (error) {
     error;
@@ -315,12 +315,23 @@ function startInterval() {
     1000,
   ) as unknown as number;
 }
-//  清除定时器时
-function stopInterval() {
+//  清除定时器时，
+async function stopInterval() {
   if (intervalRef.value !== null) {
-    canClick.value = true;
-    clearInterval(intervalRef.value);
-    intervalRef.value = null;
+    try {
+      canClick.value = true;
+      const data = await startOrStopPrintTask({ operate: 0 });
+      clearInterval(intervalRef.value);
+      intervalRef.value = null;
+      imgIndex.value = 0;
+      titleStatus.value = '';
+      currentObj.value = {};
+      console.log('🚀 ~ 停止任务成功', data);
+    }
+    catch (error) {
+      error;
+      message.error('任务停止失败');
+    }
   }
 }
 
