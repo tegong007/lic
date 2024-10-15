@@ -21,7 +21,7 @@
               v-if="imgIndex === 0"
               class="absolute z-[999] text-[80px] font-bold"
             >准备打印</span>
-            <img :width="480" :src="imgStatus[imgIndex]" class="">
+            <img :src="imgStatus[imgIndex]" class="w-[480px]">
           </a-flex>
         </div>
       </div>
@@ -315,21 +315,25 @@ async function startTask() {
   try {
     const data = await startOrStopPrintTask({ operate: 0 });
     console.log('🚀 ~ 开始任务成功', data);
+    return true;
   }
   catch (error) {
     error;
     await stopInterval();
     message.error('打印任务开始失败');
+    return false;
   }
 }
 
-function startInterval() {
+async function startInterval() {
   canClick.value = false;
-  startTask();
-  intervalRef.value = setInterval(
-    throttle(getStatus, 2000),
-    2000,
-  ) as unknown as number;
+  const startTaskStatus = await startTask();
+  if (startTaskStatus) {
+    intervalRef.value = setInterval(
+      throttle(getStatus, 2000),
+      2000,
+    ) as unknown as number;
+  }
 }
 //  清除定时器
 async function stopInterval() {

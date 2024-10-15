@@ -38,6 +38,6 @@
     ],
     "maintainer": "dascom.com",
     "artifactName": "${productName}-${os}-${arch}-v${version}.${ext}",
-    "icon": "./public/logo.png"
+    "icon": "./public/512x512.png"
   }
 }

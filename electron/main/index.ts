@@ -53,7 +53,7 @@ async function createWindow() {
     height: 1080,
     frame: true, // 边框显示
     disableAutoHideCursor: false, // 隐藏鼠标
-    // fullscreen: true, // 全屏
+    fullscreen: true, // 全屏
     autoHideMenuBar: true, // 隐藏工具栏
     center: true,
     // useContentSize: true,
