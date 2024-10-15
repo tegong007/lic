@@ -1,6 +1,6 @@
 <template>
   <div class="bg h-full text-[18px] text-white">
-    <Header :is-show-test-btn="true" :parent-method="stopInterval" />
+    <Header :is-show-test-btn="true" :parent-method="reset" />
     <div class="content flex justify-between p-[20px]">
       <div
         class="w-[49.5%] flex flex-col border-[4px] border-[#3F89DD] from-[#ffffff44] bg-gradient-to-t"
@@ -13,9 +13,16 @@
         <div
           class="relative h-full w-full flex flex-col items-center justify-evenly"
         >
-          <span v-if="imgIndex" class="text-[50px]">{{ titleStatus }}</span>
-          <span v-if="!imgIndex" class="absolute z-[999] text-[80px] font-bold">准备打印</span>
-          <a-image :width="480" :src="imgStatus[imgIndex]" />
+          <span v-if="titleStatus !== ''" class="text-[50px]">{{
+            titleStatus
+          }}</span>
+          <a-flex justify="center" align="center">
+            <span
+              v-if="imgIndex === 0"
+              class="absolute z-[999] text-[80px] font-bold"
+            >准备打印</span>
+            <img :width="480" :src="imgStatus[imgIndex]" class="">
+          </a-flex>
         </div>
       </div>
       <div class="w-[49.5%] flex flex-col justify-between">
@@ -113,6 +120,7 @@ definePage({
 const [contextHolder] = message.useMessage();
 const imgStatus = [readyImg, defaultImg, laser1Img, laser2Img, lnkjetImg];
 const statusTypes = {
+  'M1-Warehouse': '模组一卡仓位',
   'M1-Ready': '模组一发证位',
   'M1-Camera': '模组一摄像位',
   'M2-Reader-1': '模组二读写位1',
@@ -129,13 +137,17 @@ const statusTypes = {
   'M3-Laser-1': '模组三激光位1',
   'M3-Laser-2': '模组三激光位2',
   'M3-Laser-3': '模组三激光位3',
-  'M3-UV': '模组三喷墨位', // 第二次
+  'M3-UV-1': '模组三喷墨位1', // 第二次
+  'M3-UV-2': '模组三喷墨位2', // 第二次
+  'M3-UV-3': '模组三喷墨位3', // 第二次
   'M3-Camera': '模组三摄像位', // 第三次
   'M4-Turn': '模组四翻页器',
   'M5-Reader-1': '模组五读写位1',
   'M5-Reader-2': '模组五读写位2',
   'M5-Reader-3': '模组五读写位3',
-  'M5-UV': '模组五喷墨位',
+  'M5-UV-1': '模组五喷墨位1', // 第二次
+  'M5-UV-2': '模组五喷墨位2', // 第二次
+  'M5-UV-3': '模组五喷墨位3', // 第二次
   'M5-Camera': '模组五摄像位',
   'M6-Product': '模组六成品槽', // 结束
   'M6-Obsolete': '模组六废品槽',
@@ -151,12 +163,11 @@ interface T {
 
 // 数据流
 const flowData = ref<T[]>([]);
-
 const currentObj = ref<T>(); // 当前对象
 const canClick = ref(true); // 是否可以点击打印
 const intervalRef = ref<number | null>(null); // 定时器
 const imgIndex = ref(0); // 当前图片所处于的位置
-const titleStatus = ref('送本中');
+const titleStatus = ref('');
 
 const moduleMap = {
   M1: '模组一',
@@ -166,96 +177,100 @@ const moduleMap = {
   M5: '模组五',
   M6: '模组六',
 };
-
+const stoping = ref(false);
 async function getStatus() {
-  try {
-    const data = await getDocStatus();
-    const formatData: T = {
-      status: `${data?.status}`,
-      ocrData: data?.ocrData,
-      imgData: data?.imgData,
-      readerData: data?.readerData,
-    };
-    if (JSON.stringify(currentObj.value) !== JSON.stringify(formatData)) {
-      currentObj.value = formatData;
-      // 左边标题
-      if (formatData.status.includes('Camera')) {
-        titleStatus.value = `${
-          moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
-        }，OCR识别中`;
-      }
-      else if (formatData.status.includes('Reader')) {
-        titleStatus.value = `${
-          moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
-        }，读写中`;
-      }
-      else if (formatData.status.includes('Laser')) {
-        titleStatus.value = `${
-          moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
-        }，激光雕刻中`;
-      }
-      else if (formatData.status.includes('UV')) {
-        titleStatus.value = `${
-          moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
-        }，喷墨打印中`;
-      }
-      else if (formatData.status.includes('Turn')) {
-        titleStatus.value = `${
-          moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
-        }，翻页中`;
-      }
-      else if (formatData.status.includes('Product')) {
-        titleStatus.value = `${
-          moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
-        }，已完成证本打印`;
-      }
-      else if (formatData.status.includes('Obsolete')) {
-        titleStatus.value = `${
-          moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
-        }失败，请重试`;
-      }
-      //  图片状态
-      switch (formatData.status) {
-        case 'M1-Ready':
-          imgIndex.value = 1;
-          break;
-        case 'M2-Camera':
-          imgIndex.value = 2;
-          break;
-        case 'M3-UV':
-          imgIndex.value = 3;
-          break;
-        case 'M3-Camera':
-          imgIndex.value = 4;
-          break;
-      }
-      const newData: T = {
-        time: formatDateTime(),
-        status: formatData.status,
-        ocrData: formatData.ocrData,
-        imgData: formatData.imgData,
-        readerData: formatData.readerData,
+  if (!stoping.value) {
+    try {
+      titleStatus.value = '送本中';
+      const data = await getDocStatus();
+      const formatData: T = {
+        status: `${data?.status}`,
+        ocrData: data?.ocrData,
+        imgData: data?.imgData,
+        readerData: data?.readerData,
       };
-      flowData.value.unshift(newData);
-      if (
-        formatData.status === 'M6-Product'
-        || formatData.status === 'M6-Obsolete'
-      ) {
-        stopInterval();
+      if (JSON.stringify(currentObj.value) !== JSON.stringify(formatData)) {
+        currentObj.value = formatData;
+        // 左边标题
+        if (formatData.status.includes('Camera')) {
+          titleStatus.value = `${
+            moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
+          }，OCR识别中`;
+        }
+        else if (formatData.status.includes('Reader')) {
+          titleStatus.value = `${
+            moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
+          }，读写中`;
+        }
+        else if (formatData.status.includes('Laser')) {
+          titleStatus.value = `${
+            moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
+          }，激光雕刻中`;
+        }
+        else if (formatData.status.includes('UV')) {
+          titleStatus.value = `${
+            moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
+          }，喷墨打印中`;
+        }
+        else if (formatData.status.includes('Turn')) {
+          titleStatus.value = `${
+            moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
+          }，翻页中`;
+        }
+        else if (formatData.status.includes('Product')) {
+          titleStatus.value = `${
+            moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
+          }，已完成证本打印`;
+        }
+        else if (formatData.status.includes('Obsolete')) {
+          titleStatus.value = `${
+            moduleMap[formatData.status.match(/M\d+/)[0]] || '未知模组'
+          }失败，请重试`;
+        }
+        // 图片
+
+        if (formatData.status.includes('M1-Warehouse')) {
+          imgIndex.value = 1;
+        }
+        else if (formatData.status.includes('M2-Camera')) {
+          imgIndex.value = 2;
+        }
+        else if (formatData.status.includes('M3-UV')) {
+          imgIndex.value = 3;
+        }
+        else if (formatData.status.includes('M3-Camera')) {
+          imgIndex.value = 4;
+        }
+
+        const newData: T = {
+          time: formatDateTime(),
+          status: formatData.status,
+          ocrData: formatData.ocrData,
+          imgData: formatData.imgData,
+          readerData: formatData.readerData,
+        };
+        flowData.value.unshift(newData);
+        if (
+          formatData.status === 'M6-Product'
+          || formatData.status === 'M6-Obsolete'
+        ) {
+          stopInterval();
+        }
       }
+      stoping.value = false;
     }
-  }
-  catch (error) {
-    error;
-    stopInterval();
-    message.error('出错了，请联系管理员');
+    catch (error) {
+      error;
+      stopInterval();
+      message.error('出错了，请联系管理员');
+      stoping.value = true;
+    }
   }
 }
 //  判断状态
 function isIncludes(status: string) {
   return status.includes('Reader') || status.includes('Camera');
 }
-
 //  分界线
 function getModelStart(status: string) {
   let endStatus = '';
@@ -289,20 +304,21 @@ function getModelStart(status: string) {
   else {
     endStatus = '';
   }
+
   return endStatus;
 }
 
 //  开始任务
 async function startTask() {
+  imgIndex.value = 0;
+  stoping.value = false;
   try {
-    imgIndex.value = 0;
-    titleStatus.value = '送本中';
-    const data = await startOrStopPrintTask({ operate: 1 });
+    const data = await startOrStopPrintTask({ operate: 0 });
     console.log('🚀 ~ 开始任务成功', data);
   }
   catch (error) {
     error;
-    stopInterval();
+    await stopInterval();
     message.error('打印任务开始失败');
   }
 }
@@ -311,15 +327,15 @@ function startInterval() {
   canClick.value = false;
   startTask();
   intervalRef.value = setInterval(
-    throttle(getStatus, 1000),
-    1000,
+    throttle(getStatus, 2000),
+    2000,
   ) as unknown as number;
 }
-//  清除定时器时，
+//  清除定时器
 async function stopInterval() {
   if (intervalRef.value !== null) {
     try {
-      const data = await startOrStopPrintTask({ operate: 0 });
+      const data = await startOrStopPrintTask({ operate: 1 });
       data;
     }
     catch (error) {
@@ -329,10 +345,15 @@ async function stopInterval() {
     canClick.value = true;
     clearInterval(intervalRef.value);
     intervalRef.value = null;
-    imgIndex.value = 0;
     titleStatus.value = '';
     currentObj.value = {};
   }
+}
+// 手动停止
+async function reset() {
+  flowData.value = [];
+  await stopInterval();
+  imgIndex.value = 0;
 }
 
 function formatDateTime() {

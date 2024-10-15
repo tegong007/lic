@@ -24,6 +24,7 @@
             <a-select
               v-model:value="formState.transURI"
               placeholder="请选择接口url"
+              @change="handleChange"
             >
               <!-- <a-select-option value="send-doc">send-doc</a-select-option> -->
               <a-select-option
@@ -39,6 +40,7 @@
             <a-select
               v-model:value="formState.paraIn"
               placeholder="请选择接口参数"
+              @change="handleChange"
             >
               <a-select-option
                 v-for="(item, index) in props.optionsData?.paraIn"
@@ -78,15 +80,17 @@
             :rows="4"
           /> -->
           <a-descriptions :column="1" bordered :label-style="{ width: '25%' }">
+            <!-- <a-descriptions-item label="访问接口" :span="3">
+              {{ props.currentModel }} /{{ formState.transURI }}
+            </a-descriptions-item>
+            <a-descriptions-item label="访问参数" :span="3">
+              {{ props.currentModel }} /{{ formState.paraIn }}
+            </a-descriptions-item> -->
             <a-descriptions-item label="code">
-              {{
-                returnForm.respData.code
-              }}
+              {{ returnForm.respData.code }}
             </a-descriptions-item>
             <a-descriptions-item label="msg">
-              {{
-                returnForm.respData.msg
-              }}
+              {{ returnForm.respData.msg }}
             </a-descriptions-item>
           </a-descriptions>
         </a-form-item>
@@ -130,6 +134,9 @@ const rules: Record<string, Rule[]> = {
   transURI: [{ required: true, message: '请选择接口url', trigger: 'change' }],
   paraIn: [{ required: true, message: '请选择接口参数', trigger: 'change' }],
 };
+function handleChange() {
+  dataRef.value.resetFields();
+}
 
 function onSubmit() {
   formRef.value
