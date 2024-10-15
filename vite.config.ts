@@ -22,6 +22,11 @@ export default defineConfig(({ command }) => {
   const isBuild = command === 'build';
   const sourcemap = isServe || !!process.env.VSCODE_DEBUG;
 
+  // 定义全局变量
+  const viteDevServerUrl = process.env.VSCODE_DEBUG
+    ? pkg.debug.env.VITE_DEV_SERVER_URL
+    : 'http://localhost:6101';
+
   return {
     plugins: [
       VueRouter({
@@ -45,9 +50,7 @@ export default defineConfig(({ command }) => {
           },
         ],
         dts: 'src/auto-imports.d.ts',
-        dirs: [
-          'src/composables',
-        ],
+        dirs: ['src/composables'],
         vueTemplate: true,
       }),
       Components({
@@ -61,7 +64,9 @@ export default defineConfig(({ command }) => {
           entry: 'electron/main/index.ts',
           onstart({ startup }) {
             if (process.env.VSCODE_DEBUG) {
-              console.log(/* For `.vscode/.debug.script.mjs` */'[startup] Electron App');
+              console.log(
+                /* For `.vscode/.debug.script.mjs` */ '[startup] Electron App',
+              );
             }
             else {
               startup();
@@ -77,7 +82,9 @@ export default defineConfig(({ command }) => {
                 // we can use `external` to exclude them to ensure they work correctly.
                 // Others need to put them in `dependencies` to ensure they are collected into `app.asar` after the app is built.
                 // Of course, this is not absolute, just this way is relatively simple. :)
-                external: Object.keys('dependencies' in pkg ? pkg.dependencies : {}),
+                external: Object.keys(
+                  'dependencies' in pkg ? pkg.dependencies : {},
+                ),
               },
             },
           },
@@ -92,7 +99,9 @@ export default defineConfig(({ command }) => {
               minify: isBuild,
               outDir: 'dist-electron/preload',
               rollupOptions: {
-                external: Object.keys('dependencies' in pkg ? pkg.dependencies : {}),
+                external: Object.keys(
+                  'dependencies' in pkg ? pkg.dependencies : {},
+                ),
               },
             },
           },
@@ -110,16 +119,21 @@ export default defineConfig(({ command }) => {
         '~': path.resolve(process.cwd()),
       },
     },
-    server: process.env.VSCODE_DEBUG && (() => {
-      const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL);
-      return {
-        host: url.hostname,
-        port: +url.port,
-      };
-    })(),
+    server:
+      process.env.VSCODE_DEBUG
+      && (() => {
+        const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL);
+        return {
+          host: url.hostname,
+          port: +url.port,
+        };
+      })(),
     clearScreen: false,
     build: {
       chunkSizeWarningLimit: 1024, // chunk 大小警告的限制（单位kb）
+    },
+    define: {
+      __SERVER_URL__: JSON.stringify(viteDevServerUrl),
     },
   };
 });

@@ -47,12 +47,15 @@ const indexHtml = path.join(RENDERER_DIST, 'index.html');
 async function createWindow() {
   win = new BrowserWindow({
     title: 'Main window',
-    icon: path.join(process.env.VITE_PUBLIC, 'favicon.ico'),
+    icon: path.join(
+      process.env.VITE_PUBLIC,
+      'resources/app/resources/icon/logo.icon',
+    ),
     width: 1920,
     height: 1080,
     frame: true, // 边框显示
     disableAutoHideCursor: false, // 隐藏鼠标
-    // fullscreen: true,
+    fullscreen: true, // 全屏
     autoHideMenuBar: true, // 隐藏工具栏
     center: true,
     // useContentSize: true,
@@ -75,8 +78,9 @@ async function createWindow() {
   });
 
   if (VITE_DEV_SERVER_URL) {
-    // #298
     win.loadURL(VITE_DEV_SERVER_URL);
+
+    // 控制台
     // Open devTool if the app is not packaged
     win.webContents.openDevTools({ mode: 'detach' });
   }

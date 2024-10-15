@@ -319,19 +319,19 @@ function startInterval() {
 async function stopInterval() {
   if (intervalRef.value !== null) {
     try {
-      canClick.value = true;
       const data = await startOrStopPrintTask({ operate: 0 });
-      clearInterval(intervalRef.value);
-      intervalRef.value = null;
-      imgIndex.value = 0;
-      titleStatus.value = '';
-      currentObj.value = {};
-      console.log('🚀 ~ 停止任务成功', data);
+      data;
     }
     catch (error) {
       error;
       message.error('任务停止失败');
     }
+    canClick.value = true;
+    clearInterval(intervalRef.value);
+    intervalRef.value = null;
+    imgIndex.value = 0;
+    titleStatus.value = '';
+    currentObj.value = {};
   }
 }
 

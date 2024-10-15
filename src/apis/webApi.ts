@@ -1,6 +1,8 @@
 import request from '@/plugins/request';
-// 后端服务-权
+
+// 后端服务
 const v1 = 'http://192.168.88.17:6101/';
+// const serveIp = import.meta.env.SERVE_IP;
 
 // 主机-麒麟：
 // 192.168.10.101
