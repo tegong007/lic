@@ -8,6 +8,7 @@ export const useAppStore = defineStore('app', {
     collapsed: false,
     isDark: useDark(),
     layout: defaultLayout,
+    spinning: false,
     primaryColor: defaultPrimaryColor,
     naiveThemeOverrides,
   }),
@@ -17,6 +18,9 @@ export const useAppStore = defineStore('app', {
     },
     setCollapsed(b: boolean) {
       this.collapsed = b;
+    },
+    setSpinning(b: boolean) {
+      this.spinning = b;
     },
     toggleDark() {
       this.isDark = !this.isDark;

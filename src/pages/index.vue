@@ -88,7 +88,7 @@
             <div
               :class="
                 `${canClick ? 'bg-[#fff]/[0]  cursor-pointer hover:bg-[#fff]/[0.3]  active:bg-[#000]/[0.4]' : 'bg-[#000]/[0.4] pointer-events-none'}`
-                  + ' absolute w-full h-full rounded-lg '
+                  + ' absolute w-full h-full rounded-[1em] '
               "
               @click="startInterval"
             />
@@ -116,6 +116,7 @@
 
 <script setup lang="ts">
 import { message } from 'ant-design-vue';
+import { useAppStore } from '../store/index';
 import Header from '@/components/TheHeader.vue';
 import { getDocStatus, startOrStopPrintTask } from '@/apis/webApi';
 import { throttle } from '@/utils/throttle.js';
@@ -126,14 +127,13 @@ import laser2Img from '@/assets/image/laser2.png';
 import lnkjetImg from '@/assets/image/lnkjet.png';
 
 defineOptions({ name: 'IndexPage' });
-
+const appStore = useAppStore();
 definePage({
   name: 'page-index',
   meta: {
     title: '首页',
   },
 });
-
 const [contextHolder] = message.useMessage();
 const imgStatus = [readyImg, defaultImg, laser1Img, laser2Img, lnkjetImg];
 const statusTypes = {
@@ -271,14 +271,14 @@ async function getStatus() {
           formatData.status === 'M6-Product'
           || formatData.status === 'M6-Obsolete'
         ) {
-          stopInterval();
+          await stopInterval();
         }
       }
       stoping.value = false;
     }
     catch (error) {
       error;
-      stopInterval();
+      await stopInterval();
       message.error('出错了，请联系管理员');
       stoping.value = true;
     }
@@ -327,19 +327,23 @@ function getModelStart(status: string) {
 
 //  开始任务
 async function startTask() {
+  // spinning.value = true;
+  appStore.setSpinning(true);
   imgIndex.value = 0;
   stoping.value = false;
   try {
     await startOrStopPrintTask({ operate: 1 });
     await startOrStopPrintTask({ operate: 0 });
+    appStore.setSpinning(false);
     return true;
   }
   catch (error) {
     error;
     await stopInterval();
     message.error('执行打印任务失败');
-    return false;
   }
+  appStore.setSpinning(false);
+  return false;
 }
 
 async function startInterval() {
@@ -401,7 +405,7 @@ function formatDateTime() {
 // const formatted = useDateFormat(useNow(), "HH:mm");
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .bg {
   background-image: url('../assets/image/bg_dark.png');
   background-size: 100% 100%;

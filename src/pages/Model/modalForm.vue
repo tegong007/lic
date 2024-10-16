@@ -105,8 +105,14 @@ import { reactive, ref, watch } from 'vue';
 import type { UnwrapRef } from 'vue';
 import type { Rule } from 'ant-design-vue/es/form';
 import { message } from 'ant-design-vue';
+import { useAppStore } from '../../store/index';
 import { getApiTransfer } from '@/apis/webApi';
 
+const props = defineProps({
+  currentModel: String,
+  optionsData: Object,
+});
+const appStore = useAppStore();
 interface FormState {
   transURI: string | undefined;
   paraIn?: string;
@@ -114,10 +120,6 @@ interface FormState {
 interface ReturnForm {
   respData: object;
 }
-const props = defineProps({
-  currentModel: String,
-  optionsData: Object,
-});
 const [contextHolder] = message.useMessage();
 const formRef = ref();
 const dataRef = ref();
@@ -139,6 +141,7 @@ function handleChange() {
 }
 
 function onSubmit() {
+  appStore.setSpinning(true);
   formRef.value
     .validate()
     .then(() => {
@@ -151,6 +154,7 @@ function onSubmit() {
     .catch((error: any) => {
       console.log('error', error);
     });
+  appStore.setSpinning(false);
 }
 async function getApiTransferTask(params: any) {
   try {
@@ -184,5 +188,12 @@ watch(
 }
 ::v-deep(.ant-descriptions-view) {
   background: #fff;
+}
+::v-deep(.ant-spin-spinning) {
+  position: absolute !important;
+  top: calc(50% - 300px) !important;
+  left: -100px !important;
+  z-index: 999999999999999999999;
+  // color: blue;
 }
 </style>

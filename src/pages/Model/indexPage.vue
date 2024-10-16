@@ -61,7 +61,7 @@ function getarrJson(model: string) {
   const json = {
     m1: {
       transURI: ['send-doc', 'get-doc-status'],
-      paraIn: ['M1-Ready', 'M1-Camera'],
+      paraIn: ['M1-Ready', 'M1-Camera', 'M1-Warehouse'],
     },
     m2: {
       transURI: ['send-doc', 'get-doc-status'],
@@ -85,7 +85,9 @@ function getarrJson(model: string) {
         'M3-Laser-1',
         'M3-Laser-2',
         'M3-Laser-3',
-        'M3-UV',
+        'M3-UV-1',
+        'M3-UV-2',
+        'M3-UV-3',
         'M3-Camera',
       ],
     },
@@ -99,7 +101,9 @@ function getarrJson(model: string) {
         'M5-Reader-1',
         'M5-Reader-2',
         'M5-Reader-3',
-        'M5-UV',
+        'M5-UV-1',
+        'M5-UV-2',
+        'M5-UV-3',
         'M5-Camera',
       ],
     },
