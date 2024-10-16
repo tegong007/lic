@@ -2,8 +2,8 @@
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import os from 'node:os';
+import fs from 'node:fs';
 import { BrowserWindow, app, ipcMain, shell } from 'electron';
-
 // const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -39,7 +39,35 @@ if (!app.requestSingleInstanceLock()) {
   app.quit();
   process.exit(0);
 }
+// 读取配置文件
+function readConfig() {
+  let configPath;
+  // 在本地开发环境中，使用 VITE_PUBLIC 路径
+  if (process.env.VITE_DEV_SERVER_URL) {
+    configPath = path.join(process.env.VITE_PUBLIC, 'config.json');
+  }
+  else {
+    // 在打包后的环境中，使用 APP_ROOT 路径
+    configPath = path.resolve(
+      path.dirname(app.getPath('exe')),
+      'public/config.json',
+    );
+  }
 
+  try {
+    const rawConfig = fs.readFileSync(configPath);
+    // 将 Buffer 转换为字符串
+    const configString = rawConfig.toString();
+    // 解析 JSON 字符串为对象
+    return JSON.parse(configString);
+  }
+  catch (error) {
+    console.error('Error reading config file:', error);
+    return {}; // 如果配置文件不存在或有错误，返回一个空对象
+  }
+}
+
+const config = readConfig();
 let win: BrowserWindow | null = null;
 const preload = path.join(__dirname, '../preload/index.mjs');
 const indexHtml = path.join(RENDERER_DIST, 'index.html');
@@ -49,11 +77,11 @@ async function createWindow() {
     title: 'Main window',
     // icon: "resources/app/resources/icon/logo.icon",
     icon: path.join(process.env.VITE_PUBLIC, 'lcon.ico'),
-    width: 1920,
-    height: 1080,
+    width: config.width,
+    height: config.height,
     frame: true, // 边框显示
     disableAutoHideCursor: false, // 隐藏鼠标
-    fullscreen: true, // 全屏
+    fullscreen: config.fullscreen,
     autoHideMenuBar: true, // 隐藏工具栏
     center: true,
     // useContentSize: true,
@@ -65,6 +93,7 @@ async function createWindow() {
       textAreasAreResizable: false, // 文本域可拉伸
       webgl: false, // 支持webgl/canvas
       backgroundThrottling: true, // 页面隐藏时节能
+      // devTools: config.devTools,
       preload,
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
       // nodeIntegration: true,
@@ -77,14 +106,15 @@ async function createWindow() {
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
-
-    // 控制台
     // Open devTool if the app is not packaged
-    win.webContents.openDevTools({ mode: 'detach' });
+    // win.webContents.openDevTools({ mode: "detach" });
   }
   else {
     win.loadFile(indexHtml);
   }
+  // 控制台
+  if (config.devTools)
+    win.webContents.openDevTools(); // 调试工具
 
   // Test actively push message to the Electron-Renderer
   win.webContents.on('did-finish-load', () => {
@@ -143,4 +173,8 @@ ipcMain.handle('open-win', (_, arg) => {
   else {
     childWindow.loadFile(indexHtml, { hash: arg });
   }
+});
+// 设置 IPC 监听器
+ipcMain.handle('get-config', async () => {
+  return config;
 });

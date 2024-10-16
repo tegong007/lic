@@ -9,6 +9,12 @@
     "output": "release/${version}"
   },
   "files": ["dist", "dist-electron", "public"],
+  "extraResources": [
+    {
+      "from": "./public",
+      "to": "../public"
+    }
+  ],
   "mac": {
     "target": ["dmg"],
     "artifactName": "${productName}-Mac-${version}-Installer.${ext}"

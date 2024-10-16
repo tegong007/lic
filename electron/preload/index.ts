@@ -4,7 +4,8 @@ import { contextBridge, ipcRenderer } from 'electron';
 contextBridge.exposeInMainWorld('ipcRenderer', {
   on(...args: Parameters<typeof ipcRenderer.on>) {
     const [channel, listener] = args;
-    return ipcRenderer.on(channel, (event, ...args) => listener(event, ...args));
+    return ipcRenderer.on(channel, (event, ...args) =>
+      listener(event, ...args));
   },
   off(...args: Parameters<typeof ipcRenderer.off>) {
     const [channel, ...omit] = args;
@@ -22,9 +23,14 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
   // You can expose other APTs you need here.
   // ...
 });
+contextBridge.exposeInMainWorld('electronAPI', {
+  getConfig: () => ipcRenderer.invoke('get-config'),
+});
 
 // --------- Preload scripts loading ---------
-function domReady(condition: DocumentReadyState[] = ['complete', 'interactive']) {
+function domReady(
+  condition: DocumentReadyState[] = ['complete', 'interactive'],
+) {
   return new Promise((resolve) => {
     if (condition.includes(document.readyState)) {
       resolve(true);

@@ -320,7 +320,7 @@ async function startTask() {
   catch (error) {
     error;
     await stopInterval();
-    message.error('打印任务开始失败');
+    message.error('执行打印任务失败');
     return false;
   }
 }
@@ -346,12 +346,12 @@ async function stopInterval() {
       error;
       message.error('任务停止失败');
     }
-    canClick.value = true;
-    clearInterval(intervalRef.value);
-    intervalRef.value = null;
-    titleStatus.value = '';
-    currentObj.value = {};
   }
+  canClick.value = true;
+  clearInterval(intervalRef.value);
+  intervalRef.value = null;
+  titleStatus.value = '';
+  currentObj.value = {};
 }
 // 手动停止
 async function reset() {
