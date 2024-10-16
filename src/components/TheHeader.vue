@@ -5,14 +5,11 @@
     <div
       class="w-[120px] flex items-center justify-between text-[22px] font-bold"
     >
-      <img src="/public/icon/icon.png" alt="" class="h-[22px]">
+      <img src="/icon/icon.png" alt="" class="h-[22px]">
       <span>光墨匠人</span>
     </div>
 
     <a-space wrap>
-      <a-button v-if="props.parentMethod" @click="parentMethod">
-        停止
-      </a-button>
       <a-button v-if="props.isShowTestBtn" @click="goModalTestPage">
         测试
       </a-button>
@@ -26,7 +23,6 @@ import router from '@/router/index.ts';
 
 const props = defineProps({
   isShowTestBtn: Boolean,
-  parentMethod: Function,
 });
 
 function goModalTestPage() {

@@ -1,6 +1,6 @@
 <template>
   <div class="bg h-full text-[18px] text-white">
-    <Header :is-show-test-btn="true" :parent-method="reset" />
+    <Header :is-show-test-btn="true" />
     <div class="content flex justify-between p-[20px]">
       <div
         class="w-[49.5%] flex flex-col border-[4px] border-[#3F89DD] from-[#ffffff44] bg-gradient-to-t"
@@ -79,16 +79,33 @@
             </div>
           </div>
         </div>
-        <div class="printBtn relative h-[20%] flex items-center justify-center">
-          <span class="relative text-[50px] font-bold">证本打印</span>
-          <!-- <div class="bg-[#fff]/[0] absolute hover:bg-[#fff]/[0.3] w-full h-full rounded-lg cursor-pointer active:bg-[#000]/[0.4]" @click="startInterval"></div> -->
+        <div class="h-[20%] w-full flex justify-between">
           <div
-            :class="
-              `${canClick ? 'bg-[#fff]/[0]  cursor-pointer hover:bg-[#fff]/[0.3]  active:bg-[#000]/[0.4]' : 'bg-[#000]/[0.4] pointer-events-none'}`
-                + ' absolute w-full h-full rounded-lg '
-            "
-            @click="startInterval"
-          />
+            class="printBtn relative h-full w-[63%] flex items-center justify-center"
+          >
+            <span class="relative text-[50px] font-bold">证本打印</span>
+            <!-- <div class="bg-[#fff]/[0] absolute hover:bg-[#fff]/[0.3] w-full h-full rounded-lg cursor-pointer active:bg-[#000]/[0.4]" @click="startInterval"></div> -->
+            <div
+              :class="
+                `${canClick ? 'bg-[#fff]/[0]  cursor-pointer hover:bg-[#fff]/[0.3]  active:bg-[#000]/[0.4]' : 'bg-[#000]/[0.4] pointer-events-none'}`
+                  + ' absolute w-full h-full rounded-lg '
+              "
+              @click="startInterval"
+            />
+          </div>
+          <div
+            class="stopBtn relative h-full w-[35%] flex items-center justify-center"
+          >
+            <span class="relative text-[50px] font-bold">停止</span>
+            <!-- <div class="bg-[#fff]/[0] absolute hover:bg-[#fff]/[0.3] w-full h-full rounded-lg cursor-pointer active:bg-[#000]/[0.4]" @click="startInterval"></div> -->
+            <div
+              :class="
+                `${!canClick ? 'bg-[#fff]/[0]  cursor-pointer hover:bg-[#fff]/[0.3]  active:bg-[#000]/[0.4]' : 'bg-[#000]/[0.4] pointer-events-none'}`
+                  + ' absolute w-full h-full rounded-[1em] '
+              "
+              @click="reset"
+            />
+          </div>
         </div>
         <!-- <a-button @click="stopInterval">stop</a-button> -->
       </div>
@@ -312,10 +329,9 @@ function getModelStart(status: string) {
 async function startTask() {
   imgIndex.value = 0;
   stoping.value = false;
-  stopInterval();
   try {
-    const data = await startOrStopPrintTask({ operate: 0 });
-    console.log('🚀 ~ 开始任务成功', data);
+    await startOrStopPrintTask({ operate: 1 });
+    await startOrStopPrintTask({ operate: 0 });
     return true;
   }
   catch (error) {
@@ -327,9 +343,9 @@ async function startTask() {
 }
 
 async function startInterval() {
-  canClick.value = false;
   const startTaskStatus = await startTask();
   if (startTaskStatus) {
+    canClick.value = false;
     intervalRef.value = setInterval(
       throttle(getStatus, 1500),
       1500,
@@ -397,6 +413,11 @@ function formatDateTime() {
 }
 .printBtn {
   background-image: url('../assets/image/printBtn.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat; /* 不重复 */
+}
+.stopBtn {
+  background-image: url('../assets/image/stopBtn.png');
   background-size: 100% 100%;
   background-repeat: no-repeat; /* 不重复 */
 }
