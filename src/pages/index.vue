@@ -21,7 +21,7 @@
               v-if="imgIndex === 0"
               class="absolute z-[999] text-[80px] font-bold"
             >准备打印</span>
-            <img :src="imgStatus[imgIndex]" class="w-[480px]">
+            <a-image :src="imgStatus[imgIndex]" :width="480" :preview="false" />
           </a-flex>
         </div>
       </div>
@@ -312,6 +312,7 @@ function getModelStart(status: string) {
 async function startTask() {
   imgIndex.value = 0;
   stoping.value = false;
+  stopInterval();
   try {
     const data = await startOrStopPrintTask({ operate: 0 });
     console.log('🚀 ~ 开始任务成功', data);
@@ -330,8 +331,8 @@ async function startInterval() {
   const startTaskStatus = await startTask();
   if (startTaskStatus) {
     intervalRef.value = setInterval(
-      throttle(getStatus, 2000),
-      2000,
+      throttle(getStatus, 1500),
+      1500,
     ) as unknown as number;
   }
 }

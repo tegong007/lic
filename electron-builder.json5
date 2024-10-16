@@ -9,6 +9,7 @@
     "output": "release/${version}"
   },
   "files": ["dist", "dist-electron", "public"],
+  "asarUnpack": ["public/icon"],
   "extraResources": [
     {
       "from": "./public",
@@ -20,7 +21,7 @@
     "artifactName": "${productName}-Mac-${version}-Installer.${ext}"
   },
   "win": {
-    "icon": "./public/icon.ico",
+    "icon": "./public/icon/icon.ico",
     "target": [
       {
         "target": "nsis",
@@ -43,7 +44,7 @@
       }
     ],
     "maintainer": "dascom.com",
-    "artifactName": "${productName}-${os}-${arch}-v${version}.${ext}",
-    "icon": "./public/512x512.png"
+    "icon": "public/icon",
+    "artifactName": "${productName}-${os}-${arch}-v${version}.${ext}"
   }
 }

@@ -5,7 +5,7 @@
     <div
       class="w-[120px] flex items-center justify-between text-[22px] font-bold"
     >
-      <img src="../assets/image/logo.png" alt="" class="h-[22px]">
+      <img src="/public/icon/icon.png" alt="" class="h-[22px]">
       <span>光墨匠人</span>
     </div>
 
