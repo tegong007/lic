@@ -29,6 +29,10 @@ service.interceptors.response.use(
     }
   },
   (err) => {
+    if (err.code === 'ECONNABORTED')
+      return Promise.reject('接口超时');
+    if (err.code === 'ERR_NETWORK')
+      return Promise.reject('网络错误');
     return Promise.reject(err.message);
   },
 );

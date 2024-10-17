@@ -18,7 +18,7 @@
           :rules="rules"
           :wrapper-col="wrapperCol"
           label-align="left"
-          class="ml-[20px] mt-[20px] w-[60%] text-[18px] text-white"
+          class="relative ml-[20px] mt-[20px] w-[60%] text-[18px] text-white"
         >
           <a-form-item label="接口URL" name="transURI">
             <a-select
@@ -51,13 +51,16 @@
               </a-select-option>
             </a-select>
           </a-form-item>
+          <div class="w-ful absolute bottom-0 right-0">
+            <a-button type="primary" class="" size="large" @click="onSubmit">
+              测试
+            </a-button>
+          </div>
         </a-form>
       </a-config-provider>
-      <div class="absolute right-[20px] top-0">
-        <a-button type="primary" class="" @click="onSubmit">
-          测试
-        </a-button>
-      </div>
+      <!-- <div class="absolute right-[20px] top-0">
+        <a-button type="primary" class="" @click="onSubmit"> 测试 </a-button>
+      </div> -->
     </div>
     <div class="relative p-[20px]">
       <a-typography-title :level="5">
@@ -144,17 +147,18 @@ function onSubmit() {
   appStore.setSpinning(true);
   formRef.value
     .validate()
-    .then(() => {
+    .then(async () => {
       const params = {
         transURI: `/${props.currentModel}/${formState.transURI}`,
         paraIn: { status: formState.paraIn },
       };
-      getApiTransferTask(params);
+      await getApiTransferTask(params);
+      appStore.setSpinning(false);
     })
     .catch((error: any) => {
       console.log('error', error);
+      appStore.setSpinning(false);
     });
-  appStore.setSpinning(false);
 }
 async function getApiTransferTask(params: any) {
   try {

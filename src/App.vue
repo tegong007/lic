@@ -26,7 +26,11 @@ const indicator = h(LoadingOutlined, {
     :theme="appStore.isDark ? darkTheme : undefined"
     :theme-overrides="appStore.naiveThemeOverrides"
   >
-    <a-spin :spinning="appStore.spinning" :indicator="indicator" delay="1000">
+    <a-spin
+      :spinning="appStore.spinning"
+      :indicator="indicator"
+      tip="加载中..."
+    >
       <router-view v-slot="{ Component, route: curRoute }">
         <KeepAlive>
           <component :is="Component" :key="curRoute.fullPath" />
@@ -40,8 +44,14 @@ const indicator = h(LoadingOutlined, {
 ::v-deep(.ant-spin-spinning) {
   position: absolute !important;
   top: calc(50% - 300px) !important;
-  left: -100px !important;
-  z-index: 999999999999999999999;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .ant-spin-dot {
+    margin-top: -70px !important;
+    margin-left: -100px !important;
+  }
   // color: blue;
 }
 </style>

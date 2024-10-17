@@ -195,6 +195,7 @@ const moduleMap = {
   M6: '模组六',
 };
 const stoping = ref(false);
+// 获取状态
 async function getStatus() {
   if (!stoping.value) {
     try {
@@ -327,22 +328,22 @@ function getModelStart(status: string) {
 
 //  开始任务
 async function startTask() {
-  // spinning.value = true;
   appStore.setSpinning(true);
   imgIndex.value = 0;
   stoping.value = false;
   try {
     await startOrStopPrintTask({ operate: 1 });
     await startOrStopPrintTask({ operate: 0 });
-    appStore.setSpinning(false);
     return true;
   }
   catch (error) {
     error;
-    await stopInterval();
     message.error('执行打印任务失败');
+    await stopInterval();
   }
-  appStore.setSpinning(false);
+  finally {
+    appStore.setSpinning(false);
+  }
   return false;
 }
 
@@ -359,6 +360,8 @@ async function startInterval() {
 //  清除定时器
 async function stopInterval() {
   if (intervalRef.value !== null) {
+    appStore.setSpinning(true);
+    clearInterval(intervalRef.value);
     try {
       const data = await startOrStopPrintTask({ operate: 1 });
       data;
@@ -367,12 +370,14 @@ async function stopInterval() {
       error;
       message.error('任务停止失败');
     }
+    finally {
+      canClick.value = true;
+      intervalRef.value = null;
+      titleStatus.value = '';
+      currentObj.value = {};
+      appStore.setSpinning(false);
+    }
   }
-  canClick.value = true;
-  clearInterval(intervalRef.value);
-  intervalRef.value = null;
-  titleStatus.value = '';
-  currentObj.value = {};
 }
 // 手动停止
 async function reset() {
