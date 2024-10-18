@@ -45,6 +45,12 @@ import ModalForm from '../Model/modalForm.vue';
 import Header from '@/components/TheHeader.vue';
 import router from '@/router';
 
+definePage({
+  name: 'TestModal',
+  meta: {
+    title: '测试页',
+  },
+});
 const currentModel = ref<string>('m1');
 const options = [
   { label: '模组1', value: 'm1' },

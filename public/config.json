@@ -3,5 +3,6 @@
   "devTools": true,
   "width": 1920,
   "height": 1080,
-  "serverAddress": "http://192.168.88.17:6101"
+  "serverAddress": "http://192.168.88.17:6101",
+  "timeOut": 5000
 }

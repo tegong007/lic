@@ -1,6 +1,7 @@
 <template>
   <div class="bg h-full text-[18px] text-white">
-    <Header :is-show-test-btn="true" />
+    <TheHeader :is-show-test-btn="true" />
+    <TheModal :open="open" :handle-ok="reset" :handle-cancel="handleCancel" />
     <div class="content flex justify-between p-[20px]">
       <div
         class="w-[49.5%] flex flex-col border-[4px] border-[#3F89DD] from-[#ffffff44] bg-gradient-to-t"
@@ -84,7 +85,6 @@
             class="printBtn relative h-full w-[63%] flex items-center justify-center"
           >
             <span class="relative text-[50px] font-bold">证本打印</span>
-            <!-- <div class="bg-[#fff]/[0] absolute hover:bg-[#fff]/[0.3] w-full h-full rounded-lg cursor-pointer active:bg-[#000]/[0.4]" @click="startInterval"></div> -->
             <div
               :class="
                 `${canClick ? 'bg-[#fff]/[0]  cursor-pointer hover:bg-[#fff]/[0.3]  active:bg-[#000]/[0.4]' : 'bg-[#000]/[0.4] pointer-events-none'}`
@@ -97,13 +97,12 @@
             class="stopBtn relative h-full w-[35%] flex items-center justify-center"
           >
             <span class="relative text-[50px] font-bold">停止</span>
-            <!-- <div class="bg-[#fff]/[0] absolute hover:bg-[#fff]/[0.3] w-full h-full rounded-lg cursor-pointer active:bg-[#000]/[0.4]" @click="startInterval"></div> -->
             <div
               :class="
                 `${!canClick ? 'bg-[#fff]/[0]  cursor-pointer hover:bg-[#fff]/[0.3]  active:bg-[#000]/[0.4]' : 'bg-[#000]/[0.4] pointer-events-none'}`
                   + ' absolute w-full h-full rounded-[1em] '
               "
-              @click="reset"
+              @click="setOpen(true)"
             />
           </div>
         </div>
@@ -117,7 +116,8 @@
 <script setup lang="ts">
 import { message } from 'ant-design-vue';
 import { useAppStore } from '../store/index';
-import Header from '@/components/TheHeader.vue';
+import TheHeader from '@/components/TheHeader.vue';
+import TheModal from '@/components/TheModal.vue';
 import { getDocStatus, startOrStopPrintTask } from '@/apis/webApi';
 import { throttle } from '@/utils/throttle.js';
 import readyImg from '@/assets/image/ready.png';
@@ -126,14 +126,23 @@ import laser1Img from '@/assets/image/laser1.png';
 import laser2Img from '@/assets/image/laser2.png';
 import lnkjetImg from '@/assets/image/lnkjet.png';
 
-defineOptions({ name: 'IndexPage' });
-const appStore = useAppStore();
+// defineOptions({ name: "IndexPage" });
+
 definePage({
-  name: 'page-index',
+  name: 'Main',
   meta: {
     title: '首页',
   },
 });
+interface T {
+  time?: string;
+  description?: string;
+  ocrData?: string;
+  readerData?: string;
+  status: string;
+  imgData?: string;
+}
+const appStore = useAppStore();
 const [contextHolder] = message.useMessage();
 const imgStatus = [readyImg, defaultImg, laser1Img, laser2Img, lnkjetImg];
 const statusTypes = {
@@ -169,14 +178,6 @@ const statusTypes = {
   'M6-Product': '模组六成品槽', // 结束
   'M6-Obsolete': '模组六废品槽',
 };
-interface T {
-  time?: string;
-  description?: string;
-  ocrData?: string;
-  readerData?: string;
-  status: string;
-  imgData?: string;
-}
 
 // 数据流
 const flowData = ref<T[]>([]);
@@ -185,6 +186,7 @@ const canClick = ref(true); // 是否可以点击打印
 const intervalRef = ref<number | null>(null); // 定时器
 const imgIndex = ref(0); // 当前图片所处于的位置
 const titleStatus = ref('');
+const open = ref<boolean>(false);
 
 const moduleMap = {
   M1: '模组一',
@@ -195,6 +197,12 @@ const moduleMap = {
   M6: '模组六',
 };
 const stoping = ref(false);
+function handleCancel() {
+  setOpen(false);
+}
+function setOpen(value: boolean) {
+  open.value = value;
+}
 // 获取状态
 async function getStatus() {
   if (!stoping.value) {
@@ -283,6 +291,9 @@ async function getStatus() {
       message.error('出错了，请联系管理员');
       stoping.value = true;
     }
+    finally {
+      appStore.setSpinning(false);
+    }
   }
 }
 //  判断状态
@@ -326,11 +337,23 @@ function getModelStart(status: string) {
   return endStatus;
 }
 
-//  开始任务
+//  开始任务后开始定时器
+async function startInterval() {
+  const startTaskStatus = await startTask();
+  if (startTaskStatus) {
+    canClick.value = false;
+    // 开启定时器，每隔1.5秒访问一次
+    intervalRef.value = setInterval(
+      throttle(getStatus, 1500),
+      1500,
+    ) as unknown as number;
+  }
+}
+
 async function startTask() {
-  appStore.setSpinning(true);
   imgIndex.value = 0;
   stoping.value = false;
+  appStore.setSpinning(true);
   try {
     await startOrStopPrintTask({ operate: 1 });
     await startOrStopPrintTask({ operate: 0 });
@@ -340,31 +363,18 @@ async function startTask() {
     error;
     message.error('执行打印任务失败');
     await stopInterval();
-  }
-  finally {
     appStore.setSpinning(false);
   }
   return false;
 }
 
-async function startInterval() {
-  const startTaskStatus = await startTask();
-  if (startTaskStatus) {
-    canClick.value = false;
-    intervalRef.value = setInterval(
-      throttle(getStatus, 1500),
-      1500,
-    ) as unknown as number;
-  }
-}
 //  清除定时器
 async function stopInterval() {
   if (intervalRef.value !== null) {
     appStore.setSpinning(true);
     clearInterval(intervalRef.value);
     try {
-      const data = await startOrStopPrintTask({ operate: 1 });
-      data;
+      await startOrStopPrintTask({ operate: 1 });
     }
     catch (error) {
       error;
@@ -381,6 +391,7 @@ async function stopInterval() {
 }
 // 手动停止
 async function reset() {
+  open.value = false;
   flowData.value = [];
   await stopInterval();
   imgIndex.value = 0;

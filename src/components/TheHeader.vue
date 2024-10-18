@@ -20,7 +20,12 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
 import router from '@/router/index.ts';
-
+// definePage({
+//   name: "TestModal",
+//   meta: {
+//     title: "头部",
+//   },
+// });
 const props = defineProps({
   isShowTestBtn: Boolean,
 });

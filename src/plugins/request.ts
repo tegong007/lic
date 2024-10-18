@@ -1,7 +1,8 @@
 import axios from 'axios';
 import type { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
-const service = axios.create({ timeout: 3000 });
+const timeOut = window.timeOut ?? '5000';
+const service = axios.create({ timeout: timeOut });
 
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {

@@ -4,60 +4,62 @@
       <a-typography-title :level="5">
         <span class="text-[20px] text-white">入参</span>
       </a-typography-title>
-      <a-config-provider
-        :theme="{
-          token: {
-            fontSize: 16,
-          },
-        }"
-      >
-        <a-form
-          ref="formRef"
-          :model="formState"
-          :label-col="labelCol"
-          :rules="rules"
-          :wrapper-col="wrapperCol"
-          label-align="left"
-          class="relative ml-[20px] mt-[20px] w-[60%] text-[18px] text-white"
+      <a-flex>
+        <a-config-provider
+          :theme="{
+            token: {
+              fontSize: 16,
+            },
+          }"
         >
-          <a-form-item label="接口URL" name="transURI">
-            <a-select
-              v-model:value="formState.transURI"
-              placeholder="请选择接口url"
-              @change="handleChange"
-            >
-              <!-- <a-select-option value="send-doc">send-doc</a-select-option> -->
-              <a-select-option
-                v-for="(item, index) in props.optionsData?.transURI"
-                :key="index"
-                :value="item"
+          <a-form
+            ref="formRef"
+            :model="formState"
+            :label-col="labelCol"
+            :rules="rules"
+            :wrapper-col="wrapperCol"
+            label-align="left"
+            class="relative ml-[20px] mt-[20px] w-[60%] text-[18px] text-white"
+          >
+            <a-form-item label="接口URL" name="transURI">
+              <a-select
+                v-model:value="formState.transURI"
+                placeholder="请选择接口url"
+                @change="handleChange"
               >
-                {{ item }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-          <a-form-item label="接口参数" name="paraIn">
-            <a-select
-              v-model:value="formState.paraIn"
-              placeholder="请选择接口参数"
-              @change="handleChange"
-            >
-              <a-select-option
-                v-for="(item, index) in props.optionsData?.paraIn"
-                :key="index"
-                :value="item"
+                <!-- <a-select-option value="send-doc">send-doc</a-select-option> -->
+                <a-select-option
+                  v-for="(item, index) in props.optionsData?.transURI"
+                  :key="index"
+                  :value="item"
+                >
+                  {{ item }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item label="接口参数" name="paraIn">
+              <a-select
+                v-model:value="formState.paraIn"
+                placeholder="请选择接口参数"
+                @change="handleChange"
               >
-                {{ item }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-          <div class="w-ful absolute bottom-0 right-0">
+                <a-select-option
+                  v-for="(item, index) in props.optionsData?.paraIn"
+                  :key="index"
+                  :value="item"
+                >
+                  {{ item }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-form>
+          <div class="relative left-[-12em] mb-20px flex items-end">
             <a-button type="primary" class="" size="large" @click="onSubmit">
               测试
             </a-button>
           </div>
-        </a-form>
-      </a-config-provider>
+        </a-config-provider>
+      </a-flex>
       <!-- <div class="absolute right-[20px] top-0">
         <a-button type="primary" class="" @click="onSubmit"> 测试 </a-button>
       </div> -->
@@ -99,8 +101,8 @@
         </a-form-item>
       </a-form>
     </div>
+    <context-holder />
   </div>
-  <context-holder />
 </template>
 
 <script setup lang="ts">

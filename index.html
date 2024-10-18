@@ -16,9 +16,9 @@
         window.electronAPI
           .getConfig()
           .then((config) => {
-            console.log('Server Address:', config.serverAddress);
             // 将配置信息设置为全局变量
             window.serverAddress = config.serverAddress;
+            window.timeOut = config.timeOut;
           })
           .catch((error) => {
             console.error('Failed to get config:', error);
