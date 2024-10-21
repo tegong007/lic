@@ -1,7 +1,12 @@
 <template>
   <div class="bg h-full text-[18px] text-white">
     <TheHeader :is-show-test-btn="true" />
-    <TheModal :open="open" :handle-ok="reset" :handle-cancel="handleCancel" />
+    <TheModal
+      :open="open"
+      :handle-ok="reset"
+      :handle-cancel="handleCancel"
+      title="确认停止"
+    />
     <div class="content flex justify-between p-[20px]">
       <div
         class="w-[49.5%] flex flex-col border-[4px] border-[#3F89DD] from-[#ffffff44] bg-gradient-to-t"
@@ -22,7 +27,12 @@
               v-if="imgIndex === 0"
               class="absolute z-[999] text-[80px] font-bold"
             >准备打印</span>
-            <a-image :src="imgStatus[imgIndex]" :width="480" :preview="false" />
+            <a-image
+              v-if="imgIndex !== 0"
+              :src="imgStatus[imgIndex]"
+              :width="480"
+              :preview="false"
+            />
           </a-flex>
         </div>
       </div>

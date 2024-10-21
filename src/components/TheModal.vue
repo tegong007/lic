@@ -1,12 +1,12 @@
 <template>
   <a-modal
-
     :get-container="false"
     :open="props.open"
     wrap-class-name="test"
     :closable="false"
     centered
-    force-render @ok="props.handleOk"
+    force-render
+    @ok="props.handleOk"
   >
     <div class="delete-modal h-[22em]">
       <div class="h-full flex flex-col items-center justify-center">
@@ -17,13 +17,13 @@
         >
         <!-- <a-flex justify="center" align="center"> -->
         <span class="text-[30px] color-[#627384] font-bold">
-          &nbsp;&nbsp; 是否停止打印？</span>
+          &nbsp;&nbsp; 是否{{ props.title }}?</span>
         <!-- </a-flex> -->
       </div>
     </div>
 
     <template #footer>
-      <a-flex justify="space-around" align="center" class="p-y-[2em]">
+      <a-flex justify="space-around" align="center" class="p-b-[2em]">
         <div
           class="cancelBtn relative h-full w-[40%] flex items-center justify-center"
         >
@@ -60,6 +60,7 @@ import { defineProps } from 'vue';
 const props = defineProps({
   open: Boolean,
   handleOk: Function,
+  title: String,
   handleCancel: Function,
 });
 </script>

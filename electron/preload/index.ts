@@ -26,6 +26,9 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
 contextBridge.exposeInMainWorld('electronAPI', {
   getConfig: () => ipcRenderer.invoke('get-config'),
 });
+contextBridge.exposeInMainWorld('electron', {
+  send: ipcRenderer.send,
+});
 
 // --------- Preload scripts loading ---------
 function domReady(

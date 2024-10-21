@@ -10,9 +10,19 @@
     </div>
 
     <a-space wrap>
+      <!-- <a-button type="primary" danger>退出系统</a-button> -->
       <a-button v-if="props.isShowTestBtn" @click="goModalTestPage">
         测试
       </a-button>
+      <a-button type="primary" danger @click="showQuitModal">
+        退出系统
+      </a-button>
+      <TheModal
+        :open="open"
+        :handle-ok="reset"
+        :handle-cancel="handleCancel"
+        title="确认退出系统"
+      />
     </a-space>
   </div>
 </template>
@@ -20,18 +30,22 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
 import router from '@/router/index.ts';
-// definePage({
-//   name: "TestModal",
-//   meta: {
-//     title: "头部",
-//   },
-// });
+// import { ipcRenderer } from "electron";
 const props = defineProps({
   isShowTestBtn: Boolean,
 });
-
+const open = ref<boolean>(false);
+function handleCancel() {
+  open.value = false;
+}
+function reset() {
+  window.electron.send('quit-app');
+}
 function goModalTestPage() {
   router.push({ name: 'TestModal' });
+}
+function showQuitModal() {
+  open.value = true;
 }
 </script>
 

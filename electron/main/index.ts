@@ -174,7 +174,12 @@ ipcMain.handle('open-win', (_, arg) => {
     childWindow.loadFile(indexHtml, { hash: arg });
   }
 });
-// 设置 IPC 监听器
+// 读配置文件
 ipcMain.handle('get-config', async () => {
   return config;
+});
+
+// 监听渲染进程发送的退出事件
+ipcMain.on('quit-app', () => {
+  app.quit();
 });
