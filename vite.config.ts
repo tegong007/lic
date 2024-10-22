@@ -12,6 +12,7 @@ import VueRouter from 'unplugin-vue-router/vite';
 import VueMacros from 'unplugin-vue-macros/vite';
 import { VueRouterAutoImports } from 'unplugin-vue-router';
 import pkg from './package.json';
+// import vueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
@@ -112,6 +113,10 @@ export default defineConfig(({ command }) => {
         renderer: {},
       }),
       removeNoMatch(),
+      // vueI18nPlugin({
+      //   include: path.resolve(__dirname, "./src/i18n/locales"),
+      //   runtimeOnly: false,
+      // }),
     ],
     resolve: {
       alias: {

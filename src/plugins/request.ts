@@ -6,8 +6,8 @@ const service = axios.create({ timeout: timeOut });
 
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    // config.headers["Content-Type"] = "application/json";
-    config.headers.Authorization = 'bearer ';
+    // config.headers["Content-Type"] = "application/x-www-form-urlencoded";
+    // config.headers.Authorization = "bearer ";
     return config;
   },
   (err) => {

@@ -1,0 +1,33 @@
+{
+  "header": {
+    "test": "模块测试",
+    "quit": "退出系统",
+    "proName": "光墨匠人",
+    "confirmQuit": "是否确认退出系统 ?"
+  },
+  "modal": {
+    "confirm": "确认",
+    "cancel": "取消"
+  },
+  "home": {
+    "preview": "证本预览",
+    "preparePrint": "准备打印",
+    "printInformation": "打印信息",
+    "printCrtificateBtn": "证本打印",
+    "stopBtn": "停止"
+  },
+  "moduleTest": {
+    "gohomeBtn": "返回首页",
+    "module": "模组"
+  },
+  "moduleForm": {
+    "requsetParams": "HTTP请求",
+    "tranURILabel": "接口URL",
+    "tranURIPla": "请选择接口URL",
+    "paraInLabel": "接口参数",
+    "paraInPla": "请选择接口参数",
+    "testBtn": "测试",
+    "returnData": "返回数据",
+    "respLabel": "返回值"
+  }
+}

@@ -32,7 +32,7 @@
       </div>
       <div class="flex items-center justify-center">
         <a-button size="large" @click="goHome">
-          返回首页
+          {{ $t("moduleTest.gohomeBtn") }}
         </a-button>
       </div>
     </div>
@@ -41,10 +41,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import ModalForm from '../Model/modalForm.vue';
+import { useI18n } from 'vue-i18n';
+import ModalForm from '../Module/ModuleForm.vue';
 import Header from '@/components/TheHeader.vue';
 import router from '@/router';
 
+const { t } = useI18n();
 definePage({
   name: 'TestModal',
   meta: {
@@ -53,12 +55,12 @@ definePage({
 });
 const currentModel = ref<string>('m1');
 const options = [
-  { label: '模组1', value: 'm1' },
-  { label: '模组2', value: 'm2' },
-  { label: '模组3', value: 'm3' },
-  { label: '模组4', value: 'm4' },
-  { label: '模组5', value: 'm5' },
-  { label: '模组6', value: 'm6' },
+  { label: `${t('moduleTest.module')}1`, value: 'm1' },
+  { label: `${t('moduleTest.module')}2`, value: 'm2' },
+  { label: `${t('moduleTest.module')}3`, value: 'm3' },
+  { label: `${t('moduleTest.module')}4`, value: 'm4' },
+  { label: `${t('moduleTest.module')}5`, value: 'm5' },
+  { label: `${t('moduleTest.module')}6`, value: 'm6' },
 ];
 function goHome() {
   router.push({ name: 'Main' });
@@ -146,6 +148,5 @@ function getarrJson(model: string) {
   z-index: 1;
   color: #ffffff;
   background: #ffffff2c;
-  /* border-color: #1677ff; */
 }
 </style>

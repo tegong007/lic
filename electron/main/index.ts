@@ -87,7 +87,8 @@ async function createWindow() {
     // useContentSize: true,
     webPreferences: {
       contextIsolation: true, // 隔离上下文
-      webSecurity: false, // 跨域
+      webSecurity: false, // 开发环境禁止同源策略，否则跨越失败
+      allowRunningInsecureContent: false, // 确保此项为 false
       nodeIntegration: true,
       images: true, // 支持图片
       textAreasAreResizable: false, // 文本域可拉伸
@@ -95,12 +96,6 @@ async function createWindow() {
       backgroundThrottling: true, // 页面隐藏时节能
       // devTools: config.devTools,
       preload,
-      // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
-      // nodeIntegration: true,
-
-      // Consider using contextBridge.exposeInMainWorld
-      // Read more on https://www.electronjs.org/docs/latest/tutorial/context-isolation
-      // contextIsolation: false,
     },
   });
 
@@ -162,8 +157,6 @@ ipcMain.handle('open-win', (_, arg) => {
   const childWindow = new BrowserWindow({
     webPreferences: {
       preload,
-      nodeIntegration: true,
-      contextIsolation: false,
     },
   });
 

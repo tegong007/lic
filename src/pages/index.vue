@@ -14,7 +14,7 @@
         <div
           class="title relative z-10 h-[50px] w-full flex items-center justify-between bg-[#fff]/[0.2] pl-[20px] font-bold"
         >
-          <span class="text-[20px]">证本预览</span>
+          <span class="text-[20px]"> {{ $t("home.preview") }}</span>
         </div>
         <div
           class="relative h-full w-full flex flex-col items-center justify-evenly"
@@ -26,7 +26,8 @@
             <span
               v-if="imgIndex === 0"
               class="absolute z-[999] text-[80px] font-bold"
-            >准备打印</span>
+            >
+              {{ $t("home.preparePrint") }}</span>
             <a-image
               v-if="imgIndex !== 0"
               :src="imgStatus[imgIndex]"
@@ -43,7 +44,7 @@
           <div
             class="title relative z-10 h-[50px] w-full flex items-center justify-between bg-[#fff]/[0.2] pl-[20px] font-bold"
           >
-            <span class="text-[20px]">打印信息</span>
+            <span class="text-[20px]"> {{ $t("home.printInformation") }}</span>
           </div>
           <div
             class="info-box scrollable-box w-full overflow-auto p-[20px] leading-[25px]"
@@ -61,21 +62,21 @@
                 <span>
                   {{ item.time }} 证本已到达【{{ statusTypes[item.status] }}】
                 </span>
-                <span>
-                  <span v-if="item.ocrData && isIncludes(item.status)">证本已完成OCR识别，结果：<span class="text-amber-100">{{
-                    item.ocrData
-                  }}</span>
-                  </span>
-                  <span v-if="item.readerData && isIncludes(item.status)">证本已完成芯片读取，数据：<span class="text-amber-100">{{
-                    item.readerData
-                  }}</span>
-                  </span>
+                <span v-if="item.ocrData && isIncludes(item.status)">证本已完成OCR识别，结果：<span class="text-amber-100">【{{ item.ocrData }}】</span>
                 </span>
+                <div>
+                  <span v-if="item.readerData && isIncludes(item.status)">证本已完成芯片读取，数据：<span class="text-amber-100">【{{ item.readerData }}】</span>
+                  </span>
+                </div>
+
                 <div
                   v-if="item.imgData && isIncludes(item.status)"
                   class="py-[10px]"
                 >
-                  <a-image :width="100" :src="item.imgData" />
+                  <a-image
+                    :width="100"
+                    :src="`data:image/png;base64,${item.imgData}`"
+                  />
                 </div>
               </div>
               <!-- 分割线 -->
@@ -94,7 +95,8 @@
           <div
             class="printBtn relative h-full w-[63%] flex items-center justify-center"
           >
-            <span class="relative text-[50px] font-bold">证本打印</span>
+            <span class="relative text-[50px] font-bold">
+              {{ $t("home.printCrtificateBtn") }}</span>
             <div
               :class="
                 `${canClick ? 'bg-[#fff]/[0]  cursor-pointer hover:bg-[#fff]/[0.3]  active:bg-[#000]/[0.4]' : 'bg-[#000]/[0.4] pointer-events-none'}`
@@ -106,7 +108,8 @@
           <div
             class="stopBtn relative h-full w-[35%] flex items-center justify-center"
           >
-            <span class="relative text-[50px] font-bold">停止</span>
+            <span class="relative text-[50px] font-bold">
+              {{ $t("home.stopBtn") }}</span>
             <div
               :class="
                 `${!canClick ? 'bg-[#fff]/[0]  cursor-pointer hover:bg-[#fff]/[0.3]  active:bg-[#000]/[0.4]' : 'bg-[#000]/[0.4] pointer-events-none'}`
@@ -219,6 +222,7 @@ async function getStatus() {
     try {
       titleStatus.value = '送本中';
       const data = await getDocStatus();
+      console.log('🚀 ~ file: index.vue:230 ~ getStatus ~ data:', data);
       const formatData: T = {
         status: `${data?.status}`,
         ocrData: data?.ocrData,

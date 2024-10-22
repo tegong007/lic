@@ -1,0 +1,33 @@
+{
+  "header": {
+    "test": "Module testing",
+    "quit": "Exit the system",
+    "proName": "Light and Ink Craftsmen",
+    "confirmQuit": "Are you sure to exit the system ?"
+  },
+  "modal": {
+    "confirm": "confirm",
+    "cancel": "cancel"
+  },
+  "home": {
+    "preview": "Certificate Preview",
+    "preparePrint": "Prepare to print",
+    "printInformation": "Print information",
+    "printCrtificateBtn": "Print",
+    "stopBtn": "Stop"
+  },
+  "moduleTest": {
+    "gohomeBtn": "Back Home",
+    "module": "Module"
+  },
+  "moduleForm": {
+    "requsetParams": "HTTP request",
+    "tranURILabel": "Interface URL",
+    "tranURIPla": "Please select the interface URL",
+    "paraInLabel": "Request parameters",
+    "paraInPla": "Please select the request parameters",
+    "testBtn": "Test",
+    "returnData": "Return data",
+    "respLabel": "respData"
+  }
+}

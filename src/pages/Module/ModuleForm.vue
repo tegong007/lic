@@ -2,13 +2,14 @@
   <div class="relative w-full flex flex-col text-white">
     <div class="relative border-b-[2px] border-[#7C9FCA] pl-[20px]">
       <a-typography-title :level="5">
-        <span class="text-[20px] text-white">入参</span>
+        <span class="text-[20px] text-white">
+          {{ $t("moduleForm.requsetParams") }}</span>
       </a-typography-title>
       <a-flex>
         <a-config-provider
           :theme="{
             token: {
-              fontSize: 16,
+              fontSize: 16, //会击穿button的样式
             },
           }"
         >
@@ -21,10 +22,10 @@
             label-align="left"
             class="relative ml-[20px] mt-[20px] w-[60%] text-[18px] text-white"
           >
-            <a-form-item label="接口URL" name="transURI">
+            <a-form-item :label="t('moduleForm.tranURILabel')" name="transURI">
               <a-select
                 v-model:value="formState.transURI"
-                placeholder="请选择接口url"
+                :placeholder="t('moduleForm.tranURIPla')"
                 @change="handleChange"
               >
                 <!-- <a-select-option value="send-doc">send-doc</a-select-option> -->
@@ -37,10 +38,10 @@
                 </a-select-option>
               </a-select>
             </a-form-item>
-            <a-form-item label="接口参数" name="paraIn">
+            <a-form-item :label="t('moduleForm.paraInLabel')" name="paraIn">
               <a-select
                 v-model:value="formState.paraIn"
-                placeholder="请选择接口参数"
+                :placeholder="t('moduleForm.paraInPla')"
                 @change="handleChange"
               >
                 <a-select-option
@@ -55,7 +56,7 @@
           </a-form>
           <div class="relative left-[-12em] mb-20px flex items-end">
             <a-button type="primary" class="" size="large" @click="onSubmit">
-              测试
+              {{ $t("moduleForm.testBtn") }}
             </a-button>
           </div>
         </a-config-provider>
@@ -66,7 +67,8 @@
     </div>
     <div class="relative p-[20px]">
       <a-typography-title :level="5">
-        <span class="text-[20px] text-white">返回数据</span>
+        <span class="text-[20px] text-white">
+          {{ $t("moduleForm.returnData") }}</span>
       </a-typography-title>
 
       <a-form
@@ -77,7 +79,7 @@
         label-align="left"
         class="ml-[20px] mt-[20px] w-[60%] text-white"
       >
-        <a-form-item label="返回值" name="respData">
+        <a-form-item :label="t('moduleForm.respLabel')" name="respData">
           <!--  <a-textarea
             class="text-[16px]"
             v-model:value="returnForm.respData"
@@ -110,6 +112,7 @@ import { reactive, ref, watch } from 'vue';
 import type { UnwrapRef } from 'vue';
 import type { Rule } from 'ant-design-vue/es/form';
 import { message } from 'ant-design-vue';
+import { useI18n } from 'vue-i18n';
 import { useAppStore } from '../../store/index';
 import { getApiTransfer } from '@/apis/webApi';
 
@@ -117,6 +120,7 @@ const props = defineProps({
   currentModel: String,
   optionsData: Object,
 });
+const { t } = useI18n();
 const appStore = useAppStore();
 interface FormState {
   transURI: string | undefined;
@@ -200,6 +204,5 @@ watch(
   top: calc(50% - 300px) !important;
   left: -100px !important;
   z-index: 999999999999999999999;
-  // color: blue;
 }
 </style>

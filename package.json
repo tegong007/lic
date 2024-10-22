@@ -38,7 +38,8 @@
     "@types/node": "^22.7.4",
     "ant-design-vue": "^4.2.5",
     "axios": "^1.6.7",
-    "electron-icon-builder": "^2.0.1"
+    "electron-icon-builder": "^2.0.1",
+    "vue-i18n": "9.9.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.23.2",

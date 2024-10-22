@@ -15,7 +15,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/testModal',
     name: 'TestModal',
-    component: () => import('@/pages/Model/indexPage.vue'),
+    component: () => import('@/pages/Module/indexPage.vue'),
   },
 ];
 

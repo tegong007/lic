@@ -17,7 +17,7 @@
         >
         <!-- <a-flex justify="center" align="center"> -->
         <span class="text-[30px] color-[#627384] font-bold">
-          &nbsp;&nbsp; 是否{{ props.title }}?</span>
+          &nbsp;&nbsp; {{ props.title }}</span>
         <!-- </a-flex> -->
       </div>
     </div>
@@ -29,7 +29,8 @@
         >
           <span
             class="relative p-y-[0.7em] text-[30px] color-[#627384] font-bold"
-          >取消</span>
+          >
+            {{ $t("modal.cancel") }}</span>
           <div
             class="absolute h-full w-full cursor-pointer rounded-[1em] shadow-xl active:bg-[#000]/[0.4] hover:bg-[#fff]/[0.3]"
             @click="handleCancel"
@@ -38,7 +39,8 @@
         <div
           class="okBtn relative h-full w-[40%] flex items-center justify-center"
         >
-          <span class="relative p-y-[0.7em] text-[30px] color-[#fff] font-bold">确定</span>
+          <span class="relative p-y-[0.7em] text-[30px] color-[#fff] font-bold">
+            {{ $t("modal.confirm") }}</span>
           <div
             class="absolute h-full w-full cursor-pointer rounded-[1em] shadow-2xl active:bg-[#000]/[0.4] hover:bg-[#fff]/[0.3]"
             @click="handleOk"

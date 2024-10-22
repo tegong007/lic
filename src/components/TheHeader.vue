@@ -2,26 +2,25 @@
   <div
     class="headerbg inline-block h-[66px] w-full flex items-center justify-between px-[25px]"
   >
-    <div
-      class="w-[120px] flex items-center justify-between text-[22px] font-bold"
-    >
+    <div class="flex items-center justify-between text-[22px] font-bold">
       <img src="/icon/icon.png" alt="" class="h-[22px]">
-      <span>光墨匠人</span>
+      <span class="ml-[0.5em]"> {{ $t("header.proName") }}</span>
     </div>
 
     <a-space wrap>
       <!-- <a-button type="primary" danger>退出系统</a-button> -->
       <a-button v-if="props.isShowTestBtn" @click="goModalTestPage">
-        测试
+        <!-- 测试 -->
+        {{ $t("header.test") }}
       </a-button>
       <a-button type="primary" danger @click="showQuitModal">
-        退出系统
+        {{ $t("header.quit") }}
       </a-button>
       <TheModal
         :open="open"
         :handle-ok="reset"
         :handle-cancel="handleCancel"
-        title="确认退出系统"
+        :title="t('header.confirmQuit')"
       />
     </a-space>
   </div>
@@ -29,11 +28,14 @@
 
 <script setup lang="ts">
 import { defineProps } from 'vue';
+import { useI18n } from 'vue-i18n';
 import router from '@/router/index.ts';
+
 // import { ipcRenderer } from "electron";
 const props = defineProps({
   isShowTestBtn: Boolean,
 });
+const { t } = useI18n();
 const open = ref<boolean>(false);
 function handleCancel() {
   open.value = false;
