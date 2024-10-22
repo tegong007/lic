@@ -136,6 +136,7 @@ export default defineConfig(({ command }) => {
     clearScreen: false,
     build: {
       chunkSizeWarningLimit: 1024, // chunk 大小警告的限制（单位kb）
+      target: 'esnext',
     },
     define: {
       __SERVER_URL__: JSON.stringify(viteDevServerUrl),
