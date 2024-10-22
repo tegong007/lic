@@ -11,10 +11,10 @@
       <!-- <a-button type="primary" danger>退出系统</a-button> -->
       <a-button v-if="props.isShowTestBtn" @click="goModalTestPage">
         <!-- 测试 -->
-        {{ $t("header.test") }}
+        <span class="text-[14px]">{{ $t("header.test") }}</span>
       </a-button>
       <a-button type="primary" danger @click="showQuitModal">
-        {{ $t("header.quit") }}
+        <span class="text-[14px]">{{ $t("header.quit") }}</span>
       </a-button>
       <TheModal
         :open="open"

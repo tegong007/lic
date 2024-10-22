@@ -6,60 +6,60 @@
           {{ $t("moduleForm.requsetParams") }}</span>
       </a-typography-title>
       <a-flex>
-        <a-config-provider
+        <!-- <a-config-provider
           :theme="{
             token: {
               fontSize: 16, //会击穿button的样式
             },
           }"
+        > -->
+        <a-form
+          ref="formRef"
+          :model="formState"
+          :label-col="labelCol"
+          :rules="rules"
+          :wrapper-col="wrapperCol"
+          label-align="left"
+          class="relative ml-[20px] mt-[20px] w-[60%] text-[18px] text-white"
         >
-          <a-form
-            ref="formRef"
-            :model="formState"
-            :label-col="labelCol"
-            :rules="rules"
-            :wrapper-col="wrapperCol"
-            label-align="left"
-            class="relative ml-[20px] mt-[20px] w-[60%] text-[18px] text-white"
-          >
-            <a-form-item :label="t('moduleForm.tranURILabel')" name="transURI">
-              <a-select
-                v-model:value="formState.transURI"
-                :placeholder="t('moduleForm.tranURIPla')"
-                @change="handleChange"
+          <a-form-item :label="t('moduleForm.tranURILabel')" name="transURI">
+            <a-select
+              v-model:value="formState.transURI"
+              :placeholder="t('moduleForm.tranURIPla')"
+              @change="handleChange"
+            >
+              <!-- <a-select-option value="send-doc">send-doc</a-select-option> -->
+              <a-select-option
+                v-for="(item, index) in props.optionsData?.transURI"
+                :key="index"
+                :value="item"
               >
-                <!-- <a-select-option value="send-doc">send-doc</a-select-option> -->
-                <a-select-option
-                  v-for="(item, index) in props.optionsData?.transURI"
-                  :key="index"
-                  :value="item"
-                >
-                  {{ item }}
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-            <a-form-item :label="t('moduleForm.paraInLabel')" name="paraIn">
-              <a-select
-                v-model:value="formState.paraIn"
-                :placeholder="t('moduleForm.paraInPla')"
-                @change="handleChange"
+                {{ item }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+          <a-form-item :label="t('moduleForm.paraInLabel')" name="paraIn">
+            <a-select
+              v-model:value="formState.paraIn"
+              :placeholder="t('moduleForm.paraInPla')"
+              @change="handleChange"
+            >
+              <a-select-option
+                v-for="(item, index) in props.optionsData?.paraIn"
+                :key="index"
+                :value="item"
               >
-                <a-select-option
-                  v-for="(item, index) in props.optionsData?.paraIn"
-                  :key="index"
-                  :value="item"
-                >
-                  {{ item }}
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-form>
-          <div class="relative left-[-12em] mb-20px flex items-end">
-            <a-button type="primary" class="" size="large" @click="onSubmit">
-              {{ $t("moduleForm.testBtn") }}
-            </a-button>
-          </div>
-        </a-config-provider>
+                {{ item }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+        </a-form>
+        <div class="relative left-[-12em] mb-20px flex items-end">
+          <a-button type="primary" class="" size="large" @click="onSubmit">
+            {{ $t("moduleForm.testBtn") }}
+          </a-button>
+        </div>
+        <!-- </a-config-provider> -->
       </a-flex>
       <!-- <div class="absolute right-[20px] top-0">
         <a-button type="primary" class="" @click="onSubmit"> 测试 </a-button>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { darkTheme, dateZhCN, zhCN } from 'naive-ui';
 import { h, watchEffect } from 'vue';
 import { LoadingOutlined } from '@ant-design/icons-vue';
 import { useAppStore } from './store';
@@ -19,12 +18,12 @@ const indicator = h(LoadingOutlined, {
 </script>
 
 <template>
-  <n-config-provider
-    class="wh-full"
-    :locale="zhCN"
-    :date-locale="dateZhCN"
-    :theme="appStore.isDark ? darkTheme : undefined"
-    :theme-overrides="appStore.naiveThemeOverrides"
+  <a-config-provider
+    :theme="{
+      token: {
+        fontSize: 16, //会击穿button的样式
+      },
+    }"
   >
     <a-spin
       :spinning="appStore.spinning"
@@ -37,7 +36,7 @@ const indicator = h(LoadingOutlined, {
         </KeepAlive>
       </router-view>
     </a-spin>
-  </n-config-provider>
+  </a-config-provider>
 </template>
 
 <style scoped lang="less">

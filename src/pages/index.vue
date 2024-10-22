@@ -50,44 +50,51 @@
             class="info-box scrollable-box w-full overflow-auto p-[20px] leading-[25px]"
           >
             <div v-for="(item, index) in flowData" :key="index">
-              <!-- 结束线 -->
-              <div
-                v-if="item.status === 'M6-Product'"
-                class="mt-[20px] color-gray leading-[55px]"
-              >
-                ******↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*****已完成以下证本打印流程*****↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓******
-              </div>
-              <!-- 内容 -->
-              <div class="pl-[40px]">
-                <span>
-                  {{ item.time }} 证本已到达【{{ statusTypes[item.status] }}】
-                </span>
-                <span v-if="item.ocrData && isIncludes(item.status)">证本已完成OCR识别，结果：<span class="text-amber-100">【{{ item.ocrData }}】</span>
-                </span>
-                <div>
-                  <span v-if="item.readerData && isIncludes(item.status)">证本已完成芯片读取，数据：<span class="text-amber-100">【{{ item.readerData }}】</span>
-                  </span>
+              <main v-if="item.error === true">
+                <div class="mt-[20px] color-[##ff4d4f] leading-[55px]">
+                  ******↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*****出错了，请联系管理员*****↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓******
                 </div>
-
+              </main>
+              <main v-else>
+                <!-- 结束线 -->
                 <div
-                  v-if="item.imgData && isIncludes(item.status)"
-                  class="py-[10px]"
+                  v-if="item.status === 'M6-Product'"
+                  class="mt-[20px] color-gray leading-[55px]"
                 >
-                  <a-image
-                    :width="100"
-                    :src="`data:image/png;base64,${item.imgData}`"
-                  />
+                  ******↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*****已完成以下证本打印流程*****↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓******
                 </div>
-              </div>
-              <!-- 分割线 -->
-              <div
-                v-if="getModelStart(item.status) !== ''"
-                class="leading-[55px]"
-              >
-                *********************************************{{
-                  getModelStart(item.status)
-                }}**************************************************
-              </div>
+                <!-- 内容 -->
+                <div class="pl-[40px]">
+                  <span>
+                    {{ item.time }} 证本已到达【{{ statusTypes[item.status] }}】
+                  </span>
+                  <span v-if="item.ocrData && isIncludes(item.status)">证本已完成OCR识别，结果：<span class="text-amber-100">【{{ item.ocrData }}】</span>
+                  </span>
+                  <div>
+                    <span v-if="item.readerData && isIncludes(item.status)">证本已完成芯片读取，数据：<span class="text-amber-100">【{{ item.readerData }}】</span>
+                    </span>
+                  </div>
+
+                  <div
+                    v-if="item.imgData && isIncludes(item.status)"
+                    class="py-[10px]"
+                  >
+                    <a-image
+                      :width="100"
+                      :src="`data:image/png;base64,${item.imgData}`"
+                    />
+                  </div>
+                </div>
+                <!-- 分割线 -->
+                <div
+                  v-if="getModelStart(item.status) !== ''"
+                  class="leading-[55px]"
+                >
+                  *********************************************{{
+                    getModelStart(item.status)
+                  }}**************************************************
+                </div>
+              </main>
             </div>
           </div>
         </div>
@@ -154,6 +161,7 @@ interface T {
   readerData?: string;
   status: string;
   imgData?: string;
+  error?: boolean;
 }
 const appStore = useAppStore();
 const [contextHolder] = message.useMessage();
@@ -222,7 +230,6 @@ async function getStatus() {
     try {
       titleStatus.value = '送本中';
       const data = await getDocStatus();
-      console.log('🚀 ~ file: index.vue:230 ~ getStatus ~ data:', data);
       const formatData: T = {
         status: `${data?.status}`,
         ocrData: data?.ocrData,
@@ -303,6 +310,7 @@ async function getStatus() {
       error;
       await stopInterval();
       message.error('出错了，请联系管理员');
+      flowData.value.unshift({ status: 'error', error: true });
       stoping.value = true;
     }
     finally {

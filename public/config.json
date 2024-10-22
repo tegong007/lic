@@ -1,8 +1,9 @@
 {
-  "fullscreen": true,
-  "devTools": false,
+  "fullscreen": false,
+  "devTools": true,
   "width": 1920,
   "height": 1080,
   "serverAddress": "http://192.168.88.17:6101",
-  "timeOut": 10000
+  "timeOut": 10000,
+  "lang": "cn"
 }

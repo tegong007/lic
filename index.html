@@ -20,6 +20,7 @@
           .getConfig()
           .then((config) => {
             // 将配置信息设置为全局变量
+            window.lang = config.lang;
             window.serverAddress = config.serverAddress;
             window.timeOut = config.timeOut;
           })
