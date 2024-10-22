@@ -51,7 +51,7 @@
           >
             <div v-for="(item, index) in flowData" :key="index">
               <main v-if="item.error === true">
-                <div class="mt-[20px] color-[##ff4d4f] leading-[55px]">
+                <div class="mt-[20px] color-[#ff4d4f] leading-[55px]">
                   ******↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*****出错了，请联系管理员*****↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓******
                 </div>
               </main>
