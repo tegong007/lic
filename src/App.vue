@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { h, watchEffect } from 'vue';
 import { LoadingOutlined } from '@ant-design/icons-vue';
+import { useI18n } from 'vue-i18n';
 import { useAppStore } from './store';
 
 const appStore = useAppStore();
-
+const { t } = useI18n();
 watchEffect(() => {
   appStore.setThemeColor(appStore.primaryColor, appStore.isDark);
 });
@@ -28,7 +29,7 @@ const indicator = h(LoadingOutlined, {
     <a-spin
       :spinning="appStore.spinning"
       :indicator="indicator"
-      tip="加载中..."
+      :tip="t('modal.loading')"
     >
       <router-view v-slot="{ Component, route: curRoute }">
         <KeepAlive>

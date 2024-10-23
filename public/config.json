@@ -1,6 +1,6 @@
 {
-  "fullscreen": false,
-  "devTools": true,
+  "fullscreen": true,
+  "devTools": false,
   "width": 1920,
   "height": 1080,
   "serverAddress": "http://192.168.88.17:6101",

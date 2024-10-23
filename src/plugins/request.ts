@@ -1,5 +1,6 @@
 import axios from 'axios';
 import type { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import { useI18n } from 'vue-i18n';
 
 const timeOut = window.timeOut ?? '5000';
 const service = axios.create({ timeout: timeOut });
@@ -30,10 +31,11 @@ service.interceptors.response.use(
     }
   },
   (err) => {
+    const { t } = useI18n();
     if (err.code === 'ECONNABORTED')
-      return Promise.reject('接口超时');
+      return Promise.reject(t('network.timeout'));
     if (err.code === 'ERR_NETWORK')
-      return Promise.reject('网络错误');
+      return Promise.reject(t('network.newworkError'));
     return Promise.reject(err.message);
   },
 );
