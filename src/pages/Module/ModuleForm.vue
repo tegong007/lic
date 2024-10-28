@@ -111,8 +111,9 @@
 import { reactive, ref, watch } from 'vue';
 import type { UnwrapRef } from 'vue';
 import type { Rule } from 'ant-design-vue/es/form';
-import { message } from 'ant-design-vue';
 import { useI18n } from 'vue-i18n';
+import type { NotificationPlacement } from 'ant-design-vue';
+import { notification } from 'ant-design-vue';
 import { useAppStore } from '../../store/index';
 import { getApiTransfer } from '@/apis/webApi';
 
@@ -120,6 +121,16 @@ const props = defineProps({
   currentModel: String,
   optionsData: Object,
 });
+const [api, contextHolder] = notification.useNotification();
+const openNotify = (placement: NotificationPlacement, msg: any) => openNotification(placement, msg);
+function openNotification(placement: NotificationPlacement, msg: any) {
+  api.error({
+    message: '错误信息',
+    description: ` ${msg}`,
+    placement,
+  });
+}
+
 const { t } = useI18n();
 const appStore = useAppStore();
 interface FormState {
@@ -129,7 +140,6 @@ interface FormState {
 interface ReturnForm {
   respData: object;
 }
-const [contextHolder] = message.useMessage();
 const formRef = ref();
 const dataRef = ref();
 const labelCol = { span: 5 };
@@ -172,7 +182,7 @@ async function getApiTransferTask(params: any) {
     returnForm.respData = data;
   }
   catch (error) {
-    message.error(error);
+    openNotify('bottomRight', error);
   }
 }
 function resetForm() {

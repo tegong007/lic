@@ -133,15 +133,16 @@
             />
           </div>
         </div>
-        <!-- <a-button @click="stopInterval">stop</a-button> -->
       </div>
     </div>
-    <context-holder />
+    <!-- <context-holder /> -->
+    <contextHolder />
   </div>
 </template>
 
 <script setup lang="ts">
-import { message } from 'ant-design-vue';
+import type { NotificationPlacement } from 'ant-design-vue';
+import { notification } from 'ant-design-vue';
 import { useAppStore } from '../store/index';
 import TheHeader from '@/components/TheHeader.vue';
 import TheModal from '@/components/TheModal.vue';
@@ -153,7 +154,17 @@ import laser1Img from '@/assets/image/laser1.png';
 import laser2Img from '@/assets/image/laser2.png';
 import lnkjetImg from '@/assets/image/lnkjet.png';
 
-// defineOptions({ name: "IndexPage" });
+;
+
+const [api, contextHolder] = notification.useNotification();
+const openNotify = (placement: NotificationPlacement, msg: any) => openNotification(placement, msg);
+function openNotification(placement: NotificationPlacement, msg: any) {
+  api.error({
+    message: '错误信息',
+    description: ` ${msg}`,
+    placement,
+  });
+}
 
 definePage({
   name: 'Main',
@@ -172,7 +183,7 @@ interface T {
   stop?: boolean;// 用户手动停止
 }
 const appStore = useAppStore();
-const [contextHolder] = message.useMessage();
+
 const imgStatus = [readyImg, defaultImg, laser1Img, laser2Img, lnkjetImg];
 const statusTypes = {
   'M1-Warehouse': '模组一卡仓位',
@@ -277,9 +288,8 @@ async function getStatus() {
       stoping.value = false;
     }
     catch (error) {
-      error;
       await stopInterval();
-      message.error('出错了，请联系管理员');
+      openNotify('bottomRight', error);
       flowData.value.unshift({ status: 'error', error: true });
       stoping.value = true;
     }
@@ -373,7 +383,7 @@ async function startTask() {
   }
   catch (error) {
     error;
-    message.error('执行打印任务失败');
+    openNotify('bottomRight', '执行打印任务失败');
     await stopInterval();
     appStore.setSpinning(false);
   }
@@ -390,7 +400,7 @@ async function stopInterval() {
     }
     catch (error) {
       error;
-      message.error('任务停止失败');
+      openNotify('bottomRight', '任务停止失败');
     }
     finally {
       canClick.value = true;
