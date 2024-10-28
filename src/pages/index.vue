@@ -237,8 +237,9 @@ async function getStatus() {
         imgData: data?.imgData,
         readerData: data?.readerData,
       };
+
       if (JSON.stringify(currentObj.value) !== JSON.stringify(formatData)) {
-        currentObj.value = formatData;
+        currentObj.value = JSON.parse(JSON.stringify(formatData));// 深拷贝，只拷贝当前的
         LeftTitle(formatData.status);// 标题
         changeImg(formatData.status);// 图片
         // 分割线
@@ -342,6 +343,7 @@ function changeImg(status: string) {
 
 //  开始任务后开始定时器
 async function startInterval() {
+  flowData.value = [];
   const startTaskStatus = await startTask();
   if (startTaskStatus) {
     canClick.value = false;
