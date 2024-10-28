@@ -56,6 +56,12 @@
                   *****↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓******
                 </div>
               </main>
+              <main v-else-if="item.stop === true">
+                <div class="mt-[20px] color-[#ff4d4f] leading-[55px]">
+                  ******↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*****用户手动停止
+                  *****↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓******
+                </div>
+              </main>
               <main v-else>
                 <!-- 结束线 -->
                 <div
@@ -163,6 +169,7 @@ interface T {
   imgData?: string;
   error?: boolean; // 任务失败的标识
   showDivider?: string; // 分界线的标识
+  stop?: boolean;// 用户手动停止
 }
 const appStore = useAppStore();
 const [contextHolder] = message.useMessage();
@@ -397,8 +404,9 @@ async function stopInterval() {
 // 手动停止
 async function reset() {
   open.value = false;
-  flowData.value = [];
+  // flowData.value = [];
   await stopInterval();
+  flowData.value.unshift({ status: 'stop', stop: true });
   imgIndex.value = 0;
 }
 
