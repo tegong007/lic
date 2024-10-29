@@ -75,19 +75,19 @@
                   <span>
                     {{ item.time }} 证本已到达【{{ statusTypes[item.status] }}】
                   </span>
-                  <span v-if="item.ocrData && isIncludes(item.status)">证本已完成OCR识别，结果：<span class="text-amber-100">【{{ item.ocrData }}】</span>
+                  <span v-if="item.ocrData && isIncludes(item.status, 'Camera')">证本已完成OCR识别，结果：<span class="text-amber-100">【{{ item.ocrData }}】</span>
                   </span>
                   <div>
-                    <span v-if="item.readerData && isIncludes(item.status)">证本已完成芯片读取，数据：<span class="text-amber-100">【{{ item.readerData }}】</span>
+                    <span v-if="item.readerData && isIncludes(item.status, 'readerData')">证本已完成芯片读取，数据：<span class="text-amber-100">【{{ item.readerData }}】</span>
                     </span>
                   </div>
 
                   <div
-                    v-if="item.imgData && isIncludes(item.status)"
+                    v-if="item.imgData && isIncludes(item.status, 'Camera')"
                     class="py-[10px]"
                   >
                     <a-image
-                      :width="100"
+                      :width="200"
                       :src="`data:image/png;base64,${item.imgData}`"
                     />
                   </div>
@@ -215,6 +215,9 @@ const statusTypes = {
   'M5-UV-2': '模组五喷墨位2', // 第二次
   'M5-UV-3': '模组五喷墨位3', // 第二次
   'M5-Camera': '模组五摄像位',
+  'M6-Reader-1': '模组六读写位1',
+  'M6-Reader-2': '模组六读写位2',
+  'M6-Reader-3': '模组六读写位3',
   'M6-Product': '模组六成品槽', // 结束
   'M6-Obsolete': '模组六废品槽',
 };
@@ -299,8 +302,14 @@ async function getStatus() {
   }
 }
 //  判断状态
-function isIncludes(status: string) {
-  return status.includes('Reader') || status.includes('Camera');
+function isIncludes(status: string, name: string) {
+  // 摄像头
+  if (name === 'Camera') {
+    return status.includes('Camera');
+  }
+  else if (name === 'readerData') {
+    return status.includes('Reader');
+  }
 }
 
 // 左边标题
