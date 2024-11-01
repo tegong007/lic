@@ -39,7 +39,7 @@
     "@arco-design/color": "^0.4.0",
     "@unocss/eslint-config": "^0.61.5",
     "@unocss/eslint-plugin": "^0.61.5",
-    "@unocss/preset-rem-to-px": "^0.61.5",
+    "@unocss/preset-rem-to-px": "^0.63.6",
     "@unocss/reset": "^0.61.5",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vueuse/core": "^10.11.0",
