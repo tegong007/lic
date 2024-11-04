@@ -34,13 +34,26 @@
           <!-- <a-button type="primary" class="" size="large" @click="onSubmit">
             {{ $t("transderModule.initBtn") }}
           </a-button> -->
-          <a-button size="large" @click="startInterval">
+          <a-button
+            size="large"
+            :disabled="!canClick"
+            :class="`${!canClick ? '' : 'bg-[#fff]! text-black! border-0!'}`"
+            @click="startInterval"
+          >
             {{ $t("transderModule.startBtn") }}
           </a-button>
           <!-- <a-button size="large" @click="onSubmit">
             {{ $t("transderModule.pauseBtn") }}
           </a-button> -->
-          <a-button type="primary" class="ml15px" danger size="large" @click="onSubmit(1)">
+          <a-button
+            type="primary"
+            class="ml15px"
+            danger
+            size="large"
+            :disabled="canClick"
+            :class="`${!canClick ? '' : 'bg-[#ff4d4f]! text-white! border-0!'}`"
+            @click="setOpen(true)"
+          >
             {{ $t("transderModule.stopBtn") }}
           </a-button>
         </div>
@@ -56,6 +69,7 @@
       <InfoLog ref="infoRef" :flow-data="flowData" />
     </div>
     <context-holder />
+    <TheModal :open="open" :handle-ok="reset" :handle-cancel="handleCancel" title="确认停止" />
   </div>
 </template>
 
@@ -97,6 +111,21 @@ const intervalRef = ref<number | null>(null); // 定时器
 const flowData = ref<T[]>([]); // 数据流
 const currentObj = ref<T>(); // 当前对象
 const stoping = ref(false);
+
+const open = ref<boolean>(false);
+function handleCancel() {
+  setOpen(false);
+}
+function setOpen(value: boolean) {
+  open.value = value;
+}
+
+// 手动停止
+async function reset() {
+  open.value = false;
+  await stopInterval();
+  flowData.value.unshift({ status: 'stop', stop: true });
+}
 
 const transferOptions = [
   { label: `全部`, value: 0 },
