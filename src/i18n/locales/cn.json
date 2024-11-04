@@ -31,6 +31,15 @@
     "returnData": "返回数据",
     "respLabel": "返回值"
   },
+  "transderModule": {
+    "name": "单模块测试",
+    "initBtn": "初始化",
+    "startBtn": "开始",
+    "pauseBtn": "暂停",
+    "stopBtn": "停止",
+    "testModal": "模组",
+    "testModalPla": "请选择进行操作的模组"
+  },
   "network": {
     "timeout": "接口超时",
     "newworkError": "网络错误"

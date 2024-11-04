@@ -28,3 +28,8 @@ export function getApiTransfer(data: any) {
   const api = `${v1}/tms/api-transfer`;
   return request.post(api, data);
 }
+// 流水线走本
+export function getLineRun(data: any) {
+  const api = `${v1}/tms/line-run`;
+  return request.post(api, data);
+}

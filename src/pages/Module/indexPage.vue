@@ -6,11 +6,7 @@
         class="m-[20px] h-[90%] flex flex border-[4px] border-[#3F89DD] from-[#ffffff44] bg-gradient-to-t"
       >
         <div class="h-full w-[10%] flex flex-col">
-          <a-radio-group
-            v-model:value="currentModel"
-            class="w-full"
-            button-style="outline"
-          >
+          <a-radio-group v-model:value="currentModel" class="w-full" button-style="outline">
             <a-radio-button
               v-for="(item, index) in options"
               :key="index"
@@ -21,10 +17,10 @@
             </a-radio-button>
           </a-radio-group>
         </div>
-        <div
-          class="h-full flex flex-1 border-l-[4px] border-[#3F89DD] pt-[20px]"
-        >
+        <div class="h-full flex flex-1 border-l-[4px] border-[#3F89DD] pt-[20px]">
+          <Transfer v-if="currentModel === 'test'" />
           <ModalForm
+            v-else
             :current-model="currentModel"
             :options-data="getarrJson(currentModel)"
           />
@@ -43,6 +39,7 @@
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ModalForm from '../Module/ModuleForm.vue';
+import Transfer from './transfer.vue';
 import Header from '@/components/TheHeader.vue';
 import router from '@/router';
 
@@ -53,8 +50,9 @@ definePage({
     title: '测试页',
   },
 });
-const currentModel = ref<string>('m1');
+const currentModel = ref<string>('test');
 const options = [
+  { label: `${t('transderModule.name')}`, value: 'test' },
   { label: `${t('moduleTest.module')}1`, value: 'm1' },
   { label: `${t('moduleTest.module')}2`, value: 'm2' },
   { label: `${t('moduleTest.module')}3`, value: 'm3' },
@@ -62,6 +60,7 @@ const options = [
   { label: `${t('moduleTest.module')}5`, value: 'm5' },
   { label: `${t('moduleTest.module')}6`, value: 'm6' },
 ];
+
 function goHome() {
   router.push({ name: 'Main' });
 }

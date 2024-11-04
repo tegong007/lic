@@ -6,13 +6,6 @@
           {{ $t("moduleForm.requsetParams") }}</span>
       </a-typography-title>
       <a-flex>
-        <!-- <a-config-provider
-          :theme="{
-            token: {
-              fontSize: 16, //会击穿button的样式
-            },
-          }"
-        > -->
         <a-form
           ref="formRef"
           :model="formState"
@@ -28,7 +21,6 @@
               :placeholder="t('moduleForm.tranURIPla')"
               @change="handleChange"
             >
-              <!-- <a-select-option value="send-doc">send-doc</a-select-option> -->
               <a-select-option
                 v-for="(item, index) in props.optionsData?.transURI"
                 :key="index"
@@ -38,7 +30,7 @@
               </a-select-option>
             </a-select>
           </a-form-item>
-          <a-form-item :label="t('moduleForm.paraInLabel')" name="paraIn">
+          <!-- <a-form-item :label="t('moduleForm.paraInLabel')" name="paraIn">
             <a-select
               v-model:value="formState.paraIn"
               :placeholder="t('moduleForm.paraInPla')"
@@ -52,14 +44,13 @@
                 {{ item }}
               </a-select-option>
             </a-select>
-          </a-form-item>
+          </a-form-item> -->
         </a-form>
         <div class="relative left-[-12em] mb-20px flex items-end">
           <a-button type="primary" class="" size="large" @click="onSubmit">
             {{ $t("moduleForm.testBtn") }}
           </a-button>
         </div>
-        <!-- </a-config-provider> -->
       </a-flex>
       <!-- <div class="absolute right-[20px] top-0">
         <a-button type="primary" class="" @click="onSubmit"> 测试 </a-button>
@@ -80,19 +71,7 @@
         class="ml-[20px] mt-[20px] w-[60%] text-white"
       >
         <a-form-item :label="t('moduleForm.respLabel')" name="respData">
-          <!--  <a-textarea
-            class="text-[16px]"
-            v-model:value="returnForm.respData"
-            placeholder=""
-            :rows="4"
-          /> -->
           <a-descriptions :column="1" bordered :label-style="{ width: '25%' }">
-            <!-- <a-descriptions-item label="访问接口" :span="3">
-              {{ props.currentModel }} /{{ formState.transURI }}
-            </a-descriptions-item>
-            <a-descriptions-item label="访问参数" :span="3">
-              {{ props.currentModel }} /{{ formState.paraIn }}
-            </a-descriptions-item> -->
             <a-descriptions-item label="code">
               {{ returnForm.respData.code }}
             </a-descriptions-item>

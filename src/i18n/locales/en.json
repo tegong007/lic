@@ -31,6 +31,15 @@
     "returnData": "Return data",
     "respLabel": "respData"
   },
+  "transderModule": {
+    "name": "Single Module Test",
+    "initBtn": "Initialize",
+    "startBtn": "Start",
+    "pauseBtn": "Pause",
+    "stopBtn": "Stop",
+    "testModal": "Module",
+    "testModalPla": "Please Select The Module To Operate"
+  },
   "network": {
     "timeout": "Interface timeout",
     "newworkError": "Network error"
