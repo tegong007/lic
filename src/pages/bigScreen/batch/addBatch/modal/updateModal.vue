@@ -126,14 +126,16 @@ const formState: UnwrapRef<FormState> = reactive({
   urgentType: 0,
 });
 async function validatePass(_rule, value) {
-  if (value > 2000) {
+  // 统一转成字符串，避免类型差异
+  const v = String(value).trim();
+  if (v === '' || v === '0' || v === undefined) {
+    return Promise.reject('请输入正整数');
+  }
+  else if (!/^[1-9]\d*$/.test(v)) {
+    return Promise.reject('请输入正整数');
+  }
+  if (Number(v) > 2000) {
     return Promise.reject(`最大可添加人数2000`);
-  }
-  else if (value === '' || value === '0' || value === undefined) {
-    return Promise.reject('请输入正整数');
-  }
-  else if (!/^\d*$/.test(value)) {
-    return Promise.reject('请输入正整数');
   }
   else {
     return Promise.resolve();

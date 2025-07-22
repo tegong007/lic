@@ -47,7 +47,7 @@
           <a-button
             type="link"
             class="btn hover:text-[#89f7ff]!"
-            @click="printLaser(laser.deviceIndex, laser.printItems)"
+            @click="printLaser(laser, laser.printItems)"
           >
             标刻测试页
           </a-button>
@@ -85,7 +85,7 @@ const path = ref('');
 async function previewPhoto(laserObj, arr) {
   const objs = [
     {
-      // deviceIndex: laserObj.deviceIndex,
+      deviceIndex: laserObj.deviceIndex,
       dev: laserObj.dev,
       templateType: 'PS_2023',
       platform: Number(arr[0].value),
@@ -97,7 +97,7 @@ async function previewPhoto(laserObj, arr) {
 async function redLight(laserObj, arr) {
   const objs = [
     {
-      // deviceIndex: laserObj.deviceIndex,
+      deviceIndex: laserObj.deviceIndex,
       dev: laserObj.dev,
       templateType: 'PS_2023',
       platform: Number(arr[0].value),
@@ -108,7 +108,7 @@ async function redLight(laserObj, arr) {
 async function printLaser(laserObj, arr) {
   const objs = [
     {
-      // deviceIndex: laserObj.deviceIndex,
+      deviceIndex: laserObj.deviceIndex,
       dev: laserObj.dev,
       templateType: 'PS_2023',
       platform: Number(arr[0].value),

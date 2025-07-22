@@ -99,13 +99,14 @@ function handleCancel() {
   props.handleCancel();
 }
 async function validatePass(_rule, value) {
-  if (value > oldData.value) {
-    return Promise.reject(`最大可进本数${oldData.value}`);
-  }
-  else if (value === '' || value === '0' || value === undefined) {
+  const v = String(value).trim();
+  if (v === '' || v === '0' || v === undefined) {
     return Promise.reject('请输入正整数');
   }
-  else if (!/^\d*$/.test(value)) {
+  if (Number(v) > oldData.value) {
+    return Promise.reject(`最大可进本数${oldData.value}`);
+  }
+  else if (!/^[1-9]\d*$/.test(v)) {
     return Promise.reject('请输入正整数');
   }
   else {

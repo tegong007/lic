@@ -38,9 +38,9 @@
           </a-form-item>
         </a-col>
         <a-col :span="10">
-          <a-form-item label="日期" name="dataRange">
+          <a-form-item label="日期" name="dateRange">
             <a-range-picker
-              v-model:value="formState.dataRange"
+              v-model:value="formState.dateRange"
               value-format="YYYY-MM-DD"
               input-read-only
             />
@@ -116,7 +116,7 @@ const formState: UnwrapRef<FormState> = reactive({
   docID: '',
   taskID: '',
   docStatus: null,
-  dataRange: [null, null],
+  dateRange: [null, null],
 });
 
 function setBatchIDandGroupId(value1: string, value2?: string) {
