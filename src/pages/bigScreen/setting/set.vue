@@ -276,7 +276,7 @@
                   <td>
                     <a-input
                       v-model:value="item.x"
-                      placeholder="0-1200"
+                      placeholder="0-30000"
                       :maxlength="5"
                       class="m-r-10 w-150px"
                       size="large"
@@ -291,7 +291,7 @@
                   <td>
                     <a-input
                       v-model:value="item.y"
-                      placeholder="0-1200"
+                      placeholder="0-30000"
                       :maxlength="5"
                       class="m-r-10 w-150px"
                       size="large"
