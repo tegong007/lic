@@ -175,6 +175,7 @@
 import { getApiTransfer } from '@/apis/webApi';
 import SimpleKeyboard from '@/components/base/simpleKeyboard.vue';
 import { useAppStore } from '@/store/index';
+import useCustomTimer from '@/utils/useCustomTimer';
 import { QuestionCircleOutlined } from '@ant-design/icons-vue';
 import { App } from 'ant-design-vue';
 
@@ -185,6 +186,7 @@ const props = defineProps({
   setShowKeyboard: Function,
   currentPage: String,
 });
+const { start, stop } = useCustomTimer();
 const { notification } = App.useApp();
 async function motoMove(uvPrintersObj, arr) {
   const objs = [
@@ -219,6 +221,49 @@ async function print(uvPrintersObj, arr) {
   ];
   transfer('/uvpdps/print', objs);
 }
+
+async function checkStatus(objs: any) {
+  try {
+    const params = {
+      transURI: '/uvpdps/query-device-status',
+      paraIn: {
+        objs,
+      },
+    };
+    const data = await getApiTransfer(params);
+    if (data.rslts[0].code === 0) {
+      if (data.rslts[0].error !== 300 || data.rslts[0].warning !== 200) {
+        // 有错有警告
+        throw data.rslts[0].msg;
+      }
+      else {
+        if (data.rslts[0].status === 101) {
+          notification.success({
+            message: `成功`,
+            description: '清洗结束',
+            placement: 'bottomRight',
+            class: 'notification-custom-class',
+          });
+          stop();
+          useAppStore().setSpinning(false);
+        }
+      }
+    }
+    else {
+      throw data.msg;
+    }
+  }
+  catch (error) {
+    notification.error({
+      message: `错误`,
+      description: error,
+      placement: 'bottomRight',
+      class: 'notification-custom-class',
+    });
+    stop();
+    useAppStore().setSpinning(false);
+  }
+}
 async function transfer(url, objs) {
   try {
     useAppStore().setSpinning(true);
@@ -230,12 +275,23 @@ async function transfer(url, objs) {
     };
     const data = await getApiTransfer(params);
     if (data.rslts[0].code === 0) {
-      notification.success({
-        message: `成功`,
-        description: '操作成功',
-        placement: 'bottomRight',
-        class: 'notification-custom-class',
-      });
+      if (url === '/uvpdps/clean-head') {
+        // 清洗结果查询
+        setTimeout(() => {
+          start(async () => {
+            await checkStatus(objs);
+          }, 3);
+        }, 3000);
+      }
+      else {
+        notification.success({
+          message: `成功`,
+          description: '操作成功',
+          placement: 'bottomRight',
+          class: 'notification-custom-class',
+        });
+        useAppStore().setSpinning(false);
+      }
     }
     else {
       notification.error({
@@ -244,6 +300,7 @@ async function transfer(url, objs) {
         placement: 'bottomRight',
         class: 'notification-custom-class',
       });
+      useAppStore().setSpinning(false);
     }
   }
   catch (error) {
@@ -253,8 +310,6 @@ async function transfer(url, objs) {
       placement: 'bottomRight',
       class: 'notification-custom-class',
     });
-  }
-  finally {
     useAppStore().setSpinning(false);
   }
 }

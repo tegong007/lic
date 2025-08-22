@@ -96,7 +96,7 @@ const props = defineProps({
     flex: 0.5;
   }
   .tit:nth-child(2) {
-    flex: 1.3;
+    flex: 1.5;
   }
   .tit:nth-child(3) {
     flex: 1.6;
@@ -131,7 +131,7 @@ const props = defineProps({
   }
 
   .descr:nth-child(2) {
-    flex: 1.3;
+    flex: 1.5;
   }
   .descr:nth-child(3) {
     flex: 1.6;
