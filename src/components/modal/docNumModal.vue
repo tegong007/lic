@@ -23,7 +23,9 @@
           &nbsp;&nbsp; {{ props.title }}
         </div>
         <div
-          v-if="props.title === '确认开始进本？'"
+          v-if="
+            props.title === '确认开始进本？' || props.title === '确认加本？'
+          "
           class="mt50 flex items-center justify-center gap-10"
         >
           <!-- <span class="text-[30px] color-[#627384] font-bold">可进本数</span> -->
@@ -95,7 +97,7 @@ const formRef = ref();
 const oldData = ref(0);
 function handleCancel() {
   closekeyboard();
-  formRef.value.resetFields();
+  formRef.value && formRef.value.resetFields();
   props.handleCancel();
 }
 async function validatePass(_rule, value) {
@@ -172,7 +174,11 @@ async function getDocNum() {
 }
 // 验证通过，告诉爸爸
 function onSubmit() {
-  if (props.title === '确认全线急停？') {
+  if (
+    props.title === '确认全线急停？'
+    || props.title === '确认暂停进本？'
+    || props.title === '确认继续进本？'
+  ) {
     closekeyboard();
     props.handleOk();
     return;
@@ -181,7 +187,6 @@ function onSubmit() {
   formRef.value
     .validate()
     .then(() => {
-      console.log('🚀 ~ .then ~ then:');
       props.handleOk(formState.num);
     })
     .catch((error) => {
@@ -195,7 +200,10 @@ function onSubmit() {
 watch(
   () => props.open,
   (newInput) => {
-    if (newInput && props.title === '确认开始进本？') {
+    if (
+      (newInput && props.title === '确认开始进本？')
+      || props.title === '确认加本？'
+    ) {
       getDocNum();
     }
   },

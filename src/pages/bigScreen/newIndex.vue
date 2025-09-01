@@ -93,13 +93,28 @@
 
     <!-- 左边按钮 -->
     <div
-      class="groupBtn absolute bottom-10vh z-22 h8em flex items-center justify-center gap-20"
+      class="groupBtn absolute bottom-10vh z-22 h8em w-full flex items-center justify-center gap-20"
     >
-      <TheButton
+      <!-- <TheButton
         :title="entire.hasTask ? '暂停进本' : '开始进本'"
         @click="setModal(entire.hasTas ? 1 : 0)"
+      /> -->
+      <TheButton
+        :title="entire?.taskStatus === 0 ? '开始进本' : '加本'"
+        @click="setModal(0, entire?.taskStatus === 0 ? 'open' : 'add')"
       />
-      <TheButton title="全线急停" @click="setModal(2)" />
+      <TheButton
+        v-if="entire?.taskStatus !== 0"
+        :title="canContinue ? '继续' : '暂停'"
+        @click="
+          setModal(canContinue ? 0 : 1, canContinue ? 'continue' : 'pause')
+        "
+      />
+      <TheButton
+        class="absolute right-2vh"
+        title="全线急停"
+        @click="setModal(2)"
+      />
     </div>
 
     <!-- 下边按钮 -->
@@ -157,13 +172,13 @@ import Start from './module/startPage.vue';
 const { notification } = App.useApp();
 
 const { start, stop } = useCustomTimer();
-
+const entire = ref({});
 const modal = ref('');
 const open = ref<boolean>(false);
 function setOpen(value: boolean) {
   open.value = value;
 }
-const entire = ref({});
+const canContinue = ref<boolean>(false);
 const blankCheck = ref({});
 const mainPrint = ref({});
 const control = ref(null);
@@ -209,6 +224,18 @@ async function getDataPage() {
       mainPrint.value = data.respData.mainPrint;
       additionPrint.value = data.respData.additionPrint;
       finishedProduct.value = data.respData.finishedProduct;
+      // taskStatus	integer	设备生产任务的状态，0：空闲；1：执行中；2：暂停。
+      // machineStatus 0	ready，待机1	working，工作中2	warning，警告 3	error，故障
+      if (
+        data.respData.entire.taskStatus === 2
+        && (data.respData.entire.machineStatus === 0
+          || data.respData.entire.machineStatus === 1)
+      ) {
+        canContinue.value = true;
+      }
+      else {
+        canContinue.value = false;
+      }
       entire.value = data.respData.entire;
     }
     // if (statistics.respData) {
@@ -239,14 +266,22 @@ async function startGetDataPage() {
     await getDataPage();
   }, 5);
 }
-function setModal(value: number) {
+const isOpen = ref('');
+function setModal(value: number, isOpenIng?: string) {
   control.value = value;
+  const title = {
+    open: '确认开始进本？',
+    continue: '确认继续进本？',
+    add: '确认加本？',
+  };
   switch (value) {
     case 0:
-      modal.value = '确认开始进本？';
+      isOpen.value = isOpenIng;
+      modal.value = title[isOpenIng];
       break;
     case 1:
       modal.value = '确认暂停进本？';
+      isOpen.value = isOpenIng;
       break;
     case 2:
       modal.value = '确认全线急停？';
@@ -257,11 +292,15 @@ function setModal(value: number) {
   setOpen(true);
 }
 async function controlMachine(num: string) {
-  console.log('🚀 ~ controlMachine ~ num:', num);
   let tips = '';
+  const title = {
+    open: '开始进本',
+    continue: '继续进本',
+    add: '加本',
+  };
   switch (control.value) {
     case 0:
-      tips = '开始进本';
+      tips = title[isOpen];
       break;
     case 1:
       tips = '暂停进本';
@@ -276,7 +315,7 @@ async function controlMachine(num: string) {
     useAppStore().setSpinning(true);
     await homeModule.setControlMachine({
       control: control.value,
-      docNum: Number(num),
+      docNum: isOpen.value !== 'continue' ? Number(num) : null,
     });
     notification.success({
       message: `成功`,
