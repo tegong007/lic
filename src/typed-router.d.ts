@@ -27,6 +27,7 @@ declare module 'vue-router/auto-routes' {
     '/bigScreen/doc/': RouteRecordInfo<'/bigScreen/doc/', '/bigScreen/doc', Record<never, never>, Record<never, never>>,
     '/bigScreen/doc/doc-form': RouteRecordInfo<'/bigScreen/doc/doc-form', '/bigScreen/doc/doc-form', Record<never, never>, Record<never, never>>,
     '/bigScreen/doc/docInfo': RouteRecordInfo<'/bigScreen/doc/docInfo', '/bigScreen/doc/docInfo', Record<never, never>, Record<never, never>>,
+    '/bigScreen/error/': RouteRecordInfo<'/bigScreen/error/', '/bigScreen/error', Record<never, never>, Record<never, never>>,
     'MainTain': RouteRecordInfo<'MainTain', '/bigScreen/mainTain', Record<never, never>, Record<never, never>>,
     '/bigScreen/mainTain/consumables/': RouteRecordInfo<'/bigScreen/mainTain/consumables/', '/bigScreen/mainTain/consumables', Record<never, never>, Record<never, never>>,
     '/bigScreen/mainTain/moduleTest/': RouteRecordInfo<'/bigScreen/mainTain/moduleTest/', '/bigScreen/mainTain/moduleTest', Record<never, never>, Record<never, never>>,
@@ -76,11 +77,6 @@ declare module 'vue-router/auto-routes' {
     '/bigScreen/test': RouteRecordInfo<'/bigScreen/test', '/bigScreen/test', Record<never, never>, Record<never, never>>,
     '/bigScreen/workstationStatus/': RouteRecordInfo<'/bigScreen/workstationStatus/', '/bigScreen/workstationStatus', Record<never, never>, Record<never, never>>,
     '/bigScreen/workstationStatus/card': RouteRecordInfo<'/bigScreen/workstationStatus/card', '/bigScreen/workstationStatus/card', Record<never, never>, Record<never, never>>,
-    'Main': RouteRecordInfo<'Main', '/Module', Record<never, never>, Record<never, never>>,
-    'TestModal': RouteRecordInfo<'TestModal', '/Module/indexPage', Record<never, never>, Record<never, never>>,
-    '/Module/info': RouteRecordInfo<'/Module/info', '/Module/info', Record<never, never>, Record<never, never>>,
-    '/Module/ModuleForm': RouteRecordInfo<'/Module/ModuleForm', '/Module/ModuleForm', Record<never, never>, Record<never, never>>,
-    '/Module/transfer': RouteRecordInfo<'/Module/transfer', '/Module/transfer', Record<never, never>, Record<never, never>>,
     '/test': RouteRecordInfo<'/test', '/test', Record<never, never>, Record<never, never>>,
   }
 }

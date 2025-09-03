@@ -106,12 +106,12 @@
 </template>
 
 <script lang="ts" setup>
+import { DownOutlined } from '@ant-design/icons-vue';
+import { defineProps, reactive } from 'vue';
 import { TaskModule } from '@/apis/proApi';
 import { contextHolder, openNotify } from '@/components/base/useNotification';
 import TheModal from '@/components/modal/TheModal.vue';
 import { useAppStore } from '@/store/index';
-import { DownOutlined } from '@ant-design/icons-vue';
-import { defineProps, reactive } from 'vue';
 import TaskCard from './card.vue';
 import TeamForm from './task-form.vue';
 
@@ -153,7 +153,8 @@ function setSearchForm(formValue: object) {
   pageVO.currentPage = 1;
   getDataPage();
 }
-function rowAction(type: string, taskID?: string) {
+function rowAction(type: number, taskID?: string) {
+  console.log('🚀 ~ rowAction ~ type:', type);
   modal.value = title[type];
   checkRow.value = !taskID ? checkRow.value : [{ taskID }];
   nextTick(() => {
@@ -185,6 +186,7 @@ function setOpen(value: boolean) {
 
 async function operate() {
   try {
+    useAppStore().setSpinning(true);
     const oldCheckTaskID = checkRow.value.map(item => item.taskID);
     await TaskModule.getTaskOperate({
       taskID: oldCheckTaskID,
@@ -205,6 +207,7 @@ async function operate() {
   }
   finally {
     setOpen(false);
+    useAppStore().setSpinning(false);
   }
 }
 

@@ -2,6 +2,13 @@
   <div
     class="bg relative h-100vh flex flex-col items-center text-[18px] text-white"
   >
+    <!-- <CanvasComponent
+      :width="1000"
+      :height="150"
+      :top="770"
+      :left="0"
+      :rectangles="rectangles"
+    /> -->
     <bigScreenHeader />
     <div class="absolute top-8.7vh h20vh w100% flex gap-20 p-x-40">
       <Print class="relative h20vh flex-1" :data="mainPrint" />
@@ -68,37 +75,9 @@
       </span>
     </div>
 
-    <!-- <a-row
-      class="relative top-[4.3vh] h-33.7% w-full p-l-3em p-r-1.5em"
-      :gutter="[8, 0]"
-    >
-      <a-col flex="1">
-        <FinishedProductBg class="wh-full" :data="finishedProduct" />
-      </a-col>
-      <a-col flex="5">
-        <a-row justify="space-between" class="wh-full pl-16" :gutter="[16, 0]">
-          <a-col
-            v-for="(item, index) in [2, 1, 0]"
-            :key="index"
-            :span="8"
-            class="group"
-          >
-            <Start v-if="item === 0" class="wh-full" :data="blankCheck" />
-            <Print v-if="item === 1" class="wh-full" :data="mainPrint" />
-            <AddMore v-if="item === 2" class="wh-full" :data="additionPrint" />
-          </a-col>
-        </a-row>
-      </a-col>
-    </a-row> -->
-
-    <!-- 左边按钮 -->
     <div
       class="groupBtn absolute bottom-10vh z-22 h8em w-full flex items-center justify-center gap-20"
     >
-      <!-- <TheButton
-        :title="entire.hasTask ? '暂停进本' : '开始进本'"
-        @click="setModal(entire.hasTas ? 1 : 0)"
-      /> -->
       <TheButton
         :title="entire?.taskStatus === 0 ? '开始进本' : '加本'"
         @click="setModal(0, entire?.taskStatus === 0 ? 'open' : 'add')"
@@ -110,6 +89,13 @@
           setModal(canContinue ? 0 : 1, canContinue ? 'continue' : 'pause')
         "
       />
+      <!-- <button @click="addRectangle()">Add Rectangle</button>
+      <button @click="deleteRectangleById(1)">
+        Delete Rectangle with ID 1
+      </button>
+      <button @click="modifyRectangleById(1, 150, 150, 200, 100)">
+        Modify Rectangle with ID 1
+      </button> -->
       <TheButton
         class="absolute right-2vh"
         title="全线急停"
@@ -157,13 +143,13 @@
 </template>
 
 <script setup lang="ts">
+import { App } from 'ant-design-vue';
 import { homeModule } from '@/apis/proApi';
 import TheButton from '@/components/base/TheButton.vue';
 import bigScreenHeader from '@/components/bigScreen/header.vue';
 import TheModal from '@/components/modal/docNumModal.vue';
 import { useAppStore } from '@/store/index';
 import useCustomTimer from '@/utils/useCustomTimer';
-import { App } from 'ant-design-vue';
 import AddMore from './module/addMore.vue';
 import FinishedProductBg from './module/finishedProduct.vue';
 import Print from './module/printPage.vue';
@@ -185,14 +171,55 @@ const control = ref(null);
 const additionPrint = ref({});
 const finishedProduct = ref({});
 const isProduce = ref(false);
-// const statisticsData = ref({
-//   batchID: '',
-//   docNum: 0,
-//   hangUpNum: 0,
-//   obsoleteNum: 0,
-//   productNum: 0,
-//   waitingNum: 0,
-// });
+// import CanvasComponent from '@/components/base/canvas.vue';
+
+// const rectangles = ref([
+//   {
+//     id: 1,
+//     x: 720,
+//     y: 0,
+//     width: 200,
+//     height: 140,
+//     color: 'red',
+//     opacity: 0.3,
+//   },
+// ]);
+
+// const addRectangle = () => {
+//   const newId = rectangles.value.length + 1;
+//   rectangles.value.push({
+//     id: newId,
+//     x: Math.random() * 500,
+//     y: Math.random() * 500,
+//     width: 100,
+//     height: 50,
+//     color: 'green',
+//     opacity: 0.5,
+//   });
+// };
+
+// const deleteRectangleById = (id: number) => {
+//   rectangles.value = rectangles.value.filter((rect) => rect.id !== id);
+// };
+
+// const modifyRectangleById = (
+//   id: number,
+//   newX: number,
+//   newY: number,
+//   newWidth: number,
+//   newHeight: number,
+// ) => {
+//   const index = rectangles.value.findIndex((rect) => rect.id === id);
+//   if (index !== -1) {
+//     rectangles.value[index] = {
+//       ...rectangles.value[index],
+//       x: newX,
+//       y: newY,
+//       width: newWidth,
+//       height: newHeight,
+//     };
+//   }
+// };
 onActivated(async () => {
   useAppStore().setSpinning(true);
   const end = await getDataPage();

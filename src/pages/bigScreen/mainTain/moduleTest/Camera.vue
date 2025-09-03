@@ -20,27 +20,26 @@
           </a-button>
         </div>
       </div>
-      <vxe-image
-        ref="imageRef"
-        class="hidden"
-        mask-closable
-        :src="`data:image/png;base64,${path}`"
-      />
     </section>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { App } from 'ant-design-vue';
+import { api as ViewerApi } from 'v-viewer';
 import { getApiTransfer } from '@/apis/webApi';
 import { useAppStore } from '@/store/index';
-import { App } from 'ant-design-vue';
 
 const props = defineProps({
   data: Object,
 });
+function ViewImage(list: string[]) {
+  ViewerApi({
+    images: list,
+    options: { navbar: false, title: false, toolbar: false, rotatable: false },
+  });
+}
 const { notification } = App.useApp();
-const path = ref('');
-const imageRef = ref(null);
 async function transfer(camera) {
   try {
     useAppStore().setSpinning(true);
@@ -52,15 +51,12 @@ async function transfer(camera) {
     };
     const data = await getApiTransfer(params);
     if (data.rslts[0].code === 0) {
-      path.value = data.rslts[0].imgData;
-      nextTick(() => {
-        imageRef.value.$el.click();
-        notification.success({
-          message: `成功`,
-          description: '操作成功',
-          class: 'notification-custom-class',
-          placement: 'bottomRight',
-        });
+      ViewImage([`data:image/png;base64,${data.rslts[0].imgData}`]);
+      notification.success({
+        message: `成功`,
+        description: '操作成功',
+        class: 'notification-custom-class',
+        placement: 'bottomRight',
       });
     }
     else {

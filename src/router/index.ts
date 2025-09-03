@@ -40,18 +40,6 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/pages/bigScreen/doc/index.vue'),
   },
 
-  // 单本
-  {
-    path: '/testModal',
-    name: 'TestModal',
-    component: () => import('@/pages/Module/indexPage.vue'),
-  },
-  {
-    path: '/singleLine',
-    name: 'singleLine',
-    component: () => import('@/pages/Module/index.vue'),
-  },
-
   // {
   //   path: '/search', // 查询页面
   //   name: 'Search',
@@ -66,6 +54,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/test', // 工位状态
     name: 'Test',
     component: () => import('../pages/bigScreen/test.vue'),
+  },
+  {
+    path: '/error', // 错误详情
+    name: 'Error',
+    component: () => import('../pages/bigScreen/error/index.vue'),
   },
 ];
 

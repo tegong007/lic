@@ -61,27 +61,28 @@
         </div>
       </div>
     </section>
-    <vxe-image
-      ref="imageRef"
-      mask-closable
-      class="hidden"
-      :src="`data:image/png;base64,${path}`"
-    />
+
     <!-- <contextHolder /> -->
   </div>
 </template>
 
 <script lang="ts" setup>
+import { App } from 'ant-design-vue';
+import { api as ViewerApi } from 'v-viewer';
 import { getApiTransfer } from '@/apis/webApi';
 import { useAppStore } from '@/store/index';
-import { App } from 'ant-design-vue';
 
 const props = defineProps({
   data: Object,
 });
+function ViewImage(list: string[]) {
+  ViewerApi({
+    images: list,
+    options: { navbar: false, title: false, toolbar: false, rotatable: false },
+  });
+}
 const { notification } = App.useApp();
-const imageRef = ref(null);
-const path = ref('');
+
 async function previewPhoto(laserObj, arr) {
   const objs = [
     {
@@ -149,15 +150,12 @@ async function transfer(url, laserObj) {
     }
     else {
       if (url === '/lpdps/preview') {
-        path.value = data.rslts[0].imgData;
-        nextTick(() => {
-          imageRef.value.$el.click();
-          notification.success({
-            message: `成功`,
-            description: '操作成功',
-            placement: 'bottomRight',
-            class: 'notification-custom-class',
-          });
+        ViewImage([`data:image/png;base64,${data.rslts[0].imgData}`]);
+        notification.success({
+          message: `成功`,
+          description: '操作成功',
+          placement: 'bottomRight',
+          class: 'notification-custom-class',
         });
       }
     }

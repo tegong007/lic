@@ -32,10 +32,10 @@
                 <a-form-item label="人数" name="num">
                   <a-input
                     v-model:value="formState.num"
-                    placeholder="请输入数字（1-2000）"
+                    placeholder="请输入数字（1-10000）"
                     class="w-full"
                     type="text"
-                    @click="onInputFocus($event, 'num')"
+                    @touchstart="onInputFocus($event, 'num')"
                   />
                 </a-form-item>
               </a-col>
@@ -79,7 +79,7 @@
         keyboard-width="w30%"
         :transform="[0, -150]"
         layout="num"
-        :max-length="4"
+        :max-length="5"
         :input="formState[changeIpt]"
         @on-change="onChangeKeyboard"
         @closekeyboard="closekeyboard"
@@ -92,8 +92,8 @@
 
 <script lang="ts" setup>
 import type { UnwrapRef } from 'vue';
-import SimpleKeyboard from '@/components/base/simpleKeyboard.vue';
 import { defineExpose, defineProps } from 'vue';
+import SimpleKeyboard from '@/components/base/simpleKeyboard.vue';
 import { urgencyOptions } from '../../option.js';
 
 const props = defineProps({
@@ -134,8 +134,8 @@ async function validatePass(_rule, value) {
   else if (!/^[1-9]\d*$/.test(v)) {
     return Promise.reject('请输入正整数');
   }
-  if (Number(v) > 2000) {
-    return Promise.reject(`最大可添加人数2000`);
+  if (Number(v) > 10000) {
+    return Promise.reject(`最大可添加人数10000`);
   }
   else {
     return Promise.resolve();

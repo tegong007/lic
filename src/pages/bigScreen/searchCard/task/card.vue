@@ -71,7 +71,7 @@
               class="color-[#0c79c4] font-semibold"
               @click="
                 (event) => {
-                  props.rowfun('stop', item.taskID);
+                  props.rowfun(0, item.taskID);
                   event.stopPropagation();
                 }
               "
@@ -83,7 +83,7 @@
               class="color-[#0c79c4] font-semibold"
               @click="
                 (event) => {
-                  props.rowfun('reset', item.taskID);
+                  props.rowfun(1, item.taskID);
                   event.stopPropagation();
                 }
               "
@@ -98,8 +98,8 @@
 </template>
 
 <script setup lang="ts">
-import { TaskStatusOptions } from '@/pages/bigScreen/batch/option.ts';
 import { watch } from 'vue';
+import { TaskStatusOptions } from '@/pages/bigScreen/batch/option.ts';
 
 const props = defineProps({
   items: Array,
