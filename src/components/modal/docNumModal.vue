@@ -60,7 +60,10 @@
         />
       </a-flex>
     </template>
-    <div v-if="props.title === '确认开始进本？'" v-show="showKeyboard">
+    <div
+      v-if="props.title === '确认开始进本？' || props.title === '确认加本？'"
+      v-show="showKeyboard"
+    >
       <SimpleKeyboard
         ref="simpleKeyboard"
         keyboard-width="w30%"
@@ -77,9 +80,9 @@
 </template>
 
 <script lang="ts" setup>
+import { defineProps } from 'vue';
 import { homeModule } from '@/apis/proApi';
 import SimpleKeyboard from '@/components/base/simpleKeyboard.vue';
-import { defineProps } from 'vue';
 
 const props = defineProps({
   open: Boolean,
@@ -175,8 +178,9 @@ async function getDocNum() {
 // 验证通过，告诉爸爸
 function onSubmit() {
   if (
-    props.title === '确认全线急停？'
+    props.title === '确认暂停设备？'
     || props.title === '确认暂停进本？'
+    || props.title === '确认启动设备？'
     || props.title === '确认继续进本？'
   ) {
     closekeyboard();

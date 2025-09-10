@@ -2,6 +2,26 @@
   <div
     class="bg relative h-100vh flex flex-col items-center text-[18px] text-white"
   >
+    <div
+      class="font-semiboldw relative top-4.5vh w-full flex flex-col gap-10 text-1.4vh text-white color-[#CFDEF1]"
+    >
+      <div class="text-center">
+        当前生产任务
+      </div>
+      <div
+        class="flex items-center justify-between bg-slate-500/30 p-10 p-x-3vh"
+      >
+        <span>证本总数：<span class="text-1.6vh font-[youshe]">{{
+          entire.machineTotalDoc
+        }}</span></span>
+        <span>已进本：<span class="text-1.6vh font-[youshe]">{{
+          entire.machineHandledDoc
+        }}</span></span>
+        <span>待进本：<span class="text-1.6vh font-[youshe]">{{
+          entire.machineRemainDoc
+        }}</span></span>
+      </div>
+    </div>
     <!-- <CanvasComponent
       :width="1000"
       :height="150"
@@ -10,11 +30,11 @@
       :rectangles="rectangles"
     /> -->
     <bigScreenHeader />
-    <div class="absolute top-8.7vh h20vh w100% flex gap-20 p-x-40">
+    <div class="absolute top-11.7vh h20vh w100% flex gap-20 p-x-40">
       <Print class="relative h20vh flex-1" :data="mainPrint" />
       <Start class="relative h20vh flex-1" :data="blankCheck" />
     </div>
-    <div class="absolute bottom-22vh h20vh w100% flex gap-20 p-x-40">
+    <div class="absolute bottom-19vh h20vh w100% flex gap-20 p-x-40">
       <FinishedProductBg
         class="relative h20vh flex-1"
         :data="finishedProduct"
@@ -83,8 +103,8 @@
         @click="setModal(0, entire?.taskStatus === 0 ? 'open' : 'add')"
       />
       <TheButton
-        v-if="entire?.taskStatus !== 0"
-        :title="canContinue ? '继续' : '暂停'"
+        v-if="entire?.machineRemainDoc !== 0"
+        :title="canContinue ? '继续进本' : '暂停进本'"
         @click="
           setModal(canContinue ? 0 : 1, canContinue ? 'continue' : 'pause')
         "
@@ -98,8 +118,18 @@
       </button> -->
       <TheButton
         class="absolute right-2vh"
-        title="全线急停"
-        @click="setModal(2)"
+        :title="
+          entire.beltStatusDetail === 111 || entire.beltStatusDetail === 113
+            ? '启动设备'
+            : '暂停设备'
+        "
+        @click="
+          setModal(
+            entire.beltStatusDetail === 111 || entire.beltStatusDetail === 113
+              ? 3
+              : 2,
+          )
+        "
       />
     </div>
 
@@ -255,8 +285,7 @@ async function getDataPage() {
       // machineStatus 0	ready，待机1	working，工作中2	warning，警告 3	error，故障
       if (
         data.respData.entire.taskStatus === 2
-        && (data.respData.entire.machineStatus === 0
-          || data.respData.entire.machineStatus === 1)
+        && data.respData.entire.machineRemainDoc !== 0
       ) {
         canContinue.value = true;
       }
@@ -264,6 +293,14 @@ async function getDataPage() {
         canContinue.value = false;
       }
       entire.value = data.respData.entire;
+      //   entire.value = {
+      //     beltStatusDetail: 111,
+      //     machineHandledDoc: 50,
+      //     machineRemainDoc: 1,
+      //     machineStatus: 0,
+      //     machineTotalDoc: 100,
+      //     taskStatus: 2,
+      //   };
     }
     // if (statistics.respData) {
     //   statisticsData.value = { ...statistics.respData };
@@ -304,6 +341,7 @@ function setModal(value: number, isOpenIng?: string) {
   switch (value) {
     case 0:
       isOpen.value = isOpenIng;
+      console.log('🚀 ~ setModal ~  isOpen.value:', isOpen.value);
       modal.value = title[isOpenIng];
       break;
     case 1:
@@ -311,7 +349,10 @@ function setModal(value: number, isOpenIng?: string) {
       isOpen.value = isOpenIng;
       break;
     case 2:
-      modal.value = '确认全线急停？';
+      modal.value = '确认暂停设备？';
+      break;
+    case 3:
+      modal.value = '确认启动设备？';
       break;
     default:
       break;
@@ -327,13 +368,16 @@ async function controlMachine(num: string) {
   };
   switch (control.value) {
     case 0:
-      tips = title[isOpen];
+      tips = title[isOpen.value];
       break;
     case 1:
       tips = '暂停进本';
       break;
     case 2:
-      tips = '全线急停';
+      tips = '暂停设备';
+      break;
+    case 3:
+      tips = '启动设备';
       break;
     default:
       break;
@@ -344,6 +388,7 @@ async function controlMachine(num: string) {
       control: control.value,
       docNum: isOpen.value !== 'continue' ? Number(num) : null,
     });
+    console.log('🚀 ~ controlMachine ~ tips:', tips);
     notification.success({
       message: `成功`,
       description: `${tips}操作成功`,

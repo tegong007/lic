@@ -109,7 +109,7 @@
                 @click="props.changeTaskIdOrBatchId(3, row.taskID)"
               >查看证本列表</a>
               <a
-                v-if="row.status === 2"
+                v-if="row.status === 2 || row.status === 0"
                 class="color-[#89F7FF]"
                 @click="props.rowfun('stop', row.taskID)"
               >挂起</a>
@@ -133,7 +133,7 @@
             <div class="flex items-center justify-start gap-10">
               <a class="color-[#89F7FF]" @click="props.setDetai(row)">查看更多</a>
               <a
-                v-if="row.docStatus === 1"
+                v-if="row.docStatus === 1 || row.docStatus === 0"
                 class="color-[#89F7FF]"
                 @click="props.rowfun(0, row.docSN)"
               >挂起</a>

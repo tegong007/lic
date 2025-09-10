@@ -31,7 +31,7 @@
                     class="m-r-10 w-150px"
                     size="large"
                     :maxlength="6"
-                    @touchstart="
+                    @click="
                       onInputFocus($event, 'PostionData.uvMainPlatform0.x')
                     "
                   /><span class="text-gray">mm</span>
@@ -465,11 +465,11 @@
 </template>
 
 <script lang="ts" setup>
+import { App } from 'ant-design-vue';
 import { settingMoule } from '@/apis/proApi';
 import SimpleKeyboard from '@/components/base/simpleKeyboard.vue';
 import { contextHolder } from '@/components/base/useNotification';
 import { useAppStore } from '@/store/index';
-import { App } from 'ant-design-vue';
 import SuceessModal from './sort/setPwModal.vue';
 
 const props = defineProps({
