@@ -341,7 +341,6 @@ function setModal(value: number, isOpenIng?: string) {
   switch (value) {
     case 0:
       isOpen.value = isOpenIng;
-      console.log('🚀 ~ setModal ~  isOpen.value:', isOpen.value);
       modal.value = title[isOpenIng];
       break;
     case 1:

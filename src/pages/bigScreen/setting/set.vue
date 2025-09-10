@@ -31,7 +31,7 @@
                     class="m-r-10 w-150px"
                     size="large"
                     :maxlength="6"
-                    @click="
+                    @touchstart="
                       onInputFocus($event, 'PostionData.uvMainPlatform0.x')
                     "
                   /><span class="text-gray">mm</span>
