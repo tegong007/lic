@@ -2,6 +2,7 @@
   <div class="bg h-100vh flex flex-col items-center text-[18px] text-white">
     <bigScreenHeader title="查询" />
     <div
+      v-show="choose !== 0"
       class="absolute left-100 top-126 z-99 flex items-center justify-between text-16px"
     >
       <span>搜索类型：</span>
@@ -53,8 +54,8 @@
 </template>
 
 <script lang="ts" setup>
-import bigScreenHeader from '@/components/bigScreen/header.vue';
 import { useRoute } from 'vue-router';
+import bigScreenHeader from '@/components/bigScreen/header.vue';
 import PhysicalDoc from './physicalDoc/index.vue';
 import Record from './record/index.vue';
 import Task from './task/index.vue';

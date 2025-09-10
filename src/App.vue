@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { h, watchEffect } from 'vue';
 import { LoadingOutlined } from '@ant-design/icons-vue';
-import { useI18n } from 'vue-i18n';
 import zhCN from 'ant-design-vue/es/locale/zh_CN';
-import { useAppStore } from './store';
+import { h, watchEffect } from 'vue';
+import { useI18n } from 'vue-i18n';
 import SuceessModal from '@/pages/bigScreen/mainTain/version/checkPwModal.vue';
+import { useAppStore } from './store';
 // import enUS from "ant-design-vue/es/locale/en_US";
 const appStore = useAppStore();
 const { t } = useI18n();
@@ -16,7 +16,7 @@ const indicator = h(LoadingOutlined, {
   style: {
     fontSize: '200px',
   },
-  spin: true,
+  // spin: true,
 });
 const checkPwOpen = ref<boolean>(false);
 function setcheckPwOpen(value: boolean) {
@@ -52,9 +52,11 @@ onUnmounted(() => {
         :tip="t('modal.loading')"
       >
         <router-view v-slot="{ Component, route: curRoute }">
-          <KeepAlive>
-            <component :is="Component" :key="curRoute.fullPath" />
-          </KeepAlive>
+          <transition name="fade">
+            <KeepAlive>
+              <component :is="Component" :key="curRoute.fullPath" />
+            </KeepAlive>
+          </transition>
         </router-view>
         <SuceessModal
           :open="checkPwOpen"
@@ -69,7 +71,8 @@ onUnmounted(() => {
 
 <style scoped lang="less">
 ::v-deep(.ant-spin-spinning) {
-  position: absolute !important;
+  // position: absolute !important;
+  position: fixed !important;
   top: calc(50% - 300px) !important;
   font-size: 30px;
   display: flex;
@@ -86,6 +89,10 @@ onUnmounted(() => {
 ::v-deep(.ant-spin-blur::after) {
   background-color: rgba(0, 0, 0, 1);
 }
+::v-deep(.ant-spin-spinning) {
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
 ::v-deep .btn {
   border-radius: 6px;
   opacity: 1;
@@ -98,5 +105,17 @@ onUnmounted(() => {
 }
 ::v-deep .btn:hover {
   color: #89f7ff !important;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease-in-out; /* 使用更平滑的过渡函数 */
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0.1;
+}
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
 }
 </style>
