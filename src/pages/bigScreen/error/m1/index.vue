@@ -3,12 +3,23 @@
     <bigScreenHeader title="错误详情" />
     <main class="absolute top-100 h-20px h-full w-full flex flex-col p-x-60">
       <!-- <span>模组一结构图</span> -->
-      <div class="pb10">
+      <div class="flex flex-col gap-10 pb10">
         <span
-          class="from-pink-500 to-purple-500 bg-gradient-to-r bg-clip-text text-[40px] text-transparent font-bold"
+          class="from-blue-500 to-purple-500 bg-gradient-to-r bg-clip-text text-[1.3vh] text-transparent font-bold"
         >
           模组一结构图
         </span>
+        <img
+          class="h-20vh w-full"
+          src="@/assets/image/bigScreen/error/m1/m1.png"
+        >
+
+        <span
+          class="from-pink-500 to-purple-500 bg-gradient-to-r bg-clip-text text-[1.3vh] text-transparent font-bold"
+        >错误信息：如果要显示总体的错误信息就在这里显示可能有很多行，如果要显示总体的错误信息就在这里显示可能有很多行如果要显示总体的错误信息就在这里显示可能有很多行如果要显示总体的错误信息就在这里显示可能有很多行如果要显示总体的错误信息就在这里显示可能有很多行如果要显示总体的错误信息就在这里显示可能有很多行</span>
+        <div>
+          <M1TURN1JOB />
+        </div>
       </div>
       <!-- <vxe-image mask-closable :src="model1" :append-to-body="true" /> -->
     </main>
@@ -29,6 +40,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
 import bigScreenHeader from '@/components/bigScreen/header.vue';
+import M1TURN1JOB from './M1_TURN1_JOB.vue';
 
 const route = useRoute();
 onActivated(() => {

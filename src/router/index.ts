@@ -56,9 +56,14 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../pages/bigScreen/test.vue'),
   },
   {
-    path: '/error', // 错误详情
-    name: 'Error',
-    component: () => import('../pages/bigScreen/error/index.vue'),
+    path: '/error-m1', // 错误详情
+    name: 'Error-m1',
+    component: () => import('../pages/bigScreen/error/m1/index.vue'),
+  },
+  {
+    path: '/error-m2', // 错误详情
+    name: 'Error-m2',
+    component: () => import('../pages/bigScreen/error/m2.vue'),
   },
 ];
 

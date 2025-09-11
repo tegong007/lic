@@ -22,13 +22,13 @@
         }}</span></span>
       </div>
     </div>
-    <!-- <CanvasComponent
+    <CanvasComponent
       :width="1000"
       :height="150"
       :top="770"
       :left="0"
       :rectangles="rectangles"
-    /> -->
+    />
     <bigScreenHeader />
     <div class="absolute top-11.7vh h20vh w100% flex gap-20 p-x-40">
       <Print class="relative h20vh flex-1" :data="mainPrint" />
@@ -175,6 +175,7 @@
 <script setup lang="ts">
 import { App } from 'ant-design-vue';
 import { homeModule } from '@/apis/proApi';
+import CanvasComponent from '@/components/base/canvas.vue';
 import TheButton from '@/components/base/TheButton.vue';
 import bigScreenHeader from '@/components/bigScreen/header.vue';
 import TheModal from '@/components/modal/docNumModal.vue';
@@ -201,19 +202,18 @@ const control = ref(null);
 const additionPrint = ref({});
 const finishedProduct = ref({});
 const isProduce = ref(false);
-// import CanvasComponent from '@/components/base/canvas.vue';
 
-// const rectangles = ref([
-//   {
-//     id: 1,
-//     x: 720,
-//     y: 0,
-//     width: 200,
-//     height: 140,
-//     color: 'red',
-//     opacity: 0.3,
-//   },
-// ]);
+const rectangles = ref([
+  {
+    id: 'm1',
+    x: 720,
+    y: 0,
+    width: 200,
+    height: 140,
+    color: 'red',
+    opacity: 0.3,
+  },
+]);
 
 // const addRectangle = () => {
 //   const newId = rectangles.value.length + 1;
