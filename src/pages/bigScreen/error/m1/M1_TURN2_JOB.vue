@@ -1,8 +1,8 @@
 <template>
-  <div id="M1_TURN1_JOB" class="w-full table">
+  <div id="M1_TURN2_JOB" class="w-full table">
     <div class="table-b1">
       <div class="text-white">
-        翻页1工位
+        翻页2工位
       </div>
 
       <div

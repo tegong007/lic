@@ -150,6 +150,17 @@ async function createWindow() {
     return null;
   });
 
+  // win.webContents.debugger.attach('1.3');
+  // // 启用触摸模拟,并配置为移动设备模式
+  // win.webContents.debugger.sendCommand('Emulation.setTouchEmulationEnabled', {
+  //   enabled: true,
+  //   configuration: 'mobile',
+  // });
+  // // 启用“为鼠标事件生成触摸事件”的功能
+  // win.webContents.debugger.sendCommand('Emulation.setEmitTouchEventsForMouse', {
+  //   enabled: true,
+  // });
+
   win.on('close', (event) => {
     // 在这里编写处理用户退出的逻辑
     // console.log('🚀 ~ win.on ~ canExit.value:', canExit.value);

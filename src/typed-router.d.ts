@@ -29,6 +29,7 @@ declare module 'vue-router/auto-routes' {
     '/bigScreen/doc/docInfo': RouteRecordInfo<'/bigScreen/doc/docInfo', '/bigScreen/doc/docInfo', Record<never, never>, Record<never, never>>,
     '/bigScreen/error/m1/': RouteRecordInfo<'/bigScreen/error/m1/', '/bigScreen/error/m1', Record<never, never>, Record<never, never>>,
     '/bigScreen/error/m1/M1_TURN1_JOB': RouteRecordInfo<'/bigScreen/error/m1/M1_TURN1_JOB', '/bigScreen/error/m1/M1_TURN1_JOB', Record<never, never>, Record<never, never>>,
+    '/bigScreen/error/m1/M1_TURN2_JOB': RouteRecordInfo<'/bigScreen/error/m1/M1_TURN2_JOB', '/bigScreen/error/m1/M1_TURN2_JOB', Record<never, never>, Record<never, never>>,
     '/bigScreen/error/m2': RouteRecordInfo<'/bigScreen/error/m2', '/bigScreen/error/m2', Record<never, never>, Record<never, never>>,
     'MainTain': RouteRecordInfo<'MainTain', '/bigScreen/mainTain', Record<never, never>, Record<never, never>>,
     '/bigScreen/mainTain/consumables/': RouteRecordInfo<'/bigScreen/mainTain/consumables/', '/bigScreen/mainTain/consumables', Record<never, never>, Record<never, never>>,

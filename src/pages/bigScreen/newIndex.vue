@@ -25,7 +25,7 @@
     <CanvasComponent
       :width="1000"
       :height="150"
-      :top="770"
+      :top="710"
       :left="0"
       :rectangles="rectangles"
     />
@@ -175,9 +175,9 @@
 <script setup lang="ts">
 import { App } from 'ant-design-vue';
 import { homeModule } from '@/apis/proApi';
-import CanvasComponent from '@/components/base/canvas.vue';
 import TheButton from '@/components/base/TheButton.vue';
 import bigScreenHeader from '@/components/bigScreen/header.vue';
+import CanvasComponent from '@/components/canvas/home.vue';
 import TheModal from '@/components/modal/docNumModal.vue';
 import { useAppStore } from '@/store/index';
 import useCustomTimer from '@/utils/useCustomTimer';
