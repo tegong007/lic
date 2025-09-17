@@ -204,15 +204,15 @@ const finishedProduct = ref({});
 const isProduce = ref(false);
 
 const rectangles = ref([
-  {
-    id: 'm1',
-    x: 720,
-    y: 0,
-    width: 200,
-    height: 140,
-    color: 'red',
-    opacity: 0.3,
-  },
+  // {
+  //   id: 'm1',
+  //   x: 720,
+  //   y: 0,
+  //   width: 200,
+  //   height: 140,
+  //   color: 'red',
+  //   opacity: 0.3,
+  // },
 ]);
 
 // const addRectangle = () => {
