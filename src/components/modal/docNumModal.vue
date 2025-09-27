@@ -41,7 +41,7 @@
                 v-model:value="formState.num"
                 :placeholder="`（1-${oldData}）`"
                 :maxlength="4"
-                @touchstart="onInputFocus($event, 'num')"
+                @click="onInputFocus($event, 'num')"
               />
             </a-form-item>
           </a-form>
@@ -61,7 +61,10 @@
       </a-flex>
     </template>
     <div
-      v-if="props.title === '确认开始进本？' || props.title === '确认加本？'"
+      v-if="
+        props.open
+          && (props.title === '确认开始进本？' || props.title === '确认加本？')
+      "
       v-show="showKeyboard"
     >
       <SimpleKeyboard
