@@ -67,7 +67,7 @@
               查询证本列表
             </a-button>
             <a-button
-              v-if="item.status === 2"
+              v-if="item.status === 2 || item.status === 0"
               class="color-[#0c79c4] font-semibold"
               @click="
                 (event) => {
@@ -79,7 +79,7 @@
               挂起
             </a-button>
             <a-button
-              v-if="item.status === 3"
+              v-if="item.status === 3 || item.status === 0"
               class="color-[#0c79c4] font-semibold"
               @click="
                 (event) => {

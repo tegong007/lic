@@ -68,8 +68,19 @@ const settingMoule = {
   setCollectionSlot: (data: any) =>
     request.post(`${v1}/tss/set-collection-slot-enable`, data),
 };
+// 错误页面接口
+const ErrorModule = {
+  getModuleStatus: (data: any) =>
+    request.post(`${v1}/tss/doc-machine/module-status`, data),
+  handleError: (data: any) =>
+    request.post(`${v1}/tss/error-handle/send-cmd`, data),
+  handleDone: (data: any) => request.post(`${v1}/tss/error-handle/done`, data),
+  removeDoc: (data: any) =>
+    request.post(`${v1}/tss/error-handle/remove-doc`, data),
+};
 export {
   documentModule,
+  ErrorModule,
   homeModule,
   mainTainModule,
   physicalModule,

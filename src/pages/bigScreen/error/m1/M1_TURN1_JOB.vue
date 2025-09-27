@@ -41,8 +41,8 @@
           >
         </a-badge-ribbon>
       </div>
-      <div class="color-red">
-        当前错误信息：错误信息错误信息错误信息错误信息错误信息错误信息错误，信息错误信息错误信息错误信息错误信息错误信息错误信息，错误信息。
+      <div v-if="props.comData.msg" class="color-red">
+        当前错误信息：{{ props.comData.msg }}
       </div>
       <div class="actions flex flex-col">
         <a-row>
@@ -55,18 +55,18 @@
         </a-row>
         <a-row>
           <a-col :span="16" class="flex gap-30">
-            <a-button class="btn" type="primary">
+            <a-button class="btn" type="primary" @click="BtnClick('初始化')">
               初始化
             </a-button>
-            <a-button class="btn" type="primary">
+            <a-button class="btn" type="primary" @click="BtnClick('快捷抓本')">
               快捷抓本
             </a-button>
           </a-col>
           <a-col :span="8" class="flex gap-30">
-            <a-button class="btn" type="primary">
+            <a-button class="btn" type="primary" @click="BtnClick('抓本-松本')">
               松本
             </a-button>
-            <a-button class="btn" type="primary">
+            <a-button class="btn" type="primary" @click="BtnClick('抓本-夹本')">
               夹本
             </a-button>
           </a-col>
@@ -81,24 +81,24 @@
         </a-row>
         <a-row>
           <a-col :span="16" class="flex gap-30">
-            <a-button class="btn" type="primary">
+            <a-button class="btn" type="primary" @click="BtnClick('底部-打开')">
               打开
             </a-button>
-            <a-button class="btn" type="primary">
+            <a-button class="btn" type="primary" @click="BtnClick('底部-关闭')">
               关闭
             </a-button>
-            <a-button class="btn" type="primary">
+            <a-button class="btn" type="primary" @click="BtnClick('底部-上升')">
               上升
             </a-button>
-            <a-button class="btn" type="primary">
+            <a-button class="btn" type="primary" @click="BtnClick('底部-下降')">
               下降
             </a-button>
           </a-col>
           <a-col :span="8" class="flex gap-30">
-            <a-button class="btn" type="primary">
+            <a-button class="btn" type="primary" @click="BtnClick('下压-松本')">
               松本
             </a-button>
-            <a-button class="btn" type="primary">
+            <a-button class="btn" type="primary" @click="BtnClick('下压-夹本')">
               夹本
             </a-button>
           </a-col>
@@ -113,18 +113,22 @@
         </a-row>
         <a-row>
           <a-col :span="16" class="flex gap-30">
-            <a-button class="btn" type="primary">
+            <a-button class="btn" type="primary" @click="BtnClick('顶部-打开')">
               打开
             </a-button>
-            <a-button class="btn" type="primary">
+            <a-button class="btn" type="primary" @click="BtnClick('顶部-关闭')">
               关闭
             </a-button>
-            <a-button class="btn" type="primary">
+            <a-button class="btn" type="primary" @click="BtnClick('顶部-上升')">
               上升
             </a-button>
           </a-col>
           <a-col :span="8" class="flex gap-30">
-            <a-button class="btn" type="primary">
+            <a-button
+              class="btn"
+              type="primary"
+              @click="BtnClick('翻页杆-回到初始位')"
+            >
               回到初始位
             </a-button>
           </a-col>
@@ -136,10 +140,18 @@
         </a-row>
         <a-row>
           <a-col :span="16" class="flex gap-30">
-            <a-button class="btn" type="primary">
+            <a-button
+              class="btn"
+              type="primary"
+              @click="BtnClick('底部-本已取走')"
+            >
               本已取走
             </a-button>
-            <a-button class="btn" type="primary">
+            <a-button
+              class="btn"
+              type="primary"
+              @click="BtnClick('底部-错误处理完成')"
+            >
               错误处理完成
             </a-button>
           </a-col>
@@ -150,11 +162,137 @@
 </template>
 
 <script setup lang="ts">
+import { App } from 'ant-design-vue';
+import { ErrorModule } from '@/apis/proApi';
+import { useAppStore } from '@/store/index';
+
 const props = defineProps({
   name: String,
   showList: Array,
   showImage: Function,
+  comData: Object,
 });
+const { notification } = App.useApp();
+function BtnClick(name: string) {
+  switch (name) {
+    case '初始化':
+      errorHandle('INIT', 1);
+      break;
+    case '快捷抓本':
+      errorHandle('QUICK_RELEASE', 1);
+      break;
+    case '抓本-松本':
+      errorHandle('FASTEN_BOOK_MOTOR', 1);
+      break;
+    case '抓本-夹本':
+      errorHandle('FASTEN_BOOK_MOTOR', 2);
+      break;
+    case '底部-打开':
+      errorHandle('BOTTOM_VACCUM_PAD', 2);
+      break;
+    case '底部-关闭':
+      errorHandle('BOTTOM_VACCUM_PAD', 1);
+      break;
+    case '底部-上升':
+      errorHandle('AIR_PUMP_FOR_BOTTOM_VACUUM_PAD', 2);
+      break;
+    case '底部-下降':
+      errorHandle('AIR_PUMP_FOR_BOTTOM_VACUUM_PAD', 1);
+      break;
+    case '下压-松本':
+      errorHandle('CLAMP_DOWN_MOTOR', 1);
+      break;
+    case '下压-夹本':
+      errorHandle('CLAMP_DOWN_MOTOR', 2);
+      break;
+    case '顶部-打开':
+      errorHandle('UP_VACCUM_PAD', 2);
+      break;
+    case '顶部-关闭':
+      errorHandle('UP_VACCUM_PAD', 1);
+      break;
+    case '顶部-上升':
+      errorHandle('MOTOR_FOR_UP_VACUUM_PAD', 1);
+      break;
+    case '翻页杆-回到初始位':
+      errorHandle('TURN_PAGE_MOTOR', 1);
+      break;
+    case '本已取走':
+      RemoveDoc();
+      break;
+    case '错误处理完成':
+      HandleDone();
+      break;
+    default:
+      break;
+  }
+}
+async function errorHandle(motion: string, motionPara: number) {
+  try {
+    useAppStore().setSpinning(true);
+    const pararms = {
+      jobUid: props.name,
+      motion,
+      motionPara,
+    };
+    console.log('🚀 ~ errorHandle ~ pararms:', pararms);
+    await ErrorModule.handleError(pararms);
+  }
+  catch (error) {
+    notification.error({
+      message: `错误`,
+      description: error,
+      placement: 'bottomRight',
+      class: 'notification-custom-class',
+    });
+  }
+  finally {
+    useAppStore().setSpinning(false);
+  }
+}
+async function HandleDone() {
+  try {
+    useAppStore().setSpinning(true);
+    const pararms = {
+      jobUid: props.name,
+    };
+    await ErrorModule.handleDone(pararms);
+  }
+  catch (error) {
+    console.log('🚀 ~ errorHandle ~ error:', error);
+    notification.error({
+      message: `错误`,
+      description: error,
+      placement: 'bottomRight',
+      class: 'notification-custom-class',
+    });
+  }
+  finally {
+    useAppStore().setSpinning(false);
+  }
+}
+async function RemoveDoc() {
+  try {
+    useAppStore().setSpinning(true);
+    const pararms = {
+      jobUid: props.name,
+      nos: [1],
+    };
+    await ErrorModule.removeDoc(pararms);
+  }
+  catch (error) {
+    console.log('🚀 ~ errorHandle ~ error:', error);
+    notification.error({
+      message: `错误`,
+      description: error,
+      placement: 'bottomRight',
+      class: 'notification-custom-class',
+    });
+  }
+  finally {
+    useAppStore().setSpinning(false);
+  }
+}
 </script>
 
 <style lang="less" scoped>

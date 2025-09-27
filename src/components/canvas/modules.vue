@@ -77,8 +77,8 @@ function drawRectangles() {
       ctx.value.fillStyle = rect.color || 'red'; // 设置填充颜色
       ctx.value.fillRect(rect.x, rect.y, rect.width, rect.height); // 绘制长方形
       ctx.value.globalAlpha = 1; // 恢复默认透明度
-      ctx.value.strokeStyle = rect.borderColor || 'red'; // 设置边框颜色
-      ctx.value.lineWidth = rect.borderWidth || 2; // 设置边框宽度
+      ctx.value.strokeStyle = rect.color || 'red'; // 设置边框颜色
+      ctx.value.lineWidth = 0; // 设置边框宽度
       ctx.value.strokeRect(rect.x, rect.y, rect.width, rect.height);
     });
   }
@@ -103,6 +103,7 @@ function handleCanvasClick(event: MouseEvent) {
         && y >= rectY
         && y <= rectY + rectHeight
       ) {
+        console.log('🚀 ~ handleCanvasClick ~ id:', id);
         props.showImage(id, 'show');
         nextTick(() => {
           const targetElement = document.getElementById(id);

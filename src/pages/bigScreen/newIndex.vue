@@ -33,6 +33,32 @@
     <div class="absolute top-11.7vh h20vh w100% flex gap-20 p-x-40">
       <Print class="relative h20vh flex-1" :data="mainPrint" />
       <Start class="relative h20vh flex-1" :data="blankCheck" />
+      <div
+        class="absolute left-22.5vh top-0 h-3vh w-5vh flex items-center justify-center opacity-0 hover:opacity-100"
+        @click="
+          $goto('WorkstationStatus', {
+            light: 2,
+          })
+        "
+      >
+        <span
+          class="absolute cursor-default rounded-[1vh] bg-[#0000007a] p-x-10 p-y-3 text-1vh line-height-[40px] font-[youshe]"
+        >查看详情
+        </span>
+      </div>
+      <div
+        class="absolute right-2.5vh top-0 h-3vh w-5vh flex items-center justify-center opacity-0 hover:opacity-100"
+        @click="
+          $goto('WorkstationStatus', {
+            light: 1,
+          })
+        "
+      >
+        <span
+          class="absolute cursor-default rounded-[1vh] bg-[#0000007a] p-x-10 p-y-3 text-1vh line-height-[40px] font-[youshe]"
+        >查看详情
+        </span>
+      </div>
     </div>
     <div class="absolute bottom-19vh h20vh w100% flex gap-20 p-x-40">
       <FinishedProductBg
@@ -40,59 +66,32 @@
         :data="finishedProduct"
       />
       <AddMore class="relative h20vh flex-1" :data="additionPrint" />
-    </div>
-
-    <div
-      class="absolute left-6vh top-45vh h-3vh w-6vh flex items-center justify-center opacity-0 hover:opacity-100"
-      @click="
-        $goto('WorkstationStatus', {
-          light: 4,
-        })
-      "
-    >
-      <span
-        class="absolute cursor-default rounded-[1vh] bg-[#0000007a] p-x-10 p-y-3 text-1vh line-height-[40px] line-height-[40px] font-[youshe]"
-      >查看详情
-      </span>
-    </div>
-    <div
-      class="absolute left-13vh top-45vh h-3vh w-15vh flex items-center justify-center opacity-0 hover:opacity-100"
-      @click="
-        $goto('WorkstationStatus', {
-          light: 3,
-        })
-      "
-    >
-      <span
-        class="absolute cursor-default rounded-[1vh] bg-[#0000007a] p-x-10 p-y-3 text-1vh line-height-[40px] font-[youshe]"
-      >查看详情
-      </span>
-    </div>
-    <div
-      class="absolute left-28vh top-45vh h-3vh w-15vh flex items-center justify-center opacity-0 hover:opacity-100"
-      @click="
-        $goto('WorkstationStatus', {
-          light: 2,
-        })
-      "
-    >
-      <span
-        class="absolute cursor-default rounded-[1vh] bg-[#0000007a] p-x-10 p-y-3 text-1vh line-height-[40px] font-[youshe]"
-      >查看详情
-      </span>
-    </div>
-    <div
-      class="absolute right-9vh top-45vh h-3vh w-6vh flex items-center justify-center opacity-0 hover:opacity-100"
-      @click="
-        $goto('WorkstationStatus', {
-          light: 1,
-        })
-      "
-    >
-      <span
-        class="absolute cursor-default rounded-[1vh] bg-[#0000007a] p-x-10 p-y-3 text-1vh line-height-[40px] font-[youshe]"
-      >查看详情
-      </span>
+      <div
+        class="absolute left-22.5vh top-0 h-3vh w-6vh flex items-center justify-center opacity-0 hover:opacity-100"
+        @click="
+          $goto('WorkstationStatus', {
+            light: 4,
+          })
+        "
+      >
+        <span
+          class="absolute cursor-default rounded-[1vh] bg-[#0000007a] p-x-10 p-y-3 text-1vh line-height-[40px] line-height-[40px] font-[youshe]"
+        >查看详情
+        </span>
+      </div>
+      <div
+        class="absolute right-2.5vh top-0 h-3vh w-6vh flex items-center justify-center opacity-0 hover:opacity-100"
+        @click="
+          $goto('WorkstationStatus', {
+            light: 3,
+          })
+        "
+      >
+        <span
+          class="absolute cursor-default rounded-[1vh] bg-[#0000007a] p-x-10 p-y-3 text-1vh line-height-[40px] font-[youshe]"
+        >查看详情
+        </span>
+      </div>
     </div>
 
     <div
@@ -204,15 +203,15 @@ const finishedProduct = ref({});
 const isProduce = ref(false);
 
 const rectangles = ref([
-  // {
-  //   id: 'm1',
-  //   x: 720,
-  //   y: 0,
-  //   width: 200,
-  //   height: 140,
-  //   color: 'red',
-  //   opacity: 0.3,
-  // },
+  {
+    id: 'm1',
+    x: 720,
+    y: 0,
+    width: 200,
+    height: 140,
+    color: 'rgba(255, 255, 255, 0)',
+    opacity: 0.3,
+  },
 ]);
 
 // const addRectangle = () => {
@@ -273,9 +272,6 @@ onDeactivated(() => {
 async function getDataPage() {
   try {
     const data = await homeModule.getHomeList();
-    // const statistics = await batchModule.getBatchStatistics({
-    //   batchID: 'current',
-    // });
     if (data.respData) {
       blankCheck.value = data.respData.blankCheck;
       mainPrint.value = data.respData.mainPrint;
@@ -293,19 +289,27 @@ async function getDataPage() {
         canContinue.value = false;
       }
       entire.value = data.respData.entire;
-      //   entire.value = {
-      //     beltStatusDetail: 111,
-      //     machineHandledDoc: 50,
-      //     machineRemainDoc: 1,
-      //     machineStatus: 0,
-      //     machineTotalDoc: 100,
-      //     taskStatus: 2,
-      //   };
+      // 错误页面显示处理，目前只有m1,todo--m2m3m4
+      if (data.respData.entire.modules.length > 0) {
+        // 如果modules里面的uid等于rectangles.id,变成红色
+        rectangles.value.forEach((item) => {
+          data.respData.entire.modules.forEach((item2) => {
+            if (item.id === item2.uid) {
+              item.color = 'red';
+            }
+            else {
+              item.color = 'rgba(255, 255, 255, 0)';
+            }
+          });
+        });
+      }
+      else {
+        // 把rectangles里面所有的color都是透明色
+        rectangles.value.forEach((item) => {
+          item.color = 'rgba(255, 255, 255, 0)';
+        });
+      }
     }
-    // if (statistics.respData) {
-    //   statisticsData.value = { ...statistics.respData };
-    //   machineStatus.value = statistics.respData.status;
-    // }
     if (data.respData) {
       isProduce.value
         // statistics.respData.status !== 0 &&

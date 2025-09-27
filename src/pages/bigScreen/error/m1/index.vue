@@ -20,7 +20,7 @@
             :top="45"
             :left="0"
             :rectangles="rectangles"
-            :ShowImage="ShowImage"
+            :show-image="ShowImage"
           />
         </div>
         <img
@@ -29,8 +29,9 @@
         >
 
         <span
+          v-if="msg"
           class="from-pink-500 to-purple-500 bg-gradient-to-r bg-clip-text text-[1.1vh] text-transparent font-bold"
-        >错误信息：如果要显示总体的错误信息就在这里显示可能有很多行，如果要显示总体的错误信息就在这里显示可能有很多行如果要显示总体的错误信息就在这里显示可能有很多行如果要显示总体的错误信息就在这里显示可能有很多行如果要显示总体的错误信息就在这里显示可能有很多行如果要显示总体的错误信息就在这里显示可能有很多行</span>
+        >错误信息：{{ msg }}</span>
         <div class="scoll-bar mt-10 flex flex-col gap-20">
           <component
             :is="components[rect.id]"
@@ -39,6 +40,7 @@
             :name="rect.id"
             :show-image="ShowImage"
             :show-list="showList"
+            :com-data="comData"
           />
         </div>
       </div>
@@ -68,15 +70,19 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
+import { ErrorModule } from '@/apis/proApi';
 import bigScreenHeader from '@/components/bigScreen/header.vue';
 import CanvasComponent from '@/components/canvas/modules.vue';
+import { useAppStore } from '@/store/index';
 
 const components = {
   M1_TURN1_JOB: defineAsyncComponent(() => import('./M1_TURN1_JOB.vue')),
-  M1_TURN2_JOB: defineAsyncComponent(() => import('./M1_TURN2_JOB.vue')),
+  // M1_TURN2_JOB: defineAsyncComponent(() => import('./M1_TURN2_JOB.vue')),
 };
 const route = useRoute();
+const msg = ref('');
 const showList = ref([]);
+const comData = ref({});
 const rectangles = ref([
   {
     id: 'M1_TURN1_JOB',
@@ -84,16 +90,18 @@ const rectangles = ref([
     y: 170,
     width: 80,
     height: 180,
+    color: 'rgba(255, 255, 255, 0)',
     opacity: 0.4,
+    borderWidth: 0,
   },
-  {
-    id: 'M1_TURN2_JOB',
-    x: 440,
-    y: 170,
-    width: 80,
-    height: 180,
-    opacity: 0.4,
-  },
+  // {
+  //   id: 'M1_TURN2_JOB',
+  //   x: 440,
+  //   y: 170,
+  //   width: 80,
+  //   height: 180,
+  //   opacity: 0.4,
+  // },
 ]);
 
 // 查看原图
@@ -105,9 +113,40 @@ async function ShowImage(Id: any, key: string) {
 }
 
 onActivated(() => {
-  nextTick(() => {
+  nextTick(async () => {
     const query = route.query;
-    console.log('🚀 ~ query:', query);
+    try {
+      useAppStore().setSpinning(true);
+      const data = await ErrorModule.getModuleStatus({ moduleUid: query.id });
+
+      if (data.respData && data.respData.length > 0) {
+        rectangles.value.forEach((item) => {
+          data.respData.forEach((item2) => {
+            if (item.id === item2.uid) {
+              item.color = 'red';
+            }
+            else {
+              item.color = 'rgba(255, 255, 255, 0)';
+            }
+          });
+        });
+        comData.value.uid = data.respData.uid;
+        comData.value.msg = data.respData.msg;
+      }
+      else {
+        // 把rectangles里面所有的color都是透明色
+        rectangles.value.forEach((item) => {
+          item.color = 'rgba(255, 255, 255, 0)';
+        });
+      }
+    }
+    catch (error) {
+      msg.value = error;
+      comData.value = {};
+    }
+    finally {
+      useAppStore().setSpinning(false);
+    }
   });
 });
 </script>
