@@ -91,6 +91,7 @@ function handleCanvasClick(event: MouseEvent) {
       id,
       x: rectX,
       y: rectY,
+      msg,
       width: rectWidth,
       height: rectHeight,
     } of props.rectangles) {
@@ -103,7 +104,7 @@ function handleCanvasClick(event: MouseEvent) {
         console.log(
           `Clicked inside the rectangle with ID ${id} at (${rectX}, ${rectY}) with width ${rectWidth} and height ${rectHeight}`,
         );
-        router.push({ name: `Error-${id}`, query: { id } });
+        router.push({ name: `Error-${id}`, query: { id, msg } });
         // router.push({ name: 'Error', query: { id } });
         // 在这里可以添加更多的点击事件逻辑
         return;

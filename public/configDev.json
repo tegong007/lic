@@ -3,7 +3,7 @@
   "devTools": true,
   "width": 1080,
   "height": 1920,
-  "serverAddress": "http://192.168.88.12:6102",
+  "serverAddress": "http://192.168.88.12:6132",
   "timeOut": 10000,
   "lang": "cn",
   "docCount": 15

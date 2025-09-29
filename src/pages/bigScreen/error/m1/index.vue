@@ -38,9 +38,9 @@
             v-for="rect in rectangles"
             :key="rect.id"
             :name="rect.id"
+            :msg="rect.msg"
             :show-image="ShowImage"
             :show-list="showList"
-            :com-data="comData"
           />
         </div>
       </div>
@@ -82,7 +82,6 @@ const components = {
 const route = useRoute();
 const msg = ref('');
 const showList = ref([]);
-const comData = ref({});
 const rectangles = ref([
   {
     id: 'M1_TURN1_JOB',
@@ -93,6 +92,7 @@ const rectangles = ref([
     color: 'rgba(255, 255, 255, 0)',
     opacity: 0.4,
     borderWidth: 0,
+    msg: '',
   },
   // {
   //   id: 'M1_TURN2_JOB',
@@ -115,23 +115,23 @@ async function ShowImage(Id: any, key: string) {
 onActivated(() => {
   nextTick(async () => {
     const query = route.query;
+    msg.value = query.msg;
     try {
       useAppStore().setSpinning(true);
       const data = await ErrorModule.getModuleStatus({ moduleUid: query.id });
-
       if (data.respData && data.respData.length > 0) {
         rectangles.value.forEach((item) => {
           data.respData.forEach((item2) => {
-            if (item.id === item2.uid) {
+            if (item.id === item2.uid && item2.code !== 0) {
               item.color = 'red';
+              item.msg = item2.msg;
             }
-            else {
+            else if (item.id === item2.uid && item2.code === 0) {
               item.color = 'rgba(255, 255, 255, 0)';
+              item.msg = '';
             }
           });
         });
-        comData.value.uid = data.respData.uid;
-        comData.value.msg = data.respData.msg;
       }
       else {
         // 把rectangles里面所有的color都是透明色
@@ -141,8 +141,7 @@ onActivated(() => {
       }
     }
     catch (error) {
-      msg.value = error;
-      comData.value = {};
+      console.log('🚀 ~ error:', error);
     }
     finally {
       useAppStore().setSpinning(false);

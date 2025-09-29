@@ -205,13 +205,23 @@ const isProduce = ref(false);
 const rectangles = ref([
   {
     id: 'm1',
-    x: 720,
+    x: 710,
     y: 0,
-    width: 200,
+    width: 230,
     height: 140,
     color: 'rgba(255, 255, 255, 0)',
     opacity: 0.3,
+    msg: '',
   },
+  // {
+  //   id: 'm2',
+  //   x: 300,
+  //   y: 0,
+  //   width: 200,
+  //   height: 140,
+  //   color: 'rgba(255, 255, 255, 0)',
+  //   opacity: 0.3,
+  // },
 ]);
 
 // const addRectangle = () => {
@@ -294,11 +304,13 @@ async function getDataPage() {
         // 如果modules里面的uid等于rectangles.id,变成红色
         rectangles.value.forEach((item) => {
           data.respData.entire.modules.forEach((item2) => {
-            if (item.id === item2.uid) {
+            if (item.id === item2.uid && item2.code !== 0) {
               item.color = 'red';
+              item.msg = item2.msg;
             }
-            else {
+            else if (item.id === item2.uid && item2.code === 0) {
               item.color = 'rgba(255, 255, 255, 0)';
+              item.msg = '';
             }
           });
         });

@@ -41,8 +41,8 @@
           >
         </a-badge-ribbon>
       </div>
-      <div v-if="props.comData.msg" class="color-red">
-        当前错误信息：{{ props.comData.msg }}
+      <div v-if="props.msg" class="color-red">
+        当前错误信息：{{ props.msg }}
       </div>
       <div class="actions flex flex-col">
         <a-row>
@@ -140,17 +140,13 @@
         </a-row>
         <a-row>
           <a-col :span="16" class="flex gap-30">
-            <a-button
-              class="btn"
-              type="primary"
-              @click="BtnClick('底部-本已取走')"
-            >
+            <a-button class="btn" type="primary" @click="BtnClick('本已取走')">
               本已取走
             </a-button>
             <a-button
               class="btn"
               type="primary"
-              @click="BtnClick('底部-错误处理完成')"
+              @click="BtnClick('错误处理完成')"
             >
               错误处理完成
             </a-button>
@@ -168,9 +164,9 @@ import { useAppStore } from '@/store/index';
 
 const props = defineProps({
   name: String,
+  msg: String,
   showList: Array,
   showImage: Function,
-  comData: Object,
 });
 const { notification } = App.useApp();
 function BtnClick(name: string) {
@@ -235,7 +231,6 @@ async function errorHandle(motion: string, motionPara: number) {
       motion,
       motionPara,
     };
-    console.log('🚀 ~ errorHandle ~ pararms:', pararms);
     await ErrorModule.handleError(pararms);
   }
   catch (error) {
@@ -259,7 +254,6 @@ async function HandleDone() {
     await ErrorModule.handleDone(pararms);
   }
   catch (error) {
-    console.log('🚀 ~ errorHandle ~ error:', error);
     notification.error({
       message: `错误`,
       description: error,
@@ -281,7 +275,6 @@ async function RemoveDoc() {
     await ErrorModule.removeDoc(pararms);
   }
   catch (error) {
-    console.log('🚀 ~ errorHandle ~ error:', error);
     notification.error({
       message: `错误`,
       description: error,
