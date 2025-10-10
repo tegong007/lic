@@ -21,7 +21,7 @@
                 挂起
               </a-menu-item>
               <a-menu-item :key="1">
-                重新生产
+                恢复生产
               </a-menu-item>
               <a-menu-item :key="2">
                 设为成功
@@ -43,7 +43,7 @@
             @click="rowAction(1)"
           >
             <RollbackOutlined />
-            重新生产
+            恢复生产
           </a-button>
           <a-button
             type="primary"
@@ -129,14 +129,14 @@
 
 <script lang="ts" setup>
 import type { MenuProps } from 'ant-design-vue';
+import { DownOutlined } from '@ant-design/icons-vue';
 import { documentModule } from '@/apis/proApi';
-import { contextHolder, openNotify } from '@/components/base/useNotification';
 
+import { contextHolder, openNotify } from '@/components/base/useNotification';
 import MyTable from '@/components/base/vxeTable.vue';
 import TheModal from '@/components/modal/TheModal.vue';
 import { findLabelByValue } from '@/pages/bigScreen/batch/option.ts';
 import { useAppStore } from '@/store/index';
-import { DownOutlined } from '@ant-design/icons-vue';
 import DetailModal from './detailModal.vue';
 import docForm from './doc-form.vue';
 
@@ -165,7 +165,7 @@ const title: {
   [key: string]: string;
 } = {
   0: '挂起',
-  1: '重新生产',
+  1: '恢复生产',
   2: '设为成功',
   3: '设为失败',
 };

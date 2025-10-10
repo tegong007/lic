@@ -90,7 +90,7 @@
                 }
               "
             >
-              重新生产
+              恢复生产
             </a-button>
             <a-button
               v-if="item.docStatus === 0 || item.docStatus === 4"
@@ -124,8 +124,8 @@
 </template>
 
 <script setup lang="ts">
-import { findLabelByValue } from '@/pages/bigScreen/batch/option.ts';
 import { watch } from 'vue';
+import { findLabelByValue } from '@/pages/bigScreen/batch/option.ts';
 
 const props = defineProps({
   items: Array,

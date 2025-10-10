@@ -34,7 +34,7 @@
       <Print class="relative h20vh flex-1" :data="mainPrint" />
       <Start class="relative h20vh flex-1" :data="blankCheck" />
       <div
-        class="absolute left-22.5vh top-0 h-3vh w-5vh flex items-center justify-center opacity-0 hover:opacity-100"
+        class="absolute left-22.5vh top-0 h-3vh w-5vh flex items-center justify-center"
         @click="
           $goto('WorkstationStatus', {
             light: 2,
@@ -43,11 +43,11 @@
       >
         <span
           class="absolute cursor-default rounded-[1vh] bg-[#0000007a] p-x-10 p-y-3 text-1vh line-height-[40px] font-[youshe]"
-        >查看详情
+        >工位查看
         </span>
       </div>
       <div
-        class="absolute right-2.5vh top-0 h-3vh w-5vh flex items-center justify-center opacity-0 hover:opacity-100"
+        class="absolute right-2.5vh top-0 h-3vh w-5vh flex items-center justify-center"
         @click="
           $goto('WorkstationStatus', {
             light: 1,
@@ -56,7 +56,7 @@
       >
         <span
           class="absolute cursor-default rounded-[1vh] bg-[#0000007a] p-x-10 p-y-3 text-1vh line-height-[40px] font-[youshe]"
-        >查看详情
+        >工位查看
         </span>
       </div>
     </div>
@@ -67,7 +67,7 @@
       />
       <AddMore class="relative h20vh flex-1" :data="additionPrint" />
       <div
-        class="absolute left-22.5vh top-0 h-3vh w-6vh flex items-center justify-center opacity-0 hover:opacity-100"
+        class="absolute left-22.5vh top-0 h-3vh w-6vh flex items-center justify-center"
         @click="
           $goto('WorkstationStatus', {
             light: 4,
@@ -76,11 +76,11 @@
       >
         <span
           class="absolute cursor-default rounded-[1vh] bg-[#0000007a] p-x-10 p-y-3 text-1vh line-height-[40px] line-height-[40px] font-[youshe]"
-        >查看详情
+        >工位查看
         </span>
       </div>
       <div
-        class="absolute right-2.5vh top-0 h-3vh w-6vh flex items-center justify-center opacity-0 hover:opacity-100"
+        class="absolute right-2.5vh top-0 h-3vh w-6vh flex items-center justify-center"
         @click="
           $goto('WorkstationStatus', {
             light: 3,
@@ -89,7 +89,7 @@
       >
         <span
           class="absolute cursor-default rounded-[1vh] bg-[#0000007a] p-x-10 p-y-3 text-1vh line-height-[40px] font-[youshe]"
-        >查看详情
+        >工位查看
         </span>
       </div>
     </div>
@@ -158,6 +158,7 @@
           title="设备维护"
           @click="$goto('MainTain', { currentModel: '5', isProduce })"
         />
+        <TheButton class="absolute right-2vh" title="初始化" @click="init()" />
       </div>
     </div>
 
@@ -174,6 +175,7 @@
 <script setup lang="ts">
 import { App } from 'ant-design-vue';
 import { homeModule } from '@/apis/proApi';
+import { initMachine } from '@/apis/webApi';
 import TheButton from '@/components/base/TheButton.vue';
 import bigScreenHeader from '@/components/bigScreen/header.vue';
 import CanvasComponent from '@/components/canvas/home.vue';
@@ -427,18 +429,30 @@ async function controlMachine(num: string) {
 }
 
 // 初始化
-// async function init() {
-//   try {
-//     appStore.setSpinning(true);
-//     await initMachine({ module: 'm0' });
-//     openNotify('bottomRight', '初始化接口调用成功', 'success');
-//   } catch (error) {
-//     error;
-//     openNotify('bottomRight', '初始化接口调用失败');
-//   } finally {
-//     appStore.setSpinning(false);
-//   }
-// }
+async function init() {
+  try {
+    useAppStore().setSpinning(true);
+    await initMachine({ module: 'm0' });
+    notification.success({
+      message: `成功`,
+      description: `初始化接口调用成功`,
+      placement: 'bottomRight',
+      class: 'notification-custom-class',
+    });
+  }
+  catch (error) {
+    error;
+    notification.error({
+      message: `成功`,
+      description: `初始化接口调用失败`,
+      placement: 'bottomRight',
+      class: 'notification-custom-class',
+    });
+  }
+  finally {
+    useAppStore().setSpinning(false);
+  }
+}
 </script>
 
 <style lang="less">

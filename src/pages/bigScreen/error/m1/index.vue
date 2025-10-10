@@ -28,10 +28,10 @@
           src="@/assets/image/bigScreen/error/m1/m1.png"
         >
 
-        <span
+        <!-- <span
           v-if="msg"
           class="from-pink-500 to-purple-500 bg-gradient-to-r bg-clip-text text-[1.1vh] text-transparent font-bold"
-        >错误信息：{{ msg }}</span>
+        >错误信息：{{ msg }}</span> -->
         <div class="scoll-bar mt-10 flex flex-col gap-20">
           <component
             :is="components[rect.id]"

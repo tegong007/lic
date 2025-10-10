@@ -46,7 +46,7 @@
           @click="rowAction('reset')"
         >
           <RollbackOutlined />
-          重新生产
+          恢复生产
         </a-button>
         <a-button
           type="primary"
@@ -118,15 +118,15 @@
 </template>
 
 <script lang="ts" setup>
+import { RollbackOutlined } from '@ant-design/icons-vue';
+// import { useRoute } from 'vue-router';
+import { defineProps, reactive } from 'vue';
 import { TaskModule } from '@/apis/proApi';
 import { contextHolder, openNotify } from '@/components/base/useNotification';
 import MyTable from '@/components/base/vxeTable.vue';
 import TheModal from '@/components/modal/TheModal.vue';
 import { TaskStatusOptions } from '@/pages/bigScreen/batch/option.ts';
 import { useAppStore } from '@/store/index';
-import { RollbackOutlined } from '@ant-design/icons-vue';
-// import { useRoute } from 'vue-router';
-import { defineProps, reactive } from 'vue';
 import TeamForm from './task-form.vue';
 // import SimpleKeyboard from '@/components/base/simpleKeyboard.vue';
 
@@ -265,7 +265,7 @@ function rowAction(type: string, taskID: string) {
       const allCheckRox = [
         ...new Set([...checkedRow.value, ...oldCheckTaskID]),
       ];
-      modal.value = `可能含有不能${type === 'stop' ? '挂起' : '重新生产'}的数据，是否继续${type === 'stop' ? '挂起' : '重新生产'}${
+      modal.value = `可能含有不能${type === 'stop' ? '挂起' : '恢复生产'}的数据，是否继续${type === 'stop' ? '挂起' : '恢复生产'}${
         allCheckRox.length
       }条数据?`;
       isReset.value = type === 'stop' ? 0 : 1;
@@ -305,14 +305,14 @@ async function operate() {
     });
     openNotify(
       'bottomRight',
-      `${isReset.value ? '重新生产' : '挂起'}操作成功`,
+      `${isReset.value ? '恢复生产' : '挂起'}操作成功`,
       true,
     );
     getDataPage();
   }
   catch (error) {
     error;
-    openNotify('bottomRight', `${isReset.value ? '重新生产' : '挂起'}操作失败`);
+    openNotify('bottomRight', `${isReset.value ? '恢复生产' : '挂起'}操作失败`);
   }
   finally {
     setOpen(false);

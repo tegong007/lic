@@ -18,7 +18,7 @@
           <template #overlay>
             <a-menu @click="handleMenuClick">
               <!-- <a-menu-item :key="0"> 挂起 </a-menu-item> -->
-              <!-- <a-menu-item :key="1"> 重新生产 </a-menu-item> -->
+              <!-- <a-menu-item :key="1"> 恢复生产 </a-menu-item> -->
               <a-menu-item :key="2">
                 设为成功
               </a-menu-item>
@@ -85,11 +85,11 @@
 
 <script lang="ts" setup>
 import type { MenuProps } from 'ant-design-vue';
+import { DownOutlined } from '@ant-design/icons-vue';
 import { physicalModule } from '@/apis/proApi';
 import { contextHolder, openNotify } from '@/components/base/useNotification';
 import TheModal from '@/components/modal/TheModal.vue';
 import { useAppStore } from '@/store/index';
-import { DownOutlined } from '@ant-design/icons-vue';
 import DocCard from './card.vue';
 import DetailModal from './detailModal.vue';
 import docForm from './doc-form.vue';
@@ -119,7 +119,7 @@ const title: {
   [key: string]: string;
 } = {
   0: '挂起',
-  1: '重新生产',
+  1: '恢复生产',
   2: '设为成功',
   3: '设为失败',
 };

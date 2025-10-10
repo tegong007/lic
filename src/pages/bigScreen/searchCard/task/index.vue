@@ -19,7 +19,7 @@
           @click="rowAction('reset')"
         >
           <RollbackOutlined />
-          重新生产
+          恢复生产
         </a-button>
         <a-button
           type="primary"
@@ -39,7 +39,7 @@
                 挂起
               </a-menu-item>
               <a-menu-item :key="1">
-                重新生产
+                恢复生产
               </a-menu-item>
               <!-- <a-menu-item :key="2"> 设为成功 </a-menu-item>
               <a-menu-item :key="3"> 设为失败 </a-menu-item> -->
@@ -125,7 +125,7 @@ const title: {
   [key: string]: string;
 } = {
   0: '挂起',
-  1: '重新生产',
+  1: '恢复生产',
   2: '设为成功',
   3: '设为失败',
 };
@@ -194,7 +194,7 @@ async function operate() {
     });
     openNotify(
       'bottomRight',
-      `${isReset.value ? '重新生产' : '挂起'}操作成功`,
+      `${isReset.value ? '恢复生产' : '挂起'}操作成功`,
       true,
     );
     getDataPage();
@@ -203,7 +203,7 @@ async function operate() {
   }
   catch (error) {
     error;
-    openNotify('bottomRight', `${isReset.value ? '重新生产' : '挂起'}操作失败`);
+    openNotify('bottomRight', `${isReset.value ? '恢复生产' : '挂起'}操作失败`);
   }
   finally {
     setOpen(false);

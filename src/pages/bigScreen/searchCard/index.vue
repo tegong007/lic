@@ -74,6 +74,15 @@ function changeChoose(value: number) {
   choose.value = value;
   changeTaskIdOrBatchId(0, '', '');
 }
+
+/** ***********  ✨ Windsurf Command ⭐  */
+/**
+ * 改变当前选择的任务ID和批次ID
+ * @param {number} value - 当前选择的值，为0不进行任何操作 1任务2制证数据3证本
+ * @param {string} [taskId] - 任务ID
+ * @param {string} [batchId] - 批次ID
+ */
+/** *****  3d3a3a8a-e4ae-4dee-b8aa-409f413b48b3  */
 function changeTaskIdOrBatchId(
   value?: number,
   taskId?: string,

@@ -21,7 +21,7 @@
                 挂起
               </a-menu-item>
               <a-menu-item :key="1">
-                重新生产
+                恢复生产
               </a-menu-item>
               <a-menu-item :key="2">
                 设为成功
@@ -89,11 +89,11 @@
 
 <script lang="ts" setup>
 import type { MenuProps } from 'ant-design-vue';
+import { DownOutlined } from '@ant-design/icons-vue';
 import { documentModule } from '@/apis/proApi';
 import { contextHolder, openNotify } from '@/components/base/useNotification';
 import TheModal from '@/components/modal/TheModal.vue';
 import { useAppStore } from '@/store/index';
-import { DownOutlined } from '@ant-design/icons-vue';
 import RecordCard from './card.vue';
 import DetailModal from './detailModal.vue';
 import docForm from './doc-form.vue';
@@ -123,7 +123,7 @@ const title: {
   [key: string]: string;
 } = {
   0: '挂起',
-  1: '重新生产',
+  1: '恢复生产',
   2: '设为成功',
   3: '设为失败',
 };

@@ -59,15 +59,15 @@
               class="color-[#0c79c4] font-semibold"
               @click="
                 (event) => {
-                  props.changeTaskIdOrBatchId(3, item.taskID);
+                  props.changeTaskIdOrBatchId(2, item.taskID);
                   event.stopPropagation();
                 }
               "
             >
-              查询证本列表
+              查询制证数据
             </a-button>
             <a-button
-              v-if="item.status === 2 || item.status === 0"
+              v-if="item.waitingNum !== 0"
               class="color-[#0c79c4] font-semibold"
               @click="
                 (event) => {
@@ -79,7 +79,7 @@
               挂起
             </a-button>
             <a-button
-              v-if="item.status === 3 || item.status === 0"
+              v-if="item.hangUpNum !== 0"
               class="color-[#0c79c4] font-semibold"
               @click="
                 (event) => {
@@ -88,7 +88,7 @@
                 }
               "
             >
-              重新生产
+              恢复生产
             </a-button>
           </a-space>
         </main>
