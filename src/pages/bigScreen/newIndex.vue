@@ -158,7 +158,7 @@
           title="设备维护"
           @click="$goto('MainTain', { currentModel: '5', isProduce })"
         />
-        <TheButton class="absolute right-2vh" title="初始化" @click="init()" />
+        <TheButton class="absolute left-2vh" title="初始化" @click="init()" />
       </div>
     </div>
 
