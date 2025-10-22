@@ -103,7 +103,7 @@ const props = defineProps({
 const pageVO = reactive({
   total: 20,
   currentPage: 1,
-  pageSize: 5,
+  pageSize: 10,
 });
 const checkRow = ref();
 const oldCheckedRow = ref([]);

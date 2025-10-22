@@ -19,7 +19,7 @@
     <section
       v-for="item in items"
       :key="item"
-      class="mb30 box-border flex items-center gap-10 text-[16px]"
+      class="mb20 box-border flex items-center gap-10 text-[16px]"
     >
       <div
         class="bg-color relative box-border h-full flex flex-col flex-1 justify-start border-4 border-[#3F89DD] p-10 text-[16px] line-height-35"
@@ -45,6 +45,8 @@
             >所属任务号：{{ item.taskID }}</a>
             <span>所属批次号：{{ item.batchID }}</span>
             <span>证本号：{{ item.docID }}</span>
+            <span>开始时间：{{ item.startTime }}</span>
+            <span>更新时间：{{ item.endTime }}</span>
           </div>
           <div class="w-full flex justify-between">
             <span>证件类型：{{ formatterValue(item.idType, 'idType') }}</span>
@@ -52,11 +54,14 @@
             <span>状态：{{ formatterValue(item.docStatus, 'docStatus') }}</span>
             <span>当前工位：{{ item.position }}</span>
           </div>
-          <div class="w-full flex justify-between">
+          <!-- <div class="w-full flex justify-between">
             <span>开始时间：{{ item.startTime }}</span>
             <span>更新时间：{{ item.endTime }}</span>
-          </div>
-          <a-space :size="10" class="mt10 w-full flex justify-start">
+          </div> -->
+          <a-space
+            :size="10"
+            class="absolute right-10 top-10 flex justify-start"
+          >
             <a-button
               class="color-[#0c79c4] font-semibold"
               @click="

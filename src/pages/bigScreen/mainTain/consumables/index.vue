@@ -3,7 +3,7 @@
     <section
       v-for="(moduleItems, moduleIndex) in modulesData"
       :key="moduleIndex"
-      class="h-full flex flex-col p-y-20"
+      class="h-full flex p-y-20"
     >
       <div class="h-full flex-col flex-1">
         <span class="text-[28px] color-[#fff]">{{ moduleItems.moduleName }}油墨余量</span>
@@ -11,7 +11,7 @@
           <div
             v-for="(item, index) in moduleItems.inkObjects"
             :key="index"
-            class="h180px flex flex-col flex-1 items-center justify-around"
+            class="h180px flex flex-col flex-1 items-center justify-between"
           >
             <div class="h25px w25px">
               <img
@@ -41,7 +41,7 @@
         </div>
       </div>
       <div
-        class="m-t-30 box-border h-full flex flex-col border from-[#ffffff38] bg-gradient-to-b p-10 color-[#CFDEF1]"
+        class="box-border h-full w-20% flex flex-col border from-[#ffffff38] bg-gradient-to-b p-10 color-[#CFDEF1]"
       >
         <div class="flex-1">
           【墨水缺失】<br>
@@ -56,11 +56,11 @@
 </template>
 
 <script setup lang="ts">
+import { watch } from 'vue';
 import { mainTainModule } from '@/apis/proApi';
 import { openNotify } from '@/components/base/useNotification';
 import { useAppStore } from '@/store/index';
 import useCustomTimer from '@/utils/useCustomTimer';
-import { watch } from 'vue';
 
 const props = defineProps({
   currentModel: String,

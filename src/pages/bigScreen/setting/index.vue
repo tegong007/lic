@@ -26,7 +26,7 @@
       </div>
     </div>
     <div
-      class="groupBtn absolute bottom-4vh h8em w-full flex items-center justify-center gap-20"
+      class="groupBtn absolute bottom-1vh h8em w-full flex items-center justify-center gap-20"
     >
       <div class="flex gap-20">
         <TheButton
@@ -44,10 +44,10 @@
 </template>
 
 <script setup lang="ts">
-import TheButton from '@/components/base/TheButton.vue';
-import bigScreenHeader from '@/components/bigScreen/header.vue';
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
+import TheButton from '@/components/base/TheButton.vue';
+import bigScreenHeader from '@/components/bigScreen/header.vue';
 import Set from './set.vue';
 
 definePage({

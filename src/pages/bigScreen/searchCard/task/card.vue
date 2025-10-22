@@ -52,7 +52,11 @@
             <span>挂起数：{{ item.hangUpNum }}</span>
             <span>状态：{{ formatterStatus(item.status) }}</span>
           </div>
-          <a-space :size="10" class="mt10 w-full flex justify-start">
+          <a-space
+            :size="10"
+            class="absolute right-10 top-10 flex justify-start"
+          >
+            <!-- <a-space :size="10" class="mt10 w-full flex justify-start"> -->
             <a-button
               class="color-[#0c79c4] font-semibold"
               @click="

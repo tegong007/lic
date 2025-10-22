@@ -53,7 +53,7 @@
       </a-space>
     </div>
 
-    <main class="box-border h90% w-full">
+    <main class="box-border h92% w-full">
       <TaskCard
         :items="tableData"
         :check-row="checkRow"
@@ -136,7 +136,7 @@ const handleMenuClick: MenuProps['onClick'] = (e) => {
 const pageVO = reactive({
   total: 20,
   currentPage: 1,
-  pageSize: 5,
+  pageSize: 10,
 });
 const checkRow = ref([]); // 选中的数据
 const oldCheckedRow = ref([]); // 选中的数据
