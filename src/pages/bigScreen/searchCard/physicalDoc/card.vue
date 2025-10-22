@@ -19,10 +19,10 @@
     <section
       v-for="item in items"
       :key="item"
-      class="mt30 box-border flex items-center gap-10 text-[16px]"
+      class="mb30 box-border flex items-center gap-10 text-[16px]"
     >
       <div
-        class="bg-color relative box-border h-full flex flex-col flex-1 justify-start border-4 border-[#3F89DD] p-10 text-[1vh] line-height-35"
+        class="bg-color relative box-border h-full flex flex-col flex-1 justify-start border-4 border-[#3F89DD] p-10 text-[16px] line-height-35"
         :class="item.checked === true && 'border-[#64CF44]'"
         @click="changeItemCheck(item, item.checked)"
       >

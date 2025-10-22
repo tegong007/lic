@@ -2,8 +2,9 @@
   <div
     class="bg relative h-100vh flex flex-col items-center text-[18px] text-white"
   >
+    <bigScreenHeader title="智能护照制证平台" />
     <div
-      class="font-semiboldw relative top-4.5vh w-full flex flex-col gap-10 text-1.4vh text-white color-[#CFDEF1]"
+      class="relative top-1vh w-98% flex flex-col gap-5 text-20px text-white color-[#CFDEF1] font-semibold"
     >
       <div class="text-center">
         当前生产任务
@@ -22,19 +23,50 @@
         }}</span></span>
       </div>
     </div>
-    <CanvasComponent
+    <!-- <CanvasComponent
       :width="1000"
       :height="150"
       :top="710"
       :left="0"
       :rectangles="rectangles"
-    />
-    <bigScreenHeader />
-    <div class="absolute top-11.7vh h20vh w100% flex gap-20 p-x-40">
-      <Print class="relative h20vh flex-1" :data="mainPrint" />
-      <Start class="relative h20vh flex-1" :data="blankCheck" />
+    /> -->
+
+    <div class="absolute top-14.6vh h33vh w100% flex gap-20 p-x-40">
+      <FinishedProductBg
+        class="relative h33vh w-15vw"
+        :data="finishedProduct"
+      />
+      <AddMore class="relative h33vh flex-1" :data="additionPrint" />
+      <Print class="relative h33vh flex-1" :data="mainPrint" />
+      <Start class="relative h33vh flex-1" :data="blankCheck" />
+      <!-- <div
+        class="absolute left-20vh top-10px h-3vh w-150px flex items-center justify-center"
+        @click="
+          $goto('WorkstationStatus', {
+            light: 4,
+          })
+        "
+      >
+        <span
+          class="absolute cursor-poterin rounded-[1vh] bg-[#0000007a] p-x-10 p-y-3 text-18px line-height-[40px] line-height-[40px] font-[youshe]"
+          >工位查看
+        </span>
+      </div> -->
       <div
-        class="absolute left-22.5vh top-0 h-3vh w-5vh flex items-center justify-center"
+        class="absolute left-71vh top-10px h-3vh w-150px flex items-center justify-center"
+        @click="
+          $goto('WorkstationStatus', {
+            light: 3,
+          })
+        "
+      >
+        <span
+          class="absolute cursor-pointer rounded-[1vh] bg-[#0000007a] p-x-10 p-y-3 text-18px line-height-[40px] font-[youshe]"
+        >工位查看
+        </span>
+      </div>
+      <div
+        class="absolute right-53vh top-10px h-3vh w-150px flex items-center justify-center"
         @click="
           $goto('WorkstationStatus', {
             light: 2,
@@ -42,12 +74,12 @@
         "
       >
         <span
-          class="absolute cursor-default rounded-[1vh] bg-[#0000007a] p-x-10 p-y-3 text-1vh line-height-[40px] font-[youshe]"
+          class="absolute cursor-pointer rounded-[1vh] bg-[#0000007a] p-x-10 p-y-3 text-18px line-height-[40px] font-[youshe]"
         >工位查看
         </span>
       </div>
       <div
-        class="absolute right-2.5vh top-0 h-3vh w-5vh flex items-center justify-center"
+        class="absolute right-2vh top-10 h-3vh w-150px flex items-center justify-center"
         @click="
           $goto('WorkstationStatus', {
             light: 1,
@@ -55,12 +87,12 @@
         "
       >
         <span
-          class="absolute cursor-default rounded-[1vh] bg-[#0000007a] p-x-10 p-y-3 text-1vh line-height-[40px] font-[youshe]"
+          class="absolute cursor-pointer rounded-[1vh] bg-[#0000007a] p-x-10 p-y-3 text-18px line-height-[40px] font-[youshe]"
         >工位查看
         </span>
       </div>
     </div>
-    <div class="absolute bottom-19vh h20vh w100% flex gap-20 p-x-40">
+    <!-- <div class="absolute bottom-19vh h20vh w100% flex gap-20 p-x-40">
       <FinishedProductBg
         class="relative h20vh flex-1"
         :data="finishedProduct"
@@ -76,7 +108,7 @@
       >
         <span
           class="absolute cursor-default rounded-[1vh] bg-[#0000007a] p-x-10 p-y-3 text-1vh line-height-[40px] line-height-[40px] font-[youshe]"
-        >工位查看
+          >工位查看
         </span>
       </div>
       <div
@@ -89,13 +121,13 @@
       >
         <span
           class="absolute cursor-default rounded-[1vh] bg-[#0000007a] p-x-10 p-y-3 text-1vh line-height-[40px] font-[youshe]"
-        >工位查看
+          >工位查看
         </span>
       </div>
-    </div>
+    </div> -->
 
     <div
-      class="groupBtn absolute bottom-10vh z-22 h8em w-full flex items-center justify-center gap-20"
+      class="groupBtn absolute bottom-9vh z-22 h8em w-full flex items-center justify-center gap-20"
     >
       <TheButton
         :title="entire?.taskStatus === 0 ? '开始进本' : '加本'"
@@ -106,6 +138,7 @@
         :title="canContinue ? '继续进本' : '暂停进本'"
         @click="
           setModal(canContinue ? 0 : 1, canContinue ? 'continue' : 'pause')
+
         "
       />
       <!-- <button @click="addRectangle()">Add Rectangle</button>
@@ -134,7 +167,7 @@
 
     <!-- 下边按钮 -->
     <div
-      class="groupBtn absolute bottom-4vh h8em w-full flex items-center justify-center gap-20"
+      class="groupBtn absolute bottom-1vh h8em w-98% flex items-center justify-center gap-20"
     >
       <!-- <div class="flex">
         <TheButton title="批次查询" @click="$goto('BatchList')" />
@@ -178,7 +211,6 @@ import { homeModule } from '@/apis/proApi';
 import { initMachine } from '@/apis/webApi';
 import TheButton from '@/components/base/TheButton.vue';
 import bigScreenHeader from '@/components/bigScreen/header.vue';
-import CanvasComponent from '@/components/canvas/home.vue';
 import TheModal from '@/components/modal/docNumModal.vue';
 import { useAppStore } from '@/store/index';
 import useCustomTimer from '@/utils/useCustomTimer';
@@ -461,7 +493,8 @@ async function init() {
 }
 
 .bg {
-  background-image: url('../../assets/image/bigScreen/new-bg.png');
+  // background-image: url('../../assets/image/bigScreen/new-bg.png');
+  background-image: url('../../assets/image/bigScreen/bg.png');
   background-size: 100% 100%;
   background-repeat: 'no-repeat';
   .light {

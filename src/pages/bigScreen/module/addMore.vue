@@ -1,9 +1,9 @@
 <template>
   <div class="addMore text-[18px] text-white">
     <a-flex justify="center" align="center">
-      <div class="absolute left-0 top-0 h-2.5vh w100% flex items-center">
-        <span class="m-x-0.3vh text-2.5vh line-height-[40px] font-[youshe]">03</span>
-        <span class="ml-10 text-[1.3vh] color-[#CFDEF1]">{{
+      <div class="absolute left-0 top-0 h-40px w100% flex items-center">
+        <span class="m-x-7px text-[40px] line-height-[40vh] font-[youshe]">03</span>
+        <span class="ml-10 mt5 text-[1.5em] color-[#CFDEF1]">{{
           props.data.name
         }}</span>
       </div>
@@ -25,7 +25,7 @@
           </div>
         </div>
       </div> -->
-      <div class="table-data absolute top-[3vh] w-95%">
+      <div class="table-data absolute top-[5vh] w-95%">
         <div class="p-x-10 p-b-10">
           <div class="h30px w-full flex items-center bg-[#fff]/[0.2]">
             <span class="ml3">证本状态</span>

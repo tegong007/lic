@@ -1,6 +1,6 @@
 <template>
   <div
-    class="absolute top-70 box-border h-85vh w90% flex flex-col items-center gap-20 p-2em p-b-0"
+    class="absolute top-30 box-border h-76vh w90% flex flex-col items-center gap-20 p-2em p-b-0"
   >
     <div class="relative w-full flex">
       <TeamForm ref="searchRef" :set-search-form="setSearchForm" />
@@ -53,7 +53,7 @@
       </a-space>
     </div>
 
-    <main class="box-border h82% w-full">
+    <main class="box-border h90% w-full">
       <TaskCard
         :items="tableData"
         :check-row="checkRow"

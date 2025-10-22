@@ -6,8 +6,8 @@
       class="w-full rounded-[8px] bg-[#ffffff34] p-x-10 p-y-20"
     >
       <a-row :gutter="24">
-        <a-col :span="6" />
-        <a-col :span="6">
+        <a-col :span="4" />
+        <a-col :span="3">
           <a-form-item label="证本号" name="docID">
             <a-input
               v-model:value="formState.docID"
@@ -17,7 +17,7 @@
             />
           </a-form-item>
         </a-col>
-        <a-col :span="6">
+        <a-col :span="4">
           <a-form-item label="所属任务号" name="taskID">
             <a-input
               v-model:value="formState.taskID"
@@ -27,7 +27,7 @@
             />
           </a-form-item>
         </a-col>
-        <a-col :span="6">
+        <a-col :span="4">
           <a-form-item label="所属批次号" name="batchID">
             <a-input
               v-model:value="formState.batchID"
@@ -37,16 +37,7 @@
             />
           </a-form-item>
         </a-col>
-        <a-col :span="10">
-          <a-form-item label="日期" name="dateRange">
-            <a-range-picker
-              v-model:value="formState.dateRange"
-              value-format="YYYY-MM-DD"
-              input-read-only
-            />
-          </a-form-item>
-        </a-col>
-        <a-col :span="8">
+        <a-col :span="3">
           <a-form-item label="状态" name="docStatus">
             <a-select v-model:value="formState.docStatus" class="w-full">
               <a-select-option
@@ -57,6 +48,15 @@
                 {{ option.label }}
               </a-select-option>
             </a-select>
+          </a-form-item>
+        </a-col>
+        <a-col :span="6">
+          <a-form-item label="日期" name="dateRange">
+            <a-range-picker
+              v-model:value="formState.dateRange"
+              value-format="YYYY-MM-DD"
+              input-read-only
+            />
           </a-form-item>
         </a-col>
       </a-row>
@@ -96,10 +96,10 @@
 
 <script setup lang="ts">
 import type { UnwrapRef } from 'vue';
-import SimpleKeyboard from '@/components/base/simpleKeyboard.vue';
-import { docStatusOptions } from '@/pages/bigScreen/batch/option.ts';
 import { SearchOutlined } from '@ant-design/icons-vue';
 import { defineExpose, defineProps, reactive } from 'vue';
+import SimpleKeyboard from '@/components/base/simpleKeyboard.vue';
+import { docStatusOptions } from '@/pages/bigScreen/batch/option.ts';
 
 const props = defineProps({
   setSearchForm: Function,

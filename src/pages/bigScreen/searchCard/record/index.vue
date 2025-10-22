@@ -1,6 +1,6 @@
 <template>
   <div
-    class="absolute top-70 box-border h-85vh w90% flex flex-col items-center gap-20 p-2em p-b-0"
+    class="absolute top-30 box-border h-76vh w90% flex flex-col items-center gap-20 p-2em p-b-0"
   >
     <!-- <DocInfo /> -->
     <div class="relative w-full">
@@ -39,7 +39,7 @@
       </a-space>
     </div>
 
-    <main class="box-border h80% w-full">
+    <main class="box-border h90% w-full">
       <RecordCard
         :items="tableData"
         :check-row="checkRow"

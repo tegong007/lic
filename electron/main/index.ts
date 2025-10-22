@@ -8,7 +8,6 @@ import {
   app,
   BrowserWindow,
   dialog,
-  globalShortcut,
   ipcMain,
   Menu,
   shell,
@@ -88,7 +87,7 @@ const preload = path.join(__dirname, '../preload/index.mjs');
 const indexHtml = path.join(RENDERER_DIST, 'index.html');
 
 // 需要无效化的键位
-const keysDisabled = ['f11'];
+// const keysDisabled = ['f11'];
 
 async function createWindow() {
   win = new BrowserWindow({
@@ -143,12 +142,12 @@ async function createWindow() {
       shell.openExternal(url);
     return { action: 'deny' };
   });
-  keysDisabled.map((key) => {
-    globalShortcut.register(key, () => {
-      console.log(key);
-    });
-    return null;
-  });
+  // keysDisabled.map((key) => {
+  //   globalShortcut.register(key, () => {
+  //     console.log(key);
+  //   });
+  //   return null;
+  // });
 
   // win.webContents.debugger.attach('1.3');
   // // 启用触摸模拟,并配置为移动设备模式

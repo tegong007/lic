@@ -3,7 +3,7 @@
     <div class="w-full flex items-center justify-center">
       <!-- <span class="text-[38px] color-[#fff] line-height-[40px] font-[youshe]">智能护照制证平台</span> -->
     </div>
-    <div class="mt0.3vh w-full flex items-center justify-center">
+    <div class="w-full flex items-center justify-center">
       <span class="text-[2.2em] line-height-[40px] font-[youshe]">{{
         props.title
       }}</span>
@@ -12,7 +12,7 @@
     <a-flex
       justify="space-between"
       align="center"
-      class="absolute top-0 w-full p-x-1vh p-t-3vh text-[1.2vh] color-[#CFDEF1]"
+      class="absolute top-0 w-full p-x-5vh p-t-0vh text-[24px] color-[#CFDEF1]"
     >
       <span class="light relative">网络状态:{{ showConnect }}</span>
       <span class="light relative">{{ currentTime }}</span>

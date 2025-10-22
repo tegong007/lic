@@ -21,7 +21,7 @@
                 挂起
               </a-menu-item>
               <a-menu-item :key="1">
-                恢复生产
+                重新生产
               </a-menu-item> -->
               <a-menu-item :key="2">
                 设为成功

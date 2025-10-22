@@ -19,10 +19,10 @@
     <section
       v-for="item in items"
       :key="item"
-      class="mt30 box-border flex items-center gap-10 text-[16px]"
+      class="mb20 box-border flex items-center gap-10 text-[16px]"
     >
       <div
-        class="bg-color relative box-border h-full flex flex-col flex-1 justify-start border-4 border-[#3F89DD] p-10 text-[1vh] line-height-35"
+        class="bg-color relative box-border h-full flex flex-col flex-1 justify-start border-4 border-[#3F89DD] p-10 text-[16px] line-height-35"
         :class="item.checked === true && 'border-[#64CF44]'"
         @click="changeItemCheck(item, item.checked)"
       >
@@ -42,6 +42,8 @@
             <span>任务号：{{ item.taskID }}</span>
             <span>批次号：{{ item.batchID }}</span>
             <span>证本数：{{ item.docNum }}</span>
+            <span>接收时间：{{ item.receiveTime }}</span>
+            <span>开始生产时间：{{ item.startTime }}</span>
           </div>
           <div class="w-full flex justify-between">
             <span>良本数：{{ item.productNum }}</span>
@@ -49,10 +51,6 @@
             <span>待生产数：{{ item.waitingNum }}</span>
             <span>挂起数：{{ item.hangUpNum }}</span>
             <span>状态：{{ formatterStatus(item.status) }}</span>
-          </div>
-          <div class="w-full flex justify-between">
-            <span>接收时间：{{ item.receiveTime }}</span>
-            <span>开始生产时间：{{ item.startTime }}</span>
           </div>
           <a-space :size="10" class="mt10 w-full flex justify-start">
             <a-button

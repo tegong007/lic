@@ -3,10 +3,10 @@
     <bigScreenHeader title="查询" />
     <div
       v-show="choose !== 0"
-      class="absolute left-100 top-126 z-99 flex items-center justify-between text-16px"
+      class="absolute left-150 top-87 z-99 flex items-center justify-between text-16px"
     >
       <span>搜索类型：</span>
-      <a-select v-model:value="choose" class="w130px" @change="changeChoose">
+      <a-select v-model:value="choose" class="w160px" @change="changeChoose">
         <a-select-option :value="1">
           任务
         </a-select-option>
@@ -40,7 +40,7 @@
       :doc-task-id="docTaskId"
     />
     <div
-      class="groupBtn absolute bottom-4vh h8em w-full flex items-center justify-center gap-20"
+      class="groupBtn absolute bottom-1vh h8em w-full flex items-center justify-center gap-20"
     >
       <!-- <div class="flex">
           <TheButton title="批次查询" />

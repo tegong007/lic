@@ -38,10 +38,9 @@ const physicalModule = {
   // getDocStatistics: (data: any) =>
   //   request.post(`${v1}/tss/doc-statistics`, data),
   // getDocAllStatistics: () => request.post(`${v1}/tss/doc-allStatistics`),
-  getDocOperate: (data: any) =>
+  getPhysicaDocOperate: (data: any) =>
     request.post(`${v1}/tss/physical-doc-operate`, data),
-  getDocDetailGeneral: (data: any) =>
-    request.post(`${v1}/tss/physical-doc`, data),
+  getPhysicalDoc: (data: any) => request.post(`${v1}/tss/physical-doc`, data),
 };
 
 // 维护页面
