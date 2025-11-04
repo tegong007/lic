@@ -1,20 +1,20 @@
 <template>
   <div class="bg h-100vh flex flex-col items-center text-[18px] text-white">
-    <bigScreenHeader title="查询" />
+    <bigScreenHeader :title="t('searchCard.index.6byowy3yqao0')" />
     <div
       v-show="choose !== 0"
       class="absolute left-150 top-87 z-99 flex items-center justify-between text-16px"
     >
-      <span>搜索类型：</span>
+      <span>{{ t('searchCard.index.6byowy3yrk00') }}</span>
       <a-select v-model:value="choose" class="w160px" @change="changeChoose">
         <a-select-option :value="1">
-          任务
+          {{ t('searchCard.index.6byowy3yrok0') }}
         </a-select-option>
         <a-select-option :value="2">
-          制证数据
+          {{ t('searchCard.index.6byowy3yrrc0') }}
         </a-select-option>
         <a-select-option :value="3">
-          证本
+          {{ t('searchCard.index.6byowy3yrts0') }}
         </a-select-option>
       </a-select>
     </div>
@@ -43,23 +43,28 @@
       class="groupBtn absolute bottom-1vh h8em w-full flex items-center justify-center gap-20"
     >
       <!-- <div class="flex">
-          <TheButton title="批次查询" />
+          <TheButton :title="{{t('searchCard.index.6byowy3yrw80')" />
         </div> -->
       <!-- <span class="h-50% w-2px bg-[#8BB2FF]" /> -->
       <div class="flex gap-20">
-        <TheButton title="返回首页" @click="$goto('BigScreen')" />
+        <TheButton
+          :title="t('searchCard.index.6byowy3yryc0')"
+          @click="$goto('BigScreen')"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import bigScreenHeader from '@/components/bigScreen/header.vue';
 import PhysicalDoc from './physicalDoc/index.vue';
 import Record from './record/index.vue';
 import Task from './task/index.vue';
 
+const { t } = useI18n();
 const route = useRoute();
 const choose = ref<number>(0);
 const docBatchId = ref('');

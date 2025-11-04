@@ -2,7 +2,7 @@
   <div
     class="bg h-100vh w-full flex flex-col items-center text-[18px] text-white"
   >
-    <bigScreenHeader title="设置" class="h8vh" />
+    <bigScreenHeader :title="t('setting.index.6byq1dbf7yw0')" class="h8vh" />
     <div class="h-100% w-full flex flex-col text-white">
       <div class="bg-color m-x-4em h-87% flex border-[4px] border-[#3F89DD]">
         <div class="wh-full border-l-[4px] border-[#3F89DD]">
@@ -30,7 +30,7 @@
     >
       <div class="flex gap-20">
         <TheButton
-          title="返回首页"
+          :title="t('setting.index.6byq1dbf9zc0')"
           @click="
             () => {
               setCurrentModel('0');
@@ -45,15 +45,17 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import TheButton from '@/components/base/TheButton.vue';
 import bigScreenHeader from '@/components/bigScreen/header.vue';
 import Set from './set.vue';
 
+const { t } = useI18n();
 definePage({
   name: 'Setting',
   meta: {
-    title: '设置页',
+    title: t('setting.index.6byq1dbfa7g0'),
   },
 });
 const route = useRoute();

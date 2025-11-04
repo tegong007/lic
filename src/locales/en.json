@@ -29,6 +29,11 @@
       "6byils8uk0o0": "Success",
       "6byimfqtd140": "Init Success",
       "6byimfqtf900": "Init Fail"
+    },
+    "header": {
+      "6bypeg2hh240": "Disconnected",
+      "6bypeg2hkjo0": "Connected",
+      "6bypeg2hkjo1": "Network Status:"
     }
   },
   "base": {
@@ -46,6 +51,124 @@
       "6byipw7d6e40": "Confirm Pause",
       "6byipw7d6hw0": "Confirm Start",
       "6byipw7d6kw0": "Confirm Continue"
+    }
+  },
+  "task": {
+    "index": {
+      "6byjxbqct0k0": "Refresh",
+      "6byjxbqcwe00": "Resume",
+      "6byjxbqcwnk0": "Suspend",
+      "6byjxbqcwt40": "Set Fail",
+      "6byjxbqcwxk0": "Batch Op",
+      "6byjxbqcx2g0": "Page,",
+      "6byjxbqcx880": "Set Success",
+      "6byk27z0mho0": "No data selected",
+      "6byk27z0puc0": "API timeout",
+      "6bykuwgiqng0": "May contain data that cannot be",
+      "6bykuwgittc0": "processed. Continue with",
+      "6bykuwgiu280": "data items?",
+      "6byl3ok0hfk0": "Operation successful",
+      "6byl3ok0qtc0": "Operation failed",
+      "6byp65r4ur00": "Total",
+      "6byp65r4vkg0": "Records"
+    },
+    "task-form": {
+      "6byof7oj13c0": "Task ID",
+      "6byof7oj42g0": "Batch ID",
+      "6byof7oj4o80": "Status",
+      "6byof7oj4r40": "Date",
+      "6byof7oj4sw0": "Search",
+      "6byof7oj4v80": "Reset"
+    },
+    "card": {
+      "6byojamh4kc0": "Select All",
+      "6byojamh8jk0": "No Data",
+      "6byojamh95s0": "Query Data",
+      "6byojamh9cw0": "Suspend",
+      "6byojamh9t00": "Resume",
+      "6byot18vaag0": "Serial No.:",
+      "6byot18vgvk0": "Task No.:",
+      "6byot18vh800": "Batch No.:",
+      "6byot18vhek0": "Cert Count:",
+      "6byot18vhmg0": "Receive Time:",
+      "6byot18vhxc0": "Start Time:",
+      "6byot18vi2s0": "Good Count:",
+      "6byot18vi5s0": "Scrap Count:",
+      "6byot18vic00": "Pending Count:",
+      "6byot18vih40": "Suspended Count:",
+      "6byot18vio00": "Status:"
+    }
+  },
+  "notify": {
+    "title": {
+      "6byl3ok0hfk0": "Successful",
+      "6byl3ok0qtc0": "Failed"
+    }
+  },
+  "searchCard": {
+    "index": {
+      "6byowy3yqao0": "Search",
+      "6byowy3yrk00": "Search Type：",
+      "6byowy3yrok0": "Task",
+      "6byowy3yrrc0": "Production Data",
+      "6byowy3yrts0": "Certificate",
+      "6byowy3yrw80": "Batch Search",
+      "6byowy3yryc0": "Return to Home"
+    }
+  },
+  "setting": {
+    "index": {
+      "6byq1dbf7yw0": "Settings",
+      "6byq1dbf9zc0": "Return to Home",
+      "6byq1dbfa7g0": "Settings Page"
+    },
+    "set": {
+      "6byq4tq8xgw0": "Inkjet Print Position Adjustment",
+      "6byq4tq8zag0": "Main and Sub Pages (Platform 1)",
+      "6byq4tq8zgw0": "Main and Sub Pages (Platform 2)",
+      "6byq4tq8zms0": "Additional Pages (Platform 1)",
+      "6byq4tq8zr00": "Additional Pages (Platform 2)",
+      "6byq4tq8zuk0": "Print Position Re-read",
+      "6byq4tq8zy00": "Re-read",
+      "6byq4tq903o0": "Print Position Save",
+      "6byq4tq905s0": "Save",
+      "6byq4tq90880": "Inkjet Positioning Benchmark",
+      "6byq4tq90ck0": "No Prompt Image",
+      "6byq4tq90n00": "Platform 1",
+      "6byq4tq90q80": "Platform 2",
+      "6byq4tq90t40": "Benchmark Re-read",
+      "6byq4tq90vg0": "Benchmark Save",
+      "6byq4tq90z80": "Infeed Slot Settings",
+      "6byq4tq911c0": "Infeed Slot 1",
+      "6byq4tq915c0": "Enable:",
+      "6byq4tq91780": "Infeed Slot 2",
+      "6byq4tq91bw0": "Infeed Slot 3",
+      "6byq4tq91go0": "Infeed Slot 4",
+      "6byq4tq91kc0": "Outfeed Slot Settings",
+      "6byq4tq91ng0": "Outfeed Slot 1",
+      "6byq4tq91pw0": "Outfeed Slot 2",
+      "6byq4tq91ss0": "Outfeed Slot 3",
+      "6byq4tq91uw0": "Outfeed Slot 4",
+      "6byq4tq91xs0": "Outfeed Slot 5",
+      "6byq4tq91zs0": "Demo Mode",
+      "6byq4tq92300": "Add Task",
+      "6byq4tq925g0": "Password Settings",
+      "6byq4tq92880": "Set Password",
+      "6byq4tq92bw0": "Failed to Read Settings Page",
+      "6byq4tq92ek0": "Error",
+      "6byq4tq92h80": "Print Position Re-read",
+      "6byq4tq92iw0": "Print Position Save",
+      "6byq4tq92k40": "Successfully Saved Inkjet Platform Configuration",
+      "6byq4tq92m00": "Benchmark Re-read",
+      "6byq4tq92nk0": "Benchmark Save",
+      "6byq4tq92pc0": "Successfully Saved Inkjet Positioning Benchmark",
+      "6byq4tq92pc1": "X：",
+      "6byq4tq92pc2": "mm",
+      "6byq4tq92pc3": "Y：",
+      "6byq4tq92pc4": "0.001mm",
+      "6byqkadnf4w0": "Failed",
+      "6byqkadnf4w1": "Successful",
+      "range1": "Range is (0-1200)"
     }
   }
 }

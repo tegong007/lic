@@ -12,10 +12,14 @@
         />
       </div>
       <div class="h-full flex flex-1 items-center justify-between p-l-5">
-        <span>全选</span><span>已选中：{{ checkRow.length }}个</span>
+        <span>{{t('task.card.6byojamh4kc0')}}</span><span>已选中：{{ checkRow.length }}个</span>
       </div>
     </section> -->
-    <a-result v-if="items.length === 0" class="" title="暂无数据" />
+    <a-result
+      v-if="items.length === 0"
+      class=""
+      :title="t('task.card.6byojamh8jk0')"
+    />
     <section
       v-for="item in items"
       :key="item"
@@ -31,7 +35,7 @@
           src="@/assets/image/bigScreen/choose-right.png"
           class="absolute right-0 top-0 w-3vh"
         >
-        序号：{{ item.seq }}<br>
+        {{ t('task.card.6byot18vaag0') + item.seq }}<br>
         <main class="p-x-3vh">
           <div class="w-full flex justify-between">
             <!-- <a
@@ -39,18 +43,20 @@
               @click="props.changeTaskIdOrBatchId(1, items.taskID)   event.stopPropagation();"
               >任务号：{{ item.taskID }}</a
             > -->
-            <span>任务号：{{ item.taskID }}</span>
-            <span>批次号：{{ item.batchID }}</span>
-            <span>证本数：{{ item.docNum }}</span>
-            <span>接收时间：{{ item.receiveTime }}</span>
-            <span>开始生产时间：{{ item.startTime }}</span>
+            <span>{{ t('task.card.6byot18vgvk0') + item.taskID }}</span>
+            <span>{{ t('task.card.6byot18vh800') + item.batchID }}</span>
+            <span>{{ t('task.card.6byot18vhek0') + item.docNum }}</span>
+            <span>{{ t('task.card.6byot18vhmg0') + item.receiveTime }}</span>
+            <span>{{ t('task.card.6byot18vhxc0') + item.startTime }}</span>
           </div>
           <div class="w-full flex justify-between">
-            <span>良本数：{{ item.productNum }}</span>
-            <span>废本数：{{ item.obsoleteNum }}</span>
-            <span>待生产数：{{ item.waitingNum }}</span>
-            <span>挂起数：{{ item.hangUpNum }}</span>
-            <span>状态：{{ formatterStatus(item.status) }}</span>
+            <span>{{ t('task.card.6byot18vi2s0') + item.productNum }}</span>
+            <span>{{ t('task.card.6byot18vi5s0') + item.obsoleteNum }}</span>
+            <span>{{ t('task.card.6byot18vic00') + item.waitingNum }}</span>
+            <span>{{ t('task.card.6byot18vih40') + item.hangUpNum }}</span>
+            <span>{{
+              t('task.card.6byot18vio00') + formatterStatus(item.status)
+            }}</span>
           </div>
           <a-space
             :size="10"
@@ -66,7 +72,7 @@
                 }
               "
             >
-              查询制证数据
+              {{ t('task.card.6byojamh95s0') }}
             </a-button>
             <a-button
               v-if="item.waitingNum !== 0"
@@ -78,7 +84,7 @@
                 }
               "
             >
-              挂起
+              {{ t('task.card.6byojamh9cw0') }}
             </a-button>
             <a-button
               v-if="item.hangUpNum !== 0"
@@ -90,7 +96,7 @@
                 }
               "
             >
-              恢复生产
+              {{ t('task.card.6byojamh9t00') }}
             </a-button>
           </a-space>
         </main>
@@ -101,6 +107,7 @@
 
 <script setup lang="ts">
 import { watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { TaskStatusOptions } from '@/pages/bigScreen/batch/option.ts';
 
 const props = defineProps({
@@ -111,7 +118,7 @@ const props = defineProps({
   changeTaskIdOrBatchId: Function,
   rowfun: Function,
 });
-
+const { t } = useI18n();
 const items = ref([]);
 
 // const isAllCheck = ref<boolean>(false);

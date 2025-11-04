@@ -11,7 +11,7 @@
           @click="getDataPage"
         >
           <img src="@/assets/image/bigScreen/btn/huifu.svg" class="mr7 w12px">
-          刷新
+          {{ t('task.index.6byjxbqct0k0') }}
         </a-button>
         <!-- <a-button
           type="primary"
@@ -19,7 +19,7 @@
           @click="rowAction('reset')"
         >
           <RollbackOutlined />
-          恢复生产
+          {{t('task.index.6byjxbqcwe00')}}
         </a-button>
         <a-button
           type="primary"
@@ -30,23 +30,23 @@
             src="@/assets/image/bigScreen/btn/guaqi.svg"
             class="m-r-7 w12px"
           >
-          挂起
+          {{t('task.index.6byjxbqcwnk0')}}
         </a-button> -->
         <a-dropdown>
           <template #overlay>
             <a-menu @click="handleMenuClick">
               <a-menu-item :key="0">
-                挂起
+                {{ t('task.index.6byjxbqcwnk0') }}
               </a-menu-item>
               <a-menu-item :key="1">
-                恢复生产
+                {{ t('task.index.6byjxbqcwe00') }}
               </a-menu-item>
               <!-- <a-menu-item :key="2"> 设为成功 </a-menu-item>
-              <a-menu-item :key="3"> 设为失败 </a-menu-item> -->
+              <a-menu-item :key="3"> {{t('task.index.6byjxbqcwt40')}} </a-menu-item> -->
             </a-menu>
           </template>
           <a-button class="btn flex items-center">
-            批量操作
+            {{ t('task.index.6byjxbqcwxk0') }}
             <DownOutlined />
           </a-button>
         </a-dropdown>
@@ -82,11 +82,15 @@
               @input="validateInput"
               @click="onInputFocus($event, 'num')"
             ></a-input>
-            页，
+            {{t('task.index.6byjxbqcx2g0')}}
           </span> -->
-            <span>共{{ Math.ceil(pageVO.total / pageVO.pageSize) }}页，{{
-              pageVO.total
-            }}条记录
+            <span>{{
+              t('task.index.6byp65r4ur00')
+                + Math.ceil(pageVO.total / pageVO.pageSize)
+                + t('task.index.6byjxbqcx2g0')
+                + pageVO.total
+                + t('task.index.6byp65r4vkg0')
+            }}
             </span>
           </div>
         </template>
@@ -108,11 +112,13 @@
 <script lang="ts" setup>
 import { DownOutlined } from '@ant-design/icons-vue';
 import { defineProps, reactive } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { TaskModule } from '@/apis/proApi';
 import { contextHolder, openNotify } from '@/components/base/useNotification';
 import TheModal from '@/components/modal/TheModal.vue';
 import { useAppStore } from '@/store/index';
 import TaskCard from './card.vue';
+
 import TeamForm from './task-form.vue';
 
 const props = defineProps({
@@ -121,13 +127,14 @@ const props = defineProps({
   docTaskId: String,
   changeTaskIdOrBatchId: Function,
 });
+const { t } = useI18n();
 const title: {
   [key: string]: string;
 } = {
-  0: '挂起',
-  1: '恢复生产',
-  2: '设为成功',
-  3: '设为失败',
+  0: t('task.index.6byjxbqcwnk0'),
+  1: t('task.index.6byjxbqcwe00'),
+  2: t('task.index.6byjxbqcx880'),
+  3: t('task.index.6byjxbqcwt40'),
 };
 const handleMenuClick: MenuProps['onClick'] = (e) => {
   rowAction(e.key);
@@ -159,12 +166,16 @@ function rowAction(type: number, taskID?: string) {
   checkRow.value = !taskID ? checkRow.value : [{ taskID }];
   nextTick(() => {
     if (checkRow.value.length === 0 && oldCheckedRow.value.length === 0) {
-      openNotify('bottomRight', `您还没有选中数据`);
+      openNotify('bottomRight', t('task.index.6byk27z0mho0'));
     }
     if (checkRow.value.length || oldCheckedRow.value.length) {
-      modal.value = `可能含有不能${title[type]}的数据，是否继续${title[type]}${
-        checkRow.value.length
-      }条数据?`;
+      modal.value
+        = t('task.index.6bykuwgiqng0')
+          + title[type]
+          + t('task.index.6bykuwgittc0')
+          + title[type]
+          + checkRow.value.length
+          + t('task.index.6bykuwgiu280');
       isReset.value = type;
       open.value = true;
     }
@@ -194,7 +205,9 @@ async function operate() {
     });
     openNotify(
       'bottomRight',
-      `${isReset.value ? '恢复生产' : '挂起'}操作成功`,
+      (isReset.value
+        ? t('task.index.6byjxbqcwe00')
+        : t('task.index.6byjxbqcwnk0')) + t('task.index.6byl3ok0hfk0'),
       true,
     );
     getDataPage();
@@ -203,7 +216,12 @@ async function operate() {
   }
   catch (error) {
     error;
-    openNotify('bottomRight', `${isReset.value ? '恢复生产' : '挂起'}操作失败`);
+    openNotify(
+      'bottomRight',
+      (isReset.value
+        ? t('task.index.6byjxbqcwe00')
+        : t('task.index.6byjxbqcwnk0')) + t('task.index.6byl3ok0qtc0'),
+    );
   }
   finally {
     setOpen(false);
@@ -239,7 +257,7 @@ async function getDataPage() {
   }
   catch (error) {
     error;
-    openNotify('bottomRight', `接口超时`);
+    openNotify('bottomRight', t('task.index.6byk27z0puc0'));
     // stop();
   }
   finally {

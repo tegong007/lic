@@ -1,6 +1,6 @@
-import { notification } from 'ant-design-vue';
 import type { NotificationPlacement } from 'ant-design-vue';
-
+import { notification } from 'ant-design-vue';
+import { useAppStore } from '@/store';
 // 创建通知实例
 const [api, contextHolder] = notification.useNotification();
 
@@ -10,9 +10,11 @@ export function openNotify(
   msg: any,
   success?: boolean,
 ) {
+  const appStore = useAppStore(); // 获取 Pinia Store
+  const t = appStore.t; // 从 Pinia Store 中获取 t 函数
   if (success) {
     api.success({
-      message: '成功',
+      message: t('notify.title.6byl3ok0hfk0'),
       description: `${msg}`,
       placement,
       class: 'notification-custom-class',
@@ -20,7 +22,7 @@ export function openNotify(
   }
   else {
     api.error({
-      message: '错误信息',
+      message: t('notify.title.6byl3ok0qtc0'),
       description: `${msg}`,
       placement,
       class: 'notification-custom-class',

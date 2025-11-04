@@ -14,13 +14,14 @@
       align="center"
       class="absolute top-0 w-full p-x-5vh p-t-0vh text-[24px] color-[#CFDEF1]"
     >
-      <span class="light relative">网络状态:{{ showConnect }}</span>
+      <span class="light relative">{{ t('bigScreen.header.6bypeg2hkjo1') + showConnect }}</span>
       <span class="light relative">{{ currentTime }}</span>
     </a-flex>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { useI18n } from 'vue-i18n';
 // import TheModal from '@/components/modal/TheModal.vue';
 import { mainTainModule } from '@/apis/proApi';
 // import useCustomTimer from '@/utils/useCustomTimer';
@@ -29,21 +30,22 @@ import { formatDateTime } from '@/utils/time';
 const props = defineProps({
   title: String,
 });
+const { t } = useI18n();
 // 时间展示
 const timeId = ref(); // 用于控制定时器逻辑是否继续执行
 const currentTime = ref('2024-12-18 14:37:23');
-const showConnect = ref('未连接');
+const showConnect = ref(t('bigScreen.header.6bypeg2hh240'));
 async function getData() {
   try {
     // useAppStore().setSpinning(true);
     const data = await mainTainModule.getVersion({ type: 1 });
     if (data.code === 0) {
-      showConnect.value = '已连接';
+      showConnect.value = t('bigScreen.header.6bypeg2hkjo0');
     }
   }
   catch (error) {
     error;
-    showConnect.value = '未连接';
+    showConnect.value = t('bigScreen.header.6bypeg2hh240');
   }
 }
 async function startClick() {

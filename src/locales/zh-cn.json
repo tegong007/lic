@@ -29,6 +29,11 @@
       "6byils8uk0o0": "成功",
       "6byimfqtd140": "初始化接口调用成功",
       "6byimfqtf900": "初始化接口调用失败"
+    },
+    "header": {
+      "6bypeg2hh240": "未连接",
+      "6bypeg2hkjo0": "已连接",
+      "6bypeg2hkjo1": "网络状态:"
     }
   },
   "base": {
@@ -46,6 +51,123 @@
       "6byipw7d6e40": "确认暂停进本？",
       "6byipw7d6hw0": "确认启动设备？",
       "6byipw7d6kw0": "确认继续进本？"
+    }
+  },
+  "task": {
+    "index": {
+      "6byjxbqct0k0": "刷新",
+      "6byjxbqcwe00": "恢复生产",
+      "6byjxbqcwnk0": "挂起",
+      "6byjxbqcwt40": "设为失败",
+      "6byjxbqcwxk0": "批量操作",
+      "6byjxbqcx2g0": "页，",
+      "6byjxbqcx880": "设为成功",
+      "6byk27z0mho0": "您还没有选中数据",
+      "6byk27z0puc0": "接口超时",
+      "6bykuwgiqng0": "可能含有不能",
+      "6bykuwgittc0": "的数据，是否继续",
+      "6bykuwgiu280": "条数据?",
+      "6byl3ok0hfk0": "操作成功",
+      "6byl3ok0qtc0": "操作失败",
+      "6byp65r4ur00": "共",
+      "6byp65r4vkg0": "条记录"
+    },
+    "task-form": {
+      "6byof7oj13c0": "任务号",
+      "6byof7oj42g0": "批次号",
+      "6byof7oj4o80": "状态",
+      "6byof7oj4r40": "日期",
+      "6byof7oj4sw0": "查询",
+      "6byof7oj4v80": "重置"
+    },
+    "card": {
+      "6byojamh4kc0": "全选",
+      "6byojamh8jk0": "暂无数据",
+      "6byojamh95s0": "查询制证数据",
+      "6byojamh9cw0": "挂起",
+      "6byojamh9t00": "恢复生产",
+      "6byot18vaag0": "序号：",
+      "6byot18vgvk0": "任务号：",
+      "6byot18vh800": "批次号：",
+      "6byot18vhek0": "证本数：",
+      "6byot18vhmg0": "接收时间：",
+      "6byot18vhxc0": "开始生产时间：",
+      "6byot18vi2s0": "良本数：",
+      "6byot18vi5s0": "废本数：",
+      "6byot18vic00": "待生产数：",
+      "6byot18vih40": "挂起数：",
+      "6byot18vio00": "状态："
+    }
+  },
+  "notify": {
+    "title": {
+      "6byl3ok0hfk0": "成功",
+      "6byl3ok0qtc0": "失败"
+    }
+  },
+  "searchCard": {
+    "index": {
+      "6byowy3yqao0": "查询",
+      "6byowy3yrk00": "搜索类型：",
+      "6byowy3yrok0": "任务",
+      "6byowy3yrrc0": "制证数据",
+      "6byowy3yrts0": "证本",
+      "6byowy3yrw80": "批次查询",
+      "6byowy3yryc0": "返回首页"
+    }
+  },
+  "setting": {
+    "index": {
+      "6byq1dbf7yw0": "设置",
+      "6byq1dbf9zc0": "返回首页",
+      "6byq1dbfa7g0": "设置页"
+    },
+    "set": {
+      "6byq4tq8xgw0": "喷墨打印位置调整",
+      "6byq4tq8zag0": "主副页（平台1）",
+      "6byq4tq8zgw0": "主副页（平台2）",
+      "6byq4tq8zms0": "加注页（平台1）",
+      "6byq4tq8zr00": "加注页（平台2）",
+      "6byq4tq8zuk0": "打印位置重读)",
+      "6byq4tq8zy00": "重读",
+      "6byq4tq903o0": "打印位置保存)",
+      "6byq4tq905s0": "保存",
+      "6byq4tq90880": "喷墨定位基准",
+      "6byq4tq90ck0": "暂无提示图片",
+      "6byq4tq90n00": "平台1",
+      "6byq4tq90q80": "平台2",
+      "6byq4tq90t40": "定位基准重读)",
+      "6byq4tq90vg0": "定位基准保存)",
+      "6byq4tq90z80": "进本槽设置",
+      "6byq4tq911c0": "进本槽1",
+      "6byq4tq915c0": "是否启用：",
+      "6byq4tq91780": "进本槽2",
+      "6byq4tq91bw0": "进本槽3",
+      "6byq4tq91go0": "进本槽4",
+      "6byq4tq91kc0": "收本槽设置",
+      "6byq4tq91ng0": "收本槽1",
+      "6byq4tq91pw0": "收本槽2",
+      "6byq4tq91ss0": "收本槽3",
+      "6byq4tq91uw0": "收本槽4",
+      "6byq4tq91xs0": "收本槽5",
+      "6byq4tq91zs0": "演示模式",
+      "6byq4tq92300": "添加任务",
+      "6byq4tq925g0": "密码设置",
+      "6byq4tq92880": "设置密码",
+      "6byq4tq92bw0": "读取设置页面失败",
+      "6byq4tq92h80": "打印位置重读",
+      "6byq4tq92iw0": "打印位置保存",
+      "6byq4tq92k40": "保存喷墨平台配置成功",
+      "6byq4tq92m00": "定位基准重读",
+      "6byq4tq92nk0": "定位基准保存",
+      "6byq4tq92pc0": "保存喷墨定位基准成功",
+      "6byq4tq92pc1": "X轴：",
+      "6byq4tq92pc2": "mm",
+      "6byq4tq92pc3": "Y轴：",
+      "6byq4tq92pc4": "0.001mm",
+      "6byqkadnf4w0": "错误",
+      "6byqkadnf4w1": "成功",
+      "range1": "范围是（0-1200）"
     }
   }
 }

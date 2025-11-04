@@ -1,7 +1,7 @@
 <template>
   <div class="box-border h-83vh w-full flex flex-col gap-10">
     <div class="bg-[#fff]/[0.4] p-y-5px p-l-0.5em">
-      <span>喷墨打印位置调整</span>
+      <span>{{ t('setting.set.6byq4tq8xgw0') }}</span>
     </div>
     <div class="box-border flex flex-col">
       <div v-show="showKeyboard">
@@ -17,12 +17,12 @@
       </div>
       <section class="position-box w-full flex">
         <div class="w50% flex flex-col flex-1 pl-20">
-          <div>主副页（平台1）</div>
+          <div>{{ t('setting.set.6byq4tq8zag0') }}</div>
           <table>
             <tbody>
               <tr>
                 <td class="text-right">
-                  X轴：
+                  {{ t('setting.set.6byq4tq92pc1') }}
                 </td>
                 <td>
                   <a-input
@@ -34,12 +34,13 @@
                     @touchstart="
                       onInputFocus($event, 'PostionData.uvMainPlatform0.x')
                     "
-                  /><span class="text-gray">mm</span>
+                  /><span class="text-gray">
+                    {{ t('setting.set.6byq4tq92pc2') }}</span>
                 </td>
               </tr>
               <tr>
                 <td class="text-right">
-                  Y轴：
+                  {{ t('setting.set.6byq4tq92pc3') }}
                 </td>
                 <td>
                   <a-input
@@ -51,19 +52,20 @@
                     @touchstart="
                       onInputFocus($event, 'PostionData.uvMainPlatform0.y')
                     "
-                  /><span class="text-gray">mm</span>
+                  /><span class="text-gray">
+                    {{ t('setting.set.6byq4tq92pc2') }}</span>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
         <div class="w50% flex flex-col flex-1 pl-20">
-          <div>主副页（平台2）</div>
+          <div>{{ t('setting.set.6byq4tq8zgw0') }}</div>
           <table>
             <tbody>
               <tr>
                 <td class="text-right">
-                  X轴：
+                  {{ t('setting.set.6byq4tq92pc1') }}
                 </td>
                 <td>
                   <a-input
@@ -74,12 +76,13 @@
                     @touchstart="
                       onInputFocus($event, 'PostionData.uvMainPlatform1.x')
                     "
-                  /><span class="text-gray">mm</span>
+                  /><span class="text-gray">
+                    {{ t('setting.set.6byq4tq92pc2') }}</span>
                 </td>
               </tr>
               <tr>
                 <td class="text-right">
-                  Y轴：
+                  {{ t('setting.set.6byq4tq92pc3') }}
                 </td>
                 <td>
                   <a-input
@@ -90,7 +93,8 @@
                     @touchstart="
                       onInputFocus($event, 'PostionData.uvMainPlatform1.y')
                     "
-                  /><span class="text-gray">mm</span>
+                  /><span class="text-gray">
+                    {{ t('setting.set.6byq4tq92pc2') }}</span>
                 </td>
               </tr>
             </tbody>
@@ -99,12 +103,12 @@
       </section>
       <section class="position-box w-full flex p-t-0">
         <div class="w50% flex flex-col flex-1 pl-20">
-          <div>加注页（平台1）</div>
+          <div>{{ t('setting.set.6byq4tq8zms0') }}</div>
           <table>
             <tbody>
               <tr>
                 <td class="text-right">
-                  X轴：
+                  {{ t('setting.set.6byq4tq92pc1') }}
                 </td>
                 <td>
                   <a-input
@@ -116,12 +120,13 @@
                     @touchstart="
                       onInputFocus($event, 'PostionData.uvObsvPlatform0.x')
                     "
-                  /><span class="text-gray">mm</span>
+                  /><span class="text-gray">
+                    {{ t('setting.set.6byq4tq92pc2') }}</span>
                 </td>
               </tr>
               <tr>
                 <td class="text-right">
-                  Y轴：
+                  {{ t('setting.set.6byq4tq92pc3') }}
                 </td>
                 <td>
                   <a-input
@@ -133,19 +138,20 @@
                     @touchstart="
                       onInputFocus($event, 'PostionData.uvObsvPlatform0.y')
                     "
-                  /><span class="text-gray">mm</span>
+                  /><span class="text-gray">
+                    {{ t('setting.set.6byq4tq92pc2') }}</span>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
         <div class="w50% flex flex-col flex-1 pl-20">
-          <div>加注页（平台2）</div>
+          <div>{{ t('setting.set.6byq4tq8zr00') }}</div>
           <table>
             <tbody>
               <tr>
                 <td class="text-right">
-                  X轴：
+                  {{ t('setting.set.6byq4tq92pc1') }}
                 </td>
                 <td>
                   <a-input
@@ -156,12 +162,13 @@
                     @touchstart="
                       onInputFocus($event, 'PostionData.uvObsvPlatform1.x')
                     "
-                  /><span class="text-gray">mm</span>
+                  /><span class="text-gray">
+                    {{ t('setting.set.6byq4tq92pc2') }}</span>
                 </td>
               </tr>
               <tr>
                 <td class="text-right">
-                  Y轴：
+                  {{ t('setting.set.6byq4tq92pc3') }}
                 </td>
                 <td>
                   <a-input
@@ -172,7 +179,8 @@
                     @touchstart="
                       onInputFocus($event, 'PostionData.uvObsvPlatform1.y')
                     "
-                  /><span class="text-gray">mm</span>
+                  /><span class="text-gray">
+                    {{ t('setting.set.6byq4tq92pc2') }}</span>
                 </td>
               </tr>
             </tbody>
@@ -180,23 +188,27 @@
         </div>
       </section>
       <div class="h50px w-full flex items-center justify-center">
-        <a-button class="btn" type="primary" @click="BtnClick('打印位置重读')">
-          重读
+        <a-button
+          class="btn"
+          type="primary"
+          @click="BtnClick(t('setting.set.6byq4tq8zuk0'))"
+        >
+          {{ t('setting.set.6byq4tq8zy00') }}
         </a-button>
         <a-button
           class="btn ml20"
           type="primary"
-          @click="BtnClick('打印位置保存')"
+          @click="BtnClick(t('setting.set.6byq4tq903o0'))"
         >
-          保存
+          {{ t('setting.set.6byq4tq905s0') }}
         </a-button>
       </div>
     </div>
     <div class="bg-[#fff]/[0.4] p-y-5px p-l-0.5em">
-      <span>喷墨定位基准</span>
+      <span>{{ t('setting.set.6byq4tq90880') }}</span>
       <!-- <a-popover>
         <template #content>
-          <a-empty description="暂无提示图片" />
+          <a-empty :description="t('setting.set.6byq4tq90ck0')" />
         </template>
         <QuestionCircleOutlined style="margin-left: 10px" />
       </a-popover> -->
@@ -205,7 +217,7 @@
       <section class="localtion-box w-full flex flex-col">
         <div class="flex flex-col flex-1 pl-20 pt20">
           <div class="w-full p-r-50 text-center color-blue font-bold">
-            平台1
+            {{ t('setting.set.6byq4tq90n00') }}
           </div>
           <div class="w-full flex flex-wrap">
             <table
@@ -220,7 +232,7 @@
                 </tr>
                 <tr>
                   <td class="text-right">
-                    X轴：
+                    {{ t('setting.set.6byq4tq92pc1') }}
                   </td>
                   <td>
                     <a-input
@@ -230,12 +242,13 @@
                       size="large"
                       :maxlength="5"
                       @touchstart="onInputFocus($event, `platform0.${index}.x`)"
-                    /><span class="text-gray">0.001mm</span>
+                    /><span class="text-gray">
+                      {{ t('setting.set.6byq4tq92pc4') }}</span>
                   </td>
                 </tr>
                 <tr>
                   <td class="text-right">
-                    Y轴：
+                    {{ t('setting.set.6byq4tq92pc3') }}
                   </td>
                   <td>
                     <a-input
@@ -245,7 +258,8 @@
                       :maxlength="5"
                       size="large"
                       @touchstart="onInputFocus($event, `platform0.${index}.y`)"
-                    /><span class="text-gray">0.001mm</span>
+                    /><span class="text-gray">
+                      {{ t('setting.set.6byq4tq92pc4') }}</span>
                   </td>
                 </tr>
               </tbody>
@@ -256,7 +270,7 @@
       <section class="localtion-box w-full flex flex-col">
         <div class="flex flex-col flex-1 pl-20 pt20">
           <div class="w-full p-r-50 text-center color-blue font-bold">
-            平台2
+            {{ t('setting.set.6byq4tq90q80') }}
           </div>
           <div class="w-full flex flex-wrap">
             <table
@@ -271,7 +285,7 @@
                 </tr>
                 <tr>
                   <td class="text-right">
-                    X轴：
+                    {{ t('setting.set.6byq4tq92pc1') }}
                   </td>
                   <td>
                     <a-input
@@ -281,12 +295,13 @@
                       class="m-r-10 w-150px"
                       size="large"
                       @touchstart="onInputFocus($event, `platform1.${index}.x`)"
-                    /><span class="text-gray">0.001mm</span>
+                    /><span class="text-gray">
+                      {{ t('setting.set.6byq4tq92pc4') }}</span>
                   </td>
                 </tr>
                 <tr>
                   <td class="text-right">
-                    Y轴：
+                    {{ t('setting.set.6byq4tq92pc3') }}
                   </td>
                   <td>
                     <a-input
@@ -296,7 +311,8 @@
                       class="m-r-10 w-150px"
                       size="large"
                       @touchstart="onInputFocus($event, `platform1.${index}.y`)"
-                    /><span class="text-gray">0.001mm</span>
+                    /><span class="text-gray">
+                      {{ t('setting.set.6byq4tq92pc4') }}</span>
                   </td>
                 </tr>
               </tbody>
@@ -305,29 +321,33 @@
         </div>
       </section>
       <div class="w-full flex items-center justify-center">
-        <a-button class="btn" type="primary" @click="BtnClick('定位基准重读')">
-          重读
+        <a-button
+          class="btn"
+          type="primary"
+          @click="BtnClick(t('setting.set.6byq4tq90t40'))"
+        >
+          {{ t('setting.set.6byq4tq8zy00') }}
         </a-button>
         <a-button
           class="btn ml20"
           type="primary"
-          @click="BtnClick('定位基准保存')"
+          @click="BtnClick(t('setting.set.6byq4tq90vg0'))"
         >
-          保存
+          {{ t('setting.set.6byq4tq905s0') }}
         </a-button>
       </div>
     </div>
     <div class="bg-[#fff]/[0.4] p-y-5px p-l-0.5em">
-      <span>进本槽设置</span>
+      <span>{{ t('setting.set.6byq4tq90z80') }}</span>
     </div>
 
     <section class="position-box w-full flex">
       <div class="flex flex-col flex-1 pl-20">
         <div class="mt10">
-          进本槽1
+          {{ t('setting.set.6byq4tq911c0') }}
         </div>
         <div class="m-y-10 text-center">
-          是否启用：
+          {{ t('setting.set.6byq4tq915c0') }}
           <a-switch
             v-model:checked="LoadSlotData.no1"
             @change="switchChange($event, 'LoadSlotData.no1')"
@@ -336,10 +356,10 @@
       </div>
       <div class="flex flex-col flex-1 pl-20">
         <div class="mt10">
-          进本槽2
+          {{ t('setting.set.6byq4tq91780') }}
         </div>
         <div class="m-y-10 text-center">
-          是否启用：
+          {{ t('setting.set.6byq4tq915c0') }}
           <a-switch
             v-model:checked="LoadSlotData.no2"
             @change="switchChange($event, 'LoadSlotData.no2')"
@@ -348,10 +368,10 @@
       </div>
       <div class="flex flex-col flex-1 pl-20">
         <div class="mt10">
-          进本槽3
+          {{ t('setting.set.6byq4tq91bw0') }}
         </div>
         <div class="m-y-10 text-center">
-          是否启用：
+          {{ t('setting.set.6byq4tq915c0') }}
           <a-switch
             v-model:checked="LoadSlotData.no3"
             @change="switchChange($event, 'LoadSlotData.no3')"
@@ -360,10 +380,10 @@
       </div>
       <div class="flex flex-col flex-1 pl-20">
         <div class="mt10">
-          进本槽4
+          {{ t('setting.set.6byq4tq91go0') }}
         </div>
         <div class="m-y-10 text-center">
-          是否启用：
+          {{ t('setting.set.6byq4tq915c0') }}
           <a-switch
             v-model:checked="LoadSlotData.no4"
             @change="switchChange($event, 'LoadSlotData.no4')"
@@ -372,16 +392,16 @@
       </div>
     </section>
     <div class="bg-[#fff]/[0.4] p-y-5px p-l-0.5em">
-      <span>收本槽设置</span>
+      <span>{{ t('setting.set.6byq4tq91kc0') }}</span>
     </div>
 
     <section class="position-box w-full flex">
       <div class="flex flex-col flex-1 pl-20">
         <div class="mt10">
-          收本槽1
+          {{ t('setting.set.6byq4tq91ng0') }}
         </div>
         <div class="m-y-10 text-center">
-          是否启用：
+          {{ t('setting.set.6byq4tq915c0') }}
           <a-switch
             v-model:checked="CollectionSlot.no1"
             @change="switchChange($event, 'CollectionSlot.no1')"
@@ -390,10 +410,10 @@
       </div>
       <div class="flex flex-col flex-1 pl-20">
         <div class="mt10">
-          收本槽2
+          {{ t('setting.set.6byq4tq91pw0') }}
         </div>
         <div class="m-y-10 text-center">
-          是否启用：
+          {{ t('setting.set.6byq4tq915c0') }}
           <a-switch
             v-model:checked="CollectionSlot.no2"
             @change="switchChange($event, 'CollectionSlot.no2')"
@@ -402,10 +422,10 @@
       </div>
       <div class="flex flex-col flex-1 pl-20">
         <div class="mt10">
-          收本槽3
+          {{ t('setting.set.6byq4tq91ss0') }}
         </div>
         <div class="m-y-10 text-center">
-          是否启用：
+          {{ t('setting.set.6byq4tq915c0') }}
           <a-switch
             v-model:checked="CollectionSlot.no3"
             @change="switchChange($event, 'CollectionSlot.no3')"
@@ -414,10 +434,10 @@
       </div>
       <div class="flex flex-col flex-1 pl-20">
         <div class="mt10">
-          收本槽4
+          {{ t('setting.set.6byq4tq91uw0') }}
         </div>
         <div class="m-y-10 text-center">
-          是否启用：
+          {{ t('setting.set.6byq4tq915c0') }}
           <a-switch
             v-model:checked="CollectionSlot.no4"
             @change="switchChange($event, 'CollectionSlot.no4')"
@@ -426,10 +446,10 @@
       </div>
       <div class="flex flex-col flex-1 pl-20">
         <div class="mt10">
-          收本槽5
+          {{ t('setting.set.6byq4tq91xs0') }}
         </div>
         <div class="m-y-10 text-center">
-          是否启用：
+          {{ t('setting.set.6byq4tq915c0') }}
           <a-switch
             v-model:checked="CollectionSlot.no5"
             @change="switchChange($event, 'CollectionSlot.no5')"
@@ -438,26 +458,26 @@
       </div>
     </section>
     <div class="bg-[#fff]/[0.4] p-y-5px p-l-0.5em">
-      <span>演示模式</span>
+      <span>{{ t('setting.set.6byq4tq91zs0') }}</span>
     </div>
     <section class="p-l-2em p-t-1em">
       <a-button class="btn" type="primary" @click="$goto('AddTask')">
-        添加任务
+        {{ t('setting.set.6byq4tq92300') }}
       </a-button>
     </section>
     <div class="mt1em bg-[#fff]/[0.4] p-y-5px p-l-0.5em">
-      <span>密码设置</span>
+      <span>{{ t('setting.set.6byq4tq925g0') }}</span>
     </div>
     <section class="p-b-1em p-l-2em p-t-1em">
       <a-button class="btn" type="primary" @click="setSuccessOpen(true)">
-        密码设置
+        {{ t('setting.set.6byq4tq925g0') }}
       </a-button>
     </section>
     <SuceessModal
       :open="successOpen"
       :handle-ok="() => setSuccessOpen(false)"
       :handle-cancel="() => setSuccessOpen(false)"
-      title="设置密码"
+      :title="t('setting.set.6byq4tq92880')"
     />
 
     <contextHolder />
@@ -466,6 +486,7 @@
 
 <script lang="ts" setup>
 import { App } from 'ant-design-vue';
+import { useI18n } from 'vue-i18n';
 import { settingMoule } from '@/apis/proApi';
 import SimpleKeyboard from '@/components/base/simpleKeyboard.vue';
 import { contextHolder } from '@/components/base/useNotification';
@@ -475,6 +496,7 @@ import SuceessModal from './sort/setPwModal.vue';
 const props = defineProps({
   currentModel: String,
 });
+const { t } = useI18n();
 const successOpen = ref<boolean>(false);
 function setSuccessOpen(value: boolean) {
   successOpen.value = value;
@@ -581,8 +603,8 @@ async function getData() {
     }
     else {
       notification.error({
-        message: `错误`,
-        description: '读取设置页面失败',
+        message: t('setting.set.6byqkadnf4w0'),
+        description: t('setting.set.6byq4tq92bw0'),
         class: 'notification-custom-class',
         placement: 'bottomRight',
       });
@@ -590,7 +612,7 @@ async function getData() {
   }
   catch (error) {
     notification.error({
-      message: `错误`,
+      message: t('setting.set.6byqkadnf4w0'),
       class: 'notification-custom-class',
       description: error,
       placement: 'bottomRight',
@@ -605,13 +627,13 @@ async function getData() {
 function getCategoryName(category) {
   switch (category) {
     case 'uvMainPlatform0':
-      return '主副页（平台1）';
+      return t('setting.set.6byq4tq8zag0');
     case 'uvMainPlatform1':
-      return '主副页（平台2）';
+      return t('setting.set.6byq4tq8zgw0');
     case 'uvObsvPlatform0':
-      return '加注页（平台1）';
+      return t('setting.set.6byq4tq8zms0');
     case 'uvObsvPlatform1':
-      return '加注页（平台2）';
+      return t('setting.set.6byq4tq8zr00');
     default:
       return category;
   }
@@ -636,7 +658,7 @@ async function switchChange(e, item) {
   }
   catch (error) {
     notification.error({
-      message: '错误',
+      message: t('setting.set.6byq4tq92ek0'),
       description: error,
       class: 'notification-custom-class',
       placement: 'bottomRight',
@@ -652,7 +674,7 @@ async function switchChange(e, item) {
 async function BtnClick(key: string) {
   useAppStore().setSpinning(true);
   switch (key) {
-    case '打印位置重读':
+    case t('setting.set.6byq4tq92h80'):
       try {
         const data = await settingMoule.getUvPlatformConfig();
         if (data.respData) {
@@ -661,7 +683,7 @@ async function BtnClick(key: string) {
       }
       catch (error) {
         notification.error({
-          message: `错误`,
+          message: t('setting.set.6byqkadnf4w0'),
           description: error,
           class: 'notification-custom-class',
           placement: 'bottomRight',
@@ -672,7 +694,7 @@ async function BtnClick(key: string) {
       }
 
       break;
-    case '打印位置保存':
+    case t('setting.set.6byq4tq92iw0'):
       try {
         Object.keys(PostionData.value).forEach((key) => {
           const xStr = PostionData.value[key].x;
@@ -684,14 +706,20 @@ async function BtnClick(key: string) {
           // 校验 x 是否为数字且在 0 到 1200 的范围内
           if (Number.isNaN(xNum) || xNum < 0 || xNum > 1200) {
             throw new Error(
-              `喷墨打印位置调整:${getCategoryName(key)}X轴范围是（0-1200）`,
+              `${t('setting.set.6byq4tq8xgw0')
+              }:${
+                getCategoryName(key)}${t('setting.set.6byq4tq92pc1')
+              }${t('setting.set.range1')}`,
             );
           }
 
           // 校验 y 是否为数字且在 0 到 1200 的范围内
           if (Number.isNaN(yNum) || yNum < 0 || yNum > 1200) {
             throw new Error(
-              `喷墨打印位置调整:'+${getCategoryName(key)}+'Y轴范围是（0-1200）`,
+              `${t('setting.set.6byq4tq8xgw0')
+              }:${
+                getCategoryName(key)}${t('setting.set.6byq4tq92pc3')
+              }${t('setting.set.range1')}`,
             );
           }
 
@@ -699,17 +727,17 @@ async function BtnClick(key: string) {
           PostionData.value[key].y = Number.parseFloat(yNum.toFixed(2));
         });
         await settingMoule.setUvPlatformConfig(PostionData.value);
-        await BtnClick('打印位置重读');
+        await BtnClick(t('setting.set.6byq4tq92h80'));
         notification.success({
-          message: `成功`,
-          description: '保存喷墨平台配置成功',
+          message: t('setting.set.6byqkadnf4w1'),
+          description: t('setting.set.6byq4tq92k40'),
           class: 'notification-custom-class',
           placement: 'bottomRight',
         });
       }
       catch (error) {
         notification.error({
-          message: `错误`,
+          message: t('setting.set.6byqkadnf4w0'),
           description: error,
           class: 'notification-custom-class',
           placement: 'bottomRight',
@@ -720,7 +748,7 @@ async function BtnClick(key: string) {
       }
 
       break;
-    case '定位基准重读':
+    case t('setting.set.6byq4tq92m00'):
       try {
         const data = await settingMoule.getUvLocationg();
         if (data.respData) {
@@ -729,7 +757,7 @@ async function BtnClick(key: string) {
       }
       catch (error) {
         notification.error({
-          message: `错误`,
+          message: t('setting.set.6byqkadnf4w0'),
           description: error,
           class: 'notification-custom-class',
           placement: 'bottomRight',
@@ -739,7 +767,7 @@ async function BtnClick(key: string) {
         useAppStore().setSpinning(false);
       }
       break;
-    case '定位基准保存':
+    case t('setting.set.6byq4tq92nk0'):
       try {
         Object.keys(LocaltionData.value).forEach((platformKey) => {
           LocaltionData.value[platformKey].forEach((item) => {
@@ -769,17 +797,17 @@ async function BtnClick(key: string) {
         });
 
         await settingMoule.setUvLocationg(LocaltionData.value);
-        await BtnClick('定位基准重读');
+        await BtnClick(t('setting.set.6byq4tq92m00'));
         notification.success({
-          message: `成功`,
-          description: '保存喷墨定位基准成功',
+          message: t('setting.set.6byqkadnf4w1'),
+          description: t('setting.set.6byq4tq92pc0'),
           class: 'notification-custom-class',
           placement: 'bottomRight',
         });
       }
       catch (error) {
         notification.error({
-          message: `错误`,
+          message: t('setting.set.6byqkadnf4w0'),
           description: error,
           class: 'notification-custom-class',
           placement: 'bottomRight',

@@ -9,7 +9,7 @@
         <a-col :span="4" />
 
         <a-col :span="3">
-          <a-form-item label="任务号" name="taskID">
+          <a-form-item :label="t('task.task-form.6byof7oj13c0')" name="taskID">
             <a-input
               v-model:value="formState.taskID"
               :maxlength="30"
@@ -19,7 +19,7 @@
           </a-form-item>
         </a-col>
         <a-col :span="3">
-          <a-form-item label="批次号" name="batchID">
+          <a-form-item :label="t('task.task-form.6byof7oj42g0')" name="batchID">
             <a-input
               v-model:value="formState.batchID"
               :maxlength="30"
@@ -29,7 +29,7 @@
           </a-form-item>
         </a-col>
         <a-col :span="3">
-          <a-form-item label="状态" name="status">
+          <a-form-item :label="t('task.task-form.6byof7oj4o80')" name="status">
             <a-select v-model:value="formState.status" class="w-200px">
               <a-select-option
                 v-for="option in TaskStatusOptions"
@@ -42,7 +42,10 @@
           </a-form-item>
         </a-col>
         <a-col :span="6">
-          <a-form-item label="日期" name="dateRange">
+          <a-form-item
+            :label="t('task.task-form.6byof7oj4r40')"
+            name="dateRange"
+          >
             <a-range-picker
               v-model:value="formState.dateRange"
               value-format="YYYY-MM-DD"
@@ -60,14 +63,14 @@
               @click="onSubmit"
             >
               <SearchOutlined />
-              查询
+              {{ t('task.task-form.6byof7oj4sw0') }}
             </a-button>
             <a-button
               type="primary"
               class="btn ml10 w80px hover:text-[#89f7ff]!"
               @click="clearAll"
             >
-              重置
+              {{ t('task.task-form.6byof7oj4v80') }}
             </a-button>
           </div>
         </a-col>
@@ -89,6 +92,7 @@
 import type { UnwrapRef } from 'vue';
 import { SearchOutlined } from '@ant-design/icons-vue';
 import { defineExpose, defineProps, reactive } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import SimpleKeyboard from '@/components/base/simpleKeyboard.vue';
 import { TaskStatusOptions } from '@/pages/bigScreen/batch/option.ts';
@@ -96,6 +100,7 @@ import { TaskStatusOptions } from '@/pages/bigScreen/batch/option.ts';
 const props = defineProps({
   setSearchForm: Function,
 });
+const { t } = useI18n();
 const route = useRoute();
 const formRef = ref();
 

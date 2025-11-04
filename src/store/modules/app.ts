@@ -1,7 +1,12 @@
-import { defineStore } from 'pinia';
-import { useDark } from '@vueuse/core';
 import { generate, getRgbStr } from '@arco-design/color';
-import { defaultLayout, defaultPrimaryColor, naiveThemeOverrides } from '@/settings';
+import { useDark } from '@vueuse/core';
+import { defineStore } from 'pinia';
+import { useI18n } from 'vue-i18n';
+import {
+  defaultLayout,
+  defaultPrimaryColor,
+  naiveThemeOverrides,
+} from '@/settings';
 
 export const useAppStore = defineStore('app', {
   state: () => ({
@@ -11,6 +16,7 @@ export const useAppStore = defineStore('app', {
     spinning: false,
     primaryColor: defaultPrimaryColor,
     naiveThemeOverrides,
+    t: useI18n().t, // 添加 t 函数
   }),
   actions: {
     switchCollapsed() {
@@ -37,12 +43,15 @@ export const useAppStore = defineStore('app', {
         dark: isDark,
       });
       document.body.style.setProperty('--primary-color', getRgbStr(colors[5]));
-      this.naiveThemeOverrides.common = Object.assign(this.naiveThemeOverrides.common || {}, {
-        primaryColor: colors[5],
-        primaryColorHover: colors[4],
-        primaryColorSuppl: colors[4],
-        primaryColorPressed: colors[6],
-      });
+      this.naiveThemeOverrides.common = Object.assign(
+        this.naiveThemeOverrides.common || {},
+        {
+          primaryColor: colors[5],
+          primaryColorHover: colors[4],
+          primaryColorSuppl: colors[4],
+          primaryColorPressed: colors[6],
+        },
+      );
     },
   },
 });
