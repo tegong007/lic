@@ -1,12 +1,12 @@
 import { createI18n } from 'vue-i18n';
-import enLocale from './locales/en.json';
-import cnLocale from './locales/cn.json';
+import enLocale from '@/locales/en.json';
+import cnLocale from '@/locales/zh-cn.json';
 
-const systemLocale = await window.electronAPI.getConfig(); // 获取系统语言设置
+// const systemLocale = await window.electronAPI.getConfig(); // 获取系统语言设置
 
 const i18n = createI18n({
   legacy: false,
-  locale: systemLocale.lang,
+  locale: window.lang ?? 'en',
   globalInjection: true, // 全局注册$t方法
   messages: {
     en: {

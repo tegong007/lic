@@ -1,0 +1,51 @@
+{
+  "bigScreen": {
+    "newIndex": {
+      "6btq9m6hye00": "Smart Passport Platform",
+      "6btq9m6i34c0": "Current Task",
+      "6btq9m6i3dc0": "Total Certs",
+      "6btq9m6i3lo0": "Entered",
+      "6btq9m6i3s80": "Pending",
+      "6btq9m6i3yg0": "Start",
+      "6btq9m6i4400": "Add",
+      "6btq9m6i4ro0": "Continue",
+      "6btq9m6i5f80": "Pause",
+      "6btq9m6i6rg0": "Start",
+      "6btq9m6i7800": "Pause",
+      "6btq9m6i7g00": "Batch Query",
+      "6btq9m6i7kc0": "Cert Query",
+      "6btq9m6i7ow0": "Query",
+      "6btq9m6i7rs0": "Settings",
+      "6btq9m6i7v40": "Maintenance",
+      "6btq9m6i7zg0": "Init",
+      "6btq9m6i82c0": "Timeout",
+      "6btq9m6i8580": "Confirm Start",
+      "6btq9m6i88s0": "Confirm Continue",
+      "6btq9m6i8e00": "Confirm Add",
+      "6btq9m6i8i80": "Confirm Pause",
+      "6btq9m6i8mo0": "Confirm Pause",
+      "6btq9m6i8qg0": "Confirm Start",
+      "6byiku55ocw0": "Error",
+      "6byils8uk0o0": "Success",
+      "6byimfqtd140": "Init Success",
+      "6byimfqtf900": "Init Fail"
+    }
+  },
+  "base": {
+    "TheButton": {
+      "6byi3ir3l900": "Pause"
+    }
+  },
+  "modal": {
+    "docNumModal": {
+      "6byipw7d4ac0": "Confirm Start",
+      "6byipw7d5xg0": "Confirm Add",
+      "6byipw7d6480": "Number",
+      "6byipw7d67g0": "Enter Number",
+      "6byipw7d6a00": "Confirm Pause",
+      "6byipw7d6e40": "Confirm Pause",
+      "6byipw7d6hw0": "Confirm Start",
+      "6byipw7d6kw0": "Confirm Continue"
+    }
+  }
+}

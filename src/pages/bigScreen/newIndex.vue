@@ -2,23 +2,26 @@
   <div
     class="bg relative h-100vh flex flex-col items-center text-[18px] text-white"
   >
-    <bigScreenHeader title="智能护照制证平台" />
+    <bigScreenHeader :title="t('bigScreen.newIndex.6btq9m6hye00')" />
     <div
       class="relative top-1vh w-98% flex flex-col gap-5 text-20px text-white color-[#CFDEF1] font-semibold"
     >
       <div class="text-center">
-        当前生产任务
+        {{ t('bigScreen.newIndex.6btq9m6i34c0') }}
       </div>
       <div
         class="flex items-center justify-between bg-slate-500/30 p-10 p-x-3vh"
       >
-        <span>证本总数：<span class="text-1.6vh font-[youshe]">{{
+        <span>{{ t('bigScreen.newIndex.6btq9m6i3dc0')
+        }}<span class="text-1.6vh font-[youshe]">{{
           entire.machineTotalDoc
         }}</span></span>
-        <span>已进本：<span class="text-1.6vh font-[youshe]">{{
+        <span>{{ t('bigScreen.newIndex.6btq9m6i3lo0')
+        }}<span class="text-1.6vh font-[youshe]">{{
           entire.machineHandledDoc
         }}</span></span>
-        <span>待进本：<span class="text-1.6vh font-[youshe]">{{
+        <span>{{ t('bigScreen.newIndex.6btq9m6i3s80')
+        }}<span class="text-1.6vh font-[youshe]">{{
           entire.machineRemainDoc
         }}</span></span>
       </div>
@@ -130,15 +133,22 @@
       class="groupBtn absolute bottom-9vh z-22 h8em w-full flex items-center justify-center gap-20"
     >
       <TheButton
-        :title="entire?.taskStatus === 0 ? '开始进本' : '加本'"
+        :title="
+          entire?.taskStatus === 0
+            ? t('bigScreen.newIndex.6btq9m6i3yg0')
+            : t('bigScreen.newIndex.6btq9m6i4400')
+        "
         @click="setModal(0, entire?.taskStatus === 0 ? 'open' : 'add')"
       />
       <TheButton
         v-if="entire?.machineRemainDoc !== 0"
-        :title="canContinue ? '继续进本' : '暂停进本'"
+        :title="
+          canContinue
+            ? t('bigScreen.newIndex.6btq9m6i4ro0')
+            : t('bigScreen.newIndex.6btq9m6i5f80')
+        "
         @click="
           setModal(canContinue ? 0 : 1, canContinue ? 'continue' : 'pause')
-
         "
       />
       <!-- <button @click="addRectangle()">Add Rectangle</button>
@@ -152,8 +162,8 @@
         class="absolute right-2vh"
         :title="
           entire.beltStatusDetail === 111 || entire.beltStatusDetail === 113
-            ? '启动设备'
-            : '暂停设备'
+            ? t('bigScreen.newIndex.6btq9m6i6rg0')
+            : t('bigScreen.newIndex.6btq9m6i7800')
         "
         @click="
           setModal(
@@ -170,28 +180,35 @@
       class="groupBtn absolute bottom-1vh h8em w-98% flex items-center justify-center gap-20"
     >
       <!-- <div class="flex">
-        <TheButton title="批次查询" @click="$goto('BatchList')" />
+        <TheButton :title="t('bigScreen.newIndex.6btq9m6i7g00')" @click="$goto('BatchList')" />
       </div>
      <div class="flex">
-        <TheButton title="批次查询" @click="$goto('BatchList')" />
+        <TheButton :title="t('bigScreen.newIndex.6btq9m6i7g00')" @click="$goto('BatchList')" />
       </div>
       <div class="flex">
-        <TheButton title="证本查询" @click="$goto('docList')" />
+        <TheButton :title="t('bigScreen.newIndex.6btq9m6i7kc0')" @click="$goto('docList')" />
       </div> -->
       <div class="flex">
-        <TheButton title="查询" @click="$goto('SearchCard', { choose: 1 })" />
+        <TheButton
+          :title="t('bigScreen.newIndex.6btq9m6i7ow0')"
+          @click="$goto('SearchCard', { choose: 1 })"
+        />
       </div>
       <!-- <span class="h-50% w-2px bg-[#8BB2FF]" /> -->
       <div class="flex gap-20">
         <TheButton
-          title="设备设置"
+          :title="t('bigScreen.newIndex.6btq9m6i7rs0')"
           @click="$goto('SetPage', { currentModel: '2' })"
         />
         <TheButton
-          title="设备维护"
+          :title="t('bigScreen.newIndex.6btq9m6i7v40')"
           @click="$goto('MainTain', { currentModel: '5', isProduce })"
         />
-        <TheButton class="absolute left-2vh" title="初始化" @click="init()" />
+        <TheButton
+          class="absolute left-2vh"
+          :title="t('bigScreen.newIndex.6btq9m6i7zg0')"
+          @click="init()"
+        />
       </div>
     </div>
 
@@ -207,6 +224,7 @@
 
 <script setup lang="ts">
 import { App } from 'ant-design-vue';
+import { useI18n } from 'vue-i18n';
 import { homeModule } from '@/apis/proApi';
 import { initMachine } from '@/apis/webApi';
 import TheButton from '@/components/base/TheButton.vue';
@@ -217,8 +235,10 @@ import useCustomTimer from '@/utils/useCustomTimer';
 import AddMore from './module/addMore.vue';
 import FinishedProductBg from './module/finishedProduct.vue';
 import Print from './module/printPage.vue';
+
 import Start from './module/startPage.vue';
 
+const { t } = useI18n();
 const { notification } = App.useApp();
 
 const { start, stop } = useCustomTimer();
@@ -298,8 +318,8 @@ onActivated(async () => {
   const end = await getDataPage();
   !end
   && notification.error({
-    message: `错误`,
-    description: '接口超时',
+    message: t('bigScreen.newIndex.6byiku55ocw0'),
+    description: t('bigScreen.newIndex.6btq9m6i82c0'),
     placement: 'bottomRight',
     class: 'notification-custom-class',
   });
@@ -384,9 +404,9 @@ const isOpen = ref('');
 function setModal(value: number, isOpenIng?: string) {
   control.value = value;
   const title = {
-    open: '确认开始进本？',
-    continue: '确认继续进本？',
-    add: '确认加本？',
+    open: t('bigScreen.newIndex.6btq9m6i8580'),
+    continue: t('bigScreen.newIndex.6btq9m6i88s0'),
+    add: t('bigScreen.newIndex.6btq9m6i8e00'),
   };
   switch (value) {
     case 0:
@@ -394,14 +414,14 @@ function setModal(value: number, isOpenIng?: string) {
       modal.value = title[isOpenIng];
       break;
     case 1:
-      modal.value = '确认暂停进本？';
+      modal.value = t('bigScreen.newIndex.6btq9m6i8i80');
       isOpen.value = isOpenIng;
       break;
     case 2:
-      modal.value = '确认暂停设备？';
+      modal.value = t('bigScreen.newIndex.6btq9m6i8mo0');
       break;
     case 3:
-      modal.value = '确认启动设备？';
+      modal.value = t('bigScreen.newIndex.6btq9m6i8qg0');
       break;
     default:
       break;
@@ -411,22 +431,22 @@ function setModal(value: number, isOpenIng?: string) {
 async function controlMachine(num: string) {
   let tips = '';
   const title = {
-    open: '开始进本',
-    continue: '继续进本',
-    add: '加本',
+    open: t('bigScreen.newIndex.6btq9m6i3yg0'),
+    continue: t('bigScreen.newIndex.6btq9m6i4ro0'),
+    add: t('bigScreen.newIndex.6btq9m6i4400'),
   };
   switch (control.value) {
     case 0:
       tips = title[isOpen.value];
       break;
     case 1:
-      tips = '暂停进本';
+      tips = t('bigScreen.newIndex.6btq9m6i5f80');
       break;
     case 2:
-      tips = '暂停设备';
+      tips = t('bigScreen.newIndex.6btq9m6i7800');
       break;
     case 3:
-      tips = '启动设备';
+      tips = t('bigScreen.newIndex.6btq9m6i6rg0');
       break;
     default:
       break;
@@ -439,7 +459,7 @@ async function controlMachine(num: string) {
     });
     console.log('🚀 ~ controlMachine ~ tips:', tips);
     notification.success({
-      message: `成功`,
+      message: t('bigScreen.newIndex.6byils8uk0o0'),
       description: `${tips}操作成功`,
       placement: 'bottomRight',
       class: 'notification-custom-class',
@@ -448,7 +468,7 @@ async function controlMachine(num: string) {
   catch (error) {
     error;
     notification.error({
-      message: `错误`,
+      message: t('bigScreen.newIndex.6byiku55ocw0'),
       description: error,
       placement: 'bottomRight',
       class: 'notification-custom-class',
@@ -466,8 +486,8 @@ async function init() {
     useAppStore().setSpinning(true);
     await initMachine({ module: 'm0' });
     notification.success({
-      message: `成功`,
-      description: `初始化接口调用成功`,
+      message: t('bigScreen.newIndex.6byils8uk0o0'),
+      description: t('bigScreen.newIndex.6byimfqtd140'),
       placement: 'bottomRight',
       class: 'notification-custom-class',
     });
@@ -475,8 +495,8 @@ async function init() {
   catch (error) {
     error;
     notification.error({
-      message: `成功`,
-      description: `初始化接口调用失败`,
+      message: t('bigScreen.newIndex.6byils8uk0o0'),
+      description: t('bigScreen.newIndex.6byimfqtf900'),
       placement: 'bottomRight',
       class: 'notification-custom-class',
     });

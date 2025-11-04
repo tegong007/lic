@@ -24,7 +24,8 @@
         </div>
         <div
           v-if="
-            props.title === '确认开始进本？' || props.title === '确认加本？'
+            props.title === t('modal.docNumModal.6byipw7d4ac0')
+              || props.title === t('modal.docNumModal.6byipw7d5xg0')
           "
           class="mt50 flex items-center justify-center gap-10"
         >
@@ -36,7 +37,10 @@
             class=""
             size="large"
           >
-            <a-form-item label="进本数" name="num">
+            <a-form-item
+              :label="t('modal.docNumModal.6byipw7d6480')"
+              name="num"
+            >
               <a-input
                 v-model:value="formState.num"
                 :placeholder="`（1-${oldData}）`"
@@ -63,7 +67,8 @@
     <div
       v-if="
         props.open
-          && (props.title === '确认开始进本？' || props.title === '确认加本？')
+          && (props.title === t('modal.docNumModal.6byipw7d4ac0')
+            || props.title === t('modal.docNumModal.6byipw7d5xg0'))
       "
       v-show="showKeyboard"
     >
@@ -84,7 +89,9 @@
 
 <script lang="ts" setup>
 import { defineProps } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { homeModule } from '@/apis/proApi';
+
 import SimpleKeyboard from '@/components/base/simpleKeyboard.vue';
 
 const props = defineProps({
@@ -95,6 +102,7 @@ const props = defineProps({
   handleCancel: Function,
   height: String,
 });
+const { t } = useI18n();
 interface FormState {
   num: string;
   // timeRange: RangeValue;
@@ -109,13 +117,13 @@ function handleCancel() {
 async function validatePass(_rule, value) {
   const v = String(value).trim();
   if (v === '' || v === '0' || v === undefined) {
-    return Promise.reject('请输入正整数');
+    return Promise.reject(t('modal.docNumModal.6byipw7d67g0'));
   }
   if (Number(v) > oldData.value) {
     return Promise.reject(`最大可进本数${oldData.value}`);
   }
   else if (!/^[1-9]\d*$/.test(v)) {
-    return Promise.reject('请输入正整数');
+    return Promise.reject(t('modal.docNumModal.6byipw7d67g0'));
   }
   else {
     return Promise.resolve();
@@ -181,10 +189,10 @@ async function getDocNum() {
 // 验证通过，告诉爸爸
 function onSubmit() {
   if (
-    props.title === '确认暂停设备？'
-    || props.title === '确认暂停进本？'
-    || props.title === '确认启动设备？'
-    || props.title === '确认继续进本？'
+    props.title === t('modal.docNumModal.6byipw7d6a00')
+    || props.title === t('modal.docNumModal.6byipw7d6e40')
+    || props.title === t('modal.docNumModal.6byipw7d6hw0')
+    || props.title === t('modal.docNumModal.6byipw7d6kw0')
   ) {
     closekeyboard();
     props.handleOk();
@@ -208,8 +216,8 @@ watch(
   () => props.open,
   (newInput) => {
     if (
-      (newInput && props.title === '确认开始进本？')
-      || props.title === '确认加本？'
+      (newInput && props.title === t('modal.docNumModal.6byipw7d4ac0'))
+      || props.title === t('modal.docNumModal.6byipw7d5xg0')
     ) {
       getDocNum();
     }

@@ -4,17 +4,17 @@
   >
     <div class="flex items-center justify-between text-[22px] font-bold">
       <img src="/icon/icon.png" alt="" class="h-[22px]">
-      <span class="ml-[0.5em]"> {{ $t("header.proName") }}</span>
+      <span class="ml-[0.5em]"> {{ $t('header.proName') }}</span>
     </div>
 
     <a-space wrap>
       <!-- <a-button type="primary" danger>退出系统</a-button> -->
       <a-button v-if="props.isShowTestBtn" @click="goModalTestPage">
         <!-- 测试 -->
-        <span class="text-[14px]">{{ $t("header.test") }}</span>
+        <span class="text-[14px]">{{ $t('header.test') }}</span>
       </a-button>
       <a-button type="primary" danger @click="showQuitModal">
-        <span class="text-[14px]">{{ $t("header.quit") }}</span>
+        <span class="text-[14px]">{{ $t('header.quit') }}</span>
       </a-button>
       <TheModal
         :open="open"

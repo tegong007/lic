@@ -7,7 +7,7 @@ import VxeUI from 'vxe-pc-ui';
 import VxeUITable from 'vxe-table';
 // import { setupRouter } from './router';
 import router from '@/router';
-import i18n from './i18n';
+import i18n from './locales';
 import { setupStore } from './store';
 import { setupNaiveDiscreteApi } from './utils';
 import '@/styles/output.css';
