@@ -167,7 +167,22 @@
       "6byq4tq92pc4": "0.001mm",
       "6byqkadnf4w0": "错误",
       "6byqkadnf4w1": "成功",
-      "range1": "范围是（0-1200）"
+      "range1": "范围是（0-1200）",
+      "range2": "范围是（0-30000）"
+    }
+  },
+  "sort": {
+    "setPwModal": {
+      "6bzd6scnzow0": "请输入旧密码",
+      "6bzd6sco1d40": "请输入新密码（6位数字）",
+      "6bzd6sco1ic0": "请再次输入新密码",
+      "6bzd6sco1lc0": "旧密码必须是6位数字",
+      "6bzd6sco1ow0": "请输入新密码",
+      "6bzd6sco1tc0": "新密码必须是6位数字",
+      "6bzd6sco1xg0": "两次输入的新密码不一致",
+      "6bzd6sco21c0": "修改成功",
+      "6bzdqiu9xoo0": "成功",
+      "6bzdqiua4ds0": "错误"
     }
   }
 }

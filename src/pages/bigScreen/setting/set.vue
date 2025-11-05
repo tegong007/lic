@@ -706,20 +706,18 @@ async function BtnClick(key: string) {
           // 校验 x 是否为数字且在 0 到 1200 的范围内
           if (Number.isNaN(xNum) || xNum < 0 || xNum > 1200) {
             throw new Error(
-              `${t('setting.set.6byq4tq8xgw0')
-              }:${
-                getCategoryName(key)}${t('setting.set.6byq4tq92pc1')
-              }${t('setting.set.range1')}`,
+              `${t('setting.set.6byq4tq8xgw0')}:${getCategoryName(key)}${t(
+                'setting.set.6byq4tq92pc1',
+              )}${t('setting.set.range1')}`,
             );
           }
 
           // 校验 y 是否为数字且在 0 到 1200 的范围内
           if (Number.isNaN(yNum) || yNum < 0 || yNum > 1200) {
             throw new Error(
-              `${t('setting.set.6byq4tq8xgw0')
-              }:${
-                getCategoryName(key)}${t('setting.set.6byq4tq92pc3')
-              }${t('setting.set.range1')}`,
+              `${t('setting.set.6byq4tq8xgw0')}:${getCategoryName(key)}${t(
+                'setting.set.6byq4tq92pc3',
+              )}${t('setting.set.range1')}`,
             );
           }
 
@@ -777,16 +775,26 @@ async function BtnClick(key: string) {
             // 校验 x
             const xNum = Number.parseFloat(xStr);
             if (Number.isNaN(xNum) || xNum < 0 || xNum > 30000) {
+              // throw new Error(
+              //   `喷墨定位基准:${item.position} X轴范围是（0-30000）`,
+              // );
               throw new Error(
-                `喷墨定位基准:${item.position} X轴范围是（0-30000）`,
+                `${t('setting.set.6byq4tq90880')}:${item.position} ${t(
+                  'setting.set.6byq4tq92pc1',
+                )}${t('setting.set.range2')}`,
               );
             }
 
             // 校验 y
             const yNum = Number.parseFloat(yStr);
             if (Number.isNaN(yNum) || yNum < 0 || yNum > 30000) {
+              // throw new Error(
+              //   `喷墨定位基准:${item.position} Y轴范围是（0-30000）`,
+              // );
               throw new Error(
-                `喷墨定位基准:${item.position} Y轴范围是（0-30000）`,
+                `${t('setting.set.6byq4tq90880')}:${item.position} ${t(
+                  'setting.set.6byq4tq92pc3',
+                )}${t('setting.set.range2')}`,
               );
             }
 

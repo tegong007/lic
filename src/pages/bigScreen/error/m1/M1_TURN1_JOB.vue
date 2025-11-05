@@ -235,7 +235,7 @@ async function errorHandle(motion: string, motionPara: number) {
   }
   catch (error) {
     notification.error({
-      message: `错误`,
+      message: '错误',
       description: error,
       placement: 'bottomRight',
       class: 'notification-custom-class',
@@ -255,7 +255,7 @@ async function HandleDone() {
   }
   catch (error) {
     notification.error({
-      message: `错误`,
+      message: '错误',
       description: error,
       placement: 'bottomRight',
       class: 'notification-custom-class',
@@ -276,7 +276,7 @@ async function RemoveDoc() {
   }
   catch (error) {
     notification.error({
-      message: `错误`,
+      message: '错误',
       description: error,
       placement: 'bottomRight',
       class: 'notification-custom-class',

@@ -105,13 +105,13 @@
 </template>
 
 <script lang="ts" setup>
+import { QuestionCircleOutlined } from '@ant-design/icons-vue';
+import { App } from 'ant-design-vue';
 import { settingMoule } from '@/apis/proApi';
 import { getApiTransfer } from '@/apis/webApi';
 import SimpleKeyboard from '@/components/base/simpleKeyboard.vue';
 import { contextHolder } from '@/components/base/useNotification';
 import { useAppStore } from '@/store/index';
-import { QuestionCircleOutlined } from '@ant-design/icons-vue';
-import { App } from 'ant-design-vue';
 
 const props = defineProps({
   currentModel: String,
@@ -209,7 +209,7 @@ async function transfer(url, objs, itemIndex, platformIndex) {
     const data = await getApiTransfer(params);
     if (data.rslts[0].code !== 0) {
       notification.error({
-        message: `错误`,
+        message: '错误',
         description: data.rslts[0].msg,
         placement: 'bottomRight',
         class: 'notification-custom-class',
@@ -223,7 +223,7 @@ async function transfer(url, objs, itemIndex, platformIndex) {
           = data.rslts[0].y;
       }
       notification.success({
-        message: `成功`,
+        message: '成功',
         description: '成功',
         placement: 'bottomRight',
         class: 'notification-custom-class',
@@ -233,7 +233,7 @@ async function transfer(url, objs, itemIndex, platformIndex) {
   catch (error) {
     error;
     notification.error({
-      message: `错误`,
+      message: '错误',
       description: error,
       class: 'notification-custom-class',
       placement: 'bottomRight',
@@ -254,7 +254,7 @@ async function getData(newValue: string) {
     }
     else {
       notification.error({
-        message: `错误`,
+        message: '错误',
         description: '读取设置页面失败',
         class: 'notification-custom-class',
         placement: 'bottomRight',
@@ -263,7 +263,7 @@ async function getData(newValue: string) {
   }
   catch (error) {
     notification.error({
-      message: `错误`,
+      message: '错误',
       class: 'notification-custom-class',
       description: error,
       placement: 'bottomRight',

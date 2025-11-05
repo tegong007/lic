@@ -43,8 +43,8 @@
 </template>
 
 <script lang="ts" setup>
-import { mainTainModule } from '@/apis/proApi';
 import { App } from 'ant-design-vue';
+import { mainTainModule } from '@/apis/proApi';
 import SuceessModal from './checkPwModal.vue';
 
 const props = defineProps({
@@ -66,7 +66,7 @@ async function getData() {
   }
   catch (error) {
     notification.error({
-      message: `错误`,
+      message: '错误',
       description: '获取版本信息接口超时',
       placement: 'bottomRight',
       class: 'notification-custom-class',

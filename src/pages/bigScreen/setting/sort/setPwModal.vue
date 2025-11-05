@@ -25,7 +25,7 @@
             >
               <a-input-password
                 v-model:value="formState.oldPassword"
-                placeholder="请输入旧密码"
+                :placeholder="t('sort.setPwModal.6bzd6scnzow0')"
                 size="large"
                 :maxlength="6"
                 @input="handleInput('oldPassword', $event)"
@@ -39,7 +39,7 @@
             >
               <a-input-password
                 v-model:value="formState.newPassword"
-                placeholder="请输入新密码（6位数字）"
+                :placeholder="t('sort.setPwModal.6bzd6sco1d40')"
                 size="large"
                 :maxlength="6"
                 @input="handleInput('newPassword', $event)"
@@ -53,7 +53,7 @@
             >
               <a-input-password
                 v-model:value="formState.confirmPassword"
-                placeholder="请再次输入新密码"
+                :placeholder="t('sort.setPwModal.6bzd6sco1ic0')"
                 size="large"
                 :maxlength="6"
                 @input="handleInput('confirmPassword', $event)"
@@ -91,12 +91,13 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, reactive, ref } from 'vue';
 import { App } from 'ant-design-vue';
 import { Md5 } from 'ts-md5';
+import { defineProps, reactive, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { mainTainModule } from '@/apis/proApi';
-import { useAppStore } from '@/store/index';
 import SimpleKeyboard from '@/components/base/simpleKeyboard.vue';
+import { useAppStore } from '@/store/index';
 
 const props = defineProps({
   open: Boolean,
@@ -104,6 +105,9 @@ const props = defineProps({
   title: String,
   handleCancel: Function,
 });
+
+const { t } = useI18n();
+
 const { notification } = App.useApp();
 const setPwRef = ref();
 
@@ -122,10 +126,10 @@ const formState = reactive<FormState>({
 // 校验新密码：必须是6位数字
 function validateOldPassword(rule: any, value: string) {
   if (!value) {
-    return Promise.reject(new Error('请输入旧密码'));
+    return Promise.reject(new Error(t('sort.setPwModal.6bzd6scnzow0')));
   }
   if (value.length !== 6) {
-    return Promise.reject(new Error('旧密码必须是6位数字'));
+    return Promise.reject(new Error(t('sort.setPwModal.6bzd6sco1lc0')));
   }
   return Promise.resolve();
 }
@@ -133,10 +137,10 @@ function validateOldPassword(rule: any, value: string) {
 // 校验新密码：必须是6位数字
 function validateNewPassword(rule: any, value: string) {
   if (!value) {
-    return Promise.reject(new Error('请输入新密码'));
+    return Promise.reject(new Error(t('sort.setPwModal.6bzd6sco1ow0')));
   }
   if (value.length !== 6) {
-    return Promise.reject(new Error('新密码必须是6位数字'));
+    return Promise.reject(new Error(t('sort.setPwModal.6bzd6sco1tc0')));
   }
   return Promise.resolve();
 }
@@ -144,10 +148,10 @@ function validateNewPassword(rule: any, value: string) {
 // 校验确认密码：必须与新密码一致
 function validateConfirmPassword(rule: any, value: string) {
   if (!value) {
-    return Promise.reject(new Error('请再次输入新密码'));
+    return Promise.reject(new Error(t('sort.setPwModal.6bzd6sco1ic0')));
   }
   if (value !== formState.newPassword) {
-    return Promise.reject(new Error('两次输入的新密码不一致'));
+    return Promise.reject(new Error(t('sort.setPwModal.6bzd6sco1xg0')));
   }
   return Promise.resolve();
 }
@@ -183,8 +187,8 @@ async function setPassWord() {
     if (data.code === 0) {
       useAppStore().setSpinning(false);
       notification.success({
-        message: `成功`,
-        description: '修改成功',
+        message: t('sort.setPwModal.6bzdqiu9xoo0'),
+        description: t('sort.setPwModal.6bzd6sco21c0'),
         placement: 'bottomRight',
       });
       setPwRef.value.resetFields();
@@ -192,7 +196,7 @@ async function setPassWord() {
     }
     else {
       notification.error({
-        message: `错误`,
+        message: t('sort.setPwModal.6bzdqiua4ds0'),
         description: data.msg,
         class: 'notification-custom-class',
         placement: 'bottomRight',
@@ -203,7 +207,7 @@ async function setPassWord() {
   }
   catch (error) {
     notification.error({
-      message: `错误`,
+      message: t('sort.setPwModal.6bzdqiua4ds0'),
       description: error,
       class: 'notification-custom-class',
       placement: 'bottomRight',

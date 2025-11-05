@@ -53,7 +53,7 @@ async function transfer(camera) {
     if (data.rslts[0].code === 0) {
       ViewImage([`data:image/png;base64,${data.rslts[0].imgData}`]);
       notification.success({
-        message: `成功`,
+        message: '成功',
         description: '操作成功',
         class: 'notification-custom-class',
         placement: 'bottomRight',
@@ -61,7 +61,7 @@ async function transfer(camera) {
     }
     else {
       notification.error({
-        message: `错误`,
+        message: '错误',
         description: data.rslts[0].msg || '未知错误',
         class: 'notification-custom-class',
         placement: 'bottomRight',
@@ -70,7 +70,7 @@ async function transfer(camera) {
   }
   catch (error) {
     notification.error({
-      message: `错误`,
+      message: '错误',
       description: error,
       placement: 'bottomRight',
       class: 'notification-custom-class',

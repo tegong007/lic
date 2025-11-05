@@ -64,10 +64,10 @@
 </template>
 
 <script lang="ts" setup>
+import { App } from 'ant-design-vue';
 import { getApiTransfer } from '@/apis/webApi';
 import SimpleKeyboard from '@/components/base/simpleKeyboard.vue';
 import { useAppStore } from '@/store/index';
-import { App } from 'ant-design-vue';
 
 const props = defineProps({
   data: Object,
@@ -105,7 +105,7 @@ async function transfer(url, index, readerObj, inputData) {
       );
       if (url === '/ips-r/write-test-data') {
         notification.success({
-          message: `成功`,
+          message: '成功',
           description: '操作成功',
           placement: 'bottomRight',
           class: 'notification-custom-class',
@@ -114,7 +114,7 @@ async function transfer(url, index, readerObj, inputData) {
     }
     else {
       notification.error({
-        message: `错误`,
+        message: '错误',
         description: data.rslts[0].msg,
         placement: 'bottomRight',
         class: 'notification-custom-class',
@@ -124,7 +124,7 @@ async function transfer(url, index, readerObj, inputData) {
   }
   catch (error) {
     notification.error({
-      message: `错误`,
+      message: '错误',
       description: error,
       class: 'notification-custom-class',
       placement: 'bottomRight',

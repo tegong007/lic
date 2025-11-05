@@ -168,7 +168,8 @@
       "6byq4tq92pc4": "0.001mm",
       "6byqkadnf4w0": "Failed",
       "6byqkadnf4w1": "Successful",
-      "range1": "Range is (0-1200)"
+      "range1": "Range is (0-1200)",
+      "range2": "Range is (0-30000)"
     }
   }
 }

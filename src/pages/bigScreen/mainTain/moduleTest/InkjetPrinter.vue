@@ -172,12 +172,12 @@
 </template>
 
 <script lang="ts" setup>
+import { QuestionCircleOutlined } from '@ant-design/icons-vue';
+import { App } from 'ant-design-vue';
 import { getApiTransfer } from '@/apis/webApi';
 import SimpleKeyboard from '@/components/base/simpleKeyboard.vue';
 import { useAppStore } from '@/store/index';
 import useCustomTimer from '@/utils/useCustomTimer';
-import { QuestionCircleOutlined } from '@ant-design/icons-vue';
-import { App } from 'ant-design-vue';
 
 const props = defineProps({
   data: Object,
@@ -239,7 +239,7 @@ async function checkStatus(objs: any) {
       else {
         if (data.rslts[0].status === 101) {
           notification.success({
-            message: `成功`,
+            message: '成功',
             description: '清洗结束',
             placement: 'bottomRight',
             class: 'notification-custom-class',
@@ -255,7 +255,7 @@ async function checkStatus(objs: any) {
   }
   catch (error) {
     notification.error({
-      message: `错误`,
+      message: '错误',
       description: error,
       placement: 'bottomRight',
       class: 'notification-custom-class',
@@ -285,7 +285,7 @@ async function transfer(url, objs) {
       }
       else {
         notification.success({
-          message: `成功`,
+          message: '成功',
           description: '操作成功',
           placement: 'bottomRight',
           class: 'notification-custom-class',
@@ -295,7 +295,7 @@ async function transfer(url, objs) {
     }
     else {
       notification.error({
-        message: `错误`,
+        message: '错误',
         description: data.rslts[0].msg || '未知错误',
         placement: 'bottomRight',
         class: 'notification-custom-class',
@@ -305,7 +305,7 @@ async function transfer(url, objs) {
   }
   catch (error) {
     notification.error({
-      message: `错误`,
+      message: '错误',
       description: error,
       placement: 'bottomRight',
       class: 'notification-custom-class',

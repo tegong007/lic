@@ -89,11 +89,11 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, reactive } from 'vue';
 import { App } from 'ant-design-vue';
 import { Md5 } from 'ts-md5';
+import { defineProps, reactive } from 'vue';
 import { mainTainModule } from '@/apis/proApi';
-import { useAppStore } from '@/store/index';
+import btn0 from '@/assets/image/bigScreen/btn/0.png';
 
 import btn1 from '@/assets/image/bigScreen/btn/1.png';
 import btn2 from '@/assets/image/bigScreen/btn/2.png';
@@ -105,8 +105,8 @@ import btn7 from '@/assets/image/bigScreen/btn/7.png';
 import btn8 from '@/assets/image/bigScreen/btn/8.png';
 import btn9 from '@/assets/image/bigScreen/btn/9.png';
 import btnClear from '@/assets/image/bigScreen/btn/clear.png';
-import btn0 from '@/assets/image/bigScreen/btn/0.png';
 import btnDelect from '@/assets/image/bigScreen/btn/delect.png';
+import { useAppStore } from '@/store/index';
 
 const props = defineProps({
   open: Boolean,
@@ -167,7 +167,7 @@ async function checkPassWord() {
     }
     else {
       notification.error({
-        message: `错误`,
+        message: '错误',
         description: data.msg,
         placement: 'bottomRight',
         class: 'notification-custom-class',
@@ -178,7 +178,7 @@ async function checkPassWord() {
   }
   catch (error) {
     notification.error({
-      message: `错误`,
+      message: '错误',
       description: error,
       placement: 'bottomRight',
       class: 'notification-custom-class',

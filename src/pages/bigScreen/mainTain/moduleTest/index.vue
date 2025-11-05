@@ -31,10 +31,10 @@
 </template>
 
 <script lang="ts" setup>
-import { mainTainModule } from '@/apis/proApi';
-import { useAppStore } from '@/store/index';
 import { App } from 'ant-design-vue';
 import { watch } from 'vue';
+import { mainTainModule } from '@/apis/proApi';
+import { useAppStore } from '@/store/index';
 import Camera from './Camera.vue';
 import InkjetPrinter from './InkjetPrinter.vue';
 import Laser from './Laser.vue';
@@ -76,12 +76,12 @@ async function getData(newValue: string) {
   }
   catch (error) {
     // notification.error({
-    //   message: `错误`,
+    //   message: "错误",
     //   description: `${findLabelByValue(newValue)}接口超时`,
     //   placement: 'bottomRight',
     // });
     notification.error({
-      message: `错误`,
+      message: '错误',
       description: error,
       placement: 'bottomRight',
       class: 'notification-custom-class',
