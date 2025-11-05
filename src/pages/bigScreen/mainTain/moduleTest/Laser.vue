@@ -1,7 +1,7 @@
 <template>
   <div class="box-border w-full">
     <div class="bg-[#fff]/[0.4] p-y-5px p-l-0.5em">
-      <span>激光器</span>
+      <span>{{ t('moduleTest.Laser.6bzg7ygu7x80') }}</span>
     </div>
     <section class="flex flex-wrap gap-20">
       <div
@@ -35,28 +35,28 @@
             class="btn hover:text-[#89f7ff]!"
             @click="previewPhoto(laser, laser.printItems)"
           >
-            预览标刻
+            {{ t('moduleTest.Laser.6bzg7ygu8cc0') }}
           </a-button>
           <a-button
             type="link"
             class="btn hover:text-[#89f7ff]!"
             @click="redLight(laser, laser.printItems)"
           >
-            红光
+            {{ t('moduleTest.Laser.6bzg7ygu8g40') }}
           </a-button>
           <a-button
             type="link"
             class="btn hover:text-[#89f7ff]!"
             @click="printLaser(laser, laser.printItems)"
           >
-            标刻测试页
+            {{ t('moduleTest.Laser.6bzg7ygu8i00') }}
           </a-button>
           <a-button
             type="link"
             class="btn hover:text-[#89f7ff]!"
             @click="transfer('/lpdps/emergency-stop', laser)"
           >
-            急停
+            {{ t('moduleTest.Laser.6bzg7ygu8jg0') }}
           </a-button>
         </div>
       </div>
@@ -69,12 +69,14 @@
 <script lang="ts" setup>
 import { App } from 'ant-design-vue';
 import { api as ViewerApi } from 'v-viewer';
+import { useI18n } from 'vue-i18n';
 import { getApiTransfer } from '@/apis/webApi';
 import { useAppStore } from '@/store/index';
 
 const props = defineProps({
   data: Object,
 });
+const { t } = useI18n();
 function ViewImage(list: string[]) {
   ViewerApi({
     images: list,
@@ -134,7 +136,7 @@ async function transfer(url, laserObj) {
     const data = await getApiTransfer(params);
     if (data.rslts[0].code !== 0) {
       notification.error({
-        message: '错误',
+        message: this.t('moduleTest.Laser.6bzg7ygu8lc0'),
         description: data.rslts[0].msg,
         placement: 'bottomRight',
         class: 'notification-custom-class',
@@ -142,8 +144,8 @@ async function transfer(url, laserObj) {
     }
     else if (data.rslts[0].code === 0 && url !== '/lpdps/preview') {
       notification.success({
-        message: '成功',
-        description: '操作成功',
+        message: this.t('moduleTest.Laser.6bzg7ygu8nc0'),
+        description: this.t('moduleTest.Laser.6bzg7ygu8p40'),
         placement: 'bottomRight',
         class: 'notification-custom-class',
       });
@@ -152,8 +154,8 @@ async function transfer(url, laserObj) {
       if (url === '/lpdps/preview') {
         ViewImage([`data:image/png;base64,${data.rslts[0].imgData}`]);
         notification.success({
-          message: '成功',
-          description: '操作成功',
+          message: this.t('moduleTest.Laser.6bzg7ygu8nc0'),
+          description: this.t('moduleTest.Laser.6bzg7ygu8p40'),
           placement: 'bottomRight',
           class: 'notification-custom-class',
         });
@@ -162,7 +164,7 @@ async function transfer(url, laserObj) {
   }
   catch (error) {
     notification.error({
-      message: '错误',
+      message: this.t('moduleTest.Laser.6bzg7ygu8lc0'),
       description: error,
       class: 'notification-custom-class',
       placement: 'bottomRight',

@@ -184,5 +184,122 @@
       "6bzdqiu9xoo0": "成功",
       "6bzdqiua4ds0": "错误"
     }
+  },
+  "mainTain": {
+    "index": {
+      "6bzeggg2woo0": "维护",
+      "6bzeggg2z6o0": "返回首页",
+      "6bzeggg2zh00": "维护页",
+      "6bzf1j837r80": "耗材",
+      "6bzf1j83a380": "整机",
+      "6bzf1j83aak0": "空白本检测模块",
+      "6bzf1j83aks0": "主副页打印模块",
+      "6bzf1j83apc0": "加注页打印模块",
+      "6bzf1j83atc0": "关于"
+    }
+  },
+  "consumables": {
+    "index": {
+      "6bzfb19updk0": "油墨余量'",
+      "6bzfb19urz80": "预计打印证本数",
+      "6bzfb19us980": "黄色",
+      "6bzfb19usds0": "洋红色",
+      "6bzfb19usi00": "青色",
+      "6bzfb19usm80": "黑色",
+      "6bzfb19usqo0": "光油",
+      "6bzfb19usuw0": "隐形红",
+      "6bzfb19ut0o0": "隐形绿",
+      "6bzfb19uuiw0": "隐形蓝",
+      "6bzfb19uv9c0": "主副页打印模块",
+      "6bzfb19uvi00": "加注页打印模块",
+      "6bzfdtzyik00": "墨水缺失",
+      "6bzfdtzyj0s0": "墨水将尽",
+      "6bzfdtzyj5s0": "耗材接口超时"
+    }
+  },
+  "onlyTest": {
+    "index": {
+      "6bzfos3fijk0": "初始阶段",
+      "6bzfos3fnnw0": "手动送本：",
+      "6bzfos3fo440": "手动进本",
+      "6bzfos3fof00": "初始化",
+      "6bzfos3fop40": "传输速度",
+      "6bzfos3fov40": "请输入数字",
+      "6bzfos3fozg0": "保存",
+      "6bzfos3fp480": "执行任务",
+      "6bzfos3fp800": "任务执行：",
+      "6bzfos3fpdc0": "完整",
+      "6bzfos3fpi80": "只走本",
+      "6bzfos3fppo0": "启动任务",
+      "6bzfos3fpvo0": "停止",
+      "6bzfos3fq1k0": "卡槽操作",
+      "6bzfos3fq4s0": "卡槽1：",
+      "6bzfos3fq9g0": "夹紧",
+      "6bzfos3fqk00": "松开",
+      "6bzfos3fqng0": "卡槽2：",
+      "6bzfos3fqs80": "成功",
+      "6bzfos3fqwc0": "错误信息",
+      "6bzfos3fr3s0": "初始化接口调用成功",
+      "6bzfos3fr7o0": "初始化接口调用失败",
+      "6bzfos3fras0": "手动送本成功",
+      "6bzfos3frfc0": "手动送本失败",
+      "6bzfos3frj80": "开启任务成功",
+      "6bzfos3frnw0": "开启任务失败",
+      "6bzfos3frsc0": "任务停止失败"
+    }
+  },
+  "moduleTest": {
+    "Reader": {
+      "6bzfx4gmq980": "读写器",
+      "6bzfx4gmqts0": "读卡器数据",
+      "6bzfx4gmqwg0": "读数据",
+      "6bzfx4gmqys0": "读卡UID",
+      "6bzfx4gmr0w0": "写数据",
+      "6bzfx4gmr3k0": "成功",
+      "6bzfx4gmr5c0": "操作成功",
+      "6bzfx4gmr7g0": "错误"
+    },
+    "Laser": {
+      "6bzg7ygu7x80": "激光器",
+      "6bzg7ygu8cc0": "预览标刻",
+      "6bzg7ygu8g40": "红光",
+      "6bzg7ygu8i00": "标刻测试页",
+      "6bzg7ygu8jg0": "急停",
+      "6bzg7ygu8lc0": "错误",
+      "6bzg7ygu8nc0": "成功",
+      "6bzg7ygu8p40": "操作成功"
+    },
+    "Camera": {
+      "6bzgbibf39o0": "摄像头",
+      "6bzgbibf67k0": "拍照",
+      "6bzgbibf6hg0": "成功",
+      "6bzgbibf6no0": "操作成功",
+      "6bzgbibf6ug0": "错误",
+      "6bzgbibf6xs0": "未知错误"
+    },
+    "InkjetPrinter": {
+      "6bzjgd1h0bc0": "喷墨机",
+      "6bzjgd1h2080": "复位",
+      "6bzjgd1h27c0": "移动",
+      "6bzjgd1h2cc0": "清洗",
+      "6bzjgd1h2io0": "打印测试页",
+      "6bzjgd1h2n00": "成功",
+      "6bzjgd1h2uo0": "清洗结束",
+      "6bzjgd1h2zc0": "错误",
+      "6bzjgd1h3400": "操作成功",
+      "6bzjgd1h38k0": "未知错误"
+    },
+    "index": {
+      "6bzjqxqao9w0": "错误"
+    }
+  },
+  "version": {
+    "index": {
+      "6bzjigwkans0": "目前，主版本号和项目编号固定，为",
+      "6bzjigwkc9s0": "打印管理系统",
+      "6bzjigwkcmo0": "退出系统",
+      "6bzjigwkcr00": "错误",
+      "6bzjigwkcw00": "获取版本信息接口超时"
+    }
   }
 }

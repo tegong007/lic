@@ -1,7 +1,7 @@
 <template>
   <div class="box-border w-full pb20">
     <div class="bg-[#fff]/[0.4] p-y-5px p-l-0.5em">
-      <span>喷墨机</span>
+      <span>{{ t('moduleTest.InkjetPrinter.6bzjgd1h0bc0') }}</span>
     </div>
     <div class="w-full flex flex-wrap gap-20">
       <div
@@ -70,14 +70,14 @@
                   ])
                 "
               >
-                复位
+                {{ t('moduleTest.InkjetPrinter.6bzjgd1h2080') }}
               </a-button>
               <a-button
                 type="link"
                 class="btn hover:text-[#89f7ff]!"
                 @click="motoMove(uvPrinters, uvPrinters.positionItems)"
               >
-                移动
+                {{ t('moduleTest.InkjetPrinter.6bzjgd1h27c0') }}
               </a-button>
             </div>
           </section>
@@ -112,7 +112,7 @@
                 class="btn hover:text-[#89f7ff]!"
                 @click="cleanHead(uvPrinters, uvPrinters.cleanItems)"
               >
-                清洗
+                {{ t('moduleTest.InkjetPrinter.6bzjgd1h2cc0') }}
               </a-button>
             </div>
           </section>
@@ -146,7 +146,7 @@
                 class="btn hover:text-[#89f7ff]!"
                 @click="print(uvPrinters, uvPrinters.printItems)"
               >
-                打印测试页
+                {{ t('moduleTest.InkjetPrinter.6bzjgd1h2io0') }}
               </a-button>
             </div>
           </section>
@@ -174,6 +174,7 @@
 <script lang="ts" setup>
 import { QuestionCircleOutlined } from '@ant-design/icons-vue';
 import { App } from 'ant-design-vue';
+import { useI18n } from 'vue-i18n';
 import { getApiTransfer } from '@/apis/webApi';
 import SimpleKeyboard from '@/components/base/simpleKeyboard.vue';
 import { useAppStore } from '@/store/index';
@@ -186,6 +187,7 @@ const props = defineProps({
   setShowKeyboard: Function,
   currentPage: String,
 });
+const { t } = useI18n();
 const { start, stop } = useCustomTimer();
 const { notification } = App.useApp();
 async function motoMove(uvPrintersObj, arr) {
@@ -239,8 +241,8 @@ async function checkStatus(objs: any) {
       else {
         if (data.rslts[0].status === 101) {
           notification.success({
-            message: '成功',
-            description: '清洗结束',
+            message: this.t('moduleTest.InkjetPrinter.6bzjgd1h2n00'),
+            description: this.t('moduleTest.InkjetPrinter.6bzjgd1h2uo0'),
             placement: 'bottomRight',
             class: 'notification-custom-class',
           });
@@ -255,7 +257,7 @@ async function checkStatus(objs: any) {
   }
   catch (error) {
     notification.error({
-      message: '错误',
+      message: this.t('moduleTest.InkjetPrinter.6bzjgd1h2zc0'),
       description: error,
       placement: 'bottomRight',
       class: 'notification-custom-class',
@@ -285,8 +287,8 @@ async function transfer(url, objs) {
       }
       else {
         notification.success({
-          message: '成功',
-          description: '操作成功',
+          message: this.t('moduleTest.InkjetPrinter.6bzjgd1h2n00'),
+          description: this.t('moduleTest.InkjetPrinter.6bzjgd1h3400'),
           placement: 'bottomRight',
           class: 'notification-custom-class',
         });
@@ -295,8 +297,8 @@ async function transfer(url, objs) {
     }
     else {
       notification.error({
-        message: '错误',
-        description: data.rslts[0].msg || '未知错误',
+        message: this.t('moduleTest.InkjetPrinter.6bzjgd1h2zc0'),
+        description: data.rslts[0].msg || this.t('moduleTest.InkjetPrinter.6bzjgd1h38k0'),
         placement: 'bottomRight',
         class: 'notification-custom-class',
       });
@@ -305,7 +307,7 @@ async function transfer(url, objs) {
   }
   catch (error) {
     notification.error({
-      message: '错误',
+      message: this.t('moduleTest.InkjetPrinter.6bzjgd1h2zc0'),
       description: error,
       placement: 'bottomRight',
       class: 'notification-custom-class',

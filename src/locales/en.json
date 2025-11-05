@@ -68,7 +68,7 @@
       "6bykuwgittc0": "processed. Continue with",
       "6bykuwgiu280": "data items?",
       "6byl3ok0hfk0": "Operation successful",
-      "6byl3ok0qtc0": "Operation failed",
+      "6byl3ok0qtc0": "Operation Error",
       "6byp65r4ur00": "Total",
       "6byp65r4vkg0": "Records"
     },
@@ -102,7 +102,7 @@
   "notify": {
     "title": {
       "6byl3ok0hfk0": "Successful",
-      "6byl3ok0qtc0": "Failed"
+      "6byl3ok0qtc0": "Error"
     }
   },
   "searchCard": {
@@ -113,13 +113,13 @@
       "6byowy3yrrc0": "Production Data",
       "6byowy3yrts0": "Certificate",
       "6byowy3yrw80": "Batch Search",
-      "6byowy3yryc0": "Return to Home"
+      "6byowy3yryc0": "Return  Home"
     }
   },
   "setting": {
     "index": {
       "6byq1dbf7yw0": "Settings",
-      "6byq1dbf9zc0": "Return to Home",
+      "6byq1dbf9zc0": "Return  Home",
       "6byq1dbfa7g0": "Settings Page"
     },
     "set": {
@@ -154,7 +154,7 @@
       "6byq4tq92300": "Add Task",
       "6byq4tq925g0": "Password Settings",
       "6byq4tq92880": "Set Password",
-      "6byq4tq92bw0": "Failed to Read Settings Page",
+      "6byq4tq92bw0": "Error to Read Settings Page",
       "6byq4tq92ek0": "Error",
       "6byq4tq92h80": "Print Position Re-read",
       "6byq4tq92iw0": "Print Position Save",
@@ -166,10 +166,141 @@
       "6byq4tq92pc2": "mm",
       "6byq4tq92pc3": "Y：",
       "6byq4tq92pc4": "0.001mm",
-      "6byqkadnf4w0": "Failed",
+      "6byqkadnf4w0": "Error",
       "6byqkadnf4w1": "Successful",
       "range1": "Range is (0-1200)",
       "range2": "Range is (0-30000)"
+    }
+  },
+  "sort": {
+    "setPwModal": {
+      "6bzd6scnzow0": "Enter old password",
+      "6bzd6sco1d40": "Enter new password (6 digits)",
+      "6bzd6sco1ic0": "Re-enter new password",
+      "6bzd6sco1lc0": "Old password must be 6 digits",
+      "6bzd6sco1ow0": "Enter new password",
+      "6bzd6sco1tc0": "New password must be 6 digits",
+      "6bzd6sco1xg0": "Passwords do not match",
+      "6bzd6sco21c0": "Change successful",
+      "6bzdqiu9xoo0": "Success",
+      "6bzdqiua4ds0": "Error"
+    }
+  },
+  "mainTain": {
+    "index": {
+      "6bzeggg2woo0": "Maintain",
+      "6bzeggg2z6o0": "Return Home",
+      "6bzeggg2zh00": "Maintenance Page",
+      "6bzf1j837r80": "Consumables",
+      "6bzf1j83a380": "Whole Machine",
+      "6bzf1j83aak0": "Blank Book Detection Module",
+      "6bzf1j83aks0": "Main and Sub Page Printing Module",
+      "6bzf1j83apc0": "Additional Page Printing Module",
+      "6bzf1j83atc0": "About"
+    }
+  },
+  "consumables": {
+    "index": {
+      "6bzfb19updk0": "Ink Remaining",
+      "6bzfb19urz80": "Estimated Certificates to Print",
+      "6bzfb19us980": "Yellow",
+      "6bzfb19usds0": "Magenta",
+      "6bzfb19usi00": "Cyan",
+      "6bzfb19usm80": "Black",
+      "6bzfb19usqo0": "Clear",
+      "6bzfb19usuw0": "Invisible Red",
+      "6bzfb19ut0o0": "Invisible Green",
+      "6bzfb19uuiw0": "Invisible Blue",
+      "6bzfb19uv9c0": "Main and Sub Page Printing Module",
+      "6bzfb19uvi00": "Additional Page Printing Module",
+      "6bzfdtzyik00": "Ink Missing",
+      "6bzfdtzyj0s0": "Ink Low",
+      "6bzfdtzyj5s0": "Consumables Interface Timeout"
+    }
+  },
+  "onlyTest": {
+    "index": {
+      "6bzfos3fijk0": "Initial Phase",
+      "6bzfos3fnnw0": "Manual Feeding:",
+      "6bzfos3fo440": "Manual Feeding",
+      "6bzfos3fof00": "Initialization",
+      "6bzfos3fop40": "Transfer Speed",
+      "6bzfos3fov40": "Enter Number",
+      "6bzfos3fozg0": "Save",
+      "6bzfos3fp480": "Execute Task",
+      "6bzfos3fp800": "Task Execution:",
+      "6bzfos3fpdc0": "Complete",
+      "6bzfos3fpi80": "Only Move",
+      "6bzfos3fppo0": "Start Task",
+      "6bzfos3fpvo0": "Stop",
+      "6bzfos3fq1k0": "Slot Operation",
+      "6bzfos3fq4s0": "Slot 1:",
+      "6bzfos3fq9g0": "Clamp",
+      "6bzfos3fqk00": "Release",
+      "6bzfos3fqng0": "Slot 2:",
+      "6bzfos3fqs80": "Success",
+      "6bzfos3fqwc0": "Error Message",
+      "6bzfos3fr3s0": "Initialization Call Successful",
+      "6bzfos3fr7o0": "Initialization Call Error",
+      "6bzfos3fras0": "Manual Feeding Successful",
+      "6bzfos3frfc0": "Manual Feeding Error",
+      "6bzfos3frj80": "Task Start Successful",
+      "6bzfos3frnw0": "Task Start Error",
+      "6bzfos3frsc0": "Task Stop Error"
+    }
+  },
+  "moduleTest": {
+    "Reader": {
+      "6bzfx4gmq980": "Reader",
+      "6bzfx4gmqts0": "Card Data",
+      "6bzfx4gmqwg0": "Read Data",
+      "6bzfx4gmqys0": "Read UID",
+      "6bzfx4gmr0w0": "Write Data",
+      "6bzfx4gmr3k0": "Success",
+      "6bzfx4gmr5c0": "Operation Successful",
+      "6bzfx4gmr7g0": "Error"
+    },
+    "Laser": {
+      "6bzg7ygu7x80": "Laser",
+      "6bzg7ygu8cc0": "Preview Marking",
+      "6bzg7ygu8g40": "Red Light",
+      "6bzg7ygu8i00": "Marking Test Page",
+      "6bzg7ygu8jg0": "Emergency Stop",
+      "6bzg7ygu8lc0": "Error",
+      "6bzg7ygu8nc0": "Success",
+      "6bzg7ygu8p40": "Operation Successful"
+    },
+    "Camera": {
+      "6bzgbibf39o0": "Camera",
+      "6bzgbibf67k0": "Take Photo",
+      "6bzgbibf6hg0": "Success",
+      "6bzgbibf6no0": "Operation Successful",
+      "6bzgbibf6ug0": "Error",
+      "6bzgbibf6xs0": "Unknown Error"
+    },
+    "InkjetPrinter": {
+      "6bzjgd1h0bc0": "Inkjet Printer",
+      "6bzjgd1h2080": "Reset",
+      "6bzjgd1h27c0": "Move",
+      "6bzjgd1h2cc0": "Clean",
+      "6bzjgd1h2io0": "Print Test Page",
+      "6bzjgd1h2n00": "Success",
+      "6bzjgd1h2uo0": "Clean Complete",
+      "6bzjgd1h2zc0": "Error",
+      "6bzjgd1h3400": "Operation Successful",
+      "6bzjgd1h38k0": "Unknown Error"
+    },
+    "index": {
+      "6bzjqxqao9w0": "Error"
+    }
+  },
+  "version": {
+    "index": {
+      "6bzjigwkans0": "Currently, the main version number and project number are fixed as",
+      "6bzjigwkc9s0": "Printing Management System",
+      "6bzjigwkcmo0": "Exit System",
+      "6bzjigwkcr00": "Error",
+      "6bzjigwkcw00": "Version information interface timeout"
     }
   }
 }

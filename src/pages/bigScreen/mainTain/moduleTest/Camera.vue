@@ -1,13 +1,13 @@
 <template>
   <div class="box-border w-full">
     <div class="bg-[#fff]/[0.4] p-y-5px p-l-0.5em">
-      <span>摄像头</span>
+      <span>{{ t('moduleTest.Camera.6bzgbibf39o0') }}</span>
     </div>
     <section class="flex flex-wrap gap-20">
       <div
         v-for="(camera, index) in props.data"
         :key="index"
-        class="max-w250px p-l-1.5em p-t-1em"
+        class="max-w300px p-l-1.5em p-t-1em"
       >
         <div class="text-[18px]">
           {{ camera.cameraName }}：
@@ -16,7 +16,7 @@
             class="btn hover:text-[#89f7ff]!"
             @click="() => transfer(camera)"
           >
-            拍照
+            {{ t('moduleTest.Camera.6bzgbibf67k0') }}
           </a-button>
         </div>
       </div>
@@ -27,12 +27,14 @@
 <script lang="ts" setup>
 import { App } from 'ant-design-vue';
 import { api as ViewerApi } from 'v-viewer';
+import { useI18n } from 'vue-i18n';
 import { getApiTransfer } from '@/apis/webApi';
 import { useAppStore } from '@/store/index';
 
 const props = defineProps({
   data: Object,
 });
+const { t } = useI18n();
 function ViewImage(list: string[]) {
   ViewerApi({
     images: list,
@@ -53,16 +55,16 @@ async function transfer(camera) {
     if (data.rslts[0].code === 0) {
       ViewImage([`data:image/png;base64,${data.rslts[0].imgData}`]);
       notification.success({
-        message: '成功',
-        description: '操作成功',
+        message: t('moduleTest.Camera.6bzgbibf6hg0'),
+        description: t('moduleTest.Camera.6bzgbibf6no0'),
         class: 'notification-custom-class',
         placement: 'bottomRight',
       });
     }
     else {
       notification.error({
-        message: '错误',
-        description: data.rslts[0].msg || '未知错误',
+        message: t('moduleTest.Camera.6bzgbibf6ug0'),
+        description: data.rslts[0].msg || t('moduleTest.Camera.6bzgbibf6xs0'),
         class: 'notification-custom-class',
         placement: 'bottomRight',
       });
@@ -70,7 +72,7 @@ async function transfer(camera) {
   }
   catch (error) {
     notification.error({
-      message: '错误',
+      message: t('moduleTest.Camera.6bzgbibf6ug0'),
       description: error,
       placement: 'bottomRight',
       class: 'notification-custom-class',

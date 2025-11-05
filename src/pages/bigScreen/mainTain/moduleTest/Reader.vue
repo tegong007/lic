@@ -1,7 +1,7 @@
 <template>
   <div class="box-border w-full">
     <div class="bg-[#fff]/[0.4] p-y-5px p-l-0.5em">
-      <span>读写器</span>
+      <span>{{ t('moduleTest.Reader.6bzfx4gmq980') }}</span>
     </div>
     <section class="box-border flex flex-wrap gap-20">
       <div
@@ -16,7 +16,7 @@
         <a-textarea
           v-model:value="reader.value"
           size="large"
-          placeholder="读卡器数据"
+          :placeholder="t('moduleTest.Reader.6bzfx4gmqts0')"
           allow-clear
           :maxlength="40"
           :auto-size="{ minRows: 2, maxRows: 3 }"
@@ -29,14 +29,14 @@
             class="btn hover:text-[#89f7ff]!"
             @click="transfer('/ips-r/read-test-data', index, reader)"
           >
-            读数据
+            {{ t('moduleTest.Reader.6bzfx4gmqwg0') }}
           </a-button>
           <a-button
             type="link"
             class="btn hover:text-[#89f7ff]!"
             @click="transfer('/ips-r/read-card-uid', index, reader)"
           >
-            读卡UID
+            {{ t('moduleTest.Reader.6bzfx4gmqys0') }}
           </a-button>
           <a-button
             type="link"
@@ -45,7 +45,7 @@
               transfer('/ips-r/write-test-data', index, reader, reader.value)
             "
           >
-            写数据
+            {{ t('moduleTest.Reader.6bzfx4gmr0w0') }}
           </a-button>
         </div>
       </div>
@@ -65,6 +65,7 @@
 
 <script lang="ts" setup>
 import { App } from 'ant-design-vue';
+import { useI18n } from 'vue-i18n';
 import { getApiTransfer } from '@/apis/webApi';
 import SimpleKeyboard from '@/components/base/simpleKeyboard.vue';
 import { useAppStore } from '@/store/index';
@@ -77,6 +78,9 @@ const props = defineProps({
   currentPage: String,
   currentModel: String,
 });
+
+const { t } = useI18n();
+
 const transformValue = ref([0, 0]);
 const { notification } = App.useApp();
 async function transfer(url, index, readerObj, inputData) {
@@ -105,8 +109,8 @@ async function transfer(url, index, readerObj, inputData) {
       );
       if (url === '/ips-r/write-test-data') {
         notification.success({
-          message: '成功',
-          description: '操作成功',
+          message: t('moduleTest.Reader.6bzfx4gmr3k0'),
+          description: t('moduleTest.Reader.6bzfx4gmr5c0'),
           placement: 'bottomRight',
           class: 'notification-custom-class',
         });
@@ -114,7 +118,7 @@ async function transfer(url, index, readerObj, inputData) {
     }
     else {
       notification.error({
-        message: '错误',
+        message: t('moduleTest.Reader.6bzfx4gmr7g0'),
         description: data.rslts[0].msg,
         placement: 'bottomRight',
         class: 'notification-custom-class',
@@ -124,7 +128,7 @@ async function transfer(url, index, readerObj, inputData) {
   }
   catch (error) {
     notification.error({
-      message: '错误',
+      message: t('moduleTest.Reader.6bzfx4gmr7g0'),
       description: error,
       class: 'notification-custom-class',
       placement: 'bottomRight',

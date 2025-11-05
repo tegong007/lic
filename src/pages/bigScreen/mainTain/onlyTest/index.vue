@@ -2,11 +2,11 @@
   <div class="wh-full">
     <!-- 初始阶段 -->
     <div class="bg-[#fff]/[0.4] p-y-5px p-l-0.5em">
-      <span>初始阶段</span>
+      <span>{{ t('onlyTest.index.6bzfos3fijk0') }}</span>
     </div>
     <section class="p-l-3em p-t-1em">
       <div class="text-[18px]">
-        手动送本：
+        {{ t('onlyTest.index.6bzfos3fnnw0') }}
       </div>
       <br>
       <a-button
@@ -14,26 +14,26 @@
         class="btn hover:text-[#89f7ff]!"
         @click="sendDocLine"
       >
-        手动进本
+        {{ t('onlyTest.index.6bzfos3fo440') }}
       </a-button>
       <a-button
         type="link"
         class="btn ml10 hover:text-[#89f7ff]!"
         @click="init"
       >
-        初始化
+        {{ t('onlyTest.index.6bzfos3fof00') }}
       </a-button>
     </section>
     <!-- <section class="p-l-3em p-t-1em">
       <div class="text-[18px]">
-        传输速度
+        {{t('onlyTest.index.6bzfos3fop40')}}
       </div>
       <br>
 
       <a-input
         v-model:value="speed"
         size="large"
-        placeholder="请输入数字"
+        :placeholder="t('onlyTest.index.6bzfos3fov40')"
         class="m-r-10 w-150px"
         allow-clear
         :maxlength="6"
@@ -44,16 +44,16 @@
         class="btn hover:text-[#89f7ff]!"
         @click="setSpeedLine"
       >
-        保存
+        {{t('onlyTest.index.6bzfos3fozg0')}}
       </a-button>
     </section> -->
     <!-- 执行任务 -->
     <div class="m-t-1.5em bg-[#fff]/[0.4] p-y-5px p-l-0.5em">
-      <span>执行任务</span>
+      <span>{{ t('onlyTest.index.6bzfos3fp480') }}</span>
     </div>
     <section class="p-l-3em p-t-1em">
       <div class="text-[18px]">
-        任务执行：
+        {{ t('onlyTest.index.6bzfos3fp800') }}
       </div>
       <br>
 
@@ -64,10 +64,10 @@
         @change="handleChange"
       >
         <a-select-option :value="0">
-          完整
+          {{ t('onlyTest.index.6bzfos3fpdc0') }}
         </a-select-option>
         <a-select-option :value="1">
-          只走本
+          {{ t('onlyTest.index.6bzfos3fpi80') }}
         </a-select-option>
       </a-select>
       <a-button
@@ -80,7 +80,7 @@
         "
         @click="openTask"
       >
-        启动任务
+        {{ t('onlyTest.index.6bzfos3fppo0') }}
       </a-button>
       <a-button
         type="link"
@@ -92,16 +92,16 @@
         "
         @click="stopTask"
       >
-        停止
+        {{ t('onlyTest.index.6bzfos3fpvo0') }}
       </a-button>
     </section>
     <!-- 卡槽操作 -->
     <!-- <div class="m-t-1.5em bg-[#fff]/[0.4] p-y-5px p-l-0.5em">
-      <span>卡槽操作</span>
+      <span>{{t('onlyTest.index.6bzfos3fq1k0')}}</span>
     </div>
     <section class="p-l-3em p-t-1em">
       <div class="text-[18px]">
-        卡槽1：
+        {{t('onlyTest.index.6bzfos3fq4s0')}}
       </div>
       <br>
       <a-button
@@ -109,19 +109,19 @@
         class="btn hover:text-[#89f7ff]!"
         @click="grooveOperate(0, 1)"
       >
-        夹紧
+        {{t('onlyTest.index.6bzfos3fq9g0')}}
       </a-button>
       <a-button
         type="link"
         class="btn ml10 hover:text-[#89f7ff]!"
         @click="grooveOperate(0, 0)"
       >
-        松开
+        {{t('onlyTest.index.6bzfos3fqk00')}}
       </a-button>
     </section>
     <section class="p-l-3em p-t-1em">
       <div class="text-[18px]">
-        卡槽2：
+        {{t('onlyTest.index.6bzfos3fqng0')}}
       </div>
       <br>
       <a-button
@@ -129,14 +129,14 @@
         class="btn hover:text-[#89f7ff]!"
         @click="grooveOperate(1, 1)"
       >
-        夹紧
+        {{t('onlyTest.index.6bzfos3fq9g0')}}
       </a-button>
       <a-button
         type="link"
         class="btn ml10 hover:text-[#89f7ff]!"
         @click="grooveOperate(1, 0)"
       >
-        松开
+        {{t('onlyTest.index.6bzfos3fqk00')}}
       </a-button>
     </section> -->
     <contextHolder />
@@ -145,14 +145,16 @@
 
 <script lang="ts" setup>
 import type { NotificationPlacement } from 'ant-design-vue';
+import { notification } from 'ant-design-vue';
+import { useI18n } from 'vue-i18n';
 import {
   getApiTransfer,
   initMachine,
   startOrStopPrintTask,
 } from '@/apis/webApi';
 import { useAppStore } from '@/store/index';
-import { notification } from 'ant-design-vue';
 
+const { t } = useI18n();
 // const props = defineProps({
 //   isProduce: Boolean,
 // });
@@ -171,13 +173,13 @@ function openNotification(
 ) {
   success
     ? api.success({
-        message: '成功',
+        message: t('onlyTest.index.6bzfos3fqs80'),
         description: ` ${msg}`,
         placement,
         class: 'notification-custom-class',
       })
     : api.error({
-        message: '错误信息',
+        message: t('onlyTest.index.6bzfos3fqwc0'),
         description: ` ${msg}`,
         placement,
         class: 'notification-custom-class',
@@ -200,11 +202,11 @@ async function init() {
   try {
     useAppStore().setSpinning(true);
     await initMachine({ module: 'm0' });
-    openNotify('bottomRight', '初始化接口调用成功', 'success');
+    openNotify('bottomRight', t('onlyTest.index.6bzfos3fr3s0'), 'success');
   }
   catch (error) {
     error;
-    openNotify('bottomRight', '初始化接口调用失败');
+    openNotify('bottomRight', t('onlyTest.index.6bzfos3fr7o0'));
   }
   finally {
     useAppStore().setSpinning(false);
@@ -219,11 +221,11 @@ async function sendDocLine() {
       paraIn: {},
     };
     await getApiTransfer(params);
-    openNotify('bottomRight', '手动送本成功', 'success');
+    openNotify('bottomRight', t('onlyTest.index.6bzfos3fras0'), 'success');
   }
   catch (error) {
     error;
-    openNotify('bottomRight', '手动送本失败');
+    openNotify('bottomRight', t('onlyTest.index.6bzfos3frfc0'));
   }
   finally {
     useAppStore().setSpinning(false);
@@ -262,11 +264,11 @@ async function openTask() {
         testPara: { module: 'm2', type: value1.value },
       },
     });
-    openNotify('bottomRight', '开启任务成功', 'success');
+    openNotify('bottomRight', t('onlyTest.index.6bzfos3frj80'), 'success');
   }
   catch (error) {
     error;
-    openNotify('bottomRight', '开启任务失败');
+    openNotify('bottomRight', t('onlyTest.index.6bzfos3frnw0'));
     isStop.value = !isStop.value;
   }
   finally {
@@ -281,7 +283,7 @@ async function stopTask() {
   }
   catch (error) {
     error;
-    openNotify('bottomRight', '任务停止失败');
+    openNotify('bottomRight', t('onlyTest.index.6bzfos3frsc0'));
     isStop.value = !isStop.value;
   }
   finally {

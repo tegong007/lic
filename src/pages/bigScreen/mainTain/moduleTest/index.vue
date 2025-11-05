@@ -33,6 +33,7 @@
 <script lang="ts" setup>
 import { App } from 'ant-design-vue';
 import { watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { mainTainModule } from '@/apis/proApi';
 import { useAppStore } from '@/store/index';
 import Camera from './Camera.vue';
@@ -43,6 +44,7 @@ import Reader from './Reader.vue';
 const props = defineProps({
   currentModel: String,
 });
+const { t } = useI18n();
 const showKeyboard = ref(false);
 const currentPage = ref('');
 function setShowKeyboard(value: boolean, current?: string) {
@@ -81,7 +83,7 @@ async function getData(newValue: string) {
     //   placement: 'bottomRight',
     // });
     notification.error({
-      message: '错误',
+      message: t('moduleTest.index.6bzjqxqao9w0'),
       description: error,
       placement: 'bottomRight',
       class: 'notification-custom-class',

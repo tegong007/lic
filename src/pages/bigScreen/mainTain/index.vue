@@ -2,7 +2,7 @@
   <div
     class="bg h-100vh w-full flex flex-col items-center text-[18px] text-white"
   >
-    <bigScreenHeader title="维护" class="h8vh" />
+    <bigScreenHeader :title="t('mainTain.index.6bzeggg2woo0')" class="h8vh" />
     <div class="h-100% w-full flex flex-col text-white">
       <div class="bg-color m-x-4em h-80vh flex border-[4px] border-[#3F89DD]">
         <div class="h-full w-[15%] flex flex-col">
@@ -71,7 +71,7 @@
     >
       <div class="flex gap-20">
         <TheButton
-          title="返回首页"
+          :title="t('mainTain.index.6bzeggg2z6o0')"
           @click="
             () => {
               setCurrentModel('');
@@ -86,6 +86,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import TheButton from '@/components/base/TheButton.vue';
 import bigScreenHeader from '@/components/bigScreen/header.vue';
@@ -93,25 +94,27 @@ import Consumables from '@/pages/bigScreen/mainTain/consumables/index.vue';
 import ModuleTest from '@/pages/bigScreen/mainTain/moduleTest/index.vue';
 import OnlyTest from '@/pages/bigScreen/mainTain/onlyTest/index.vue';
 import Version from '@/pages/bigScreen/mainTain/version/index.vue';
-// const { t } = useI18n();
+
+const { t } = useI18n();
+
 definePage({
   name: 'MainTain',
   meta: {
-    title: '维护页',
+    title: this.t('mainTain.index.6bzeggg2zh00'),
   },
 });
 const route = useRoute();
 const currentModel = ref<string>('');
 // const isProduce = ref<boolean>(false);
 const options = ref([
-  { label: `耗材`, value: '5' },
-  { label: `整机`, value: '0' },
-  // { label: `整机`, value: '0' },
-  { label: `空白本检测模块`, value: '1' },
-  { label: `主副页打印模块`, value: '2' },
-  { label: `加注页打印模块`, value: '3' },
-  // { label: `成本收集模块`, value: '4' },
-  { label: `关于`, value: '6' },
+  { label: t('mainTain.index.6bzf1j837r80'), value: '5' },
+  { label: t('mainTain.index.6bzf1j83a380'), value: '0' },
+  // { label:"整机", value: '0' },
+  { label: t('mainTain.index.6bzf1j83aak0'), value: '1' },
+  { label: t('mainTain.index.6bzf1j83aks0'), value: '2' },
+  { label: t('mainTain.index.6bzf1j83apc0'), value: '3' },
+  // { label:"成本收集模块", value: '4' },
+  { label: t('mainTain.index.6bzf1j83atc0'), value: '6' },
 ]);
 
 onActivated(() => {

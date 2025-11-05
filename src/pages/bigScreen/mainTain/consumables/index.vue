@@ -6,7 +6,9 @@
       class="h-full flex p-y-20"
     >
       <div class="h-full flex-col flex-1">
-        <span class="text-[28px] color-[#fff]">{{ moduleItems.moduleName }}油墨余量</span>
+        <span class="text-[28px] color-[#fff]">{{
+          moduleItems.moduleName + t('consumables.index.6bzfb19updk0')
+        }}</span>
         <div class="flex">
           <div
             v-for="(item, index) in moduleItems.inkObjects"
@@ -34,7 +36,7 @@
         <div
           class="mt-20 h-100px flex flex-col justify-around text-[24px] color-[#CFDEF1]"
         >
-          <span> 预计打印证本数</span>
+          <span>{{ t('consumables.index.6bzfb19urz80') }}</span>
           <span
             class="text-[26px] color-white line-height-[40px] font-[youshe]"
           >{{ moduleItems.remainDocNum }}</span>
@@ -44,11 +46,13 @@
         class="box-border h-full w-20% flex flex-col border from-[#ffffff38] bg-gradient-to-b p-10 color-[#CFDEF1]"
       >
         <div class="flex-1">
-          【墨水缺失】<br>
+          {{ `【${t('consumables.index.6bzfdtzyik00')}】` }} <br>
           <span class="ml35">{{ moduleItems.missingMsg }}</span>
         </div>
         <div class="flex-1">
-          【墨水将尽】 <br><span class="ml35">{{ moduleItems.lowMsg }}</span>
+          {{ `【${t('consumables.index.6bzfdtzyj0s0')}】` }}<br><span
+            class="ml35"
+          >{{ moduleItems.lowMsg }}</span>
         </div>
       </div>
     </section>
@@ -57,6 +61,7 @@
 
 <script setup lang="ts">
 import { watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { mainTainModule } from '@/apis/proApi';
 import { openNotify } from '@/components/base/useNotification';
 import { useAppStore } from '@/store/index';
@@ -65,123 +70,9 @@ import useCustomTimer from '@/utils/useCustomTimer';
 const props = defineProps({
   currentModel: String,
 });
+const { t } = useI18n();
 const { start, stop } = useCustomTimer();
-const modulesData = ref([
-  {
-    inkObjects: [
-      {
-        inkName: '黄色',
-        isLow: false,
-        isMiss: false,
-        remainder: 100,
-      },
-      {
-        inkName: '洋红色',
-        isLow: false,
-        isMiss: false,
-        remainder: 100,
-      },
-      {
-        inkName: '青色',
-        isLow: false,
-        isMiss: false,
-        remainder: 100,
-      },
-      {
-        inkName: '黑色',
-        isLow: false,
-        isMiss: false,
-        remainder: 100,
-      },
-      {
-        inkName: '光油',
-        isLow: false,
-        isMiss: false,
-        remainder: 100,
-      },
-      {
-        inkName: '隐形红',
-        isLow: false,
-        isMiss: false,
-        remainder: 100,
-      },
-      {
-        inkName: '隐形绿',
-        isLow: false,
-        isMiss: false,
-        remainder: 100,
-      },
-      {
-        inkName: '隐形蓝',
-        isLow: false,
-        isMiss: false,
-        remainder: 100,
-      },
-    ],
-    lowMsg: '',
-    missingMsg: '',
-    moduleID: 2,
-    moduleName: '主副页打印模块',
-    remainDocNum: 999,
-  },
-  {
-    inkObjects: [
-      {
-        inkName: '黄色',
-        isLow: false,
-        isMiss: false,
-        remainder: 100,
-      },
-      {
-        inkName: '洋红色',
-        isLow: false,
-        isMiss: false,
-        remainder: 100,
-      },
-      {
-        inkName: '青色',
-        isLow: false,
-        isMiss: false,
-        remainder: 100,
-      },
-      {
-        inkName: '黑色',
-        isLow: false,
-        isMiss: false,
-        remainder: 100,
-      },
-      {
-        inkName: '光油',
-        isLow: false,
-        isMiss: false,
-        remainder: 100,
-      },
-      {
-        inkName: '隐形红',
-        isLow: false,
-        isMiss: false,
-        remainder: 100,
-      },
-      {
-        inkName: '隐形绿',
-        isLow: false,
-        isMiss: false,
-        remainder: 100,
-      },
-      {
-        inkName: '隐形蓝',
-        isLow: false,
-        isMiss: false,
-        remainder: 100,
-      },
-    ],
-    lowMsg: '',
-    missingMsg: '',
-    moduleID: 3,
-    moduleName: '加注页打印模块',
-    remainDocNum: 999,
-  },
-]);
+const modulesData = ref([]);
 
 // 颜色的 trailColor 和 strokeColor 映射
 const colorMap = {
@@ -254,7 +145,7 @@ watch(
     if (newValue === '5') {
       useAppStore().setSpinning(true);
       const end = await getDataPage();
-      !end && openNotify('bottomRight', `耗材接口超时`);
+      !end && openNotify('bottomRight', t('consumables.index.6bzfdtzyj5s0'));
       useAppStore().setSpinning(false);
       await startGetDataPage();
       // setTimeout(() => {}, 5000);
