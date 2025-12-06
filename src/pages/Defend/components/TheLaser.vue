@@ -16,23 +16,28 @@
 <script lang="ts" setup>
 import { App } from 'ant-design-vue';
 import { api } from 'v-viewer';
-import { useI18n } from 'vue-i18n';
 import { getApiTransfer } from '@/apis/webApi';
 import { useAppStore } from '@/store/index';
 
 const props = defineProps({ data: Object });
 const { notification } = App.useApp();
-const { t } = useI18n();
 
 function ViewImage(list: string[]) {
   api({ images: list, options: { navbar: false, title: false, toolbar: false, rotatable: false } });
 }
 
 async function previewPhoto(laserObj: any, arr: any) {
+  const objs = [{ deviceIndex: laserObj.deviceIndex, dev: laserObj.dev, templateType: 'PS_2023', platform: Number(arr[0].value), isUseData: false }];
   try {
     useAppStore().setSpinning(true);
-    await transferApi('/lpdps/preview', [{ deviceIndex: laserObj.deviceIndex, dev: laserObj.dev, templateType: 'PS_2023', platform: Number(arr[0].value), isUseData: false }]);
-    notification.error({ message: '成功', description: '操作成功', class: 'notificationE-custom-class', placement: 'bottomRight' });
+    const params = { transURI: '/lpdps/preview', paraIn: { objs } };
+    const data: any = await getApiTransfer(params);
+    if (data.rslts[0].code !== 0) {
+      throw data.rslts[0].msg || '未知错误';
+    } else {
+      ViewImage([`data:image/png;base64,${data.rslts[0].imgData}`]);
+      notification.error({ message: '成功', description: '操作成功', class: 'notificationE-custom-class', placement: 'bottomRight' });
+    }
   } catch (error) {
     notification.error({ message: '错误', description: String(error), class: 'notificationE-custom-class', placement: 'bottomRight' });
   } finally {
@@ -40,74 +45,45 @@ async function previewPhoto(laserObj: any, arr: any) {
   }
 }
 
-async function redLight(laserObj, arr) {
-  const objs = [
-    {
-      deviceIndex: laserObj.deviceIndex,
-      dev: laserObj.dev,
-      templateType: 'PS_2023',
-      platform: Number(arr[0].value),
-    },
-  ];
-  transferApi('/lpdps/red-light', objs);
-}
-
-async function printLaser(laserObj, arr) {
-  const objs = [
-    {
-      deviceIndex: laserObj.deviceIndex,
-      dev: laserObj.dev,
-      templateType: 'PS_2023',
-      platform: Number(arr[0].value),
-      isUseData: false,
-    },
-  ];
-  transferApi('/lpdps/print', objs);
-}
-
-async function transferApi(url, laserObj) {
+async function redLight(laserObj: any, arr: any) {
+  const objs = [{ deviceIndex: laserObj.deviceIndex, dev: laserObj.dev, templateType: 'PS_2023', platform: Number(arr[0].value) }];
   try {
     useAppStore().setSpinning(true);
-    const params = {
-      transURI: url,
-      paraIn: {
-        objs: url !== '/lpdps/emergency-stop' ? laserObj : [{ deviceIndex: laserObj.deviceIndex, dev: laserObj.dev }],
-      },
-    };
-    console.log('🚀 ~ transfer ~ params:', params);
-    const data = await getApiTransfer(params);
-    if (data.rslts[0].code !== 0) {
-      notification.error({
-        message: this.t('moduleTest.Laser.6bzg7ygu8lc0'),
-        description: data.rslts[0].msg,
-        placement: 'bottomRight',
-        class: 'notificationE-custom-class',
-      });
-    } else if (data.rslts[0].code === 0 && url !== '/lpdps/preview') {
-      notification.success({
-        message: this.t('moduleTest.Laser.6bzg7ygu8nc0'),
-        description: this.t('moduleTest.Laser.6bzg7ygu8p40'),
-        placement: 'bottomRight',
-        class: 'notificationE-custom-class',
-      });
-    } else {
-      if (url === '/lpdps/preview') {
-        ViewImage([`data:image/png;base64,${data.rslts[0].imgData}`]);
-        notification.success({
-          message: this.t('moduleTest.Laser.6bzg7ygu8nc0'),
-          description: this.t('moduleTest.Laser.6bzg7ygu8p40'),
-          placement: 'bottomRight',
-          class: 'notificationE-custom-class',
-        });
-      }
-    }
+    const params = { transURI: '/lpdps/red-light', paraIn: { objs } };
+    const data: any = await getApiTransfer(params);
+    if (data.rslts[0].code !== 0) throw data.rslts[0].msg || '未知错误';
+    else notification.error({ message: '成功', description: '操作成功', class: 'notificationE-custom-class', placement: 'bottomRight' });
   } catch (error) {
-    notification.error({
-      message: this.t('moduleTest.Laser.6bzg7ygu8lc0'),
-      description: error,
-      class: 'notificationE-custom-class',
-      placement: 'bottomRight',
-    });
+    notification.error({ message: '错误', description: String(error), class: 'notificationE-custom-class', placement: 'bottomRight' });
+  } finally {
+    useAppStore().setSpinning(false);
+  }
+}
+
+async function printLaser(laserObj: any, arr: any) {
+  const objs = [{ deviceIndex: laserObj.deviceIndex, dev: laserObj.dev, templateType: 'PS_2023', platform: Number(arr[0].value), isUseData: false }];
+  try {
+    useAppStore().setSpinning(true);
+    const params = { transURI: '/lpdps/print', paraIn: { objs } };
+    const data: any = await getApiTransfer(params);
+    if (data.rslts[0].code !== 0) throw data.rslts[0].msg || '未知错误';
+    else notification.error({ message: '成功', description: '操作成功', class: 'notificationE-custom-class', placement: 'bottomRight' });
+  } catch (error) {
+    notification.error({ message: '错误', description: String(error), class: 'notificationE-custom-class', placement: 'bottomRight' });
+  } finally {
+    useAppStore().setSpinning(false);
+  }
+}
+
+async function transferApi(url: any, laserObj: any) {
+  try {
+    useAppStore().setSpinning(true);
+    const params = { transURI: url, paraIn: laserObj };
+    const data: any = await getApiTransfer(params);
+    if (data.rslts[0].code !== 0) throw data.rslts[0].msg || '未知错误';
+    else notification.error({ message: '成功', description: '操作成功', class: 'notificationE-custom-class', placement: 'bottomRight' });
+  } catch (error) {
+    notification.error({ message: '错误', description: String(error), class: 'notificationE-custom-class', placement: 'bottomRight' });
   } finally {
     useAppStore().setSpinning(false);
   }

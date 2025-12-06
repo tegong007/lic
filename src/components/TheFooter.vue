@@ -14,31 +14,29 @@
   <div class="fixed bottom-1vh right-2.5vw">
     <a-flex justify="end">
       <div class="bgBtn transition-transform duration-300" :class="actived === 0 ? 'actived' : 'hover:scale-105'" @click="$goto('HomePage')">
-        <span class="text-1.7vw line-height-5vh">{{ t('主页') }}</span>
+        <span class="text-1.7vw line-height-5vh">主页</span>
       </div>
       <div class="bgBtn transition-transform duration-300" :class="actived === 1 ? 'actived' : 'hover:scale-105'" @click="$goto('CheckPage')">
-        <span class="text-1.7vw line-height-5vh">{{ t('智能质检') }}</span>
+        <span class="text-1.7vw line-height-5vh">智能质检</span>
       </div>
       <div class="bgBtn transition-transform duration-300" :class="actived === 2 ? 'actived' : 'hover:scale-105'" @click="$goto('DefendPage')">
-        <span class="text-1.7vw line-height-5vh">{{ t('设备维护') }}</span>
+        <span class="text-1.7vw line-height-5vh">设备维护</span>
       </div>
       <div class="bgBtn transition-transform duration-300" :class="actived === 3 ? 'actived' : 'hover:scale-105'" @click="$goto('SetPage')">
-        <span class="text-1.7vw line-height-5vh">{{ t('设备设置') }}</span>
+        <span class="text-1.7vw line-height-5vh">设备设置</span>
       </div>
       <div class="bgBtn transition-transform duration-300" :class="actived === 4 ? 'actived' : 'hover:scale-105'" @click="$goto('SearchPage')">
-        <span class="text-1.7vw line-height-5vh">{{ t('查询') }}</span>
+        <span class="text-1.7vw line-height-5vh">查询</span>
       </div>
     </a-flex>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { footerModule } from '@/apis/proApi';
 import useCustomTimer from '@/utils/useCustomTimer';
 
-const { t } = useI18n();
 const route = useRoute();
 const { start } = useCustomTimer();
 
