@@ -5,7 +5,6 @@ import { createApp } from 'vue';
 import { CountTo } from 'vue3-count-to';
 import VxeUI from 'vxe-pc-ui';
 import VxeUITable from 'vxe-table';
-// import { setupRouter } from './router';
 import router from '@/router';
 import i18n from './locales';
 import { setupStore } from './store';
@@ -29,11 +28,9 @@ async function bootstrap() {
   app.use(router).use(VueViewer);
   app.use(VxeUI).use(VxeUITable);
   app.component('CountTo', CountTo);
-  // 页面跳转
   app.config.globalProperties.$goto = function (page: string, query?: any) {
     page === '-1' ? router.go(-1) : router.push({ name: page, query });
   };
-  // await setupRouter(app);
   app.mount('#app').$nextTick(() => {
     postMessage({ payload: 'removeLoading' }, '*');
   });

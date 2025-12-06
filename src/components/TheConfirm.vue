@@ -1,0 +1,105 @@
+<template>
+  <a-modal width="44vw" :get-container="false" :open="props.open" :closable="false" centered force-render>
+    <SimpleKeyboard v-if="focus" :transform="transformValue" :input="text" :max-length="20" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
+    <template v-if="props.title === '补打备注'">
+      <div class="w-full pb-6vh pt-7vh text-center text-2.5vw color-#ffffff">{{ `${props.title}前请输入证本号` }}</div>
+      <a-input v-model:value="text" :class="focus ? 'keyInput' : ''" class="mb-6vh w-100% py-10px text-1.5vw" placeholder="请输入证本号" :maxlength="15" @click.stop="onInputFocus($event)" />
+    </template>
+    <template v-else-if="props.title === '任务添加成功'">
+      <div class="w-full pb-6vh pt-7vh text-center text-2.5vw color-#ffffff">{{ props.title }}</div>
+      <div class="text-1.5vw text-#ffffff">
+        <div class="mx-auto w-60% pb-2vh">任务号: {{ props.data.batchID }}</div>
+        <div class="mx-auto w-60% pb-2vh">批次号: {{ props.data.taskID }}</div>
+        <div class="mx-auto w-60% pb-2vh">总人数: {{ props.data.totalPeopleNum }}</div>
+      </div>
+    </template>
+    <div v-else class="w-full pb-12vh pt-13vh text-center text-2.5vw color-#ffffff">{{ `确定执行${props.title}？` }}</div>
+    <template #footer>
+      <a-flex justify="center" align="center" class="gap-10%">
+        <a-button v-if="props.title !== '任务添加成功'" class="btn transition-transform duration-300 hover:scale-105" @click="handleCancel">取消</a-button>
+        <a-button v-if="props.title === '补打备注'" class="btn transition-transform duration-300 hover:scale-105" @click="submitOK">确定</a-button>
+        <a-button v-else class="btn transition-transform duration-300 hover:scale-105" @click="handleOk">确定</a-button>
+      </a-flex>
+    </template>
+  </a-modal>
+</template>
+
+<script lang="ts" setup>
+import { App } from 'ant-design-vue';
+import { homeModule } from '@/apis/proApi';
+import { useAppStore } from '@/store/index';
+
+const props = defineProps({ open: Boolean, handleOk: Function, title: String, handleCancel: Function, data: Object });
+const text = ref('');
+const focus = ref(false);
+const cursorPosition = ref(null);
+const transformValue: any = ref(null);
+const { notification } = App.useApp();
+
+async function submitOK() {
+  if (text.value) {
+    try {
+      useAppStore().setSpinning(true);
+      await homeModule.printObsv({ docID: text.value });
+      notification.success({ message: '成功', description: `${props.title}操作成功`, placement: 'bottomRight', class: 'notificationE-custom-class' });
+    } catch (error) {
+      notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
+    } finally {
+      useAppStore().setSpinning(false);
+      if (props.handleOk) props.handleOk();
+    }
+  } else {
+    notification.error({ message: '错误', description: '请先输入证本号', placement: 'bottomRight', class: 'notificationE-custom-class' });
+  }
+}
+
+function hideKeyboard() {
+  focus.value = false;
+}
+
+function onInputFocus(event: any) {
+  focus.value = true;
+  cursorPosition.value = event;
+  const rect = event.target.getBoundingClientRect();
+  const top = rect.bottom + rect.height + window.scrollY;
+  transformValue.value = [0, top - 180];
+}
+
+function onChangeKeyboard(input: string, keyboard: any) {
+  const caretPosition = keyboard.caretPosition;
+  if (caretPosition !== null) setInputCaretPosition(cursorPosition.value, caretPosition);
+  text.value = input;
+  function setInputCaretPosition(element: any, pos: any) {
+    setTimeout(() => {
+      if (element.setSelectionRange) {
+        element.focus();
+        element.setSelectionRange(pos, pos);
+      }
+    }, 100);
+  }
+}
+</script>
+
+<style scoped lang="less">
+.btn {
+  background: #3662ec;
+  border: 0;
+  color: #ffffff;
+  width: 30%;
+  font-size: 3vh;
+  height: 7vh;
+  &:hover {
+    color: #ffffff;
+  }
+}
+::v-deep(.ant-modal-content) {
+  background-image: url('@/assets/image/bg_modal.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  height: 54vh;
+  background-color: #03163e;
+}
+::v-deep(.ant-modal-mask) {
+  background: #03163ef2;
+}
+</style>

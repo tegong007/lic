@@ -2,12 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <link rel="icon" type="image/svg+xml" href="/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- <meta
-      http-equiv="Content-Security-Policy"
-      content="script-src 'self' 'unsafe-inline';"
-    /> -->
     <title>%VITE_TITLE%</title>
   </head>
   <body>
@@ -15,33 +11,45 @@
     <script type="module" src="/src/main.ts"></script>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        // 请求配置信息
-        window.electronAPI
-          .getConfig()
-          .then((config) => {
-            // 将配置信息设置为全局变量
-            window.lang = config.lang;
-            window.serverAddress = config.serverAddress;
-            window.timeOut = config.timeOut;
-            window.docCount = config.docCount;
-          })
-          .catch((error) => {
-            console.error('Failed to get config:', error);
-          });
+        window.electronAPI.getConfig().then((config) => {
+          window.serverAddress = config.serverAddress;
+          window.timeOut = config.timeOut;
+          window.lang = config.lang;
+          window.docCount = config.docCount;
+        });
       });
     </script>
   </body>
 </html>
+
 <style>
-  [data-vxe-ui-theme='light'] {
-    --vxe-ui-table-border-width: 3px;
-    --vxe-ui-table-border-color: #7ff3fd;
-    --vxe-ui-table-row-height-default: 34px;
-    --vxe-ui-font-primary-color: #7ff3fd;
+  ::-webkit-scrollbar {
+    width: 1.5vw;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, #03163e 0%, #3662ec 53%);
+    border-radius: 50px;
   }
   .notification-custom-class {
-    background: url('@/assets/image/bigScreen/notify-bg.png');
+    background-image: url('@/assets/image/bg_notify.png');
+  }
+  .notificationE-custom-class {
+    background-image: url('@/assets/image/bg_notifyE.png');
+  }
+  .notification-custom-class,
+  .notificationE-custom-class {
+    background-color: #03163ef2;
     background-size: 100% 100%;
     background-repeat: 'no-repeat';
+    color: #ffffff;
+    .ant-notification-notice-close {
+      color: #ffffff !important;
+    }
+    .ant-notification-notice-icon-error {
+      color: #ffffff !important;
+    }
+    .ant-notification-notice-message {
+      color: #ffffff !important;
+    }
   }
 </style>

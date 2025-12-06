@@ -2,6 +2,12 @@ import request from '@/plugins/request';
 // 后端服务
 const v1 = window.serverAddress ?? 'http://localhost:6101/';
 
+//  设备初始化
+export function initMachine(data: any) {
+  const api = `${v1}/tss/doc-machine/init`;
+  return request.post(api, data);
+}
+
 // 任务管理服务HTTP接口
 export function startOrStopPrintTask(data: any) {
   const api = `${v1}/tss/print-task`;
@@ -23,11 +29,7 @@ export function getLineRun(data: any) {
   const api = `${v1}/tss/line-run`;
   return request.post(api, data);
 }
-//  设备初始化
-export function initMachine(data: any) {
-  const api = `${v1}/tss/doc-machine/init`;
-  return request.post(api, data);
-}
+
 // 多本-证本状态查询
 export function lineGetDocStatus() {
   const api = `${v1}/tss/doc-status/current-task`;

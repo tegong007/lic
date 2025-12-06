@@ -1,16 +1,16 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import electron from 'vite-plugin-electron/simple';
 import Vue from '@vitejs/plugin-vue';
-import { defineConfig } from 'vite';
 import Unocss from 'unocss/vite';
-import Components from 'unplugin-vue-components/vite';
-import { NaiveUiResolver } from 'unplugin-vue-components/resolvers';
 import AutoImport from 'unplugin-auto-import/vite';
-import removeNoMatch from 'vite-plugin-router-warn';
-import VueRouter from 'unplugin-vue-router/vite';
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers';
+import Components from 'unplugin-vue-components/vite';
 import VueMacros from 'unplugin-vue-macros/vite';
 import { VueRouterAutoImports } from 'unplugin-vue-router';
+import VueRouter from 'unplugin-vue-router/vite';
+import { defineConfig } from 'vite';
+import electron from 'vite-plugin-electron/simple';
+import removeNoMatch from 'vite-plugin-router-warn';
 import pkg from './package.json';
 // import vueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 
@@ -24,21 +24,11 @@ export default defineConfig(({ command }) => {
   const sourcemap = isServe || !!process.env.VSCODE_DEBUG;
 
   // 定义全局变量
-  const viteDevServerUrl = process.env.VSCODE_DEBUG
-    ? pkg.debug.env.VITE_DEV_SERVER_URL
-    : 'http://localhost:6102';
-
+  const viteDevServerUrl = process.env.VSCODE_DEBUG ? pkg.debug.env.VITE_DEV_SERVER_URL : 'http://192.168.88.12:6102';
   return {
     plugins: [
-      VueRouter({
-        extensions: ['.vue'],
-        dts: 'src/typed-router.d.ts',
-      }),
-      VueMacros({
-        plugins: {
-          vue: Vue(),
-        },
-      }),
+      VueRouter({ extensions: ['.vue'], dts: 'src/typed-router.d.ts' }),
+      VueMacros({ plugins: { vue: Vue() } }),
       AutoImport({
         imports: [
           'vue',
@@ -54,10 +44,7 @@ export default defineConfig(({ command }) => {
         dirs: ['src/composables'],
         vueTemplate: true,
       }),
-      Components({
-        resolvers: [NaiveUiResolver()],
-        dts: false,
-      }),
+      Components({ resolvers: [NaiveUiResolver()], dts: false }),
       Unocss(),
       electron({
         main: {
@@ -65,11 +52,8 @@ export default defineConfig(({ command }) => {
           entry: 'electron/main/index.ts',
           onstart({ startup }) {
             if (process.env.VSCODE_DEBUG) {
-              console.log(
-                /* For `.vscode/.debug.script.mjs` */ '[startup] Electron App',
-              );
-            }
-            else {
+              console.log(/* For `.vscode/.debug.script.mjs` */ '[startup] Electron App');
+            } else {
               startup();
             }
           },
@@ -83,9 +67,7 @@ export default defineConfig(({ command }) => {
                 // we can use `external` to exclude them to ensure they work correctly.
                 // Others need to put them in `dependencies` to ensure they are collected into `app.asar` after the app is built.
                 // Of course, this is not absolute, just this way is relatively simple. :)
-                external: Object.keys(
-                  'dependencies' in pkg ? pkg.dependencies : {},
-                ),
+                external: Object.keys('dependencies' in pkg ? pkg.dependencies : {}),
               },
             },
           },
@@ -100,9 +82,7 @@ export default defineConfig(({ command }) => {
               minify: isBuild,
               outDir: 'dist-electron/preload',
               rollupOptions: {
-                external: Object.keys(
-                  'dependencies' in pkg ? pkg.dependencies : {},
-                ),
+                external: Object.keys('dependencies' in pkg ? pkg.dependencies : {}),
               },
             },
           },
@@ -125,8 +105,8 @@ export default defineConfig(({ command }) => {
       },
     },
     server:
-      process.env.VSCODE_DEBUG
-      && (() => {
+      process.env.VSCODE_DEBUG &&
+      (() => {
         const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL);
         return {
           host: url.hostname,

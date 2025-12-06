@@ -1,5 +1,5 @@
-import { defineConfig, presetAttributify, presetUno } from 'unocss';
 import presetRemToPx from '@unocss/preset-rem-to-px';
+import { defineConfig, presetAttributify, presetUno } from 'unocss';
 
 export default defineConfig({
   presets: [
@@ -11,7 +11,10 @@ export default defineConfig({
     ['wh-full', 'w-full h-full'],
     ['f-c-c', 'flex justify-center items-center'],
     ['flex-col', 'flex flex-col'],
-    ['card-border', 'border border-solid border-light_border dark:border-dark_border'],
+    [
+      'card-border',
+      'border border-solid border-light_border dark:border-dark_border',
+    ],
     ['auto-bg', 'bg-white dark:bg-dark'],
     ['auto-bg-hover', 'hover:bg-#eaf0f1 hover:dark:bg-#1b2429'],
     ['auto-bg-highlight', 'bg-#eaf0f1 dark:bg-#1b2429'],
@@ -20,7 +23,10 @@ export default defineConfig({
   rules: [
     [
       'card-shadow',
-      { 'box-shadow': '0 1px 2px -2px #00000029, 0 3px 6px #0000001f, 0 5px 12px 4px #00000017' },
+      {
+        'box-shadow':
+          '0 1px 2px -2px #00000029, 0 3px 6px #0000001f, 0 5px 12px 4px #00000017',
+      },
     ],
   ],
   theme: {

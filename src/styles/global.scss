@@ -128,3 +128,69 @@ body {
 //   background-size: 100%;
 //   background-repeat: no-repeat;
 // }
+::-webkit-scrollbar {
+  width: 1.5vw;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #03163e 0%, #3662ec 53%);
+  border-radius: 50px;
+}
+.keyInput {
+  border: #db3e5d 2px solid !important;
+}
+.tap_tip {
+  color: #ffffff;
+  background: #00000033;
+}
+.tap_ok {
+  color: #5fcc34;
+  background: #5fcc3433;
+}
+.tap_ng {
+  color: #fa5151;
+  background: #b4050599;
+}
+.bg_jianbian {
+  background: linear-gradient(90deg, #0390e500 0%, #0390e51f 34%, #0390e517 63%, #0390e500 99%);
+  padding: 1vh 0;
+}
+.btn_normal {
+  background: #3662ec;
+  border: 0;
+  color: #ffffff;
+  height: 5.5vh;
+  line-height: 4.5vh;
+  margin-right: 2vw;
+  font-size: 1.3vw;
+  width: 10vw;
+  &:hover {
+    color: #ffffff !important;
+    transform: scale(1.05);
+  }
+}
+.btn_search {
+  background: #3662ec;
+  border: 0;
+  color: #ffffff;
+  height: 4vh;
+  line-height: 1vh;
+  font-size: 1.2vw;
+  border-radius: 0;
+  &:hover {
+    color: #ffffff !important;
+    transform: scale(1.05);
+  }
+}
+.btn_in {
+  background: #3662ec;
+  border: 0;
+  color: #ffffff;
+  height: 3vh;
+  line-height: 1vh;
+  font-size: 1vw;
+  border-radius: 0;
+  &:hover {
+    color: #ffffff !important;
+    transform: scale(1.05);
+  }
+}

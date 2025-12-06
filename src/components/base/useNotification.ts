@@ -5,11 +5,7 @@ import { useAppStore } from '@/store';
 const [api, contextHolder] = notification.useNotification();
 
 // 定义通知函数
-export function openNotify(
-  placement: NotificationPlacement,
-  msg: any,
-  success?: boolean,
-) {
+export function openNotify(placement: NotificationPlacement, msg: any, success?: boolean) {
   const appStore = useAppStore(); // 获取 Pinia Store
   const t = appStore.t; // 从 Pinia Store 中获取 t 函数
   if (success) {
@@ -17,15 +13,14 @@ export function openNotify(
       message: t('notify.title.6byl3ok0hfk0'),
       description: `${msg}`,
       placement,
-      class: 'notification-custom-class',
+      class: 'notificationE-custom-class',
     });
-  }
-  else {
+  } else {
     api.error({
       message: t('notify.title.6byl3ok0qtc0'),
       description: `${msg}`,
       placement,
-      class: 'notification-custom-class',
+      class: 'notificationE-custom-class',
     });
   }
 }

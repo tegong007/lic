@@ -11,11 +11,7 @@
       "@/*": ["src/*"]
     },
     "resolveJsonModule": true,
-    "types": [
-      "vite/client",
-      "unplugin-vue-macros/macros-global",
-      "unplugin-vue-router/client"
-    ],
+    "types": ["vite/client", "unplugin-vue-macros/macros-global", "unplugin-vue-router/client"],
     "allowJs": true,
     "strict": true,
     "strictPropertyInitialization": false,

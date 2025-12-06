@@ -6,7 +6,7 @@ import cnLocale from '@/locales/zh-cn.json';
 
 const i18n = createI18n({
   legacy: false,
-  locale: window.lang ?? 'en',
+  locale: window.lang ?? 'cn',
   globalInjection: true, // 全局注册$t方法
   messages: {
     en: {

@@ -1,16 +1,6 @@
 <template>
-  <div
-    ref="parentRef"
-    class="fixed z999"
-    :class="`${props.keyboardWidth} `"
-    :style="transformStyle"
-  >
-    <div
-      ref="modalTitleRef"
-      class="drag-el hg-candidate-box"
-      style="width: 100%; cursor: move"
-      @touchstart="startDrag"
-    />
+  <div ref="parentRef" class="fixed z999" :class="`${props.keyboardWidth} `" :style="transformStyle">
+    <div ref="modalTitleRef" class="drag-el hg-candidate-box" style="width: 100%; cursor: move" @touchstart="startDrag" />
     <div :class="keyboardClass" />
   </div>
 </template>
@@ -18,13 +8,13 @@
 <script setup lang="ts">
 // 移动
 import type { CSSProperties } from 'vue';
-import layout from '@/utils/chinese';
 import { useDraggable } from '@vueuse/core';
+import Keyboard from 'simple-keyboard';
 // import layout from 'simple-keyboard-layouts/build/layouts/chinese'; // 中文输入法
 
-import Keyboard from 'simple-keyboard';
-
 import { computed, onMounted, ref, watch, watchEffect } from 'vue';
+
+import layout from '@/utils/chinese';
 import 'simple-keyboard/build/css/index.css';
 
 // 中文库
@@ -84,10 +74,7 @@ onMounted(() => {
     onKeyReleased: (button) => {
       console.log('simple-keyboard button released', button);
       if (keyValue.value !== props.input) {
-        if (
-          keyValue.value.length > props.input.length
-          && keyboard.value.caretPosition >= keyValue.value.length
-        ) {
+        if (keyValue.value.length > props.input.length && keyboard.value.caretPosition >= keyValue.value.length) {
           keyboard.value.setCaretPosition(props.input.length);
         }
         keyboard.value?.setInput(props.input);
@@ -99,20 +86,8 @@ onMounted(() => {
     layoutName: props.layout,
     theme: `hg-theme-${props.layout}`,
     layout: {
-      default: [
-        '` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
-        '{tab} q w e r t y u i o p [ ] \\',
-        '{lock} a s d f g h j k l : ;',
-        '{shift} z x c v b n m , . / {clear}',
-        '{change} {space} {close}',
-      ],
-      shift: [
-        '~ ! @ # $ % ^ & * ( ) _ + {bksp}',
-        '{tab} Q W E R T Y U I O P { } |',
-        '{lock} A S D F G H J K L : ;',
-        '{shift} Z X C V B N M < > ? {clear}',
-        '{change} {space} {close}',
-      ],
+      default: ['` 1 2 3 4 5 6 7 8 9 0 - = {bksp}', '{tab} q w e r t y u i o p [ ] \\', '{lock} a s d f g h j k l : ;', '{shift} z x c v b n m , . / {clear}', '{change} {space} {close}'],
+      shift: ['~ ! @ # $ % ^ & * ( ) _ + {bksp}', '{tab} Q W E R T Y U I O P { } |', '{lock} A S D F G H J K L : ;', '{shift} Z X C V B N M < > ? {clear}', '{change} {space} {close}'],
       num: ['1 2 3', '4 5 6', '7 8 9', '{bksp} 0 {close}'],
       floatNum: ['1 2 3', '4 5 6', '7 8 9', '{bksp} . 0 {close}'],
     },
@@ -157,16 +132,14 @@ function onKeyPress(button, $event) {
   if (button === '{close}') {
     emit('closekeyboard');
     return false;
-  }
-  else if (button === '{change}') {
+  } else if (button === '{change}') {
     if (keyboard.value.options.layoutCandidates !== null) {
       displayDefault.value['{change}'] = '英文';
       keyboard.value.setOptions({
         layoutCandidates: null,
         display: displayDefault.value,
       });
-    }
-    else {
+    } else {
       displayDefault.value['{change}'] = '中文';
       keyboard.value.setOptions({
         layoutCandidates: layout.layoutCandidates,
@@ -175,20 +148,16 @@ function onKeyPress(button, $event) {
         display: displayDefault.value,
       });
     }
-  }
-  else if (button === '{clear}') {
+  } else if (button === '{clear}') {
     keyboard.value.setInput('');
-  }
-  else {
-    const value
-      = $event.target.offsetParent.parentElement.children[0].children[0].value;
+  } else {
+    const value = $event.target.offsetParent.parentElement.children[0].children[0].value;
     if (value) {
       keyboard.value.setInput(value);
     }
     emit('onKeyPress', button);
   }
-  if (button === '{shift}' || button === '{lock}')
-    handleShift();
+  if (button === '{shift}' || button === '{lock}') handleShift();
 }
 const modalTitleRef = ref<HTMLElement>(null);
 const parentRef = ref<HTMLElement>(null);
@@ -210,8 +179,7 @@ watch([x, y], () => {
     const bodyRect = document.body.getBoundingClientRect();
     const titleRect = modalTitleRef.value.getBoundingClientRect();
     dragRect.value.right = bodyRect.width - titleRect.width;
-    dragRect.value.bottom
-      = bodyRect.height - titleRect.height - parentRef.value?.clientHeight;
+    dragRect.value.bottom = bodyRect.height - titleRect.height - parentRef.value?.clientHeight;
     preTransformX.value = transformX.value;
     preTransformY.value = transformY.value;
   }
@@ -225,14 +193,8 @@ watch(isDragging, () => {
 
 watchEffect(() => {
   if (startedDrag.value) {
-    transformX.value
-      = preTransformX.value
-        + Math.min(Math.max(dragRect.value.left, x.value), dragRect.value.right)
-        - startX.value;
-    transformY.value
-      = preTransformY.value
-        + Math.min(Math.max(dragRect.value.top, y.value), dragRect.value.bottom)
-        - startY.value;
+    transformX.value = preTransformX.value + Math.min(Math.max(dragRect.value.left, x.value), dragRect.value.right) - startX.value;
+    transformY.value = preTransformY.value + Math.min(Math.max(dragRect.value.top, y.value), dragRect.value.bottom) - startY.value;
   }
 });
 const transformStyle = computed<CSSProperties>(() => {

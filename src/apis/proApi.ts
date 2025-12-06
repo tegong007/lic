@@ -1,16 +1,59 @@
 import request from '@/plugins/request';
-// 后端服务
-const v1 = window.serverAddress ?? 'http://localhost:6101/';
+
+const v1 = window.serverAddress; // 后端服务
+
+// 主页
 const homeModule = {
-  getHomeList: () => request.post(`${v1}/tss/produce-status`),
-  getDocNumProduce: () => request.post(`${v1}/tss/get-doc-num-produce`),
-  setControlMachine: (data: any) =>
-    request.post(`${v1}/tss/machine-control`, data),
+  docMachineInit: () => request.post(`${v1}/tss/doc-machine/init`, { module: 'm0' }), // 制证设备初始化-全部
+  getAllStatus: () => request.post(`${v1}/tss/position-status`, { moduleID: 0 }), // 工位状态查询-整机
+  getHomeList: () => request.post(`${v1}/tss/produce-status`), // 生产状态查询
+  setControlMachine: (data: any) => request.post(`${v1}/tss/machine-control`, data), // 生产设备控制
+  getPositionCard: (data: number) => request.post(`${v1}/tss/position-status`, { moduleID: data }), // 工位状态查询
+  printObsv: (data: any) => request.post(`${v1}/tss/print-obsv`, data), // 工位状态查询
 };
+
+// 智能质检
+const checkModule = {
+  qualityCheckLast: () => request.post(`${v1}/tss/quality-check-last`), // 质检最新结果查询
+  qualityCheckGet: () => request.post(`${v1}/tss/quality-check-get`), // 质检参数读取
+  qualityCheckSet: (data: any) => request.post(`${v1}/tss/quality-check-set`, data), // 质检参数设置
+  qualityCheckHistoy: (data: any) => request.post(`${v1}/tss/quality-check-history`, data), // 质检历史记录查询
+  addTask: (data: any) => request.post(`${v1}/tss/demo/add-task`, data), // 任务添加（演示模式）
+};
+
+// 设备维护
+const defendModule = {
+  getDevice: (data: number) => request.post(`${v1}/tss/get-device`, { moduleID: data }), // 部件维护查询
+  getApiTransfer: (data: any) => request.post(`${v1}/tss/api-transfer`, data), // 接口转发
+  getVersion: (data: any) => request.post(`${v1}/tss/get-version`, data), // 版本号查询-所有类型
+};
+
+// 设备设置
+const setMoule = {
+  setSystemPara: (data: any) => request.post(`${v1}/tss/set-system-para`, data), // 设置系统参数
+  getSystemPara: () => request.post(`${v1}/tss/get-system-para`), // 获取系统参数
+};
+
+// 查询
+const searchModule = {
+  getTask: (data: any) => request.post(`${v1}/tss/get-task`, data), // 任务查询
+  taskOperate: (data: any) => request.post(`${v1}/tss/task-operate`, data), // 任务操作
+  docData: (data: any) => request.post(`${v1}/tss/doc-data`, data), // 制证数据查询
+  docOperate: (data: any) => request.post(`${v1}/tss/doc-operate`, data), // 证本数据操作
+  physicalDoc: (data: any) => request.post(`${v1}/tss/physical-doc`, data), // 实体证本查询
+  physicalDocOperate: (data: any) => request.post(`${v1}/tss/physical-doc-operate`, data), // 实体证本操作
+};
+
+// 油墨余量
+const footerModule = {
+  getLnkRemainder: () => request.post(`${v1}/tss/get-ink-remainder`),
+};
+
+//   getDocNumProduce: () => request.post(`${v1}/tss/get-doc-num-produce`),
+
 // 工位状态模块
 const positionModule = {
-  getPositionCard: (data: any) =>
-    request.post(`${v1}/tss/position-status`, data),
+  getPositionCard: (data: any) => request.post(`${v1}/tss/position-status`, data),
 };
 
 // 任务模块
@@ -25,8 +68,7 @@ const TaskModule = {
 // 制证数据模块
 const documentModule = {
   getDocDetailPage: (data: any) => request.post(`${v1}/tss/doc-detail`, data),
-  getDocStatistics: (data: any) =>
-    request.post(`${v1}/tss/doc-statistics`, data),
+  getDocStatistics: (data: any) => request.post(`${v1}/tss/doc-statistics`, data),
   getDocAllStatistics: () => request.post(`${v1}/tss/doc-allStatistics`),
   getDocOperate: (data: any) => request.post(`${v1}/tss/doc-operate`, data),
   getDocDetailGeneral: (data: any) => request.post(`${v1}/tss/doc-data`, data),
@@ -38,10 +80,8 @@ const physicalModule = {
   // getDocStatistics: (data: any) =>
   //   request.post(`${v1}/tss/doc-statistics`, data),
   // getDocAllStatistics: () => request.post(`${v1}/tss/doc-allStatistics`),
-  getDocOperate: (data: any) =>
-    request.post(`${v1}/tss/physical-doc-operate`, data),
-  getDocDetailGeneral: (data: any) =>
-    request.post(`${v1}/tss/physical-doc`, data),
+  getDocOperate: (data: any) => request.post(`${v1}/tss/physical-doc-operate`, data),
+  getDocDetailGeneral: (data: any) => request.post(`${v1}/tss/physical-doc`, data),
 };
 
 // 维护页面
@@ -56,35 +96,19 @@ const mainTainModule = {
 // 设置页面
 const settingMoule = {
   getUvPlatformConfig: () => request.post(`${v1}/tss/get-uv-platform-config`),
-  setUvPlatformConfig: (data: any) =>
-    request.post(`${v1}/tss/set-uv-platform-config`, data),
+  setUvPlatformConfig: (data: any) => request.post(`${v1}/tss/set-uv-platform-config`, data),
   getUvLocationg: () => request.post(`${v1}/tss/get-uv-location-base`),
-  setUvLocationg: (data: any) =>
-    request.post(`${v1}/tss/set-uv-location-base`, data),
+  setUvLocationg: (data: any) => request.post(`${v1}/tss/set-uv-location-base`, data),
   getLoadSlot: () => request.post(`${v1}/tss/get-load-slot-enable`),
-  setLoadSlot: (data: any) =>
-    request.post(`${v1}/tss/set-load-slot-enable`, data),
+  setLoadSlot: (data: any) => request.post(`${v1}/tss/set-load-slot-enable`, data),
   getCollectionSlot: () => request.post(`${v1}/tss/get-collection-slot-enable`),
-  setCollectionSlot: (data: any) =>
-    request.post(`${v1}/tss/set-collection-slot-enable`, data),
+  setCollectionSlot: (data: any) => request.post(`${v1}/tss/set-collection-slot-enable`, data),
 };
 // 错误页面接口
 const ErrorModule = {
-  getModuleStatus: (data: any) =>
-    request.post(`${v1}/tss/doc-machine/module-status`, data),
-  handleError: (data: any) =>
-    request.post(`${v1}/tss/error-handle/send-cmd`, data),
+  getModuleStatus: (data: any) => request.post(`${v1}/tss/doc-machine/module-status`, data),
+  handleError: (data: any) => request.post(`${v1}/tss/error-handle/send-cmd`, data),
   handleDone: (data: any) => request.post(`${v1}/tss/error-handle/done`, data),
-  removeDoc: (data: any) =>
-    request.post(`${v1}/tss/error-handle/remove-doc`, data),
+  removeDoc: (data: any) => request.post(`${v1}/tss/error-handle/remove-doc`, data),
 };
-export {
-  documentModule,
-  ErrorModule,
-  homeModule,
-  mainTainModule,
-  physicalModule,
-  positionModule,
-  settingMoule,
-  TaskModule,
-};
+export { checkModule, defendModule, documentModule, ErrorModule, footerModule, homeModule, mainTainModule, physicalModule, positionModule, searchModule, setMoule, settingMoule, TaskModule };

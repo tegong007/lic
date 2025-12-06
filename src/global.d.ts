@@ -7,4 +7,8 @@ interface Window {
   $dialog: import('naive-ui').DialogApi;
   $notification: import('naive-ui').NotificationApi;
   $loadingBar: import('naive-ui').LoadingBarApi;
+  serverAddress: string;
+  timeOut: string;
+  lang: string;
+  docCount: string;
 }

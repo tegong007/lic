@@ -25,6 +25,11 @@ export default antfu(
       'no-console': 'off',
       'jsonc/no-useless-escape': 'off',
       'style/no-tabs': 'off', // 禁用 style/no-tabs 规则
+      'style/operator-linebreak': 'off',
+      'style/brace-style': 'off',
+      'antfu/if-newline': 'off',
+      'vue/html-self-closing': 'off',
+      'vue/singleline-html-element-content-newline': 'off',
     },
     languageOptions: {
       globals: {

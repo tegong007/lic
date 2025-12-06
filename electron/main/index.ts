@@ -1,17 +1,10 @@
-import { spawn } from 'node:child_process';
+import { exec, spawn } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 // import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
-import {
-  app,
-  BrowserWindow,
-  dialog,
-  ipcMain,
-  Menu,
-  shell,
-} from 'electron';
+import { app, BrowserWindow, dialog, ipcMain, Menu, shell, Tray } from 'electron';
 
 import { ref } from 'vue';
 // const require = createRequire(import.meta.url);
@@ -37,17 +30,13 @@ export const MAIN_DIST = path.join(process.env.APP_ROOT, 'dist-electron');
 export const RENDERER_DIST = path.join(process.env.APP_ROOT, 'dist');
 export const VITE_DEV_SERVER_URL = process.env.VITE_DEV_SERVER_URL;
 
-process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL
-  ? path.join(process.env.APP_ROOT, 'public')
-  : RENDERER_DIST;
+process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, 'public') : RENDERER_DIST;
 
 // Disable GPU Acceleration for Windows 7
-if (os.release().startsWith('6.1'))
-  app.disableHardwareAcceleration();
+if (os.release().startsWith('6.1')) app.disableHardwareAcceleration();
 
 // Set application name for Windows 10+ notifications
-if (process.platform === 'win32')
-  app.setAppUserModelId(app.getName());
+if (process.platform === 'win32') app.setAppUserModelId(app.getName());
 
 if (!app.requestSingleInstanceLock()) {
   app.quit();
@@ -59,13 +48,9 @@ function readConfig() {
   // 在本地开发环境中，使用 VITE_PUBLIC 路径
   if (process.env.VITE_DEV_SERVER_URL) {
     configPath = path.join(process.env.VITE_PUBLIC, 'configDev.json');
-  }
-  else {
+  } else {
     // 在打包后的环境中，使用 APP_ROOT 路径
-    configPath = path.resolve(
-      path.dirname(app.getPath('exe')),
-      'public/configProd.json',
-    );
+    configPath = path.resolve(path.dirname(app.getPath('exe')), 'public/configProd.json');
   }
 
   try {
@@ -74,8 +59,7 @@ function readConfig() {
     const configString = rawConfig.toString();
     // 解析 JSON 字符串为对象
     return JSON.parse(configString);
-  }
-  catch (error) {
+  } catch (error) {
     console.error('Error reading config file:', error);
     return {}; // 如果配置文件不存在或有错误，返回一个空对象
   }
@@ -118,18 +102,30 @@ async function createWindow() {
     },
   });
   win.setAspectRatio(config.width / config.height); // 固定页面比例
+  const tray = new Tray(path.join(process.env.VITE_PUBLIC, 'icon/icon.ico'));
+  tray.setContextMenu(
+    Menu.buildFromTemplate([
+      {
+        label: '刷新',
+        click: () => {
+          BrowserWindow.getAllWindows().forEach((element) => {
+            element.reload();
+          });
+        },
+      },
+      { label: '退出', role: 'quit' },
+    ]),
+  );
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
     // Open devTool if the app is not packaged
     // win.webContents.openDevTools({ mode: "detach" });
-  }
-  else {
+  } else {
     win.loadFile(indexHtml);
   }
   // 控制台
-  if (config.devTools)
-    win.webContents.openDevTools(); // 调试工具
+  if (config.devTools) win.webContents.openDevTools(); // 调试工具
 
   // Test actively push message to the Electron-Renderer
   win.webContents.on('did-finish-load', () => {
@@ -138,8 +134,7 @@ async function createWindow() {
 
   // Make all links open with the browser, not with the application
   win.webContents.setWindowOpenHandler(({ url }) => {
-    if (url.startsWith('https:'))
-      shell.openExternal(url);
+    if (url.startsWith('https:')) shell.openExternal(url);
     return { action: 'deny' };
   });
   // keysDisabled.map((key) => {
@@ -180,20 +175,13 @@ function checkForUpdate() {
   let newExePath = '';
   // 模拟检查更新逻辑
   if (process.env.VITE_DEV_SERVER_URL) {
-    newExePath = path.join(
-      process.env.APP_ROOT,
-      'Light-Ink-Craftsman-1.0.1.exe',
-    );
-  }
-  else {
+    newExePath = path.join(process.env.APP_ROOT, 'Light-Ink-Craftsman-1.0.1.exe');
+  } else {
     // 在打包后的环境中，使用 APP_ROOT 路径
-    newExePath = path.resolve(
-      path.dirname(app.getPath('exe')),
-      'Light-Ink-Craftsman-1.0.1.exe',
-    );
+    newExePath = path.resolve(path.dirname(app.getPath('exe')), 'Light-Ink-Craftsman-1.0.1.exe');
   }
 
-  const opts = {
+  const opts: any = {
     type: 'question',
     buttons: ['立即更新', '稍后'],
     defaultId: 0,
@@ -226,15 +214,13 @@ function updateApp(newExePath: string) {
 
 app.on('window-all-closed', () => {
   win = null;
-  if (process.platform !== 'darwin')
-    app.quit();
+  if (process.platform !== 'darwin') app.quit();
 });
 
 app.on('second-instance', () => {
   if (win) {
     // Focus on the main window if the user tried to open another
-    if (win.isMinimized())
-      win.restore();
+    if (win.isMinimized()) win.restore();
     win.focus();
   }
 });
@@ -243,8 +229,7 @@ app.on('activate', () => {
   const allWindows = BrowserWindow.getAllWindows();
   if (allWindows.length) {
     allWindows[0].focus();
-  }
-  else {
+  } else {
     createWindow();
   }
 });
@@ -259,8 +244,7 @@ ipcMain.handle('open-win', (_, arg) => {
 
   if (VITE_DEV_SERVER_URL) {
     childWindow.loadURL(`${VITE_DEV_SERVER_URL}#${arg}`);
-  }
-  else {
+  } else {
     childWindow.loadFile(indexHtml, { hash: arg });
   }
 });
@@ -277,12 +261,8 @@ ipcMain.handle('modify-config', async (key, value) => {
   let configPath;
   if (process.env.VITE_DEV_SERVER_URL) {
     configPath = path.join(process.env.VITE_PUBLIC, 'config.json');
-  }
-  else {
-    configPath = path.resolve(
-      path.dirname(process.execPath),
-      'resources/app/public/config.json',
-    );
+  } else {
+    configPath = path.resolve(path.dirname(process.execPath), 'resources/app/public/config.json');
   }
 
   try {
@@ -302,8 +282,7 @@ ipcMain.handle('modify-config', async (key, value) => {
     const configString = JSON.stringify(
       config,
       (k, v) => {
-        if (typeof k === 'object')
-          return undefined; // 忽略对象作为键
+        if (typeof k === 'object') return undefined; // 忽略对象作为键
         return v;
       },
       2,
@@ -312,8 +291,7 @@ ipcMain.handle('modify-config', async (key, value) => {
     fs.writeFileSync(configPath, configString);
     console.log('Config file modified successfully');
     return true; // 返回 true 表示修改成功
-  }
-  catch (error) {
+  } catch (error) {
     console.error('Error modifying config file:', error);
     return false; // 返回 false 表示修改失败
   }
@@ -323,4 +301,16 @@ ipcMain.on('quit-app', () => {
   // app.quit();
   canExit.value = true;
   win.close(); // 关闭窗口
+});
+
+// Main进程-关机
+ipcMain.handle('Exit_Window', async () => {
+  console.log('执行关机...');
+  // Windows
+  if (process.platform === 'win32') exec('shutdown /s /t 0');
+  // macOS
+  else if (process.platform === 'darwin') exec('osascript -e \'tell app "System Events" to shut down\'');
+  // Linux
+  else if (process.platform === 'linux') exec('shutdown now');
+  return {};
 });

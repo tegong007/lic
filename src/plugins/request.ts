@@ -1,7 +1,7 @@
-import axios from 'axios';
 import type { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import axios from 'axios';
 // 确保引入了 ant-design-vue
-const timeOut = window.timeOut ?? '5000';
+const timeOut = 1000; // window.timeOut ?? '5000';
 const service = axios.create({ timeout: timeOut });
 
 service.interceptors.request.use(
@@ -20,21 +20,17 @@ service.interceptors.response.use(
     if (res.status === 200) {
       if (res.data.code === 0) {
         return res.data;
-      }
-      else {
+      } else {
         return Promise.reject(res.data.msg);
       }
-    }
-    else {
+    } else {
       return Promise.reject(res.data);
     }
   },
   (err) => {
     // const { t } = useI18n();
-    if (err.code === 'ECONNABORTED')
-      return Promise.reject('接口超时');
-    if (err.code === 'ERR_NETWORK')
-      return Promise.reject('网络错误');
+    if (err.code === 'ECONNABORTED') return Promise.reject('接口超时');
+    if (err.code === 'ERR_NETWORK') return Promise.reject('网络错误');
     return Promise.reject(err.message);
   },
 );

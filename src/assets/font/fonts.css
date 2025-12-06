@@ -1,8 +1,12 @@
 @font-face {
+  font-family: 'siyaun';
+  src: url('./NotoSansCJK.otf');
+}
+@font-face {
   font-family: 'youshe';
   src: url('./youshe.ttf');
 }
 @font-face {
-  font-family: 'siyuan';
-  src: url('./SourceHanSansCN-Medium.otf');
+  font-family: 'xiaowei';
+  src: url('./ZhanKuXiao.otf');
 }
