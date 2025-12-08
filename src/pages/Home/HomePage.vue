@@ -28,7 +28,7 @@
     <a-flex class="items-center gap-2vw">
       <TheButton v-if="entire.beltStatusDetail === 111 || entire.beltStatusDetail === 113" title="启动设备" @click="setModal(3)" />
       <TheButton v-else title="暂停设备" @click="setModal(2)" />
-      <TheButton title="初始化" @click="init()" />
+      <TheButton title="初始化" @click="setModal(5)" />
     </a-flex>
   </a-flex>
   <TheConfirm v-if="modal.open" :open="modal.open" :title="modal.title" :handle-ok="controlMachine" :handle-cancel="() => setModal(-1)" />
@@ -106,6 +106,9 @@ function setModal(value: number) {
     case 4:
       modal.value = { open: true, title: '补打备注', key: 4 };
       break;
+    case 5:
+      modal.value = { open: true, title: '初始化', key: 5 };
+      break;
     default:
       modal.value = { open: false, title: '', key: -1 };
       break;
@@ -113,16 +116,21 @@ function setModal(value: number) {
 }
 
 async function controlMachine() {
-  try {
-    useAppStore().setSpinning(true);
-    /* control-证本操作（0-开始/继续 进本；1-暂停进本；2-暂停设备；3-启动设备） */
-    await homeModule.setControlMachine({ control: modal.value.key, docNum: modal.value.key ? null : 1 });
-    notification.success({ message: '成功', description: `${modal.value.title}操作成功`, placement: 'bottomRight', class: 'notificationE-custom-class' });
-  } catch (error) {
-    notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
-  } finally {
+  if (modal.value.key === 5) {
+    init();
     setModal(-1);
-    useAppStore().setSpinning(false);
+  } else {
+    try {
+      useAppStore().setSpinning(true);
+      /* control-证本操作（0-开始/继续 进本；1-暂停进本；2-暂停设备；3-启动设备） */
+      await homeModule.setControlMachine({ control: modal.value.key, docNum: modal.value.key ? null : 1 });
+      notification.success({ message: '成功', description: `${modal.value.title}操作成功`, placement: 'bottomRight', class: 'notificationE-custom-class' });
+    } catch (error) {
+      notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
+    } finally {
+      setModal(-1);
+      useAppStore().setSpinning(false);
+    }
   }
 }
 

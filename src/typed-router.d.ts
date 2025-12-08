@@ -23,6 +23,7 @@ declare module 'vue-router/auto-routes' {
     '/Check/components/TheSet': RouteRecordInfo<'/Check/components/TheSet', '/Check/components/TheSet', Record<never, never>, Record<never, never>>,
     '/Check/SelectPage': RouteRecordInfo<'/Check/SelectPage', '/Check/SelectPage', Record<never, never>, Record<never, never>>,
     '/Defend/components/TheCamera': RouteRecordInfo<'/Defend/components/TheCamera', '/Defend/components/TheCamera', Record<never, never>, Record<never, never>>,
+    '/Defend/components/TheFw': RouteRecordInfo<'/Defend/components/TheFw', '/Defend/components/TheFw', Record<never, never>, Record<never, never>>,
     '/Defend/components/TheInkjet': RouteRecordInfo<'/Defend/components/TheInkjet', '/Defend/components/TheInkjet', Record<never, never>, Record<never, never>>,
     '/Defend/components/TheLaser': RouteRecordInfo<'/Defend/components/TheLaser', '/Defend/components/TheLaser', Record<never, never>, Record<never, never>>,
     '/Defend/components/TheReader': RouteRecordInfo<'/Defend/components/TheReader', '/Defend/components/TheReader', Record<never, never>, Record<never, never>>,

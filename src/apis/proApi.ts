@@ -18,7 +18,6 @@ const checkModule = {
   qualityCheckGet: () => request.post(`${v1}/tss/quality-check-get`), // 质检参数读取
   qualityCheckSet: (data: any) => request.post(`${v1}/tss/quality-check-set`, data), // 质检参数设置
   qualityCheckHistoy: (data: any) => request.post(`${v1}/tss/quality-check-history`, data), // 质检历史记录查询
-  addTask: (data: any) => request.post(`${v1}/tss/demo/add-task`, data), // 任务添加（演示模式）
 };
 
 // 设备维护
@@ -26,6 +25,11 @@ const defendModule = {
   getDevice: (data: number) => request.post(`${v1}/tss/get-device`, { moduleID: data }), // 部件维护查询
   getApiTransfer: (data: any) => request.post(`${v1}/tss/api-transfer`, data), // 接口转发
   getVersion: (data: any) => request.post(`${v1}/tss/get-version`, data), // 版本号查询-所有类型
+  addTask: (data: any) => request.post(`${v1}/tss/demo/add-task`, data), // 任务添加（演示模式）
+  moduleStatus: (data: any) => request.post(`${v1}/tss/doc-machine/module-status`, data), // 制证设备模块状态查询
+  sendCmd: (data: any) => request.post(`${v1}/tss/error-handle/send-cmd`, data), // 发送错误处理指令
+  removeDoc: (data: any) => request.post(`${v1}/tss/error-handle/remove-doc`, data), // 已手动取本
+  Done: (data: any) => request.post(`${v1}/tss/error-handle/done`, data), // 已处理错误
 };
 
 // 设备设置

@@ -13,7 +13,7 @@
             <a-input v-else v-model:value="formData[value.label + index]" :class="keyInput === value.label ? 'keyInput' : ''" class="w-10vw" placeholder="请输入" :maxlength="3" @click.stop="onInputFocus($event, value.label + index)" />
           </div>
           <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/uvpdps/moto-reposition', index, inkjet)">复位</a-button>
-          <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/uvpdps/moto-move', index, inkjet, { axisType: Number(formData[`轴选择${index}`]), target: Number(formData[`目标位${index}`]) })">移动</a-button>
+          <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/uvpdps/moto-move', index, inkjet, { axisType: Number(formData[`轴选择${index}`]), target: Number(formData[`目标位置(mm)${index}`]) })">移动</a-button>
         </div>
       </section>
       <section class="bg_jianbian mb-2vh ml-2vw flex">
@@ -24,7 +24,7 @@
               <a-select-option v-for="option in value.option" :key="option.value" :value="option.value">{{ option.label }}</a-select-option>
             </a-select>
           </div>
-          <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/uvpdps/clean-head', index, inkjet, { headID: Number(formData[`请洗组合${index}`]), intension: Number(formData[`清洗强度${index}`]) })">清洗</a-button>
+          <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/uvpdps/clean-head', index, inkjet, { headID: Number(formData[`清洗组合${index}`]), intension: Number(formData[`清洗强度${index}`]) })">清洗</a-button>
         </div>
       </section>
       <section class="bg_jianbian mb-2vh ml-2vw flex">
@@ -35,7 +35,7 @@
               <a-select-option v-for="option in value.option" :key="option.value" :value="option.value">{{ option.label }}</a-select-option>
             </a-select>
           </div>
-          <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/uvpdps/print', index, inkjet, { platform: Number(formData[`所在平台${index}`]), isUseData: false })">打印测试页</a-button>
+          <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/uvpdps/print', index, inkjet, { platform: Number(formData[`打印平台${index}`]), isUseData: false })">打印测试页</a-button>
         </div>
       </section>
     </template>
@@ -85,7 +85,7 @@ function onInputFocus(event: any, text: string) {
   cursorPosition.value = event;
   const rect = event.target.getBoundingClientRect();
   const top = rect.bottom + rect.height + window.scrollY;
-  transformValue.value = [0, top - 180];
+  transformValue.value = [500, top - 460];
 }
 
 function onChangeKeyboard(input: string, keyboard: any) {

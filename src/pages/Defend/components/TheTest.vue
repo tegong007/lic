@@ -18,14 +18,19 @@
       </div>
     </section>
   </div>
-  <TheConfirm v-if="modal.open" :open="modal.open" :title="modal.title" :data="modal.data" :handle-ok="() => (modal = { open: false, title: '', data: {} })" :handle-cancel="() => (modal = { open: false, title: '', data: {} })" />
+  <TheConfirm v-if="modal.open" :open="modal.open" :title="modal.title" :data="modal.data" :handle-ok="controlMachine" :handle-cancel="() => (modal = { open: false, title: '', data: {} })" />
 </template>
 
 <script lang="ts" setup>
+import { App } from 'ant-design-vue';
+import { defendModule } from '@/apis/proApi';
 import TheConfirm from '@/components/TheConfirm.vue';
 import { urgencyOptions } from '@/plugins/option';
+import { useAppStore } from '@/store/index';
 
 defineProps({ data: Object, updateItem: Function, showKeyboard: Boolean, setShowKeyboard: Function, currentPage: String, currentModel: String });
+
+const { notification } = App.useApp();
 
 const formData: any = ref({ num: 1, urgentType: 0 });
 const showKeyboard = ref(false);
@@ -34,6 +39,24 @@ const cursorPosition = ref(null);
 const transformValue: any = ref(null);
 const modal = ref({ open: false, title: '', data: {} });
 
+async function controlMachine() {
+  if (modal.value.title === '任务添加') {
+    try {
+      useAppStore().setSpinning(true);
+      const data: any = await defendModule.addTask({ num: Number(formData.value.num), urgentType: formData.value.urgentType });
+      if (data.respData) {
+        modal.value = { open: true, title: '任务添加成功', data: data.respData };
+        notification.success({ message: '成功', description: '操作成功', placement: 'bottomRight', class: 'notification-custom-class' });
+      }
+    } catch (error) {
+      notification.error({ message: '错误', description: String(error), class: 'notificationE-custom-class', placement: 'bottomRight' });
+    } finally {
+      useAppStore().setSpinning(false);
+    }
+  } else {
+    modal.value = { open: false, title: '', data: {} };
+  }
+}
 function hideKeyboard() {
   showKeyboard.value = false;
   keyInput.value = '';
