@@ -1,7 +1,7 @@
 <template>
   <div class="relative" :class="props.class">
     <div class="pt-2.5vh text-center text-1.3vw">{{ props.name }}</div>
-    <div v-if="props.data && props.data.status > 1" class="absolute bottom-2vh left-0.8vw right-0.8vw top-2vh z-2 flex flex-col items-center justify-center" :class="`bgA${props.data.status}`">
+    <div v-if="props.data && props.data.status > 1" class="bgA3 absolute bottom-5vh left-0.8vw right-0.8vw top-1vh z-2 flex flex-col items-center justify-center" :class="`bgA${props.data.status}`">
       <div class="text-2.5vw">{{ props.data.status === 3 ? '故障' : props.data.status === 2 ? '警告' : '' }}</div>
       <div class="w-90% pt-1vh text-center text-1.5vw">{{ props.data.msg }}</div>
     </div>
@@ -39,10 +39,10 @@ const { t } = useI18n();
   background-repeat: no-repeat;
   background-position: center;
   .bgA2 {
-    background: #b4050599;
+    background: #ff8f1f99;
   }
   .bgA3 {
-    background: #ff8f1f99;
+    background: #b4050599;
   }
   .descr {
     font-size: 0.9vw;

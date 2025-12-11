@@ -1,12 +1,23 @@
 <template>
-  <div class="mt-6.5vh w-92% flex font-[xiaowei]">
-    <img class="h-7vw w-9vw" src="@/assets/image/tmp_left.png" />
-    <div v-for="(value, index) in statistics" :key="index" class="w-30% text-center">
-      <div class="mt-5vh text-8vh">{{ value.value }}</div>
+  <div class="bgT mt-6.5vh w-100% flex justify-center font-[xiaowei]">
+    <div v-for="(value, index) in statistics" :key="index" class="mx-1.5% w-14% text-center">
+      <div class="mt-5vh text-7vh">{{ value.value }}</div>
       <div class="-mt-2vh" text-2vw>{{ value.item }}</div>
-      <img class="m-auto block w-18vw -mt-3vh" src="@/assets/image/tmp_bottom.png" />
+      <img class="m-auto block w-18vw -mt-2vh" src="@/assets/image/tmp_bottom.png" />
     </div>
-    <img class="h-7vw w-9vw" src="@/assets/image/tmp_right.png" />
+    <div class="flex items-center justify-center font-[siyuan]">
+      <div class="relative mt-6vh block w-22vw">
+        <img class="w-full" src="@/assets/image/machine2.png" />
+        <div v-if="entire.modules.length <= 0"></div>
+        <div v-else-if="entire.modules.length > 0 && entire.modules[0].code === 0" class="error absolute bottom-0 top-0 w-full flex items-center justify-center text-2.5vw" @click="setModal(6)">故障出错</div>
+      </div>
+      <div>
+        <div class="mt-10vh w-8vw text-center text-1.3vw">喷墨机状态</div>
+        <img v-if="entire.modules.length > 0 && entire.modules[0].code !== 0" class="mx-auto mt-1vh block w-5vw" src="@/assets/image/ico_tip1.png" />
+        <img v-else-if="entire.modules.length > 0" class="mx-auto mt-1vh block w-5vw" src="@/assets/image/ico_tip0.png" />
+        <div v-else class="w-full text-center text-1vw">离线</div>
+      </div>
+    </div>
   </div>
   <a-flex class="bgB mx-auto mt-5vh h-8vh w-85% line-height-8vh">
     <div class="bgB1 mr-1vw w-14vw text-center text-1.3vw line-height-5.5vh">当前生产任务</div>
@@ -52,7 +63,7 @@ const statistics: any = ref([
   { item: '废本数', value: '0' },
   { item: '良本率', value: '0%' },
 ]);
-const entire = ref({ beltStatusDetail: 0, machineTotalDoc: 0, machineHandledDoc: 0, machineRemainDoc: 0 });
+const entire: any = ref({ beltStatusDetail: 0, machineTotalDoc: 0, machineHandledDoc: 0, machineRemainDoc: 0, modules: {} });
 const blankCheck = ref({});
 const mainPrint = ref({});
 const additionPrint = ref({});
@@ -72,7 +83,7 @@ async function getDataPage() {
     }
     return true;
   } catch {
-    entire.value = { beltStatusDetail: 0, machineTotalDoc: 0, machineHandledDoc: 0, machineRemainDoc: 0 };
+    entire.value = { beltStatusDetail: 0, machineTotalDoc: 0, machineHandledDoc: 0, machineRemainDoc: 0, modules: {} };
     statistics.value = [
       { item: '良本数', value: '0' },
       { item: '废本数', value: '0' },
@@ -109,6 +120,9 @@ function setModal(value: number) {
     case 5:
       modal.value = { open: true, title: '初始化', key: 5 };
       break;
+    case 6:
+      modal.value = { open: true, title: '喷墨机状态', key: 6 };
+      break;
     default:
       modal.value = { open: false, title: '', key: -1 };
       break;
@@ -123,7 +137,7 @@ async function controlMachine() {
     try {
       useAppStore().setSpinning(true);
       /* control-证本操作（0-开始/继续 进本；1-暂停进本；2-暂停设备；3-启动设备） */
-      await homeModule.setControlMachine({ control: modal.value.key, docNum: modal.value.key ? null : 1 });
+      await homeModule.setControlMachine({ control: modal.value.key, docNum: null });
       notification.success({ message: '成功', description: `${modal.value.title}操作成功`, placement: 'bottomRight', class: 'notificationE-custom-class' });
     } catch (error) {
       notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
@@ -161,6 +175,11 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="less">
+.bgT {
+  background-image: url('@/assets/image/tmp_lr.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
 .bgB {
   background: linear-gradient(90deg, #0390e500 0%, #0390e51f 34%, #0390e517 63%, #0390e500 99%);
   .bgB1 {
@@ -168,5 +187,8 @@ onUnmounted(() => {
     background-size: contain;
     background-repeat: no-repeat;
   }
+}
+.error {
+  background: radial-gradient(61% 61% at 50% 50%, #b4050500 49%, #b4050580 100%);
 }
 </style>

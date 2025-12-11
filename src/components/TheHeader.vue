@@ -7,7 +7,7 @@
       <span class="w-30w">网络状态：{{ isConnect }}</span>
       <div class="flex items-center gap-1vw">
         <span>{{ currentTime }}</span>
-        <img class="h-3.5vh cursor-pointer hover:scale-105" src="@/assets/image/btn_exit.png" @click="openModal(true)" />
+        <!-- <img class="h-3.5vh cursor-pointer hover:scale-105" src="@/assets/image/btn_exit.png" @click="openModal(true)" /> -->
       </div>
     </a-flex>
   </div>

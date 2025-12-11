@@ -47,10 +47,10 @@ import { App } from 'ant-design-vue';
 import { defendModule } from '@/apis/proApi';
 import { useAppStore } from '@/store/index';
 
-const props = defineProps({ data: Object, updateItem: Function, showKeyboard: Boolean, setShowKeyboard: Function, currentPage: String, currentModel: String });
+const props: any = defineProps({ data: Object, updateItem: Function, showKeyboard: Boolean, setShowKeyboard: Function, currentPage: String, currentModel: String });
 const { notification } = App.useApp();
 
-const formData: any = ref({});
+const formData: any = ref({ 轴选择0: '0', '目标位置(mm)0': '0', 清洗组合0: '0', 清洗强度0: '0', 打印平台0: '0' });
 const showKeyboard = ref(false);
 const keyInput = ref('');
 const cursorPosition = ref(null);

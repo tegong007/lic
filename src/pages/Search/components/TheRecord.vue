@@ -2,7 +2,7 @@
   <div class="mt-12vh w-94vw">
     <SimpleKeyboard v-if="showKeyboard" :transform="transformValue" :input="formData[keyInput]" :max-length="30" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
     <div class="flex items-center gap-1vw">
-      <a-form-item label="搜索类型" name="taskID">
+      <a-form-item label="搜索类型" name="choose">
         <a-select v-model:value="formData.choose" @change="onBtnClick('search')">
           <a-select-option :value="1">任务</a-select-option>
           <a-select-option :value="2">制证数据</a-select-option>
@@ -28,13 +28,24 @@
       <a-form-item label="时间范围" name="status">
         <a-range-picker v-model:value="formData.dateRange" :locale="lang" value-format="YYYY-MM-DD" input-read-only :allow-clear="false" />
       </a-form-item>
-      <div>
+      <div class="flex">
         <a-button type="link" class="btn_search mr-1vw" @click="onBtnClick('search')">查询</a-button>
         <a-button type="link" class="btn_search mr-1vw" @click="onBtnClick('clear')">清空</a-button>
-        <a-button type="link" class="btn_search" @click="onBtnClick('refresh')">刷新</a-button>
+        <a-button type="link" class="btn_search mr-1vw" @click="onBtnClick('refresh')">刷新</a-button>
+        <a-dropdown class="btn_search">
+          <template #overlay>
+            <a-menu @click="onItemClicks">
+              <a-menu-item :key="0">挂起</a-menu-item>
+              <a-menu-item :key="1">恢复生产</a-menu-item>
+              <a-menu-item :key="2">设为成功</a-menu-item>
+              <a-menu-item :key="3">设为失败</a-menu-item>
+            </a-menu>
+          </template>
+          <a-button class="btn flex items-center" style="padding-right: 10px">批量操作 ▽</a-button>
+        </a-dropdown>
       </div>
     </div>
-    <div v-for="(value, index) in data" :key="index" class="bg_jianbian mb-2vh flex text-1vw line-height-3vh">
+    <div v-for="(value, index) in data" :key="index" class="bg_jianbian mb-2vh flex text-1vw line-height-3vh" :class="selects.includes(value.docSN) ? 'selected' : ''" @click="onListSelect(value.docSN)">
       <div class="w-15% text-center line-height-4.5vh">
         序号: {{ value.seq }}<br />
         <span v-if="value.docStatus === 3" class="tap_ok mt-10vh p-0.5vh">{{ findLabelByValue('docStatusOptions', value.docStatus) }}</span>
@@ -59,10 +70,10 @@
         </div>
         <div class="mt-1vh">
           <a-button type="link" class="btn_in mr-1vw" @click="onItemClick('chakan', value)">查看更多</a-button>
-          <a-button v-if="value.docStatus === 1" type="link" class="btn_in mr-1vw" @click="onItemClick('挂起', value)">挂起</a-button>
-          <a-button v-if="value.docStatus === 2" type="link" class="btn_in mr-1vw" @click="onItemClick('恢复生产', value)">恢复生产</a-button>
-          <a-button v-if="value.docStatus === 0 || value.docStatus === 4" type="link" class="btn_in mr-1vw" @click="onItemClick('设为成功', value)">设为成功</a-button>
-          <a-button v-if="value.docStatus === 0 || value.docStatus === 3" type="link" class="btn_in" @click="onItemClick('设为失败', value)">设为失败</a-button>
+          <a-button v-if="value.docStatus === 1" type="link" class="btn_in mr-1vw" @click.stop="onItemClick('挂起', value)">挂起</a-button>
+          <a-button v-if="value.docStatus === 2" type="link" class="btn_in mr-1vw" @click.stop="onItemClick('恢复生产', value)">恢复生产</a-button>
+          <a-button v-if="value.docStatus === 0 || value.docStatus === 4" type="link" class="btn_in mr-1vw" @click.stop="onItemClick('设为成功', value)">设为成功</a-button>
+          <a-button v-if="value.docStatus === 0 || value.docStatus === 3" type="link" class="btn_in" @click.stop="onItemClick('设为失败', value)">设为失败</a-button>
         </div>
       </div>
     </div>
@@ -77,12 +88,14 @@
 </template>
 
 <script lang="ts" setup>
+import { App } from 'ant-design-vue';
 import locale from 'ant-design-vue/es/date-picker/locale/zh_CN';
 import { docStatusOptions, findLabelByValue } from '@/plugins/option';
 
 const props = defineProps<{ page: any; data: any[] }>();
 const emit = defineEmits(['callback', 'page', 'data']);
 const lang = locale;
+const { notification } = App.useApp();
 
 const formData: any = ref({ choose: 2, docStatus: -1 });
 const pageIn = ref(props.page);
@@ -90,6 +103,7 @@ const showKeyboard = ref(false);
 const keyInput = ref('');
 const cursorPosition = ref(null);
 const transformValue: any = ref(null);
+const selects: any = ref([]);
 
 // 翻页事件
 function onPageChange(event: any) {
@@ -114,6 +128,25 @@ function onBtnClick(key: string) {
 // 表格按钮事件
 function onItemClick(key: string, item: any) {
   emit('callback', { key, items: item });
+}
+
+
+function onItemClicks(event: any) {
+  if (selects.value.length > 0) {
+    if (event.key === 0) emit('callback', { key: '批量挂起', items: selects.value });
+    else if (event.key === 1) emit('callback', { key: '批量恢复生产', items: selects.value });
+    else if (event.key === 2) emit('callback', { key: '批量设为成功', items: selects.value });
+    else if (event.key === 3) emit('callback', { key: '批量设为失败', items: selects.value });
+    selects.value = []
+  } else {
+    notification.error({ message: '错误', description: '请至少选择1条数据', placement: 'bottomRight', class: 'notificationE-custom-class' });
+  }
+}
+
+function onListSelect(id: string) {
+  const index = selects.value.indexOf(id);
+  if (index !== -1) selects.value.splice(index, 1);
+  else selects.value.push(id);
 }
 
 function hideKeyboard() {
@@ -163,5 +196,11 @@ function onChangeKeyboard(input: string, keyboard: any) {
   .is--disabled {
     color: #989ca1 !important;
   }
+}
+.bg_jianbian {
+  border: 2px solid transparent;
+}
+.selected {
+  border: #64cf44 2px solid;
 }
 </style>

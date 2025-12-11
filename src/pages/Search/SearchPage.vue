@@ -34,16 +34,24 @@ async function handleModal() {
     if (choose.value === 1) {
       if (temp.title === '挂起') await searchModule.taskOperate({ taskID: [temp.item.taskID], operate: 0 });
       else if (temp.title === '恢复生产') await searchModule.taskOperate({ taskID: [temp.item.taskID], operate: 1 });
+      else if (temp.title.indexOf('批量挂起') > -1) await searchModule.taskOperate({ taskID: temp.item, operate: 0 });
+      else if (temp.title.indexOf('批量恢复生产') > -1) await searchModule.taskOperate({ taskID: temp.item, operate: 1 });
     } else if (choose.value === 2) {
       if (temp.title === '挂起') await searchModule.docOperate({ docSN: [temp.item.docSN], operate: 0 });
       else if (temp.title === '恢复生产') await searchModule.docOperate({ docSN: [temp.item.docSN], operate: 1 });
       else if (temp.title === '设为成功') await searchModule.docOperate({ docSN: [temp.item.docSN], operate: 2 });
       else if (temp.title === '设为失败') await searchModule.docOperate({ docSN: [temp.item.docSN], operate: 3 });
+      else if (temp.title.indexOf('批量挂起') > -1) await searchModule.docOperate({ docSN: temp.item, operate: 0 });
+      else if (temp.title.indexOf('批量恢复生产') > -1) await searchModule.docOperate({ docSN: temp.item, operate: 1 });
+      else if (temp.title.indexOf('批量设为成功') > -1) await searchModule.docOperate({ docSN: temp.item, operate: 2 });
+      else if (temp.title.indexOf('批量设为失败') > -1) await searchModule.docOperate({ docSN: temp.item, operate: 3 });
     } else if (choose.value === 3) {
       if (temp.title === '设为成功') await searchModule.physicalDocOperate({ physicalID: [temp.item.physicalID], operate: 2 });
       else if (temp.title === '设为失败') await searchModule.physicalDocOperate({ physicalID: [temp.item.physicalID], operate: 3 });
+      else if (temp.title.indexOf('批量设为成功') > -1) await searchModule.physicalDocOperate({ physicalID: temp.item, operate: 2 });
+      else if (temp.title.indexOf('批量设为失败') > -1) await searchModule.physicalDocOperate({ physicalID: temp.item, operate: 3 });
     }
-    notification.success({ message: '成功', description: `${temp.title}操作成功`, placement: 'bottomRight', class: 'notification-custom-class' });
+    notification.success({ message: '成功', description: '操作成功', placement: 'bottomRight', class: 'notification-custom-class' });
     getData();
   } catch (error) {
     notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
@@ -71,7 +79,8 @@ function getCallback(param: any) {
         detail.value = { open: true, item: param.items };
       }
     } else {
-      modal.value = { open: true, title: param.key, item: param.items };
+      if (param.key.indexOf('批量') > -1) modal.value = { open: true, title: param.key + '(共' + param.items.length + '条)，其中可能含有不能操作数据', item: param.items };
+      else modal.value = { open: true, title: param.key, item: param.items };
     }
   }
 }

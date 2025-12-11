@@ -1,7 +1,7 @@
 {
   "name": "tss-xiaohongyan",
   "type": "module",
-  "version": "1.0.5",
+  "version": "1.0.13.1",
   "private": true,
   "description": "base on Electron + Vue + Naive UI created project.",
   "author": "Dascom",

@@ -1,9 +1,14 @@
 <template>
   <a-modal width="44vw" :get-container="false" :open="props.open" :closable="false" centered force-render>
-    <SimpleKeyboard v-if="focus" :transform="transformValue" :input="text" :max-length="20" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
+    <SimpleKeyboard v-if="focus && props.title === '补打备注'" :transform="transformValue" :input="text" :max-length="20" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
+    <SimpleKeyboard v-if="focus && props.title === '开始进本'" :transform="transformValue" layout="num" :input="text" :max-length="20" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
     <template v-if="props.title === '补打备注'">
       <div class="w-full pb-6vh pt-7vh text-center text-2.5vw color-#ffffff">{{ `${props.title}前请输入证本号` }}</div>
       <a-input v-model:value="text" :class="focus ? 'keyInput' : ''" class="mb-6vh w-100% py-10px text-1.5vw" placeholder="请输入证本号" :maxlength="15" @click.stop="onInputFocus($event)" />
+    </template>
+    <template v-else-if="props.title === '开始进本'">
+      <div class="w-full pb-6vh pt-7vh text-center text-2.5vw color-#ffffff">{{ `${props.title}前请输入进本数` }}</div>
+      <a-input v-model:value="text" :class="focus ? 'keyInput' : ''" class="mx-auto mb-6vh block w-80% py-10px text-1.5vw" placeholder="请输入进本数" :maxlength="15" @click.stop="onInputFocus($event)" />
     </template>
     <template v-else-if="props.title === '任务添加成功'">
       <div class="w-full pb-6vh pt-7vh text-center text-2.5vw color-#ffffff">{{ props.title }}</div>
@@ -13,11 +18,16 @@
         <div class="mx-auto w-60% pb-2vh">总人数: {{ props.data.totalPeopleNum }}</div>
       </div>
     </template>
+    <template v-else-if="props.title === '喷墨机状态'">
+      <div class="w-full pb-6vh pt-7vh text-center text-2.5vw color-#ffffff">{{ props.title }}</div>
+      <div class="text-1.5vw text-#ffffff">{{ props.desc }}</div>
+    </template>
     <div v-else class="w-full pb-12vh pt-13vh text-center text-2.5vw color-#ffffff">{{ `确定执行${props.title}？` }}</div>
     <template #footer>
       <a-flex justify="center" align="center" class="gap-10%">
-        <a-button v-if="props.title !== '任务添加成功'" class="btn transition-transform duration-300 hover:scale-105" @click="handleCancel">取消</a-button>
-        <a-button v-if="props.title === '补打备注'" class="btn transition-transform duration-300 hover:scale-105" @click="submitOK">确定</a-button>
+        <a-button v-if="props.title !== '任务添加成功' && props.title !== '喷墨机状态'" class="btn transition-transform duration-300 hover:scale-105" @click="handleCancel">取消</a-button>
+        <a-button v-if="props.title === '补打备注' || props.title === '开始进本'" class="btn transition-transform duration-300 hover:scale-105" @click="submitOK">确定</a-button>
+        <a-button v-else-if="props.title === '喷墨机状态'" class="btn transition-transform duration-300 hover:scale-105" @click="handleCancel">确定</a-button>
         <a-button v-else class="btn transition-transform duration-300 hover:scale-105" @click="handleOk">确定</a-button>
       </a-flex>
     </template>
@@ -29,7 +39,7 @@ import { App } from 'ant-design-vue';
 import { homeModule } from '@/apis/proApi';
 import { useAppStore } from '@/store/index';
 
-const props = defineProps({ open: Boolean, handleOk: Function, title: String, handleCancel: Function, data: Object });
+const props = defineProps({ open: Boolean, handleOk: Function, title: String, handleCancel: Function, data: Object, desc: String });
 const text = ref('');
 const focus = ref(false);
 const cursorPosition = ref(null);
@@ -37,19 +47,36 @@ const transformValue: any = ref(null);
 const { notification } = App.useApp();
 
 async function submitOK() {
-  if (text.value) {
-    try {
-      useAppStore().setSpinning(true);
-      await homeModule.printObsv({ docID: text.value });
-      notification.success({ message: '成功', description: `${props.title}操作成功`, placement: 'bottomRight', class: 'notificationE-custom-class' });
-    } catch (error) {
-      notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
-    } finally {
-      useAppStore().setSpinning(false);
-      if (props.handleOk) props.handleOk();
+  if (props.title === '开始进本') {
+    if (text.value) {
+      try {
+        useAppStore().setSpinning(true);
+        await homeModule.setControlMachine({ control: 0, docNum: Number(text.value) });
+        notification.success({ message: '成功', description: `${props.title}操作成功`, placement: 'bottomRight', class: 'notificationE-custom-class' });
+      } catch (error) {
+        notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
+      } finally {
+        useAppStore().setSpinning(false);
+        if (props.handleCancel) props.handleCancel();
+      }
+    } else {
+      notification.error({ message: '错误', description: '请先输入进本数', placement: 'bottomRight', class: 'notificationE-custom-class' });
     }
   } else {
-    notification.error({ message: '错误', description: '请先输入证本号', placement: 'bottomRight', class: 'notificationE-custom-class' });
+    if (text.value) {
+      try {
+        useAppStore().setSpinning(true);
+        await homeModule.printObsv({ docID: text.value });
+        notification.success({ message: '成功', description: `${props.title}操作成功`, placement: 'bottomRight', class: 'notificationE-custom-class' });
+      } catch (error) {
+        notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
+      } finally {
+        useAppStore().setSpinning(false);
+        if (props.handleCancel) props.handleCancel();
+      }
+    } else {
+      notification.error({ message: '错误', description: '请先输入证本号', placement: 'bottomRight', class: 'notificationE-custom-class' });
+    }
   }
 }
 
@@ -62,7 +89,7 @@ function onInputFocus(event: any) {
   cursorPosition.value = event;
   const rect = event.target.getBoundingClientRect();
   const top = rect.bottom + rect.height + window.scrollY;
-  transformValue.value = [0, top - 180];
+  transformValue.value = [-200, top - 280];
 }
 
 function onChangeKeyboard(input: string, keyboard: any) {

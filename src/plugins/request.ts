@@ -1,8 +1,8 @@
 import type { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
 // 确保引入了 ant-design-vue
-const timeOut = 1000; // window.timeOut ?? '5000';
-const service = axios.create({ timeout: timeOut });
+const timeOut = window.timeOut ?? '5000';
+const service = axios.create({ timeout: Number(timeOut) });
 
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
