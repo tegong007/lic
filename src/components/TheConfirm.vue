@@ -7,7 +7,8 @@
       <a-input v-model:value="text" :class="focus ? 'keyInput' : ''" class="mb-6vh w-100% py-10px text-1.5vw" placeholder="请输入证本号" :maxlength="15" @click.stop="onInputFocus($event)" />
     </template>
     <template v-else-if="props.title === '开始进本'">
-      <div class="w-full pb-6vh pt-7vh text-center text-2.5vw color-#ffffff">{{ `${props.title}前请输入进本数` }}</div>
+      <div class="w-full pb-0vh pt-7vh text-center text-2.5vw color-#ffffff">{{ `${props.title}前请输入进本数` }}</div>
+      <div class="w-full pb-6vh pt-0vh text-center text-2vw color-#ffffff">{{ `(范围1~${props.desc})` }}</div>
       <a-input v-model:value="text" :class="focus ? 'keyInput' : ''" class="mx-auto mb-6vh block w-80% py-10px text-1.5vw" placeholder="请输入进本数" :maxlength="15" @click.stop="onInputFocus($event)" />
     </template>
     <template v-else-if="props.title === '任务添加成功'">
@@ -20,7 +21,7 @@
     </template>
     <template v-else-if="props.title === '喷墨机状态'">
       <div class="w-full pb-6vh pt-7vh text-center text-2.5vw color-#ffffff">{{ props.title }}</div>
-      <div class="text-1.5vw text-#ffffff">{{ props.desc }}</div>
+      <div class="mx-auto w-90% pb-6vh text-1.5vw text-#ffffff">{{ props.desc }}</div>
     </template>
     <div v-else class="w-full pb-12vh pt-13vh text-center text-2.5vw color-#ffffff">{{ `确定执行${props.title}？` }}</div>
     <template #footer>
@@ -38,9 +39,10 @@
 import { App } from 'ant-design-vue';
 import { homeModule } from '@/apis/proApi';
 import { useAppStore } from '@/store/index';
+import { ensureInRange } from '@/utils/index';
 
 const props = defineProps({ open: Boolean, handleOk: Function, title: String, handleCancel: Function, data: Object, desc: String });
-const text = ref('');
+const text = ref(props.desc || '');
 const focus = ref(false);
 const cursorPosition = ref(null);
 const transformValue: any = ref(null);
@@ -49,15 +51,20 @@ const { notification } = App.useApp();
 async function submitOK() {
   if (props.title === '开始进本') {
     if (text.value) {
-      try {
-        useAppStore().setSpinning(true);
-        await homeModule.setControlMachine({ control: 0, docNum: Number(text.value) });
-        notification.success({ message: '成功', description: `${props.title}操作成功`, placement: 'bottomRight', class: 'notificationE-custom-class' });
-      } catch (error) {
-        notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
-      } finally {
-        useAppStore().setSpinning(false);
-        if (props.handleCancel) props.handleCancel();
+      if (!ensureInRange(text.value, props.desc)) {
+        console.log(123);
+        notification.error({ message: '错误', description: '进本数不在有效范围', placement: 'bottomRight', class: 'notificationE-custom-class' });
+      } else {
+        try {
+          useAppStore().setSpinning(true);
+          await homeModule.setControlMachine({ control: 0, docNum: Number(text.value) });
+          notification.success({ message: '成功', description: `${props.title}操作成功`, placement: 'bottomRight', class: 'notificationE-custom-class' });
+        } catch (error) {
+          notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
+        } finally {
+          useAppStore().setSpinning(false);
+          if (props.handleCancel) props.handleCancel();
+        }
       }
     } else {
       notification.error({ message: '错误', description: '请先输入进本数', placement: 'bottomRight', class: 'notificationE-custom-class' });

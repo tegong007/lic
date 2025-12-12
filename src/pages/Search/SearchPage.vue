@@ -1,7 +1,7 @@
 <template>
   <TheTask v-if="choose === 1" :page="pages" :data="lists" @callback="getCallback" />
-  <TheRecord v-else-if="choose === 2" :page="pages" :data="lists" @callback="getCallback" />
-  <TheDoc v-else-if="choose === 3" :form="form" :page="pages" :data="lists" @callback="getCallback" />
+  <TheRecord v-else-if="choose === 2" :form="form" :page="pages" :data="lists" @callback="getCallback" />
+  <TheDoc v-else-if="choose === 3" :page="pages" :data="lists" @callback="getCallback" />
   <TheConfirm v-if="modal.open" :open="modal.open" :title="modal.title" :handle-ok="handleModal" :handle-cancel="() => (modal = { open: false, title: '', item: {} })" />
   <TheDetail v-if="detail.open" :open="detail.open" :item="detail.item" :handle-cancel="() => (detail = { open: false, item: {} })" />
 </template>
@@ -28,30 +28,46 @@ const detail = ref({ open: false, item: {} });
 // 弹窗操作
 async function handleModal() {
   const temp: any = modal.value;
+  let data: any;
   try {
     modal.value = { open: false, title: '', item: {} };
     useAppStore().setSpinning(true);
     if (choose.value === 1) {
-      if (temp.title === '挂起') await searchModule.taskOperate({ taskID: [temp.item.taskID], operate: 0 });
-      else if (temp.title === '恢复生产') await searchModule.taskOperate({ taskID: [temp.item.taskID], operate: 1 });
-      else if (temp.title.indexOf('批量挂起') > -1) await searchModule.taskOperate({ taskID: temp.item, operate: 0 });
-      else if (temp.title.indexOf('批量恢复生产') > -1) await searchModule.taskOperate({ taskID: temp.item, operate: 1 });
+      if (temp.title === '挂起') data = await searchModule.taskOperate({ taskID: [temp.item.taskID], operate: 0 });
+      else if (temp.title === '恢复生产') data = await searchModule.taskOperate({ taskID: [temp.item.taskID], operate: 1 });
+      else if (temp.title.indexOf('批量挂起') > -1) data = await searchModule.taskOperate({ taskID: temp.item, operate: 0 });
+      else if (temp.title.indexOf('批量恢复生产') > -1) data = await searchModule.taskOperate({ taskID: temp.item, operate: 1 });
     } else if (choose.value === 2) {
-      if (temp.title === '挂起') await searchModule.docOperate({ docSN: [temp.item.docSN], operate: 0 });
-      else if (temp.title === '恢复生产') await searchModule.docOperate({ docSN: [temp.item.docSN], operate: 1 });
-      else if (temp.title === '设为成功') await searchModule.docOperate({ docSN: [temp.item.docSN], operate: 2 });
-      else if (temp.title === '设为失败') await searchModule.docOperate({ docSN: [temp.item.docSN], operate: 3 });
-      else if (temp.title.indexOf('批量挂起') > -1) await searchModule.docOperate({ docSN: temp.item, operate: 0 });
-      else if (temp.title.indexOf('批量恢复生产') > -1) await searchModule.docOperate({ docSN: temp.item, operate: 1 });
-      else if (temp.title.indexOf('批量设为成功') > -1) await searchModule.docOperate({ docSN: temp.item, operate: 2 });
-      else if (temp.title.indexOf('批量设为失败') > -1) await searchModule.docOperate({ docSN: temp.item, operate: 3 });
+      if (temp.title === '挂起') data = await searchModule.docOperate({ docSN: [temp.item.docSN], operate: 0 });
+      else if (temp.title === '恢复生产') data = await searchModule.docOperate({ docSN: [temp.item.docSN], operate: 1 });
+      else if (temp.title === '设为成功') data = await searchModule.docOperate({ docSN: [temp.item.docSN], operate: 2 });
+      else if (temp.title === '设为失败') data = await searchModule.docOperate({ docSN: [temp.item.docSN], operate: 3 });
+      else if (temp.title.indexOf('批量挂起') > -1) data = await searchModule.docOperate({ docSN: temp.item, operate: 0 });
+      else if (temp.title.indexOf('批量恢复生产') > -1) data = await searchModule.docOperate({ docSN: temp.item, operate: 1 });
+      else if (temp.title.indexOf('批量设为成功') > -1) data = await searchModule.docOperate({ docSN: temp.item, operate: 2 });
+      else if (temp.title.indexOf('批量设为失败') > -1) data = await searchModule.docOperate({ docSN: temp.item, operate: 3 });
     } else if (choose.value === 3) {
-      if (temp.title === '设为成功') await searchModule.physicalDocOperate({ physicalID: [temp.item.physicalID], operate: 2 });
-      else if (temp.title === '设为失败') await searchModule.physicalDocOperate({ physicalID: [temp.item.physicalID], operate: 3 });
-      else if (temp.title.indexOf('批量设为成功') > -1) await searchModule.physicalDocOperate({ physicalID: temp.item, operate: 2 });
-      else if (temp.title.indexOf('批量设为失败') > -1) await searchModule.physicalDocOperate({ physicalID: temp.item, operate: 3 });
+      if (temp.title === '设为成功') data = await searchModule.physicalDocOperate({ physicalID: [temp.item.physicalID], operate: 2 });
+      else if (temp.title === '设为失败') data = await searchModule.physicalDocOperate({ physicalID: [temp.item.physicalID], operate: 3 });
+      else if (temp.title.indexOf('批量设为成功') > -1) data = await searchModule.physicalDocOperate({ physicalID: temp.item, operate: 2 });
+      else if (temp.title.indexOf('批量设为失败') > -1) data = await searchModule.physicalDocOperate({ physicalID: temp.item, operate: 3 });
     }
-    notification.success({ message: '成功', description: '操作成功', placement: 'bottomRight', class: 'notification-custom-class' });
+    let s = 0;
+    let e = 0;
+    if (data.respData.length > 0) {
+      if (data.respData.length === 1) {
+        if (data.respData[0].code !== 0) throw data.respData[0].msg;
+        else s = s + 1;
+      } else {
+        data.respData.forEach((element: any) => {
+          if (element.code === 0) s = s + 1;
+          else e = e + 1;
+        });
+      }
+    }
+    if (e === 0) notification.success({ message: '成功', description: '操作成功', placement: 'bottomRight', class: 'notification-custom-class' });
+    else if (s > 0) notification.success({ message: '成功', description: s + '条操作成功，' + e + '条操作失败', placement: 'bottomRight', class: 'notification-custom-class' });
+    else throw new Error('全部操作失败');
     getData();
   } catch (error) {
     notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
@@ -73,7 +89,8 @@ function getCallback(param: any) {
     if (param.key === 'chakan') {
       if (choose.value === 1) {
         form.value = { taskID: param.items.taskID };
-        choose.value = 3;
+        pages.value = { total: 0, current: 1, size: 4 };
+        choose.value = 2;
         getData();
       } else if (choose.value === 2 || choose.value === 3) {
         detail.value = { open: true, item: param.items };

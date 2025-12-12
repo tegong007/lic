@@ -7,6 +7,7 @@ const homeModule = {
   docMachineInit: () => request.post(`${v1}/tss/doc-machine/init`, { module: 'm0' }), // 制证设备初始化-全部
   getAllStatus: () => request.post(`${v1}/tss/position-status`, { moduleID: 0 }), // 工位状态查询-整机
   getHomeList: () => request.post(`${v1}/tss/produce-status`), // 生产状态查询
+  getDocNumProduce: () => request.post(`${v1}/tss/get-doc-num-produce`), // 可进本数查询
   setControlMachine: (data: any) => request.post(`${v1}/tss/machine-control`, data), // 生产设备控制
   getPositionCard: (data: number) => request.post(`${v1}/tss/position-status`, { moduleID: data }), // 工位状态查询
   printObsv: (data: any) => request.post(`${v1}/tss/print-obsv`, data), // 工位状态查询

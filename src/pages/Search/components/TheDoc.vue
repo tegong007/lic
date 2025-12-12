@@ -88,12 +88,12 @@ import { App } from 'ant-design-vue';
 import locale from 'ant-design-vue/es/date-picker/locale/zh_CN';
 import { docStatusOptions, findLabelByValue } from '@/plugins/option';
 
-const props = defineProps<{ page: any; form: any; data: any[] }>();
+const props = defineProps<{ page: any; data: any[] }>();
 const emit = defineEmits(['callback', 'page', 'data']);
 const lang = locale;
 const { notification } = App.useApp();
 
-const formData: any = ref({ choose: 3, docStatus: -1, taskID: props.form.taskID || '' });
+const formData: any = ref({ choose: 3, docStatus: -1 });
 const pageIn = ref(props.page);
 const showKeyboard = ref(false);
 const keyInput = ref('');
@@ -110,15 +110,17 @@ function onPageChange(event: any) {
 // 搜索栏按钮事件
 function onBtnClick(key: string) {
   if (key === 'clear') {
+    selects.value = [];
     formData.value = { choose: 3, docStatus: -1 };
     pageIn.value = { total: 0, current: 1, size: 4 };
   } else if (key === 'search') {
+    selects.value = [];
     pageIn.value = { total: 0, current: 1, size: 4 };
   } else if (key === 'page') {
-    emit('callback', { key, formData: { choose: 2 }, page: pageIn.value });
+    emit('callback', { key, formData: { choose: 3, ...formData.value }, page: pageIn.value });
     return;
   } else if (key === 'search2') {
-    formData.value.taskID = '';
+    formData.value = { choose: formData.value.choose };
     pageIn.value = { total: 0, current: 1, size: 4 };
   }
   emit('callback', { key, formData: formData.value, page: pageIn.value });

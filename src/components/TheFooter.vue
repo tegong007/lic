@@ -1,6 +1,6 @@
 <template>
   <div class="fixed bottom-1.5vh left-4vw w-full">
-    <a-flex class="gap-3vw">
+    <a-flex class="gap-2.2vw">
       <template v-for="(value, index) in link" :key="index">
         <div v-if="value.color" :key="index" class="w-3vw text-center">
           <div class="relative mx-auto h-6.5vh w-80% border-1px border-gray-400 border-dashed">
@@ -42,7 +42,7 @@ const { start } = useCustomTimer();
 
 const actived = ref(-1);
 const link: any = ref([]);
-const color: any = { Y: '#ffff00', M: '#ff00ff', C: '#00ffff', K: '#000000' };
+const color: any = { Y: '#ffff00', M: '#ff00ff', C: '#00ffff', K: '#000000', O: '#979797' };
 
 watch(
   route,

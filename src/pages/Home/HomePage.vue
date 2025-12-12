@@ -8,14 +8,14 @@
     <div class="flex items-center justify-center font-[siyuan]">
       <div class="relative mt-6vh block w-22vw">
         <img class="w-full" src="@/assets/image/machine2.png" />
-        <div v-if="entire.modules.length <= 0"></div>
-        <div v-else-if="entire.modules.length > 0 && entire.modules[0].code === 0" class="error absolute bottom-0 top-0 w-full flex items-center justify-center text-2.5vw" @click="setModal(6)">故障出错</div>
+        <div v-if="!entire.uvStatus || entire.uvStatus.length <= 0" class="error absolute bottom-0 top-0 w-full flex items-center justify-center text-2.5vw">离线中</div>
+        <div v-else-if="entire.uvStatus && entire.uvStatus.length > 0 && entire.uvStatus[0].status !== 0" class="error absolute bottom-0 top-0 w-full flex items-center justify-center text-2.5vw" @click="setModal(6)">故障出错</div>
       </div>
       <div>
         <div class="mt-10vh w-8vw text-center text-1.3vw">喷墨机状态</div>
-        <img v-if="entire.modules.length > 0 && entire.modules[0].code !== 0" class="mx-auto mt-1vh block w-5vw" src="@/assets/image/ico_tip1.png" />
-        <img v-else-if="entire.modules.length > 0" class="mx-auto mt-1vh block w-5vw" src="@/assets/image/ico_tip0.png" />
-        <div v-else class="w-full text-center text-1vw">离线</div>
+        <img v-if="entire.uvStatus && entire.uvStatus.length > 0 && entire.uvStatus[0].status !== 0" class="mx-auto mt-1vh block w-5vw" src="@/assets/image/ico_tip1.png" />
+        <img v-else-if="entire.uvStatus && entire.uvStatus.length > 0" class="mx-auto mt-1vh block w-5vw" src="@/assets/image/ico_tip0.png" />
+        <img v-else class="mx-auto mt-1vh block w-5vw" src="@/assets/image/ico_tip1.png" />
       </div>
     </div>
   </div>
@@ -42,7 +42,7 @@
       <TheButton title="初始化" @click="setModal(5)" />
     </a-flex>
   </a-flex>
-  <TheConfirm v-if="modal.open" :open="modal.open" :title="modal.title" :handle-ok="controlMachine" :handle-cancel="() => setModal(-1)" />
+  <TheConfirm v-if="modal.open" :open="modal.open" :title="modal.title" :desc="modal.desc" :handle-ok="controlMachine" :handle-cancel="() => setModal(-1)" />
 </template>
 
 <script setup lang="ts">
@@ -67,7 +67,7 @@ const entire: any = ref({ beltStatusDetail: 0, machineTotalDoc: 0, machineHandle
 const blankCheck = ref({});
 const mainPrint = ref({});
 const additionPrint = ref({});
-const modal = ref({ open: false, title: '', key: -1 });
+const modal: any = ref({ open: false, title: '', key: -1 });
 
 async function getDataPage() {
   try {
@@ -100,10 +100,19 @@ async function startGetDataPage() {
 }
 
 // 弹窗控制
-function setModal(value: number) {
+async function setModal(value: number) {
   switch (value) {
     case 0:
-      modal.value = { open: true, title: '开始进本', key: 0 };
+      try {
+        useAppStore().setSpinning(true);
+        const data: any = await homeModule.getDocNumProduce();
+        if (data.respData) modal.value = { open: true, title: '开始进本', key: 0, desc: data.respData.docNum };
+        else modal.value = { open: true, title: '开始进本', key: 0, desc: '0' };
+      } catch (error) {
+        notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
+      } finally {
+        useAppStore().setSpinning(false);
+      }
       break;
     case 1:
       modal.value = { open: true, title: '暂停进本', key: 1 };
@@ -121,7 +130,7 @@ function setModal(value: number) {
       modal.value = { open: true, title: '初始化', key: 5 };
       break;
     case 6:
-      modal.value = { open: true, title: '喷墨机状态', key: 6 };
+      modal.value = { open: true, title: '喷墨机状态', key: 6, desc: entire.value.uvStatus[0].msg || '--' };
       break;
     default:
       modal.value = { open: false, title: '', key: -1 };

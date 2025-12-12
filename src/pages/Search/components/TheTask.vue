@@ -3,7 +3,7 @@
     <SimpleKeyboard v-if="showKeyboard" :transform="transformValue" :input="formData[keyInput]" :max-length="30" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
     <div class="flex items-center gap-1vw">
       <a-form-item label="搜索类型" name="choose">
-        <a-select v-model:value="formData.choose" @change="onBtnClick('search')">
+        <a-select v-model:value="formData.choose" @change="onBtnClick('search2')">
           <a-select-option :value="1">任务</a-select-option>
           <a-select-option :value="2">制证数据</a-select-option>
           <a-select-option :value="3">证本</a-select-option>
@@ -105,13 +105,18 @@ function onPageChange(event: any) {
 // 搜索栏按钮事件
 function onBtnClick(key: string) {
   if (key === 'clear') {
+    selects.value = [];
     formData.value = { choose: 1, status: null };
     pageIn.value = { total: 0, current: 1, size: 4 };
   } else if (key === 'search') {
+    selects.value = [];
     pageIn.value = { total: 0, current: 1, size: 4 };
   } else if (key === 'page') {
-    emit('callback', { key, formData: { choose: 1 }, page: pageIn.value });
+    emit('callback', { key, formData: { choose: 1, ...formData.value }, page: pageIn.value });
     return;
+  } else if (key === 'search2') {
+    formData.value = { choose: formData.value.choose };
+    pageIn.value = { total: 0, current: 1, size: 4 };
   }
   emit('callback', { key, formData: formData.value, page: pageIn.value });
 }
@@ -125,7 +130,7 @@ function onItemClicks(event: any) {
   if (selects.value.length > 0) {
     if (event.key === 0) emit('callback', { key: '批量挂起', items: selects.value });
     else if (event.key === 1) emit('callback', { key: '批量恢复生产', items: selects.value });
-    selects.value = []
+    selects.value = [];
   } else {
     notification.error({ message: '错误', description: '请至少选择1条数据', placement: 'bottomRight', class: 'notificationE-custom-class' });
   }

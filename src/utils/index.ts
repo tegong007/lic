@@ -128,3 +128,26 @@ export function convertJSONStringToNumbers(obj: any): { data: any; errors: strin
   traverse(result);
   return { data: result, errors };
 }
+
+export function ensureInRange(value: any, max: any) {
+  // 验证max
+  const maxNum = Number(max);
+  if (Number.isNaN(maxNum) || maxNum < 1 || !Number.isInteger(maxNum)) {
+    return false;
+  }
+  // 验证value是否为数字（包括数字字符串）
+  const num = Number(value);
+  if (Number.isNaN(num)) {
+    return false;
+  }
+  // 验证是否为整数
+  if (!Number.isInteger(num)) {
+    return false;
+  }
+  // 验证范围
+  if (num < 1 || num > maxNum) {
+    return false;
+  }
+
+  return true;
+}

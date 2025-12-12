@@ -3,7 +3,7 @@
     <SimpleKeyboard v-if="showKeyboard" :transform="transformValue" :input="formData[keyInput]" :max-length="30" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
     <div class="flex items-center gap-1vw">
       <a-form-item label="搜索类型" name="choose">
-        <a-select v-model:value="formData.choose" @change="onBtnClick('search')">
+        <a-select v-model:value="formData.choose" @change="onBtnClick('search2')">
           <a-select-option :value="1">任务</a-select-option>
           <a-select-option :value="2">制证数据</a-select-option>
           <a-select-option :value="3">证本</a-select-option>
@@ -69,7 +69,7 @@
           <img v-if="value.photo" class="absolute top-1vh h-8vh -right-15vw" :src="`data:image/png;base64,${value.photo}`" />
         </div>
         <div class="mt-1vh">
-          <a-button type="link" class="btn_in mr-1vw" @click="onItemClick('chakan', value)">查看更多</a-button>
+          <a-button type="link" class="btn_in mr-1vw" @click.stop="onItemClick('chakan', value)">查看更多</a-button>
           <a-button v-if="value.docStatus === 1" type="link" class="btn_in mr-1vw" @click.stop="onItemClick('挂起', value)">挂起</a-button>
           <a-button v-if="value.docStatus === 2" type="link" class="btn_in mr-1vw" @click.stop="onItemClick('恢复生产', value)">恢复生产</a-button>
           <a-button v-if="value.docStatus === 0 || value.docStatus === 4" type="link" class="btn_in mr-1vw" @click.stop="onItemClick('设为成功', value)">设为成功</a-button>
@@ -92,12 +92,12 @@ import { App } from 'ant-design-vue';
 import locale from 'ant-design-vue/es/date-picker/locale/zh_CN';
 import { docStatusOptions, findLabelByValue } from '@/plugins/option';
 
-const props = defineProps<{ page: any; data: any[] }>();
+const props = defineProps<{ page: any; form: any; data: any[] }>();
 const emit = defineEmits(['callback', 'page', 'data']);
 const lang = locale;
 const { notification } = App.useApp();
 
-const formData: any = ref({ choose: 2, docStatus: -1 });
+const formData: any = ref({ choose: 2, docStatus: -1, taskID: props.form.taskID || '' });
 const pageIn = ref(props.page);
 const showKeyboard = ref(false);
 const keyInput = ref('');
@@ -114,13 +114,18 @@ function onPageChange(event: any) {
 // 搜索栏按钮事件
 function onBtnClick(key: string) {
   if (key === 'clear') {
+    selects.value = [];
     formData.value = { choose: 2, docStatus: -1 };
     pageIn.value = { total: 0, current: 1, size: 4 };
   } else if (key === 'search') {
+    selects.value = [];
     pageIn.value = { total: 0, current: 1, size: 4 };
   } else if (key === 'page') {
-    emit('callback', { key, formData: { choose: 2 }, page: pageIn.value });
+    emit('callback', { key, formData: { choose: 2, ...formData.value }, page: pageIn.value });
     return;
+  } else if (key === 'search2') {
+    formData.value = { choose: formData.value.choose };
+    pageIn.value = { total: 0, current: 1, size: 4 };
   }
   emit('callback', { key, formData: formData.value, page: pageIn.value });
 }
@@ -130,14 +135,13 @@ function onItemClick(key: string, item: any) {
   emit('callback', { key, items: item });
 }
 
-
 function onItemClicks(event: any) {
   if (selects.value.length > 0) {
     if (event.key === 0) emit('callback', { key: '批量挂起', items: selects.value });
     else if (event.key === 1) emit('callback', { key: '批量恢复生产', items: selects.value });
     else if (event.key === 2) emit('callback', { key: '批量设为成功', items: selects.value });
     else if (event.key === 3) emit('callback', { key: '批量设为失败', items: selects.value });
-    selects.value = []
+    selects.value = [];
   } else {
     notification.error({ message: '错误', description: '请至少选择1条数据', placement: 'bottomRight', class: 'notificationE-custom-class' });
   }

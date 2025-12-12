@@ -41,7 +41,7 @@ const props = defineProps({
 
 const emit = defineEmits(['onChange', 'onKeyPress', 'closekeyboard']);
 
-const keyboard = ref(null);
+const keyboard: any = ref(null);
 
 const displayDefault = ref({
   '{bksp}': '删除',
