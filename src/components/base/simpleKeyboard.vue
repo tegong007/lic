@@ -19,23 +19,11 @@ import 'simple-keyboard/build/css/index.css';
 
 // 中文库
 const props = defineProps({
-  keyboardClass: {
-    default: 'simple-keyboard',
-    type: String,
-  },
-  input: {
-    default: '',
-  },
-  layout: {
-    default: 'default',
-  },
-  keyboardWidth: {
-    default: 'w70%',
-  },
-  transform: {
-    default: () => [0, 0], // 使用函数返回默认值
-    type: Array,
-  },
+  keyboardClass: { default: 'simple-keyboard', type: String },
+  input: { default: '' },
+  layout: { default: 'default' },
+  keyboardWidth: { default: 'w70%' },
+  transform: { default: () => [0, 0], type: Array },
   maxLength: { default: '' },
 });
 
@@ -43,24 +31,12 @@ const emit = defineEmits(['onChange', 'onKeyPress', 'closekeyboard']);
 
 const keyboard: any = ref(null);
 
-const displayDefault = ref({
-  '{bksp}': '删除',
-  '{lock}': 'caps',
-  // '{enter}': 'enter',
-  '{tab}': 'tab',
-  '{shift}': 'shift',
-  '{change}': '中文',
-  '{space}': ' ',
-  '{clear}': '清空',
-  '{close}': '关闭',
-});
+const displayDefault = ref({ '{bksp}': '删除', '{lock}': 'caps', '{tab}': 'tab', '{shift}': 'shift', '{change}': '中文', '{space}': ' ', '{clear}': '清空', '{close}': '关闭' });
 
 function handleShift() {
   const currentLayout = keyboard.value.options.layoutName;
   const shiftToggle = currentLayout === 'default' ? 'shift' : 'default';
-  keyboard.value.setOptions({
-    layoutName: shiftToggle,
-  });
+  keyboard.value.setOptions({ layoutName: shiftToggle });
 }
 
 function startDrag(event: MouseEvent | TouchEvent) {
@@ -112,23 +88,13 @@ onMounted(() => {
   });
 });
 
-function onChange(input) {
+function onChange(input: any) {
   const newInput = input;
   keyValue.value = newInput;
   emit('onChange', newInput, keyboard.value);
 }
 
-// function onKeyReleased(button) {
-//   console.log('simple-keyboard button released', button);
-//   // let c = document.getElementsByClassName('hg-candidate-box')[0];
-//   if (document.getElementsByClassName('hg-candidate-box')[0]) {
-//     isShowChinese.value = true;
-//   } else {
-//     isShowChinese.value = false;
-//   }
-// }
-
-function onKeyPress(button, $event) {
+function onKeyPress(button: any, $event: any) {
   if (button === '{close}') {
     emit('closekeyboard');
     return false;
@@ -143,8 +109,6 @@ function onKeyPress(button, $event) {
       displayDefault.value['{change}'] = '中文';
       keyboard.value.setOptions({
         layoutCandidates: layout.layoutCandidates,
-        // physicalKeyboardHighlight: true,
-        // physicalKeyboardHighlightPress: true,
         display: displayDefault.value,
       });
     }
@@ -180,8 +144,8 @@ watch([x, y], () => {
     const titleRect = modalTitleRef.value.getBoundingClientRect();
     dragRect.value.right = bodyRect.width - titleRect.width;
     dragRect.value.bottom = bodyRect.height - titleRect.height - parentRef.value?.clientHeight;
-    preTransformX.value = transformX.value;
-    preTransformY.value = transformY.value;
+    preTransformX.value = Number(transformX.value);
+    preTransformY.value = Number(transformY.value);
   }
   startedDrag.value = true;
 });
@@ -211,40 +175,18 @@ watch(
   () => props.input,
   (newInput) => {
     console.log('🚀 ~ newI传入值put:', newInput);
-    keyboard.value?.setInput(newInput);
+    setTimeout(() => {
+      keyboard.value?.setInput(newInput);
+    }, 100);
   },
   { deep: true, immediate: true },
 );
-// watch(
-//   () => keyValue.value,
-//   (newInput) => {
-//     console.log('🚀 ~ keyValue:', newInput);
-//   },
-//   { deep: true, immediate: true },
-// );
-// 键盘值与变化值保持一致
-// watch(
-//   () => keyValue.value,
-//   (newInput) => {
-//     if (newInput !== props.input) {
-//       console.log('🚀 ~ keyValue.value不一样:', newInput, props.input);
-//       keyboard.value?.setInput(props.input);
-//       keyValue.value = props.input;
-//       console.log('🚀 ~ keyValue.valub变成e:', keyValue.value);
-//     } else {
-//       console.log('🚀 ~ keyyi一样lue:');
-//     }
-//   },
-//   { deep: true, immediate: true },
-// );
 watch(
   () => props.layout,
   (newInput) => {
     keyboard.value.setOptions({
       layoutName: newInput,
     });
-
-    // keyboard.value?.setOptions({ layout: newInput });
   },
 );
 watch(
@@ -252,7 +194,6 @@ watch(
   (newInput) => {
     transformX.value = newInput[0];
     transformY.value = newInput[1];
-    // keyboard.value?.setOptions({ layout: newInput });
   },
 );
 </script>
