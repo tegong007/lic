@@ -27,7 +27,7 @@ export const urgencyOptions: OptionType[] = [
 export const TaskStatusOptions: OptionType[] = [
   { value: null, label: '全部' },
   { value: 0, label: '生产中' },
-  { value: 1, label: '暂停' },
+  // { value: 1, label: '暂停' },
   { value: 2, label: '待生产' },
   { value: 3, label: '挂起' },
   { value: 4, label: '生产成功' },

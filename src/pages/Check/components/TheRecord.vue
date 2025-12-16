@@ -1,7 +1,7 @@
 <template>
   <SimpleKeyboard v-if="showKeyboard" :transform="transformValue" :input="formData[keyInput]" :max-length="30" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
   <div class="mt-2vh w-100%" @click="hideKeyboard">
-    <div class="mb-2vh flex items-center gap-1vw">
+    <div class="mb-2vh flex items-center gap-0.5vw">
       <a-form-item label="证本号" name="docID">
         <a-input v-model:value="formData.docID" :class="keyInput === 'docID' ? 'keyInput' : ''" class="w-12vw bg-transparent" placeholder="请输入" :maxlength="30" @click.stop="onInputFocus($event, 'docID')" />
       </a-form-item>
@@ -9,22 +9,23 @@
         <a-select v-model:value="formData.result">
           <a-select-option :value="null">全部</a-select-option>
           <a-select-option :value="0">良品</a-select-option>
+          <a-select-option :value="1">不良品</a-select-option>
         </a-select>
       </a-form-item>
       <a-form-item label="时间范围" name="status">
         <a-range-picker v-model:value="formData.dateRange" :locale="lang" value-format="YYYY-MM-DD" input-read-only :allow-clear="false" />
       </a-form-item>
       <a-form-item>
-        <a-button type="link" class="btn_search mr-1vw" @click="onBtnClick('search')">查询</a-button>
-        <a-button type="link" class="btn_search mr-1vw" @click="onBtnClick('clear')">清空</a-button>
-        <a-button type="link" class="btn_search mr-1vw" @click="onBtnClick('refresh')">刷新</a-button>
+        <a-button type="link" class="btn_search mr-0.5vw" @click="onBtnClick('search')">查询</a-button>
+        <a-button type="link" class="btn_search mr-0.5vw" @click="onBtnClick('clear')">清空</a-button>
+        <a-button type="link" class="btn_search" @click="onBtnClick('refresh')">刷新</a-button>
       </a-form-item>
     </div>
     <div class="flex justify-start gap-2vw">
       <div class="w-100%">
         <div v-for="(value, index) in data" :key="index" class="bg_jianbian mb-1vh flex justify-between text-1vw line-height-2vh">
           <div>{{ value.time }}</div>
-          <div>证件号: {{ value.docID }}</div>
+          <div class="w-11vw">证件号: {{ value.docID }}</div>
           <div>结果: <span v-if="!value.docID">检测中…</span><span v-else-if="value.qualityResult === 0" class="ok">良品</span><span v-else class="no">不良品</span></div>
           <div v-if="detailI !== index" class="cursor-pointer" @click="onItemClick(value, index)">展开 ▼</div>
           <div v-else class="cursor-pointer" @click="onItemClick(value, index)">收起 ▲</div>

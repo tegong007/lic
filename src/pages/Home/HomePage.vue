@@ -6,7 +6,30 @@
       <img class="m-auto block w-18vw -mt-2vh" src="@/assets/image/tmp_bottom.png" />
     </div>
     <div class="flex items-center justify-center font-[siyuan]">
-      <div class="relative mt-6vh block w-22vw">
+      <div class="relative cursor-pointer text-center" :class="entire.modules && entire.modules.length >= 2 ? (entire.modules[0].code === 0 && entire.modules[1].code === 0 ? 'bgbgA' : entire.modules[0].code === 2 || entire.modules[1].code === 2 ? 'bgbgB' : 'bgbgC') : 'bgbgC'" @click="setModal(7)">
+        <template v-if="entire.modules && entire.modules.length > 2">
+          <div v-if="entire.modules[0].code === 0 && entire.modules[1].code === 0">正常</div>
+          <div v-else-if="entire.modules[0].code === 2 || entire.modules[1].code === 2">警告</div>
+          <div v-else-if="entire.modules[0].code === 3 || entire.modules[1].code === 3">故障</div>
+          <div v-else>--</div>
+        </template>
+        <div v-else>离线</div>
+        <img class="mx-auto mt-1.5vh" src="@/assets/image/ico_left.png" />
+        <div class="absolute bottom-1vh left-0 right-0 text-center text-1.1vw">设备机状态</div>
+      </div>
+      <div class="relative cursor-pointer text-center" :class="entire.uvStatus && entire.uvStatus.length > 0 ? (entire.uvStatus[0].status === 0 || entire.uvStatus[0].status === 1 ? 'bgbgA' : entire.uvStatus[0].status === 2 ? 'bgbgB' : 'bgbgC') : 'bgbgC'" @click="setModal(6)">
+        <template v-if="entire.uvStatus && entire.uvStatus.length > 0">
+          <div v-if="entire.uvStatus[0].status === 0">正常</div>
+          <div v-else-if="entire.uvStatus[0].status === 1">工作中</div>
+          <div v-else-if="entire.uvStatus[0].status === 2">警告</div>
+          <div v-else-if="entire.uvStatus[0].status === 3">故障</div>
+          <div v-else>--</div>
+        </template>
+        <div v-else>离线</div>
+        <img class="mx-auto mt-1vh" src="@/assets/image/ico_right.png" />
+        <div class="absolute bottom-1vh left-0 right-0 text-center text-1.1vw">喷墨机状态</div>
+      </div>
+      <!-- <div class="relative mt-6vh block w-22vw">
         <img class="w-full" src="@/assets/image/machine2.png" />
         <div v-if="!entire.modules || entire.modules.length <= 0" class="error absolute bottom-0 top-0 w-full flex items-center justify-center text-2.5vw">离线中</div>
         <div v-else-if="entire.modules && entire.modules.length > 0 && entire.modules[0].status === 3" class="error absolute bottom-0 top-0 w-full flex items-center justify-center text-2.5vw cursor-pointer" @click="$goto('DefendPage', { key: 5 })">故障出错</div>
@@ -17,7 +40,7 @@
         <img v-else-if="entire.uvStatus && entire.uvStatus.length > 0 && entire.uvStatus[0].status === 3" class="mx-auto mt-1vh block w-5vw cursor-pointer" src="@/assets/image/ico_tip1.png" @click="setModal(6)" />
         <img v-else-if="entire.uvStatus && entire.uvStatus.length > 0" class="mx-auto mt-1vh block w-5vw" src="@/assets/image/ico_tip0.png" />
         <img v-else class="mx-auto mt-1vh block w-5vw" src="@/assets/image/ico_tip1.png" />
-      </div>
+      </div> -->
     </div>
   </div>
   <a-flex class="bgB mx-auto mt-5vh h-8vh w-85% line-height-8vh">
@@ -35,7 +58,7 @@
     <a-flex class="items-center gap-2vw">
       <TheButton v-if="isProduce" title="开始进本" @click="setModal(0)" />
       <TheButton v-else title="暂停进本" @click="setModal(1)" />
-      <TheButton title="补打备注" @click="setModal(4)" />
+      <TheButton title="补打加注" @click="setModal(4)" />
     </a-flex>
     <a-flex class="items-center gap-2vw">
       <TheButton v-if="entire.beltStatusDetail === 111 || entire.beltStatusDetail === 113" title="启动设备" @click="setModal(3)" />
@@ -52,6 +75,7 @@ import { homeModule } from '@/apis/proApi';
 import TheButton from '@/components/base/TheButton.vue';
 import TheConfirm from '@/components/TheConfirm.vue';
 import TheTable from '@/pages/Home/components/TheTable.vue';
+import router from '@/router';
 import { useAppStore } from '@/store/index';
 import useCustomTimer from '@/utils/useCustomTimer';
 
@@ -135,7 +159,10 @@ async function setModal(value: number) {
       modal.value = { open: true, title: '初始化', key: 5 };
       break;
     case 6:
-      modal.value = { open: true, title: '喷墨机状态', key: 6, desc: entire.value.uvStatus[0].msg || '--' };
+      if (entire.value.uvStatus && entire.value.uvStatus.length > 0 && (entire.value.uvStatus[0].status === 2 || entire.value.uvStatus[0].status === 3)) modal.value = { open: true, title: '喷墨机状态', key: 6, desc: entire.value.uvStatus[0].msg || '--' };
+      break;
+    case 7:
+      if (entire.value.modules && entire.value.modules.length >= 2 && (entire.value.modules[0].status === 2 || entire.value.modules[0].status === 3 || entire.value.modules[1].status === 2 || entire.value.modules[1].status === 3)) router.push({ name: 'DefendPage', query: { key: 5 } });
       break;
     default:
       modal.value = { open: false, title: '', key: -1 };
@@ -189,6 +216,29 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="less">
+.bgbgA,
+.bgbgB,
+.bgbgC {
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 7.9vw;
+  height: 16.9vh;
+  margin: 6vh 0 0 2.5vw;
+  font-size: 1.1vw;
+  img {
+    width: 55%;
+    display: block;
+  }
+}
+.bgbgA {
+  background-image: url('@/assets/image/bg_tip0.png');
+}
+.bgbgB {
+  background-image: url('@/assets/image/bg_tip2.png');
+}
+.bgbgC {
+  background-image: url('@/assets/image/bg_tip1.png');
+}
 .bgT {
   background-image: url('@/assets/image/tmp_lr.png');
   background-size: contain;

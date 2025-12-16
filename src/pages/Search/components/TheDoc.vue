@@ -50,21 +50,21 @@
         <span v-else-if="value.docStatus === 4" class="tap_ng mt-10vh p-0.5vh">{{ findLabelByValue('docStatusOptions', value.docStatus) }}</span>
         <span v-else class="tap_tip mt-10vh p-0.5vh">{{ findLabelByValue('docStatusOptions', value.docStatus) }}</span>
       </div>
-      <div class="relative w-67% text-left">
+      <div class="relative w-80% text-left">
         <div>
           <div class="flex justify-between">
-            <div class="w-27%">所属任务号: {{ value.taskID }}</div>
+            <div class="w-35%">所属任务号: {{ value.taskID }}</div>
             <div class="w-27%">证本号: {{ value.docID }}</div>
-            <div class="w-15%">姓: {{ value.cnSurname }}</div>
+            <div class="w-20%">姓: {{ value.cnSurname }}</div>
             <div class="w-31%">制本开始时间: {{ value.startTime }}</div>
           </div>
           <div class="flex justify-between">
-            <div class="w-27%">所属批次号: {{ value.batchID }}</div>
+            <div class="w-35%">所属批次号: {{ value.batchID }}</div>
             <div class="w-27%">证本类型: {{ findLabelByValue('docTypesOptions', value.type) }}</div>
-            <div class="w-15%">名: {{ value.cnGivenName }}</div>
+            <div class="w-20%">名: {{ value.cnGivenName }}</div>
             <div class="w-31%">制本结束时间: {{ value.endTime }}</div>
           </div>
-          <img v-if="value.photo" class="absolute top-1vh h-8vh -right-15vw" :src="`data:image/png;base64,${value.photo}`" />
+          <img v-if="value.photo" class="absolute top-1vh h-8vh -right-4vw" :src="`data:image/png;base64,${value.photo}`" />
         </div>
         <div class="mt-1vh">
           <a-button type="link" class="btn_in mr-1vw" @click.stop="onItemClick('chakan', value)">查看更多</a-button>

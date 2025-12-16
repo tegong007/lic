@@ -93,7 +93,7 @@ table {
   background-image: url('@/assets/image/bg_modal.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  height: 60vh;
+  height: 65vh;
   background-color: #03163e;
 }
 ::v-deep(.ant-modal-mask) {

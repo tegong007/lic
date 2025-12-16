@@ -5,17 +5,17 @@
       <div>
         <div class="bgC1">
           <div class="pt-1.5vh text-center text-1.3vw">质检状态</div>
-          <div class="h-20vh flex items-center justify-center text-2.5vw">
+          <div class="h-50vh flex items-center justify-center text-2.5vw">
             <span v-if="state.msg.length <= 10">{{ state.msg }}</span>
             <marquee v-else behavior="scroll" direction="left" width="80%">{{ state.msg }}</marquee>
           </div>
         </div>
-        <div class="bgC1">
+        <!-- <div class="bgC1">
           <div class="pt-1.5vh text-center text-1.3vw">照片采样</div>
           <div class="h-20vh flex items-center justify-center">
             <img v-if="mainCheck.irlImgData" class="max-h-90% max-w-80%" :src="`data:image/png;base64,${mainCheck.irlImgData}`" />
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="bgC2">
         <div class="pt-1.5vh text-center text-1.3vw">质检结果</div>
@@ -110,12 +110,12 @@ onMounted(async () => {
 <style scoped lang="less">
 .bgC1 {
   width: 25vw;
-  height: 30vh;
+  height: 63.2vh;
   margin: 3vh 0 0 1vw;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  background-image: url('@/assets/image/bg_c1.png');
+  background-image: url('@/assets/image/bg_c10.png');
 }
 .bgC2 {
   width: 47vw;

@@ -6,19 +6,19 @@
       </div>
     </div>
     <div v-if="actived" class="ml-2vw flex-1 text-1.5vw">
-      <div class="mb-1vh mt-3vh">
-        {{ navs[`x${actived}`].name }}<a-button class="btnRe transition-transform duration-300 hover:scale-105" @click="getDataList">{{ t('刷新状态') }}</a-button>
-      </div>
+      <div class="mb-1vh mt-3vh">{{ navs[`x${actived}`].name }}<a-button class="btnRe transition-transform duration-300 hover:scale-105" @click="getDataList">刷新状态</a-button></div>
       <div class="h-65vh overflow-auto">
         <a-flex v-for="(item, index) in lists" :key="index" justify="between" class="bgItem text-1.3vw">
           <div class="w-15vw font-bold">{{ item.item }}</div>
-          <div class="w-14vw">{{ t('机器启动后成功数') }}：{{ item.currentSuccessNum || 0 }}</div>
-          <div class="w-15vw">{{ t('机器启动后失败数') }}：{{ item.currentFailNum || 0 }}</div>
-          <div class="w-14vw">{{ t('历史成功数') }}：{{ item.historySuccessNum || 0 }}</div>
-          <div class="w-14vw">{{ t('历史发本数') }}：{{ item.historyNum || 0 }}</div>
-          <div v-if="item.status === 0 || item.status === 1" class="success mr-3vw w-5vw">{{ t('正常') }}</div>
-          <div v-else-if="item.status === 2" class="error mr-3vw w-5vw">{{ t('警告') }}</div>
-          <div v-else-if="item.status === 3" class="warn mr-3vw w-5vw">{{ t('故障') }}</div>
+          <!-- <div class="w-14vw">{{ t('机器启动后成功数') }}：{{ item.currentSuccessNum || 0 }}</div> -->
+          <!-- <div class="w-15vw">{{ t('机器启动后失败数') }}：{{ item.currentFailNum || 0 }}</div> -->
+          <div class="w-14vw"></div>
+          <div class="w-14vw">历史成功数：{{ item.historySuccessNum || 0 }}</div>
+          <div class="w-14vw">历史失败数：{{ item.historyFailNum || 0 }}</div>
+          <div class="w-14vw">历史发本数：{{ item.historyNum || 0 }}</div>
+          <div v-if="item.status === 0 || item.status === 1" class="success mr-3vw w-5vw">正常</div>
+          <div v-else-if="item.status === 2" class="error mr-3vw w-5vw">警告</div>
+          <div v-else-if="item.status === 3" class="warn mr-3vw w-5vw">故障</div>
         </a-flex>
       </div>
     </div>
@@ -27,17 +27,15 @@
 
 <script setup lang="ts">
 import { App } from 'ant-design-vue';
-import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { homeModule } from '@/apis/proApi';
 import { useAppStore } from '@/store/index';
 
 const { notification } = App.useApp();
-const { t } = useI18n();
 const route = useRoute();
 
 const actived = ref(0);
-const navs: any = { x3: { name: t('喷墨打印模块'), key: 3 }, x2: { name: t('激光打印模块'), key: 2 }, x1: { name: t('空白本检测模块'), key: 1 } };
+const navs: any = { x3: { name: '喷墨打印模块', key: 3 }, x2: { name: '激光打印模块', key: 2 }, x1: { name: '空白本检测模块', key: 1 } };
 const lists: any = ref([]);
 
 function setActived(key: number) {
@@ -58,7 +56,7 @@ async function getDataList() {
     }
   } catch (error) {
     lists.value = [];
-    notification.error({ message: t('错误'), description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
+    notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
   } finally {
     useAppStore().setSpinning(false);
   }

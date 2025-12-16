@@ -2,8 +2,8 @@
   <div class="relative" :class="props.class">
     <div class="pt-2.5vh text-center text-1.3vw">{{ props.name }}</div>
     <div v-if="props.data && props.data.status > 1" class="absolute bottom-5vh left-0.8vw right-0.8vw top-1vh z-2 flex flex-col items-center justify-center" :class="`bgA${props.data.status}`">
-      <div class="text-2.5vw">{{ props.data.status === 3 ? '故障' : props.data.status === 2 ? '警告' : '' }}</div>
-      <div class="w-90% pt-1vh text-center text-1.5vw">{{ props.data.msg }}</div>
+      <div class="text-1.5vw">{{ props.data.status === 3 ? '故障' : props.data.status === 2 ? '警告' : '' }}</div>
+      <div class="w-90% pt-0.5vh text-center text-1vw">{{ props.data.msg }}</div>
     </div>
     <div class="mx-auto mt-1.5vh w-90%">
       <Vue3SeamlessScroll :list="props.data ? props.data.periodDataList : []" class="h-13vh overflow-hidden" direction="up" :step="0.3" :hover="true" :limit-scroll-num="4" :is-watch="true" :single-height="0" :single-width="0">
@@ -14,18 +14,14 @@
         </div>
       </Vue3SeamlessScroll>
     </div>
-    <div class="mx-auto mt-1vh w-7vw cursor-pointer rounded-50px bg-#3662ec33 py-0.3vh text-center text-1vw transition-transform duration-300 hover:scale-105" @click="$goto('HomeStationPage', { key: props.count })">
-      {{ t('工位查看') }}
-    </div>
+    <div class="mx-auto mt-1vh w-7vw cursor-pointer rounded-50px bg-#3662ec33 py-0.3vh text-center text-1vw transition-transform duration-300 hover:scale-105" @click="$goto('HomeStationPage', { key: props.count })">工位查看</div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { Vue3SeamlessScroll } from 'vue3-seamless-scroll';
-import { useI18n } from 'vue-i18n';
 
 const props = defineProps({ class: String, name: String, data: Object, count: Number });
-const { t } = useI18n();
 </script>
 
 <style scoped lang="less">
