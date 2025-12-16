@@ -8,12 +8,13 @@
     <div class="flex items-center justify-center font-[siyuan]">
       <div class="relative mt-6vh block w-22vw">
         <img class="w-full" src="@/assets/image/machine2.png" />
-        <div v-if="!entire.uvStatus || entire.uvStatus.length <= 0" class="error absolute bottom-0 top-0 w-full flex items-center justify-center text-2.5vw">离线中</div>
-        <div v-else-if="entire.uvStatus && entire.uvStatus.length > 0 && entire.uvStatus[0].status !== 0" class="error absolute bottom-0 top-0 w-full flex items-center justify-center text-2.5vw" @click="setModal(6)">故障出错</div>
+        <div v-if="!entire.modules || entire.modules.length <= 0" class="error absolute bottom-0 top-0 w-full flex items-center justify-center text-2.5vw">离线中</div>
+        <div v-else-if="entire.modules && entire.modules.length > 0 && entire.modules[0].status === 3" class="error absolute bottom-0 top-0 w-full flex items-center justify-center text-2.5vw cursor-pointer" @click="$goto('DefendPage', { key: 5 })">故障出错</div>
       </div>
       <div>
         <div class="mt-10vh w-8vw text-center text-1.3vw">喷墨机状态</div>
-        <img v-if="entire.uvStatus && entire.uvStatus.length > 0 && entire.uvStatus[0].status !== 0" class="mx-auto mt-1vh block w-5vw" src="@/assets/image/ico_tip1.png" />
+        <img v-if="entire.uvStatus && entire.uvStatus.length > 0 && entire.uvStatus[0].status === 2" class="mx-auto mt-1vh block w-5vw cursor-pointer" src="@/assets/image/ico_tip2.png" @click="setModal(6)" />
+        <img v-else-if="entire.uvStatus && entire.uvStatus.length > 0 && entire.uvStatus[0].status === 3" class="mx-auto mt-1vh block w-5vw cursor-pointer" src="@/assets/image/ico_tip1.png" @click="setModal(6)" />
         <img v-else-if="entire.uvStatus && entire.uvStatus.length > 0" class="mx-auto mt-1vh block w-5vw" src="@/assets/image/ico_tip0.png" />
         <img v-else class="mx-auto mt-1vh block w-5vw" src="@/assets/image/ico_tip1.png" />
       </div>
@@ -96,7 +97,7 @@ async function getDataPage() {
 async function startGetDataPage() {
   start(async () => {
     await getDataPage();
-  }, 5);
+  }, 2);
 }
 
 // 弹窗控制
@@ -106,8 +107,12 @@ async function setModal(value: number) {
       try {
         useAppStore().setSpinning(true);
         const data: any = await homeModule.getDocNumProduce();
-        if (data.respData) modal.value = { open: true, title: '开始进本', key: 0, desc: data.respData.docNum };
-        else modal.value = { open: true, title: '开始进本', key: 0, desc: '0' };
+        if (data.respData) {
+          if (data.respData.docNum <= 0) throw new Error('暂无可打印数据');
+          modal.value = { open: true, title: '开始进本', key: 0, desc: data.respData.docNum };
+        } else {
+          modal.value = { open: true, title: '开始进本', key: 0, desc: '0' };
+        }
       } catch (error) {
         notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
       } finally {

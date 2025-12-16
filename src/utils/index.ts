@@ -44,7 +44,7 @@ export function convertJSONStringToNumbers(obj: any): { data: any; errors: strin
     // 验证逻辑（使用原始key进行判断）
     if (['x', 'y', 'width', 'height'].includes(key)) {
       const intValue = Number(value);
-      if (Number.isNaN(intValue) || intValue < 0 || intValue > 30000) {
+      if (Number.isNaN(intValue) || intValue < 0 || intValue > 30000 || value === '') {
         errors.push(`${fullPath}: 值 ${value} 超出范围 0-30000`);
         return false;
       }

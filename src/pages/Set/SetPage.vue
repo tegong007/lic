@@ -12,7 +12,7 @@
       <section v-if="formData.systemConfig" class="bg_jianbian ml-2vw flex">
         <div class="mr-3vw flex items-center">
           <div class="ml-2vw pr-0.5vw">生产模式:</div>
-          <a-select v-model:value="formData.systemConfig.produceMode" class="w-13vw">
+          <a-select v-model:value="formData.systemConfig.produceMode" class="w-13vw" disabled>
             <a-select-option v-for="option in produceModeOptions" :key="option.value" :value="option.value">{{ option.label }}</a-select-option>
           </a-select>
         </div>
@@ -113,11 +113,13 @@ const exitShow = ref(false);
 const successOpen = ref<boolean>(false);
 function setSuccessOpen(value: boolean) {
   successOpen.value = value;
+  hideKeyboard();
 }
 
 // 弹窗操作
 function openModal(value: boolean) {
   exitShow.value = value;
+  hideKeyboard();
 }
 const { notification } = App.useApp();
 const { t } = useI18n();
@@ -144,7 +146,7 @@ function onInputFocus(event: any, text: any, limit = 0) {
   cursorPosition.value = event;
   const rect = event.target.getBoundingClientRect();
   const top = rect.bottom + rect.height + window.scrollY;
-  transformValue.value = [0, top - 470];
+  transformValue.value = [0, top - 100];
 }
 
 function onChangeKeyboard(input: string, keyboard: any) {
@@ -217,7 +219,7 @@ async function saveData() {
             if (item2 === 'ipLocal') tit = 'TMS ip地址';
             else if (item2 === 'ipTMS') tit = '本机IP';
             reg = /^(?:(?:25[0-5]|2[0-4]\d|[01]?\d{1,2})\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d{1,2})$/;
-            if (!temp[item][item2].match(reg)) error = `${tit}格式有误`;
+            if (!temp[item][item2].match(reg) || temp[item][item2] === '') error = `${tit}格式有误`;
           } else if (item2 === 'x' || item2 === 'y') {
             if (item2 === 'x') tit = '主副页喷墨起始打印位置X轴';
             else if (item2 === 'y') tit = '主副页喷墨起始打印位置Y轴';

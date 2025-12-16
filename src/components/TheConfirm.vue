@@ -30,6 +30,7 @@
         <a-button v-if="props.title === '补打备注' || props.title === '开始进本'" class="btn transition-transform duration-300 hover:scale-105" @click="submitOK">确定</a-button>
         <a-button v-else-if="props.title === '喷墨机状态'" class="btn transition-transform duration-300 hover:scale-105" @click="handleCancel">确定</a-button>
         <a-button v-else class="btn transition-transform duration-300 hover:scale-105" @click="handleOk">确定</a-button>
+        <a-button v-if="props.title === '喷墨机状态'" class="btn transition-transform duration-300 hover:scale-105" @click="clearData">清除喷墨日志</a-button>
       </a-flex>
     </template>
   </a-modal>
@@ -84,6 +85,20 @@ async function submitOK() {
     } else {
       notification.error({ message: '错误', description: '请先输入证本号', placement: 'bottomRight', class: 'notificationE-custom-class' });
     }
+  }
+}
+
+async function clearData() {
+  try {
+    useAppStore().setSpinning(true);
+    const data: any = await homeModule.getHomeList();
+    if (data.respData.entire && data.respData.entire.uvStatus && data.respData.entire.uvStatus[0]) await homeModule.clearLog({ uid: data.respData.entire.uvStatus[0].uid });
+    notification.success({ message: '成功', description: `${props.title}操作成功`, placement: 'bottomRight', class: 'notificationE-custom-class' });
+  } catch (error) {
+    notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
+  } finally {
+    useAppStore().setSpinning(false);
+    if (props.handleCancel) props.handleCancel();
   }
 }
 
