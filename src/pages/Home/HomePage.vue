@@ -9,9 +9,7 @@
       <div class="relative cursor-pointer text-center" :class="entire.modules && entire.modules.length >= 2 ? (entire.modules[0].code === 0 && entire.modules[1].code === 0 ? 'bgbgA' : entire.modules[0].code === 2 || entire.modules[1].code === 2 ? 'bgbgB' : 'bgbgC') : 'bgbgC'" @click="setModal(7)">
         <template v-if="entire.modules && entire.modules.length > 2">
           <div v-if="entire.modules[0].code === 0 && entire.modules[1].code === 0">正常</div>
-          <div v-else-if="entire.modules[0].code === 2 || entire.modules[1].code === 2">警告</div>
-          <div v-else-if="entire.modules[0].code === 3 || entire.modules[1].code === 3">故障</div>
-          <div v-else>--</div>
+          <div v-else>错误</div>
         </template>
         <div v-else>离线</div>
         <img class="mx-auto mt-1.5vh" src="@/assets/image/ico_left.png" />
@@ -162,7 +160,7 @@ async function setModal(value: number) {
       if (entire.value.uvStatus && entire.value.uvStatus.length > 0 && (entire.value.uvStatus[0].status === 2 || entire.value.uvStatus[0].status === 3)) modal.value = { open: true, title: '喷墨机状态', key: 6, desc: entire.value.uvStatus[0].msg || '--' };
       break;
     case 7:
-      if (entire.value.modules && entire.value.modules.length >= 2 && (entire.value.modules[0].status === 2 || entire.value.modules[0].status === 3 || entire.value.modules[1].status === 2 || entire.value.modules[1].status === 3)) router.push({ name: 'DefendPage', query: { key: 5 } });
+      if (entire.value.modules && entire.value.modules.length >= 2 && (entire.value.modules[0].status !== 0 || entire.value.modules[1].status !== 0)) router.push({ name: 'DefendPage', query: { key: 5 } });
       break;
     default:
       modal.value = { open: false, title: '', key: -1 };

@@ -4,7 +4,7 @@
       <img src="@/assets/image/machine.png" class="mx-auto block w-80%" />
       <div class="absolute left-2.5% top-3% h-92% w-95% flex justify-between" @click="clickActived('')">
         <template v-for="(fw, index) in lists" :key="index">
-          <div v-if="fw.code !== 0" class="bg_jianbian3 cursor-pointer bg-#b405054d flex justify-center items-center text-center absolute" :class="(fw.uid === actived ? 'actived' : '') + fw.style" @click.stop="clickActived(fw.uid)">
+          <div v-if="fw.code !== 0" class="bg_jianbian3 absolute flex cursor-pointer items-center justify-center bg-#b405054d text-center" :class="(fw.uid === actived ? 'actived' : '') + fw.style" @click.stop="clickActived(fw.uid)">
             {{ fw.name }}
           </div>
           <div v-else class="visible px-1vw write-vertical-left" @click="clickActived('')">&nbsp;</div>
@@ -145,10 +145,10 @@ onUnmounted(() => {
   .bg_jianbian3 {
     border: 1px solid;
     border-image: linear-gradient(180deg, #b40505 0%, #b40505 5%, #b4050503 100%) 1;
-    background: rgba(180, 5, 5, 0.5);
+    background: #b40505be;
   }
   .actived {
-    background-color: #b40505d8;
+    background-color: #db0909;
   }
 }
 </style>
