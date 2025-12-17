@@ -6,7 +6,7 @@
       <img class="m-auto block w-18vw -mt-2vh" src="@/assets/image/tmp_bottom.png" />
     </div>
     <div class="flex items-center justify-center font-[siyuan]">
-      <div class="relative cursor-pointer text-center" :class="entire.modules && entire.modules.length >= 2 ? (entire.modules[0].code === 0 && entire.modules[1].code === 0 ? 'bgbgA' : entire.modules[0].code === 2 || entire.modules[1].code === 2 ? 'bgbgB' : 'bgbgC') : 'bgbgC'" @click="setModal(7)">
+      <div class="relative cursor-pointer text-center" :class="entire.modules && entire.modules.length >= 2 ? (entire.modules[0].code === 0 && entire.modules[1].code === 0 ? 'bgbg0' : entire.modules[0].code === 2 || entire.modules[1].code === 2 ? 'bgbg2' : 'bgbg3') : 'bgbg3'" @click="setModal(7)">
         <template v-if="entire.modules && entire.modules.length > 2">
           <div v-if="entire.modules[0].code === 0 && entire.modules[1].code === 0">正常</div>
           <div v-else>错误</div>
@@ -15,7 +15,7 @@
         <img class="mx-auto mt-1.5vh" src="@/assets/image/ico_left.png" />
         <div class="absolute bottom-1vh left-0 right-0 text-center text-1.1vw">设备机状态</div>
       </div>
-      <div class="relative cursor-pointer text-center" :class="entire.uvStatus && entire.uvStatus.length > 0 ? (entire.uvStatus[0].status === 0 || entire.uvStatus[0].status === 1 ? 'bgbgA' : entire.uvStatus[0].status === 2 ? 'bgbgB' : 'bgbgC') : 'bgbgC'" @click="setModal(6)">
+      <div class="relative cursor-pointer text-center" :class="entire.uvStatus && entire.uvStatus.length > 0 ? `bgbg${entire.uvStatus[0].status}` : 'bgbg3'" @click="setModal(6)">
         <template v-if="entire.uvStatus && entire.uvStatus.length > 0">
           <div v-if="entire.uvStatus[0].status === 0">正常</div>
           <div v-else-if="entire.uvStatus[0].status === 1">工作中</div>
@@ -214,9 +214,10 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="less">
-.bgbgA,
-.bgbgB,
-.bgbgC {
+.bgbg0,
+.bgbg1,
+.bgbg2,
+.bgbg3 {
   background-size: contain;
   background-repeat: no-repeat;
   width: 7.9vw;
@@ -228,13 +229,16 @@ onUnmounted(() => {
     display: block;
   }
 }
-.bgbgA {
+.bgbg0 {
   background-image: url('@/assets/image/bg_tip0.png');
 }
-.bgbgB {
+.bgbg1 {
+  background-image: url('@/assets/image/bg_tip3.png');
+}
+.bgbg2 {
   background-image: url('@/assets/image/bg_tip2.png');
 }
-.bgbgC {
+.bgbg3 {
   background-image: url('@/assets/image/bg_tip1.png');
 }
 .bgT {
