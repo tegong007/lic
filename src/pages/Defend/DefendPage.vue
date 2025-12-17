@@ -11,7 +11,7 @@
           <div class="bg4 mt-2vh max-h-50vh w-60vw py-2vh pl-1vw">
             <div class="flex py-2vh">
               <div class="mr-1vw w-20vw text-right">打印管理系统：</div>
-              <div>1.0.13.4</div>
+              <div>1.0.13.5</div>
             </div>
             <div v-for="(value, index) in options" :key="index" class="flex py-2vh">
               <div class="mr-1vw w-20vw text-right">{{ value.name }}：</div>
