@@ -101,7 +101,7 @@ async function getDataPage() {
       mainPrint.value = data.respData.mainPrint; // 激光打印模块
       blankCheck.value = data.respData.blankCheck; // 空白本检测模块
       /* status-设备状态（0-待机；1-工作中；2-警告；3-故障） */
-      isProduce.value = data.respData.mainPrint.status !== 1 && data.respData.blankCheck.status !== 1 && data.respData.additionPrint.status !== 1;
+      isProduce.value = data.respData.entire.taskStatus !== 1; // data.respData.mainPrint.status !== 1 && data.respData.blankCheck.status !== 1 && data.respData.additionPrint.status !== 1;
       if (data.respData.finishedProduct.items.length > 0) statistics.value = data.respData.finishedProduct.items;
     }
     return true;

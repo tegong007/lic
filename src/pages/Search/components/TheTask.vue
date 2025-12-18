@@ -51,7 +51,7 @@
         任务号: {{ value.taskID }}<br /><span>批次号: {{ value.batchID }}</span>
         <div class="mt-1vh">
           <a-button type="link" class="btn_in mr-1vw" @click.stop="onItemClick('chakan', value)">查看证本列表</a-button>
-          <a-button v-if="value.status < 3" type="link" class="btn_in mr-1vw" @click.stop="onItemClick('挂起', value)">挂起</a-button>
+          <a-button v-if="value.status < 3 && value.waitingNum > 0" type="link" class="btn_in mr-1vw" @click.stop="onItemClick('挂起', value)">挂起</a-button>
           <a-button v-if="(value.status === 3 || value.status === 5) && value.hangUpNum > 0" type="link" class="btn_in" @click.stop="onItemClick('恢复生产', value)">恢复生产</a-button>
         </div>
       </div>

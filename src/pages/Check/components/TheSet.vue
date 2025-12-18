@@ -205,7 +205,7 @@
           <a-input v-model:value="formData.ocrFinished[0].usExposureTime" :class="keyInput === 'ocrFinished,usExposureTime' ? 'keyInput' : ''" class="w-12vw" placeholder="请输入62~9999764" :maxlength="12" @click.stop="onInputFocus($event, ['ocrFinished', 'usExposureTime'], 12)" />
         </div>
       </section>
-      <section v-if="formData.ocrFinished && formData.ocrFinished[0] && formData.ocrFinished[0].wlDev" class="bg_jianbian ml-2vw flex">
+      <!-- <section v-if="formData.ocrFinished && formData.ocrFinished[0] && formData.ocrFinished[0].wlDev" class="bg_jianbian ml-2vw flex">
         <div class="mr-2vw w-14.5vw flex items-center">
           <div class="ml-1vw pr-0.5vw">是否使用白光灯:</div>
           <a-switch v-model:checked="formData.ocrFinished[0].wlDev.isEnable" />
@@ -247,7 +247,7 @@
           <div class="ml-0.5vw pr-0.5vw">光源2_亮度:</div>
           <a-input v-model:value="formData.ocrFinished[0].wlDev.l2Brightness" :class="keyInput === 'ocrFinished,wlDev,l2Brightness' ? 'keyInput' : ''" class="w-9vw" placeholder="请输入-1~255" :maxlength="5" @click.stop="onInputFocus($event, ['ocrFinished', 'wlDev', 'l2Brightness'], 5)" />
         </div>
-      </section>
+      </section> -->
     </div>
   </div>
 </template>

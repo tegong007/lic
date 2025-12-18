@@ -1,7 +1,7 @@
 <template>
   <a-modal width="50vw" :get-container="false" :open="props.open" :closable="false" centered force-render>
     <div class="w-full text-center text-1vw color-#ffffff">
-      <table v-if="formData" class="mx-auto mt-5vh w-90% text-left">
+      <table v-if="formData" class="left-1vw mx-auto mt-4vh table-fixed">
         <tr>
           <td>证本流水线号:</td>
           <td>{{ formData.docSN }}</td>
@@ -50,21 +50,23 @@
         </tr>
         <tr>
           <td>机读码1:</td>
-          <td colspan="3">{{ formData.mrz1 }}</td>
+          <td colspan="3" class="scrollable-cell">{{ formData.mrz1 }}</td>
         </tr>
         <tr>
           <td>机读码2:</td>
-          <td colspan="3">{{ formData.mrz2 }}</td>
+          <td colspan="3" class="scrollable-cell">{{ formData.mrz2 }}</td>
         </tr>
         <tr>
           <td>废本原因:</td>
-          <td colspan="3">{{ formData.obsoleteReason }}</td>
+          <td colspan="3" class="scrollable-cell">
+            {{ formData.obsoleteReason }}
+          </td>
         </tr>
       </table>
     </div>
     <template #footer>
       <a-flex justify="center" align="center">
-        <a-button class="btn_normal mt-1vh" @click="handleCancel">返回</a-button>
+        <a-button class="btn_normal absolute bottom-3vh" @click="handleCancel">返回</a-button>
       </a-flex>
     </template>
   </a-modal>
@@ -84,16 +86,40 @@ function viewImage(list: string[]) {
 </script>
 
 <style scoped lang="less">
-table {
-  td {
-    padding: 0.5vh 0;
-  }
+/* 在样式中添加 */
+.table-fixed {
+  table-layout: fixed;
+  width: 95%;
+  border-collapse: collapse;
+}
+/* 基础单元格样式 */
+.table-fixed td {
+  padding: 0.8vh 0;
+  vertical-align: middle;
+}
+/* 标签单元格 */
+.table-fixed td:first-child,
+.table-fixed td:nth-child(3) {
+  white-space: nowrap;
+}
+
+/* 可滚动单元格样式 */
+.scrollable-cell {
+  max-height: 100px !important;
+  overflow-y: auto;
+  overflow-x: auto;
+  word-break: break-word;
+  font-size: 0.8vw;
+}
+/* 对齐顶部，特别是标签单元格 */
+.align-top {
+  vertical-align: top;
 }
 ::v-deep(.ant-modal-content) {
   background-image: url('@/assets/image/bg_modal.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  height: 65vh;
+  height: 75vh;
   background-color: #03163e;
 }
 ::v-deep(.ant-modal-mask) {
