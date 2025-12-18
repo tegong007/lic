@@ -63,12 +63,14 @@ function hideKeyboard() {
 }
 
 function onInputFocus(event: any, text: string) {
-  showKeyboard.value = true;
-  keyInput.value = text;
-  cursorPosition.value = event;
-  const rect = event.target.getBoundingClientRect();
-  const top = rect.bottom + rect.height + window.scrollY;
-  transformValue.value = [0, top - 150];
+  if (keyInput.value !== text) {
+    showKeyboard.value = true;
+    keyInput.value = text;
+    cursorPosition.value = event;
+    const rect = event.target.getBoundingClientRect();
+    const top = rect.bottom + rect.height + window.scrollY;
+    transformValue.value = [0, top - 150];
+  }
 }
 
 function onChangeKeyboard(input: string, keyboard: any) {

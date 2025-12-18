@@ -277,14 +277,16 @@ function hideKeyboard() {
 }
 
 function onInputFocus(event: any, text: any, limit = 0) {
-  showKeyboard.value = true;
-  keyInput.value = text.toString();
-  keyInputArr.value = text;
-  limitInput.value = limit;
-  cursorPosition.value = event;
-  const rect = event.target.getBoundingClientRect();
-  const top = rect.bottom + rect.height + window.scrollY;
-  transformValue.value = [300, top - 120];
+  if (keyInput.value !== text) {
+    showKeyboard.value = true;
+    keyInput.value = text.toString();
+    keyInputArr.value = text;
+    limitInput.value = limit;
+    cursorPosition.value = event;
+    const rect = event.target.getBoundingClientRect();
+    const top = rect.bottom + rect.height + window.scrollY;
+    transformValue.value = [300, top - 120];
+  }
 }
 
 function onChangeKeyboard(input: string, keyboard: any) {

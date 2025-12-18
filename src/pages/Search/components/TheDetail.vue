@@ -50,11 +50,11 @@
         </tr>
         <tr>
           <td>机读码1:</td>
-          <td colspan="3" class="scrollable-cell">{{ formData.mrz1 }}</td>
+          <td colspan="3" class="scrollable-cell">{{ formData.mrz1 }}34534y43yt34</td>
         </tr>
         <tr>
           <td>机读码2:</td>
-          <td colspan="3" class="scrollable-cell">{{ formData.mrz2 }}</td>
+          <td colspan="3" class="scrollable-cell">{{ formData.mrz2 }}dfsgsdfgsdfgsdfgreygert</td>
         </tr>
         <tr>
           <td>废本原因:</td>
@@ -109,7 +109,7 @@ function viewImage(list: string[]) {
   overflow-y: auto;
   overflow-x: auto;
   word-break: break-word;
-  font-size: 0.8vw;
+  text-align: left;
 }
 /* 对齐顶部，特别是标签单元格 */
 .align-top {
@@ -119,7 +119,7 @@ function viewImage(list: string[]) {
   background-image: url('@/assets/image/bg_modal.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  height: 75vh;
+  height: 80vh;
   background-color: #03163e;
 }
 ::v-deep(.ant-modal-mask) {

@@ -13,10 +13,10 @@
         <a-input v-model:value="formData.taskID" :class="keyInput === 'taskID' ? 'keyInput' : ''" class="w-13vw bg-transparent" placeholder="请输入" :maxlength="30" @click.stop="onInputFocus($event, 'taskID')" />
       </a-form-item>
       <a-form-item label="批次号" name="batchID">
-        <a-input v-model:value="formData.batchID" :class="keyInput === 'batchID' ? 'keyInput' : ''" class="w-10vw bg-transparent" placeholder="请输入" :maxlength="30" @click.stop="onInputFocus($event, 'batchID')" />
+        <a-input v-model:value="formData.batchID" :class="keyInput === 'batchID' ? 'keyInput' : ''" class="w-23vw bg-transparent" placeholder="请输入" :maxlength="30" @click.stop="onInputFocus($event, 'batchID')" />
       </a-form-item>
       <a-form-item label="证本号" name="docID">
-        <a-input v-model:value="formData.docID" :class="keyInput === 'docID' ? 'keyInput' : ''" class="w-10vw bg-transparent" placeholder="请输入" :maxlength="30" @click.stop="onInputFocus($event, 'docID')" />
+        <a-input v-model:value="formData.docID" :class="keyInput === 'docID' ? 'keyInput' : ''" class="w-12vw bg-transparent" placeholder="请输入" :maxlength="30" @click.stop="onInputFocus($event, 'docID')" />
       </a-form-item>
       <a-form-item label="证本状态" name="docStatus">
         <a-select v-model:value="formData.docStatus">
@@ -25,9 +25,11 @@
       </a-form-item>
     </div>
     <div class="mb-2vh mt-2vh flex justify-between">
-      <a-form-item label="时间范围" name="status">
-        <a-range-picker v-model:value="formData.dateRange" :locale="lang" value-format="YYYY-MM-DD" input-read-only :allow-clear="false" />
-      </a-form-item>
+      <div class="flex gap-1vw">
+        <a-form-item label="时间范围" name="status">
+          <a-range-picker v-model:value="formData.dateRange" :locale="lang" value-format="YYYY-MM-DD" input-read-only :allow-clear="false" />
+        </a-form-item>
+      </div>
       <div class="flex">
         <a-button type="link" class="btn_search mr-1vw" @click="onBtnClick('search')">查询</a-button>
         <a-button type="link" class="btn_search mr-1vw" @click="onBtnClick('clear')">清空</a-button>
@@ -153,12 +155,14 @@ function hideKeyboard() {
 }
 
 function onInputFocus(event: any, text: string) {
-  showKeyboard.value = true;
-  keyInput.value = text;
-  cursorPosition.value = event;
-  const rect = event.target.getBoundingClientRect();
-  const top = rect.bottom + rect.height + window.scrollY;
-  transformValue.value = [0, top - 120];
+  if (keyInput.value !== text) {
+    showKeyboard.value = true;
+    keyInput.value = text;
+    cursorPosition.value = event;
+    const rect = event.target.getBoundingClientRect();
+    const top = rect.bottom + rect.height + window.scrollY;
+    transformValue.value = [0, top - 120];
+  }
 }
 
 function onChangeKeyboard(input: string, keyboard: any) {
