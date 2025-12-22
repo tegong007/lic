@@ -48,6 +48,10 @@ export function convertJSONStringToNumbers(obj: any): { data: any; errors: strin
         errors.push(`${fullPath}: 值 ${value} 超出范围 0-30000`);
         return false;
       }
+      if (typeof value === 'string' && value.includes('.')) {
+        errors.push(`${fullPath}: 不能存在小数位数`);
+        return false;
+      }
       return true;
     }
     if (key === 'usExposureTime' || key.includes('ExposureTime')) {
@@ -57,11 +61,13 @@ export function convertJSONStringToNumbers(obj: any): { data: any; errors: strin
         return false;
       }
       if (typeof value === 'string' && value.includes('.')) {
-        const decimalPart = value.split('.')[1];
+        errors.push(`${fullPath}: 不能存在小数位数`);
+        return false;
+        /* const decimalPart = value.split('.')[1];
         if (decimalPart && decimalPart.length > 4) {
           errors.push(`${fullPath}: 小数位数不能超过4位`);
           return false;
-        }
+        } */
       }
       return true;
     }

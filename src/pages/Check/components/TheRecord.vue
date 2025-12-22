@@ -121,7 +121,7 @@ function onBtnClick(key: string) {
   } else if (key === 'search') {
     pageIn.value = { total: 0, current: 1, size: 10 };
   } else if (key === 'page') {
-    emit('callback', { key, formData: { choose: 1 }, page: pageIn.value });
+    emit('callback', { key, formData: { ...formData.value }, page: pageIn.value });
     return;
   }
   emit('callback', { key, formData: formData.value, page: pageIn.value });
