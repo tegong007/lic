@@ -177,19 +177,19 @@
         </div>
         <div class="mr-1vw flex items-center">
           <div class="ml-0.5vw pr-0.5vw">X:</div>
-          <a-input v-model:value="formData.ocrBeforeUv[0].cropRegion.x" :class="keyInput === 'ocrBeforeUv,cropRegion,x' ? 'keyInput' : ''" class="w-9vw" placeholder="请输入0~30000" :maxlength="5" @click.stop="onInputFocus($event, ['ocrBeforeUv', 'markBottomRightRegion', 'x'], 5)" />
+          <a-input v-model:value="formData.ocrBeforeUv[0].cropRegion.x" :class="keyInput === 'ocrBeforeUv,cropRegion,x' ? 'keyInput' : ''" class="w-9vw" placeholder="请输入0~30000" :maxlength="5" @click.stop="onInputFocus($event, ['ocrBeforeUv', 'cropRegion', 'x'], 5)" />
         </div>
         <div class="mr-1vw flex items-center">
           <div class="ml-0.5vw pr-0.5vw">Y:</div>
-          <a-input v-model:value="formData.ocrBeforeUv[0].cropRegion.y" :class="keyInput === 'ocrBeforeUv,cropRegion,y' ? 'keyInput' : ''" class="w-9vw" placeholder="请输入0~30000" :maxlength="5" @click.stop="onInputFocus($event, ['ocrBeforeUv', 'markBottomRightRegion', 'y'], 5)" />
+          <a-input v-model:value="formData.ocrBeforeUv[0].cropRegion.y" :class="keyInput === 'ocrBeforeUv,cropRegion,y' ? 'keyInput' : ''" class="w-9vw" placeholder="请输入0~30000" :maxlength="5" @click.stop="onInputFocus($event, ['ocrBeforeUv', 'cropRegion', 'y'], 5)" />
         </div>
         <div class="mr-1vw flex items-center">
           <div class="ml-0.5vw pr-0.5vw">宽:</div>
-          <a-input v-model:value="formData.ocrBeforeUv[0].cropRegion.width" :class="keyInput === 'ocrBeforeUv,cropRegion,width' ? 'keyInput' : ''" class="w-9vw" placeholder="请输入0~30000" :maxlength="5" @click.stop="onInputFocus($event, ['ocrBeforeUv', 'markBottomRightRegion', 'width'], 5)" />
+          <a-input v-model:value="formData.ocrBeforeUv[0].cropRegion.width" :class="keyInput === 'ocrBeforeUv,cropRegion,width' ? 'keyInput' : ''" class="w-9vw" placeholder="请输入0~30000" :maxlength="5" @click.stop="onInputFocus($event, ['ocrBeforeUv', 'cropRegion', 'width'], 5)" />
         </div>
         <div class="mr-1vw flex items-center">
           <div class="ml-0.5vw pr-0.5vw">高:</div>
-          <a-input v-model:value="formData.ocrBeforeUv[0].cropRegion.height" :class="keyInput === 'ocrBeforeUv,cropRegion,height' ? 'keyInput' : ''" class="w-9vw" placeholder="请输入0~30000" :maxlength="5" @click.stop="onInputFocus($event, ['ocrBeforeUv', 'markBottomRightRegion', 'height'], 5)" />
+          <a-input v-model:value="formData.ocrBeforeUv[0].cropRegion.height" :class="keyInput === 'ocrBeforeUv,cropRegion,height' ? 'keyInput' : ''" class="w-9vw" placeholder="请输入0~30000" :maxlength="5" @click.stop="onInputFocus($event, ['ocrBeforeUv', 'cropRegion', 'height'], 5)" />
         </div>
       </section>
     </div>
