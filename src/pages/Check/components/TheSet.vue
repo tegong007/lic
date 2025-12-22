@@ -1,6 +1,6 @@
 <template>
   <SimpleKeyboard v-if="showKeyboard" layout="floatNum" keyboard-width="w20%" :transform="transformValue" :input="keyInputArr.length === 3 ? formData[keyInputArr[0]][0][keyInputArr[1]][keyInputArr[2]] : formData[keyInputArr[0]][0][keyInputArr[1]]" :max-length="limitInput" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
-  <div class="mt-2vh h-75vh overflow-auto text-1.1vw" @click="hideKeyboard">
+  <div class="mt-2vh h-75vh w-72vw overflow-auto text-1.1vw" @click="hideKeyboard">
     <div class="mb-3vh box-border">
       <div class="flex">
         <a-button type="link" class="btn_search mr-2vw w-8vw" @click="saveData">保存设置</a-button>

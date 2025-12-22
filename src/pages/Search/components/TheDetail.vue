@@ -4,49 +4,49 @@
       <table v-if="formData" class="left-1vw mx-auto mt-4vh table-fixed">
         <tr>
           <td>证本流水线号:</td>
-          <td>{{ formData.docSN }}</td>
+          <td align="left">{{ formData.docSN }}</td>
           <td rowspan="2">人像图片:</td>
-          <td rowspan="2"><img v-if="formData.photo" class="h-8vh" :src="`data:image/png;base64,${formData.photo}`" @click="viewImage([`data:image/png;base64,${formData.photo}`])" /></td>
+          <td rowspan="2" align="left"><img v-if="formData.photo" class="h-8vh" :src="`data:image/png;base64,${formData.photo}`" @click="viewImage([`data:image/png;base64,${formData.photo}`])" /></td>
         </tr>
         <tr>
           <td>加注类型:</td>
-          <td>{{ findLabelByValue('cnObsvTypeOptions', formData.cnObsvType) }}</td>
+          <td align="left">{{ findLabelByValue('cnObsvTypeOptions', formData.cnObsvType) }}</td>
         </tr>
         <tr>
           <td>开始时间:</td>
-          <td>{{ formData.startTime }}</td>
+          <td align="left">{{ formData.startTime }}</td>
           <td>姓(中):</td>
-          <td>{{ formData.cnSurname }}</td>
+          <td align="left">{{ formData.cnSurname }}</td>
         </tr>
         <tr>
           <td>结束时间:</td>
-          <td>{{ formData.endTime }}</td>
+          <td align="left">{{ formData.endTime }}</td>
           <td>名(中):</td>
-          <td>{{ formData.cnGivenName }}</td>
+          <td align="left">{{ formData.cnGivenName }}</td>
         </tr>
         <tr>
           <td>任务号:</td>
-          <td>{{ formData.taskID }}</td>
+          <td align="left">{{ formData.taskID }}</td>
           <td>证本类型:</td>
-          <td>{{ findLabelByValue('docTypesOptions', formData.type) }}</td>
+          <td align="left">{{ findLabelByValue('docTypesOptions', formData.type) }}</td>
         </tr>
         <tr>
           <td>批次号:</td>
-          <td>{{ formData.batchID }}</td>
+          <td align="left">{{ formData.batchID }}</td>
           <td>证件类型:</td>
-          <td>{{ findLabelByValue('idTypesOptions', formData.idType) }}</td>
+          <td align="left">{{ findLabelByValue('idTypesOptions', formData.idType) }}</td>
         </tr>
         <tr>
           <td>证本号:</td>
-          <td>{{ formData.docID }}</td>
+          <td align="left">{{ formData.docID }}</td>
           <td>当前工位:</td>
-          <td>{{ formData.position }}</td>
+          <td align="left">{{ formData.position }}</td>
         </tr>
         <tr>
           <td>证件号:</td>
-          <td>{{ formData.idNum }}</td>
+          <td align="left">{{ formData.idNum }}</td>
           <td>证本状态:</td>
-          <td>{{ findLabelByValue('docStatusOptions', formData.docStatus) }}</td>
+          <td align="left">{{ findLabelByValue('docStatusOptions', formData.docStatus) }}</td>
         </tr>
         <tr>
           <td>机读码1:</td>
@@ -89,7 +89,7 @@ function viewImage(list: string[]) {
 /* 在样式中添加 */
 .table-fixed {
   table-layout: fixed;
-  width: 95%;
+  width: 100%;
   border-collapse: collapse;
 }
 /* 基础单元格样式 */

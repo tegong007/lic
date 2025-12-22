@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed bottom-1.5vh left-4vw w-full">
+  <div class="fixed bottom-1.5vh left-3vw w-full">
     <a-flex class="gap-2.2vw">
       <template v-for="(value, index) in link" :key="index">
         <div v-if="value.color" :key="index" class="w-3vw text-center">

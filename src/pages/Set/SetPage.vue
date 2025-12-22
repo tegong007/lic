@@ -29,6 +29,17 @@
           <a-input v-model:value="formData.systemConfig.ipLocal" :class="keyInput === 'systemConfig,ipLocal' ? 'keyInput' : ''" class="w-12vw" placeholder="请输入" :maxlength="15" @click.stop="onInputFocus($event, ['systemConfig', 'ipLocal'], 15)" />
         </div>
       </section>
+      <section v-if="formData.docTypeConfig" class="bg_jianbian ml-2vw flex">
+        <div class="mr-3vw flex items-center">
+          <div class="ml-2vw pr-0.5vw">启用提前配号:</div>
+          <a-switch v-model:checked="formData.docTypeConfig.isPreDocID" />
+        </div>
+        <div v-if="formData.docTypeConfig.isSupportNormal" class="px-2.5vw">支持普通护照</div>
+        <div v-if="formData.docTypeConfig.isSupportPublic" class="px-2.5vw">支持公务护照</div>
+        <div v-if="formData.docTypeConfig.isSupportDiplomatic" class="px-2.5vw">支持外交护照</div>
+        <div v-if="formData.docTypeConfig.isSupportNormalPublic" class="px-2.5vw">支持因公普通护照</div>
+        <div v-if="formData.docTypeConfig.isSupportConsular" class="px-2.5vw">支持领事护照</div>
+      </section>
     </div>
     <div class="bgItem">
       <div class="bgItem_tit">主副页喷墨起始打印位置</div>
@@ -89,7 +100,56 @@
         </section>
       </template>
     </div>
-    <div class="mt-3vh box-border w-95%">
+    <div class="bgItem">
+      <div class="bgItem_tit">工位配置</div>
+      <section v-if="formData.positionConfig" class="bg_jianbian ml-2vw flex">
+        <div class="mr-3vw flex items-center">
+          <div class="ml-2vw pr-0.5vw">启用正反本检测工位:</div>
+          <a-switch v-model:checked="formData.positionConfig.isUseDocPose" />
+        </div>
+        <div class="mr-3vw flex items-center">
+          <div class="ml-2vw pr-0.5vw">启用读芯片工位:</div>
+          <a-switch v-model:checked="formData.positionConfig.isUseReaderRead" />
+        </div>
+        <div class="mr-3vw flex items-center">
+          <div class="ml-2vw pr-0.5vw">启用OCR工位:</div>
+          <a-switch v-model:checked="formData.positionConfig.isUseOcrPos" />
+        </div>
+        <div class="mr-3vw flex items-center">
+          <div class="ml-2vw pr-0.5vw">启用写芯片工位:</div>
+          <a-switch v-model:checked="formData.positionConfig.isUseReaderWrite" />
+        </div>
+      </section>
+      <section v-if="formData.positionConfig" class="bg_jianbian ml-2vw flex">
+        <div class="mr-3vw flex items-center">
+          <div class="ml-2vw pr-0.5vw">启用激光定位工位:</div>
+          <a-switch v-model:checked="formData.positionConfig.isUseLaserLocation" />
+        </div>
+        <div class="mr-3vw flex items-center">
+          <div class="ml-2vw pr-0.5vw">启用激光标刻工位:</div>
+          <a-switch v-model:checked="formData.positionConfig.isUseLaserPrint" />
+        </div>
+        <div class="mr-3vw flex items-center">
+          <div class="ml-2vw pr-0.5vw">启用喷墨定位工位:</div>
+          <a-switch v-model:checked="formData.positionConfig.isUseUVLocation" />
+        </div>
+        <div class="mr-3vw flex items-center">
+          <div class="ml-2vw pr-0.5vw">启用喷墨打印工位:</div>
+          <a-switch v-model:checked="formData.positionConfig.isUseUVPrint" />
+        </div>
+      </section>
+      <section v-if="formData.positionConfig" class="bg_jianbian ml-2vw flex">
+        <div class="mr-3vw flex items-center">
+          <div class="ml-2vw pr-0.5vw">启用质检工位:</div>
+          <a-switch v-model:checked="formData.positionConfig.isUseQuality" />
+        </div>
+        <div class="mr-3vw flex items-center">
+          <div class="ml-2vw pr-0.5vw">启用芯片校验工位:</div>
+          <a-switch v-model:checked="formData.positionConfig.isUseReaderVerify" />
+        </div>
+      </section>
+    </div>
+    <div class="absolute bottom-13vh right-7vw mt-3vh box-border w-95%">
       <div class="flex justify-end">
         <a-button type="link" class="btn_search mr-2vw w-8vw" @click="setSuccessOpen(true)">密码设置</a-button>
         <a-button type="link" class="btn_search w-8vw" @click="openModal(true)">退出系统</a-button>

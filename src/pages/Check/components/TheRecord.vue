@@ -23,12 +23,12 @@
     </div>
     <div class="flex justify-start gap-2vw">
       <div class="w-100%">
-        <div v-for="(value, index) in data" :key="index" class="bg_jianbian mb-1vh flex justify-between text-1vw line-height-2vh">
+        <div v-for="(value, index) in data" :key="index" class="bg_jianbian mb-1vh flex cursor-pointer justify-between text-1vw line-height-2vh" @click="onItemClick(value, index)">
           <div>{{ value.time }}</div>
           <div class="w-11vw">证件号: {{ value.docID }}</div>
           <div>结果: <span v-if="!value.docID">检测中…</span><span v-else-if="value.qualityResult === 0" class="ok">良品</span><span v-else class="no">不良品</span></div>
-          <div v-if="detailI !== index" class="cursor-pointer" @click="onItemClick(value, index)">展开 ▼</div>
-          <div v-else class="cursor-pointer" @click="onItemClick(value, index)">收起 ▲</div>
+          <div v-if="detailI !== index">展开 ▼</div>
+          <div v-else>收起 ▲</div>
         </div>
       </div>
       <div v-if="detail.open" class="bgC2">

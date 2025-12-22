@@ -131,7 +131,7 @@ async function setModal(value: number) {
         const data: any = await homeModule.getDocNumProduce();
         if (data.respData) {
           if (data.respData.docNum <= 0) throw new Error('暂无可打印数据');
-          modal.value = { open: true, title: '开始进本', key: 0, desc: data.respData.docNum };
+          modal.value = { open: true, title: '开始进本', key: 0, desc: String(data.respData.docNum) };
         } else {
           modal.value = { open: true, title: '开始进本', key: 0, desc: '0' };
         }
