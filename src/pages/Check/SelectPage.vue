@@ -55,7 +55,7 @@ async function getData() {
     let data: any;
     if (choose.value === 1) {
       const temp: any = form.value.dateRange || ['', ''];
-      data = await checkModule.qualityCheckHistoy({ ...form.value, beginDate: temp[0], endDate: temp[1], page: pages.value.current, rowPerPage: 10 });
+      data = await checkModule.qualityCheckHistoy({ ...form.value, dateRange: undefined, beginDate: temp[0], endDate: temp[1], page: pages.value.current, rowPerPage: 10 });
       if (data.respData) {
         lists.value = data.respData.checkedInfo;
         pages.value = { total: data.respData.totalRows, current: data.respData.page, size: data.respData.rowPerPage };

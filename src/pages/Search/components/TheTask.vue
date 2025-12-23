@@ -57,13 +57,13 @@
       </div>
       <div class="w-40%">
         <div class="flex justify-between">
-          <div class="w-5vw">证本数: {{ value.docNum }}</div>
-          <div class="w-5vw">挂起数: {{ value.hangUpNum }}</div>
+          <div class="w-7vw">证本数: {{ value.docNum }}</div>
+          <div class="w-7vw">挂起数: {{ value.hangUpNum }}</div>
           <div class="w-15vw">待生产数: {{ value.waitingNum }}</div>
         </div>
         <div class="flex justify-between">
-          <div class="w-5vw">良本数: {{ value.productNum }}</div>
-          <div class="w-5vw">废本数: {{ value.obsoleteNum }}</div>
+          <div class="w-7vw">良本数: {{ value.productNum }}</div>
+          <div class="w-7vw">废本数: {{ value.obsoleteNum }}</div>
           <div class="w-15vw">生产时间: {{ value.startTime }}</div>
         </div>
       </div>

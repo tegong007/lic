@@ -50,11 +50,11 @@
         </tr>
         <tr>
           <td>机读码1:</td>
-          <td colspan="3" class="scrollable-cell">{{ formData.mrz1 }}34534y43yt34</td>
+          <td colspan="3" class="scrollable-cell">{{ formData.mrz1 }}</td>
         </tr>
         <tr>
           <td>机读码2:</td>
-          <td colspan="3" class="scrollable-cell">{{ formData.mrz2 }}dfsgsdfgsdfgsdfgreygert</td>
+          <td colspan="3" class="scrollable-cell">{{ formData.mrz2 }}</td>
         </tr>
         <tr>
           <td>废本原因:</td>

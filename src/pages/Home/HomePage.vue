@@ -177,7 +177,7 @@ async function controlMachine() {
       useAppStore().setSpinning(true);
       /* control-证本操作（0-开始/继续 进本；1-暂停进本；2-暂停设备；3-启动设备） */
       await homeModule.setControlMachine({ control: modal.value.key, docNum: null });
-      notification.success({ message: '成功', description: `${modal.value.title}操作成功`, placement: 'bottomRight', class: 'notificationE-custom-class' });
+      notification.success({ message: '成功', description: `${modal.value.title}操作成功`, placement: 'bottomRight', class: 'notification-custom-class' });
     } catch (error) {
       notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
     } finally {
@@ -192,7 +192,7 @@ async function init() {
   try {
     useAppStore().setSpinning(true);
     await homeModule.docMachineInit();
-    notification.success({ message: '成功', description: '初始化接口调用成功', placement: 'bottomRight', class: 'notificationE-custom-class' });
+    notification.success({ message: '成功', description: '初始化接口调用成功', placement: 'bottomRight', class: 'notification-custom-class' });
   } catch {
     notification.error({ message: '错误', description: '初始化接口调用失败', placement: 'bottomRight', class: 'notificationE-custom-class' });
   } finally {

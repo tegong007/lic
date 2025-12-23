@@ -69,7 +69,7 @@ async function clickSendCmd(fw: any) {
     useAppStore().setSpinning(true);
     const data: any = await defendModule.sendCmd({ jobUid: fw.uid, motion: 'QUICK_RELEASE', motionPara: 1 });
     if (data.code !== 0) throw data.msg;
-    else notification.error({ message: '成功', description: '操作成功', class: 'notificationE-custom-class', placement: 'bottomRight' });
+    else notification.success({ message: '成功', description: '操作成功', placement: 'bottomRight', class: 'notification-custom-class' });
   } catch (error) {
     notification.error({ message: '错误', description: String(error), class: 'notificationE-custom-class', placement: 'bottomRight' });
   } finally {
@@ -82,7 +82,7 @@ async function clickRemoveDoc(fw: any) {
     useAppStore().setSpinning(true);
     const data: any = await defendModule.removeDoc({ jobUid: fw.uid, nos: [1] });
     if (data.code !== 0) throw data.msg;
-    else notification.error({ message: '成功', description: '操作成功', class: 'notificationE-custom-class', placement: 'bottomRight' });
+    else notification.success({ message: '成功', description: '操作成功', placement: 'bottomRight', class: 'notification-custom-class' });
   } catch (error) {
     notification.error({ message: '错误', description: String(error), class: 'notificationE-custom-class', placement: 'bottomRight' });
   } finally {
@@ -95,7 +95,7 @@ async function clickDone(fw: any) {
     useAppStore().setSpinning(true);
     const data: any = await defendModule.Done({ jobUid: fw.uid });
     if (data.code !== 0) throw data.msg;
-    else notification.error({ message: '成功', description: '操作成功', class: 'notificationE-custom-class', placement: 'bottomRight' });
+    else notification.success({ message: '成功', description: '操作成功', placement: 'bottomRight', class: 'notification-custom-class' });
   } catch (error) {
     notification.error({ message: '错误', description: String(error), class: 'notificationE-custom-class', placement: 'bottomRight' });
   } finally {

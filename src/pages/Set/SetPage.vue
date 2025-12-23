@@ -10,12 +10,12 @@
     <div class="bgItem">
       <div class="bgItem_tit">系统设置</div>
       <section v-if="formData.systemConfig" class="bg_jianbian ml-2vw flex">
-        <div class="mr-3vw flex items-center">
+        <!-- <div class="mr-3vw flex items-center">
           <div class="ml-2vw pr-0.5vw">生产模式:</div>
           <a-select v-model:value="formData.systemConfig.produceMode" class="w-13vw" disabled>
             <a-select-option v-for="option in produceModeOptions" :key="option.value" :value="option.value">{{ option.label }}</a-select-option>
           </a-select>
-        </div>
+        </div> -->
         <div class="mr-3vw flex items-center">
           <div class="ml-2vw pr-0.5vw">下发数据立刻启动:</div>
           <a-switch v-model:checked="formData.systemConfig.startAfterAddTask" />
@@ -149,7 +149,7 @@
         </div>
       </section>
     </div>
-    <div class="absolute bottom-13vh right-7vw mt-3vh box-border w-95%">
+    <div class="absolute bottom-13vh right-7vw mt-3vh box-border w-18vw">
       <div class="flex justify-end">
         <a-button type="link" class="btn_search mr-2vw w-8vw" @click="setSuccessOpen(true)">密码设置</a-button>
         <a-button type="link" class="btn_search w-8vw" @click="openModal(true)">退出系统</a-button>

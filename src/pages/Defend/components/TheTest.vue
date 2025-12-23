@@ -1,12 +1,12 @@
 <template>
-  <SimpleKeyboard v-if="showKeyboard" keyboard-width="w-30vw" layout="num" :transform="transformValue" :input="formData[keyInput]" :max-length="3" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
+  <SimpleKeyboard v-if="showKeyboard" keyboard-width="w-30vw" layout="num" :transform="transformValue" :input="formData[keyInput]" :max-length="4" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
   <div class="bgItem text-1.1vw" @click="hideKeyboard">
     <div class="bgItem_tit">任务添加</div>
     <section class="bg_jianbian mb-2vh ml-2vw flex">
       <div class="mr-3vw flex items-center">
         <div class="flex items-center">
           <div class="ml-2vw pr-0.5vw">总人数:</div>
-          <a-input v-model:value="formData.num" :class="keyInput === 'num' ? 'keyInput' : ''" class="w-9vw" placeholder="请输入1~100" :maxlength="3" @click.stop="onInputFocus($event, 'num')" />
+          <a-input v-model:value="formData.num" :class="keyInput === 'num' ? 'keyInput' : ''" class="w-9vw" placeholder="请输入1~3000" :maxlength="4" @click.stop="onInputFocus($event, 'num')" />
         </div>
         <div class="flex items-center">
           <div class="ml-2vw pr-0.5vw">加急程度:</div>
@@ -32,7 +32,7 @@ defineProps({ data: Object, updateItem: Function, showKeyboard: Boolean, setShow
 
 const { notification } = App.useApp();
 
-const formData: any = ref({ num: 1, urgentType: 0 });
+const formData: any = ref({ num: '1', urgentType: 0 });
 const showKeyboard = ref(false);
 const keyInput = ref('');
 const cursorPosition = ref(null);
