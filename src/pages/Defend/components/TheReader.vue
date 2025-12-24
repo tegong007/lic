@@ -34,8 +34,8 @@ async function transferApi(url: string, index: any, readerObj = { deviceIndex: n
     const params = { transURI: url, paraIn: { objs: [{ deviceIndex: readerObj.deviceIndex, dev: readerObj.dev, data: inputData }] } };
     const data: any = await defendModule.getApiTransfer(params);
     if (data.rslts[0].code === 0) {
-      if (url === '/ips-r/read-test-data' && readerObj.deviceIndex) formData[readerObj.deviceIndex] = data.rslts[0].data;
-      else if (url === '/ips-r/read-card-uid' && readerObj.deviceIndex) formData[readerObj.deviceIndex] = data.rslts[0].cardUid;
+      if (url === '/ips-r/read-test-data' && readerObj.deviceIndex) formData.value[readerObj.deviceIndex] = data.rslts[0].data;
+      else if (url === '/ips-r/read-card-uid' && readerObj.deviceIndex) formData.value[readerObj.deviceIndex] = data.rslts[0].cardUid;
       notification.success({ message: '成功', description: '操作成功', placement: 'bottomRight', class: 'notification-custom-class' });
     } else {
       throw data.rslts[0].msg || '未知错误';

@@ -56,9 +56,12 @@ const keyInput = ref('');
 const cursorPosition = ref(null);
 const transformValue: any = ref(null);
 
-async function transferApi(url: string, index: any, inkjetObj = { deviceIndex: null, dev: '' }, inputData = {}) {
+async function transferApi(url: string, index: any, inkjetObj = { deviceIndex: null, dev: '' }, inputData: any = {}) {
   try {
     useAppStore().setSpinning(true);
+    if (url === '/uvpdps/moto-move') {
+      if (inputData.target <= 0 || Number.isNaN(inputData.target)) throw new Error('请输入目标位置');
+    }
     const params = { transURI: url, paraIn: { objs: [{ deviceIndex: inkjetObj.deviceIndex, dev: inkjetObj.dev, ...inputData }] } };
     const data: any = await defendModule.getApiTransfer(params);
     if (data.rslts[0].code === 0) {
