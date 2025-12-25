@@ -1,8 +1,8 @@
 <template>
   <div class="setPage mt-14vh h-75vh w-94vw overflow-auto text-1.1vw">
     <SimpleKeyboard v-if="showKeyboard" :transform="transformValue" :input="keyInputArr.length === 3 ? formData[keyInputArr[0]][keyInputArr[2]][keyInputArr[1]] : formData[keyInputArr[0]][keyInputArr[1]]" :max-length="limitInput" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
-    <div class="mb-3vh box-border w-full">
-      <div class="flex">
+    <div class="mb-7vh box-border w-full">
+      <div class="absolute z-2 w-full flex bg-#03163e">
         <a-button type="link" class="btn_search mr-2vw w-8vw" @click="saveData">保存设置</a-button>
         <a-button type="link" class="btn_search w-8vw" @click="getData">读取</a-button>
       </div>

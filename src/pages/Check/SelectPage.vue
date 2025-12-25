@@ -61,8 +61,6 @@ async function getData() {
         pages.value = { total: data.respData.totalRows, current: data.respData.page, size: data.respData.rowPerPage };
         if (!(pages.value.total > 0)) notification.error({ message: '完成', description: '搜索完成，没有搜到有效数据', placement: 'bottomRight', class: 'notification-custom-class' });
       }
-    } else if (choose.value === 2) {
-      //
     }
   } catch (error) {
     lists.value = [];

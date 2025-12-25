@@ -3,10 +3,10 @@
     <div class="pt-2.5vh text-center text-1.3vw">{{ props.name }}</div>
     <div v-if="props.data && props.data.status > 1" class="absolute bottom-5vh left-0.8vw right-0.8vw top-1vh z-2 flex flex-col items-center justify-center" :class="`bgA${props.data.status}`">
       <div class="text-1.5vw">{{ props.data.status === 3 ? '故障' : props.data.status === 2 ? '警告' : '' }}</div>
-      <div class="w-90% pt-0.5vh text-center text-1vw">{{ props.data.msg }}</div>
+      <div class="w-92% pt-0.5vh text-center text-1vw">{{ props.data.msg }}</div>
     </div>
-    <div class="mx-auto mt-1.5vh w-90%">
-      <Vue3SeamlessScroll :list="props.data ? props.data.periodDataList : []" class="h-13vh overflow-hidden" direction="up" :step="0.3" :hover="true" :limit-scroll-num="4" :is-watch="true" :single-height="0" :single-width="0">
+    <div class="mx-auto mt-1.5vh w-92%">
+      <Vue3SeamlessScroll :list="props.data ? props.data.periodDataList : []" class="h-14.5vh overflow-hidden" direction="up" :step="0.3" :hover="true" :limit-scroll-num="4" :is-watch="true" :single-height="0" :single-width="0">
         <div v-for="(item, i) in props.data ? props.data.periodDataList : []" :key="i" class="w-full flex">
           <div class="descr">{{ item.docID }}</div>
           <div class="descr">{{ item.workingStatus }}</div>
@@ -28,9 +28,9 @@ const props = defineProps({ class: String, name: String, data: Object, count: Nu
 .bgM1,
 .bgM2,
 .bgM3 {
-  width: 25vw;
-  height: 27vh;
-  margin: 3vh 2vw 0 2vw;
+  width: 28vw;
+  height: 29vh;
+  margin: 3vh 0.5vw 0 0.5vw;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -57,10 +57,10 @@ const props = defineProps({ class: String, name: String, data: Object, count: Nu
       text-align: center;
       border-left: 1px solid #ffffff;
       border-right: 1px solid #ffffff;
-      flex: 1.2;
+      flex: 1.6;
     }
     &:last-child {
-      flex: 1.4;
+      flex: 0.9;
       text-align: right;
       padding-right: 0;
     }

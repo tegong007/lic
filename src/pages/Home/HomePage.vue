@@ -27,18 +27,6 @@
         <img class="mx-auto mt-1vh" src="@/assets/image/ico_right.png" />
         <div class="absolute bottom-1vh left-0 right-0 text-center text-1.1vw">喷墨机状态</div>
       </div>
-      <!-- <div class="relative mt-6vh block w-22vw">
-        <img class="w-full" src="@/assets/image/machine2.png" />
-        <div v-if="!entire.modules || entire.modules.length <= 0" class="error absolute bottom-0 top-0 w-full flex items-center justify-center text-2.5vw">离线中</div>
-        <div v-else-if="entire.modules && entire.modules.length > 0 && entire.modules[0].status === 3" class="error absolute bottom-0 top-0 w-full flex items-center justify-center text-2.5vw cursor-pointer" @click="$goto('DefendPage', { key: 5 })">故障出错</div>
-      </div>
-      <div>
-        <div class="mt-10vh w-8vw text-center text-1.3vw">喷墨机状态</div>
-        <img v-if="entire.uvStatus && entire.uvStatus.length > 0 && entire.uvStatus[0].status === 2" class="mx-auto mt-1vh block w-5vw cursor-pointer" src="@/assets/image/ico_tip2.png" @click="setModal(6)" />
-        <img v-else-if="entire.uvStatus && entire.uvStatus.length > 0 && entire.uvStatus[0].status === 3" class="mx-auto mt-1vh block w-5vw cursor-pointer" src="@/assets/image/ico_tip1.png" @click="setModal(6)" />
-        <img v-else-if="entire.uvStatus && entire.uvStatus.length > 0" class="mx-auto mt-1vh block w-5vw" src="@/assets/image/ico_tip0.png" />
-        <img v-else class="mx-auto mt-1vh block w-5vw" src="@/assets/image/ico_tip1.png" />
-      </div> -->
     </div>
   </div>
   <a-flex class="bgB mx-auto mt-5vh h-8vh w-85% line-height-8vh">
@@ -52,9 +40,10 @@
     <TheTable class="bgM2" name="激光打印模块" :data="mainPrint" :count="2" />
     <TheTable class="bgM1" name="空白本检测模块" :data="blankCheck" :count="1" />
   </a-flex>
-  <a-flex justify="space-between" class="bgB mx-auto mt-5vh h-8vh w-85%">
+  <a-flex justify="space-between" class="bgB mx-auto mt-3.5vh h-8vh w-85%">
     <a-flex class="items-center gap-2vw">
-      <TheButton v-if="isProduce" title="开始进本" @click="setModal(0)" />
+      <TheButton v-if="isProduce === 0" title="开始进本" @click="setModal(0)" />
+      <TheButton v-else-if="isProduce === 2" title="继续进本" @click="setModal(8)" />
       <TheButton v-else title="暂停进本" @click="setModal(1)" />
       <TheButton title="补打加注" @click="setModal(4)" />
     </a-flex>
@@ -80,7 +69,7 @@ import useCustomTimer from '@/utils/useCustomTimer';
 const { notification } = App.useApp();
 const { start, stop } = useCustomTimer();
 
-const isProduce = ref(false);
+const isProduce = ref(0);
 const statistics: any = ref([
   { item: '良本数', value: '0' },
   { item: '废本数', value: '0' },
@@ -101,7 +90,7 @@ async function getDataPage() {
       mainPrint.value = data.respData.mainPrint; // 激光打印模块
       blankCheck.value = data.respData.blankCheck; // 空白本检测模块
       /* status-设备状态（0-待机；1-工作中；2-警告；3-故障） */
-      isProduce.value = data.respData.entire.taskStatus !== 1; // data.respData.mainPrint.status !== 1 && data.respData.blankCheck.status !== 1 && data.respData.additionPrint.status !== 1;
+      isProduce.value = data.respData.entire.taskStatus || 0; // data.respData.mainPrint.status !== 1 && data.respData.blankCheck.status !== 1 && data.respData.additionPrint.status !== 1;
       if (data.respData.finishedProduct.items.length > 0) statistics.value = data.respData.finishedProduct.items;
     }
     return true;
@@ -161,6 +150,9 @@ async function setModal(value: number) {
       break;
     case 7:
       if (entire.value.modules && entire.value.modules.length >= 2 && (entire.value.modules[0].status !== 0 || entire.value.modules[1].status !== 0)) router.push({ name: 'DefendPage', query: { key: 5 } });
+      break;
+    case 8:
+      modal.value = { open: true, title: '继续进本', key: 0 };
       break;
     default:
       modal.value = { open: false, title: '', key: -1 };

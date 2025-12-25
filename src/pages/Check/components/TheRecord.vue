@@ -1,7 +1,7 @@
 <template>
   <SimpleKeyboard v-if="showKeyboard" :transform="transformValue" :input="formData[keyInput]" :max-length="30" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
   <div class="mt-2vh w-100%" @click="hideKeyboard">
-    <div class="mb-2vh flex items-center gap-0.5vw">
+    <div class="mb-2vh flex items-center gap-1vw pr-2vw">
       <a-form-item label="证本号" name="docID">
         <a-input v-model:value="formData.docID" :class="keyInput === 'docID' ? 'keyInput' : ''" class="w-12vw bg-transparent" placeholder="请输入" :maxlength="30" @click.stop="onInputFocus($event, 'docID')" />
       </a-form-item>
@@ -67,6 +67,9 @@
       <template #right>
         <div class="relative top-1">
           <span>共{{ Math.ceil(page.total / page.size) }}页，{{ page.total }}条记录</span>
+          <a-select v-if="page.total > 0" v-model:value="pageIn.current" class="scale-80 text-center" @change="onBtnClick('page')">
+            <a-select-option v-for="(value, index) in Math.ceil(page.total / page.size)" :key="index" :value="value">第{{ value }}页</a-select-option>
+          </a-select>
         </div>
       </template>
     </vxe-pager>

@@ -79,6 +79,9 @@
       <template #right>
         <div class="relative top-1">
           <span>共{{ Math.ceil(page.total / page.size) }}页，{{ page.total }}条记录</span>
+          <a-select v-if="page.total > 0" v-model:value="pageIn.current" class="scale-80 text-center" @change="onBtnClick('page')">
+            <a-select-option v-for="(value, index) in Math.ceil(page.total / page.size)" :key="index" :value="value">第{{ value }}页</a-select-option>
+          </a-select>
         </div>
       </template>
     </vxe-pager>
