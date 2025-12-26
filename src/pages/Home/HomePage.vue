@@ -185,8 +185,8 @@ async function init() {
     useAppStore().setSpinning(true);
     await homeModule.docMachineInit();
     notification.success({ message: '成功', description: '初始化接口调用成功', placement: 'bottomRight', class: 'notification-custom-class' });
-  } catch {
-    notification.error({ message: '错误', description: '初始化接口调用失败', placement: 'bottomRight', class: 'notificationE-custom-class' });
+  } catch (error) {
+    notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
   } finally {
     useAppStore().setSpinning(false);
   }
