@@ -43,6 +43,7 @@ async function controlMachine() {
   if (modal.value.title === '任务添加') {
     try {
       useAppStore().setSpinning(true);
+      if (!/^(?:[1-9]\d{0,2}|3000|[12]\d{3})$/.test(formData.value.num)) throw new Error('任务范围为1~3000');
       const data: any = await defendModule.addTask({ num: Number(formData.value.num), urgentType: formData.value.urgentType });
       if (data.respData) {
         modal.value = { open: true, title: '任务添加成功', data: data.respData };
