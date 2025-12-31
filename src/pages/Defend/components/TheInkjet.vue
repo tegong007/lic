@@ -27,7 +27,7 @@
           <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/uvpdps/clean-head', index, inkjet, { headID: Number(formData[`清洗组合${index}`]), intension: Number(formData[`清洗强度${index}`]) })">清洗</a-button>
         </div>
       </section>
-      <section class="bg_jianbian mb-2vh ml-2vw flex">
+      <section v-if="inkjet.printItems && inkjet.printItems.length > 0" class="bg_jianbian mb-2vh ml-2vw flex">
         <div class="mr-3vw flex items-center">
           <div v-for="(value, index2) in inkjet.printItems" :key="index2" class="flex items-center">
             <div class="ml-2vw w-8vw">{{ value.label }}:</div>

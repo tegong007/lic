@@ -23,9 +23,18 @@
       <div class="w-full pb-6vh pt-7vh text-center text-2.5vw color-#ffffff">{{ props.title }}</div>
       <div class="mx-auto w-90% pb-6vh text-1.5vw text-#ffffff">{{ props.desc }}</div>
     </template>
+    <template v-else-if="props.title === '错误弹窗提示'">
+      <div class="w-full pb-6vh pt-7vh text-center text-2.5vw color-#ffffff">{{ props.data ? props.data.title : '--' }}</div>
+      <div class="mx-auto h-20vh w-90% overflow-auto text-1.5vw text-#ffffff">{{ props.data ? props.data.msg : '--' }}</div>
+    </template>
     <div v-else class="w-full pb-12vh pt-13vh text-center text-2.5vw color-#ffffff">{{ `确定执行${props.title}？` }}</div>
     <template #footer>
-      <a-flex justify="center" align="center" class="gap-10%">
+      <a-flex v-if="props.title === '错误弹窗提示'" justify="center" align="center" class="gap-10%">
+        <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('继续任务')">继续任务</a-button>
+        <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('停止进本')">停止进本</a-button>
+        <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('初始化排本')">初始化排本</a-button>
+      </a-flex>
+      <a-flex v-else justify="center" align="center" class="gap-10%">
         <a-button v-if="props.title !== '任务添加成功' && props.title !== '喷墨机状态'" class="btn transition-transform duration-300 hover:scale-105" @click="handleCancel">取消</a-button>
         <a-button v-if="props.title === '补打备注' || props.title === '开始进本'" class="btn transition-transform duration-300 hover:scale-105" @click="submitOK">确定</a-button>
         <a-button v-else-if="props.title === '喷墨机状态'" class="btn transition-transform duration-300 hover:scale-105" @click="handleCancel">确定</a-button>
@@ -49,11 +58,27 @@ const cursorPosition = ref(null);
 const transformValue: any = ref(null);
 const { notification } = App.useApp();
 
+async function submitOKHandel(key: string) {
+  try {
+    useAppStore().setSpinning(true);
+    let temp = 0;
+    if (key === '继续任务') temp = 0;
+    else if (key === '停止进本') temp = 1;
+    else if (key === '初始化排本') temp = 2;
+    await homeModule.errorHandle({ type: props.data.type, position: props.data.position, operate: temp });
+    notification.success({ message: '成功', description: `${key}操作成功`, placement: 'bottomRight', class: 'notificationE-custom-class' });
+  } catch (error) {
+    notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
+  } finally {
+    useAppStore().setSpinning(false);
+    if (props.handleCancel) props.handleCancel();
+  }
+}
+
 async function submitOK() {
   if (props.title === '开始进本') {
     if (text.value) {
       if (!ensureInRange(text.value, props.desc)) {
-        console.log(123);
         notification.error({ message: '错误', description: '进本数不在有效范围', placement: 'bottomRight', class: 'notificationE-custom-class' });
       } else {
         try {

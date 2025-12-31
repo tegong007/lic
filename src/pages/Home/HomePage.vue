@@ -53,7 +53,7 @@
       <TheButton title="初始化" @click="setModal(5)" />
     </a-flex>
   </a-flex>
-  <TheConfirm v-if="modal.open" :open="modal.open" :title="modal.title" :desc="modal.desc" :handle-ok="controlMachine" :handle-cancel="() => setModal(-1)" />
+  <TheConfirm v-if="modal.open" :open="modal.open" :title="modal.title" :desc="modal.desc" :data="modal.data" :handle-ok="controlMachine" :handle-cancel="() => setModal(-1)" />
 </template>
 
 <script setup lang="ts">
@@ -75,6 +75,7 @@ const statistics: any = ref([
   { item: '废本数', value: '0' },
   { item: '良本率', value: '0%' },
 ]);
+const errorInfo: any = ref({});
 const entire: any = ref({ beltStatusDetail: 0, machineTotalDoc: 0, machineHandledDoc: 0, machineRemainDoc: 0, modules: {} });
 const blankCheck = ref({});
 const mainPrint = ref({});
@@ -89,6 +90,9 @@ async function getDataPage() {
       additionPrint.value = data.respData.additionPrint; // 喷墨打印模块
       mainPrint.value = data.respData.mainPrint; // 激光打印模块
       blankCheck.value = data.respData.blankCheck; // 空白本检测模块
+      errorInfo.value = entire.value.errorInfo || {};
+      if (errorInfo.value.isShow && modal.value.title === '') modal.value = { open: true, title: '错误弹窗提示', data: errorInfo.value, key: -1 };
+      else if (!errorInfo.value.isShow && modal.value.title === '错误弹窗提示') modal.value = { open: false, title: '', key: -1 };
       /* status-设备状态（0-待机；1-工作中；2-警告；3-故障） */
       isProduce.value = data.respData.entire.taskStatus || 0; // data.respData.mainPrint.status !== 1 && data.respData.blankCheck.status !== 1 && data.respData.additionPrint.status !== 1;
       if (data.respData.finishedProduct.items.length > 0) statistics.value = data.respData.finishedProduct.items;

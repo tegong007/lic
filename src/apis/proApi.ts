@@ -12,6 +12,7 @@ const homeModule = {
   getPositionCard: (data: number) => request.post(`${v1}/tss/position-status`, { moduleID: data }), // 工位状态查询
   printObsv: (data: any) => request.post(`${v1}/tss/print-obsv`, data), // 工位状态查询
   clearLog: (data: any) => request.post(`${v1}/tss/uv/clear-log`, data), // 清除喷墨的日志
+  errorHandle: (data: any) => request.post(`${v1}/tss/error-handle`, data), // 错误处理
 };
 
 // 智能质检

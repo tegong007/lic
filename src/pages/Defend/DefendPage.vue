@@ -11,7 +11,7 @@
           <div class="bg4 mt-2vh max-h-50vh w-60vw py-2vh pl-1vw">
             <div class="flex py-2vh">
               <div class="mr-1vw w-20vw text-right">打印管理系统：</div>
-              <div>1.0.13.11</div>
+              <div>1.0.13.12</div>
             </div>
             <div v-for="(value, index) in options" :key="index" class="flex py-2vh">
               <div class="mr-1vw w-20vw text-right">{{ value.name }}：</div>
@@ -30,6 +30,7 @@
           <Camera v-if="options.cameras" :data="options.cameras" @update-item="handleUpdateItem" />
           <Laser v-if="options.lasers" :data="options.lasers" @update-item="handleUpdateItem" />
           <Inkjet v-if="options.uvPrinters" :data="options.uvPrinters" @update-item="handleUpdateItem" />
+          <Light v-if="options.lamps" :data="options.lamps" :act="actived" @update-item="handleUpdateItem" />
         </template>
       </div>
     </a-flex>
@@ -44,6 +45,7 @@ import Camera from '@/pages/Defend/components/TheCamera.vue';
 import TheFw from '@/pages/Defend/components/TheFw.vue';
 import Inkjet from '@/pages/Defend/components/TheInkjet.vue';
 import Laser from '@/pages/Defend/components/TheLaser.vue';
+import Light from '@/pages/Defend/components/TheLight.vue';
 import Reader from '@/pages/Defend/components/TheReader.vue';
 import TheTest from '@/pages/Defend/components/TheTest.vue';
 import { useAppStore } from '@/store/index';
