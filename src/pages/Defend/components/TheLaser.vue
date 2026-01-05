@@ -48,7 +48,7 @@ async function previewPhoto(laserObj: any, arr: any) {
 }
 
 async function redLight(laserObj: any, arr: any) {
-  const objs = [{ deviceIndex: laserObj.deviceIndex, dev: laserObj.dev, templateType: 'PS_2023', platform: Number(arr[0].value) }];
+  const objs = [{ deviceIndex: laserObj.deviceIndex, dev: laserObj.dev, templateType: 'PS_2023', platform: 0 }];
   try {
     useAppStore().setSpinning(true);
     const params = { transURI: '/lpdps/red-light', paraIn: { objs } };
