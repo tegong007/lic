@@ -4,34 +4,40 @@
       <img src="@/assets/image/machine.png" class="mx-auto block w-80%" />
       <div class="absolute left-2.5% top-3% h-92% w-95% flex justify-between" @click="clickActived('')">
         <template v-for="(fw, index) in lists" :key="index">
-          <div v-if="fw.code !== 0" class="bg_jianbian3 absolute flex cursor-pointer items-center justify-center bg-#b405054d text-center" :class="(fw.uid === actived ? 'actived' : '') + fw.style" @click.stop="clickActived(fw.uid)">
-            {{ fw.name }}
-          </div>
+          <template v-if="fw.code !== 0">
+            <div v-if="fw.quick || fw.get" class="bg_jianbian3 absolute flex cursor-pointer items-center justify-center bg-#b405054d text-center" :class="(fw.uid === actived ? 'actived' : '') + fw.style" @click.stop="clickActived(fw.uid)">
+              {{ fw.name }}
+            </div>
+            <div v-else class="bg_jianbian3 absolute flex items-center justify-center bg-#b405054d text-center" :class="fw.style" @click.stop="clickActived('')">{{ fw.name }}</div>
+          </template>
           <div v-else class="visible px-1vw write-vertical-left" @click="clickActived('')">&nbsp;</div>
         </template>
       </div>
     </div>
     <!-- <div class="h-30vh overflow-auto"> -->
-    <template v-for="(fw, index) in lists" :key="index">
-      <template v-if="fw.uid === actived || actived === ''">
-        <div class="bgItem_tit">
-          {{ fw.name }}<span class="mr-5vw font-normal">{{ fw.msg }}</span>
-        </div>
-        <section class="bg_jianbian mb-1vh ml-2vw flex" :class="fw.code !== 0 ? 'bg_jianbian2' : ''">
-          <div class="mr-3vw flex items-center">
-            <template v-if="fw.quick">
-              <div class="ml-2vw pr-0.5vw">快捷操作:</div>
-              <a-button type="link" class="btn_search mr-1vw" @click="clickSendCmd(fw)">快捷抓本</a-button>
-            </template>
-            <div v-else class="ml-2vw mr-1vw w-11.5vw"></div>
-            <div class="ml-4vw pr-0.5vw">错误处理:</div>
-            <a-button type="link" class="btn_search mr-1vw" @click="clickRemoveDoc(fw)">本已取走</a-button>
-            <a-button type="link" class="btn_search mr-1vw" @click="clickDone(fw)">错误处理完成</a-button>
+    <div class="relative">
+      <a-button type="link" class="btn_search absolute right-0.5vw mr-1vw -top-1vh" @click="clickDone">错误处理完成</a-button>
+      <template v-for="(fw, index) in lists" :key="index">
+        <template v-if="(fw.uid === actived || actived === '') && (fw.quick || fw.get)">
+          <div class="bgItem_tit">
+            {{ fw.name }}<span class="mr-5vw font-normal">{{ fw.msg }}</span>
           </div>
-        </section>
+          <section class="bg_jianbian mb-1vh ml-2vw flex" :class="fw.code !== 0 ? 'bg_jianbian2' : ''">
+            <div class="mr-3vw flex items-center">
+              <template v-if="fw.quick">
+                <div class="ml-2vw pr-0.5vw">快捷操作:</div>
+                <a-button type="link" class="btn_search mr-1vw" @click="clickSendCmd(fw)">快捷抓本</a-button>
+              </template>
+              <template v-else-if="fw.get">
+                <div class="ml-2vw pr-0.5vw">错误处理:</div>
+                <a-button type="link" class="btn_search mr-1vw" @click="clickRemoveDoc(fw)">本已取走</a-button>
+              </template>
+              <div v-else class="ml-2vw mr-1vw w-11.5vw"></div>
+            </div>
+          </section>
+        </template>
       </template>
-    </template>
-    <!-- </div> -->
+    </div>
   </div>
 </template>
 
@@ -54,7 +60,7 @@ const lists: any = ref({
   M1_PHOTO_JOB: { uid: 'M1_PHOTO_JOB', name: '模块1照相工位', code: -1, msg: '', style: ' left-41.6vw top-14vh bottom-17vh w-4.5vw text-0.8vw' },
   M1_TURN1_JOB: { uid: 'M1_TURN1_JOB', quick: true, name: '模块1翻页1工位', code: -1, msg: '', style: ' left-46.2vw top-24.5vh bottom-12vh w-3.9vw text-0.8vw' },
   M1_WASTE_JOB: { uid: 'M1_WASTE_JOB', quick: true, name: '模块1废本仓工位', code: -1, msg: '', style: ' left-50.3vw top-24.5vh bottom-14vh w-3.9vw text-0.8vw' },
-  M1_LOAD_JOB: { uid: 'M1_LOAD_JOB', name: '模块1装本工位', code: -1, msg: '', style: ' left-54.3vw top-0 bottom-18vh w-3.8vw write-vertical-left w-2.3vw ' },
+  M1_LOAD_JOB: { uid: 'M1_LOAD_JOB', get: true, name: '模块1装本工位', code: -1, msg: '', style: ' left-54.3vw top-0 bottom-18vh w-3.8vw write-vertical-left w-2.3vw ' },
   M1_BELT_JOB: { uid: 'M1_BELT_JOB', quick: true, name: '模块1皮带工位', code: -1, msg: '', style: ' left-53.4vw top-40.5vh bottom-2vh w-6.7vw text-1vw' },
 });
 let timeout: any = 0;
@@ -90,10 +96,10 @@ async function clickRemoveDoc(fw: any) {
   }
 }
 
-async function clickDone(fw: any) {
+async function clickDone() {
   try {
     useAppStore().setSpinning(true);
-    const data: any = await defendModule.Done({ jobUid: fw.uid });
+    const data: any = await defendModule.Done({ jobUid: '' });
     if (data.code !== 0) throw data.msg;
     else notification.success({ message: '成功', description: '操作成功', placement: 'bottomRight', class: 'notification-custom-class' });
   } catch (error) {
