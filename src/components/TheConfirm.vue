@@ -66,7 +66,7 @@ async function submitOKHandel(key: string) {
     else if (key === '停止进本') temp = 1;
     else if (key === '暂停设备') temp = 2;
     await homeModule.errorHandle({ type: props.data.type, position: props.data.position, operate: temp });
-    notification.success({ message: '成功', description: `${key}操作成功`, placement: 'bottomRight', class: 'notificationE-custom-class' });
+    notification.success({ message: '成功', description: `${key}操作成功`, placement: 'bottomRight', class: 'notification-custom-class' });
   } catch (error) {
     notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
   } finally {
@@ -84,7 +84,7 @@ async function submitOK() {
         try {
           useAppStore().setSpinning(true);
           await homeModule.setControlMachine({ control: 0, docNum: Number(text.value) });
-          notification.success({ message: '成功', description: `${props.title}操作成功`, placement: 'bottomRight', class: 'notificationE-custom-class' });
+          notification.success({ message: '成功', description: `${props.title}操作成功`, placement: 'bottomRight', class: 'notification-custom-class' });
         } catch (error) {
           notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
         } finally {
@@ -100,7 +100,7 @@ async function submitOK() {
       try {
         useAppStore().setSpinning(true);
         await homeModule.printObsv({ docID: text.value });
-        notification.success({ message: '成功', description: `${props.title}操作成功`, placement: 'bottomRight', class: 'notificationE-custom-class' });
+        notification.success({ message: '成功', description: `${props.title}操作成功`, placement: 'bottomRight', class: 'notification-custom-class' });
       } catch (error) {
         notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
       } finally {
@@ -118,7 +118,7 @@ async function clearData() {
     useAppStore().setSpinning(true);
     const data: any = await homeModule.getHomeList();
     if (data.respData.entire && data.respData.entire.uvStatus && data.respData.entire.uvStatus[0]) await homeModule.clearLog({ uid: data.respData.entire.uvStatus[0].uid });
-    notification.success({ message: '成功', description: `${props.title}操作成功`, placement: 'bottomRight', class: 'notificationE-custom-class' });
+    notification.success({ message: '成功', description: `${props.title}操作成功`, placement: 'bottomRight', class: 'notification-custom-class' });
   } catch (error) {
     notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
   } finally {

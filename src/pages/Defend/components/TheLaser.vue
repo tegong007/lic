@@ -38,7 +38,7 @@ async function previewPhoto(laserObj: any, arr: any) {
       throw data.rslts[0].msg || '未知错误';
     } else {
       ViewImage([`data:image/png;base64,${data.rslts[0].imgData}`]);
-      notification.error({ message: '成功', description: '操作成功', class: 'notificationE-custom-class', placement: 'bottomRight' });
+      notification.success({ message: '成功', description: '操作成功', class: 'notification-custom-class', placement: 'bottomRight' });
     }
   } catch (error) {
     notification.error({ message: '错误', description: String(error), class: 'notificationE-custom-class', placement: 'bottomRight' });
@@ -54,7 +54,7 @@ async function redLight(laserObj: any, arr: any) {
     const params = { transURI: '/lpdps/red-light', paraIn: { objs } };
     const data: any = await getApiTransfer(params);
     if (data.rslts[0].code !== 0) throw data.rslts[0].msg || '未知错误';
-    else notification.error({ message: '成功', description: '操作成功', class: 'notificationE-custom-class', placement: 'bottomRight' });
+    else notification.success({ message: '成功', description: '操作成功', class: 'notification-custom-class', placement: 'bottomRight' });
   } catch (error) {
     notification.error({ message: '错误', description: String(error), class: 'notificationE-custom-class', placement: 'bottomRight' });
   } finally {
@@ -69,7 +69,7 @@ async function printLaser(laserObj: any, arr: any) {
     const params = { transURI: '/lpdps/print', paraIn: { objs } };
     const data: any = await getApiTransfer(params);
     if (data.rslts[0].code !== 0) throw data.rslts[0].msg || '未知错误';
-    else notification.error({ message: '成功', description: '操作成功', class: 'notificationE-custom-class', placement: 'bottomRight' });
+    else notification.success({ message: '成功', description: '操作成功', class: 'notification-custom-class', placement: 'bottomRight' });
   } catch (error) {
     notification.error({ message: '错误', description: String(error), class: 'notificationE-custom-class', placement: 'bottomRight' });
   } finally {
@@ -83,7 +83,7 @@ async function transferApi(url: any, laserObj: any) {
     const params = { transURI: url, paraIn: laserObj };
     const data: any = await getApiTransfer(params);
     if (data.rslts[0].code !== 0) throw data.rslts[0].msg || '未知错误';
-    else notification.error({ message: '成功', description: '操作成功', class: 'notificationE-custom-class', placement: 'bottomRight' });
+    else notification.success({ message: '成功', description: '操作成功', class: 'notification-custom-class', placement: 'bottomRight' });
   } catch (error) {
     notification.error({ message: '错误', description: String(error), class: 'notificationE-custom-class', placement: 'bottomRight' });
   } finally {
