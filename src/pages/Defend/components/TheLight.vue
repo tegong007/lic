@@ -25,7 +25,7 @@ async function transferApi(url: any, lightObj: any, trunOn: boolean) {
     const params = { transURI: url, paraIn: { jobUid: lightObj.jobUid, type: lightObj.type, isTurnOn: trunOn } };
     const data: any = await getApiTransfer(params);
     if (data.code !== 0) throw data.msg || '未知错误';
-    else notification.error({ message: '成功', description: '操作成功', class: 'notificationE-custom-class', placement: 'bottomRight' });
+    else notification.error({ message: '成功', description: '操作成功', class: 'notification-custom-class', placement: 'bottomRight' });
   } catch (error) {
     notification.error({ message: '错误', description: String(error), class: 'notificationE-custom-class', placement: 'bottomRight' });
   } finally {
