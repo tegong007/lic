@@ -30,9 +30,15 @@
     <div v-else class="w-full pb-12vh pt-13vh text-center text-2.5vw color-#ffffff">{{ `确定执行${props.title}？` }}</div>
     <template #footer>
       <a-flex v-if="props.title === '错误弹窗提示'" justify="center" align="center" class="gap-10%">
-        <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('继续任务')">继续任务</a-button>
-        <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('停止进本')">停止进本</a-button>
-        <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('暂停设备')">暂停设备</a-button>
+        <template v-if="data && data.type === 10">
+          <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('停止进本')">停止进本</a-button>
+          <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('已放本')">已放本</a-button>
+        </template>
+        <template v-else>
+          <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('继续任务')">继续任务</a-button>
+          <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('停止进本')">停止进本</a-button>
+          <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('暂停设备')">暂停设备</a-button>
+        </template>
       </a-flex>
       <a-flex v-else justify="center" align="center" class="gap-10%">
         <a-button v-if="props.title !== '任务添加成功' && props.title !== '喷墨机状态'" class="btn transition-transform duration-300 hover:scale-105" @click="handleCancel">取消</a-button>
@@ -65,6 +71,7 @@ async function submitOKHandel(key: string) {
     if (key === '继续任务') temp = 0;
     else if (key === '停止进本') temp = 1;
     else if (key === '暂停设备') temp = 2;
+    else if (key === '已放本') temp = 3;
     await homeModule.errorHandle({ type: props.data.type, position: props.data.position, operate: temp });
     notification.success({ message: '成功', description: `${key}操作成功`, placement: 'bottomRight', class: 'notification-custom-class' });
   } catch (error) {
