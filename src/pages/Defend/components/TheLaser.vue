@@ -8,7 +8,7 @@
           <!-- <a-button type="link" class="btn_search mr-1vw" @click="previewPhoto(laser, laser.printItems)">预览标刻</a-button> -->
           <!-- <a-button type="link" class="btn_search mr-1vw" @click="printLaser(laser, laser.printItems)">标刻测试页</a-button> -->
           <a-button type="link" class="btn_search mr-1vw" @click="redLight(laser, laser.printItems)">红光</a-button>
-          <a-button type="link" class="btn_search mr-1vw" @click="transferApi('/lpdps/emergency-stop', laser)">急停</a-button>
+          <a-button type="link" class="btn_search mr-1vw" @click="stopLaser(laser, laser.printItems)">急停</a-button>
         </div>
       </section>
     </template>
@@ -52,6 +52,21 @@ async function redLight(laserObj: any, arr: any) {
   try {
     useAppStore().setSpinning(true);
     const params = { transURI: '/lpdps/red-light', paraIn: { objs } };
+    const data: any = await getApiTransfer(params);
+    if (data.rslts[0].code !== 0) throw data.rslts[0].msg || '未知错误';
+    else notification.success({ message: '成功', description: '操作成功', class: 'notification-custom-class', placement: 'bottomRight' });
+  } catch (error) {
+    notification.error({ message: '错误', description: String(error), class: 'notificationE-custom-class', placement: 'bottomRight' });
+  } finally {
+    useAppStore().setSpinning(false);
+  }
+}
+
+async function stopLaser(laserObj: any, arr: any) {
+  const objs = [{ deviceIndex: laserObj.deviceIndex, dev: laserObj.dev, platform: 0 }];
+  try {
+    useAppStore().setSpinning(true);
+    const params = { transURI: '/lpdps/emergency-stop', paraIn: { objs } };
     const data: any = await getApiTransfer(params);
     if (data.rslts[0].code !== 0) throw data.rslts[0].msg || '未知错误';
     else notification.success({ message: '成功', description: '操作成功', class: 'notification-custom-class', placement: 'bottomRight' });
