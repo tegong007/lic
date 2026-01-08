@@ -13,9 +13,9 @@
           <!-- <div class="w-14vw">{{ t('机器启动后成功数') }}：{{ item.currentSuccessNum || 0 }}</div> -->
           <!-- <div class="w-15vw">{{ t('机器启动后失败数') }}：{{ item.currentFailNum || 0 }}</div> -->
           <div class="w-14vw"></div>
-          <div class="w-14vw">历史成功数：{{ item.historySuccessNum || 0 }}</div>
-          <div class="w-14vw">历史失败数：{{ item.historyFailNum || 0 }}</div>
-          <div class="w-14vw">历史发本数：{{ item.historyNum || 0 }}</div>
+          <div class="w-16vw">历史成功数：{{ item.historySuccessNum || 0 }}</div>
+          <div class="w-16vw">历史失败数：{{ item.historyFailNum || 0 }}</div>
+          <!-- <div class="w-14vw">历史发本数：{{ item.historyNum || 0 }}</div> -->
           <div v-if="item.status === 0 || item.status === 1" class="success mr-3vw w-5vw">正常</div>
           <div v-else-if="item.status === 2" class="error mr-3vw w-5vw">警告</div>
           <div v-else-if="item.status === 3" class="warn mr-3vw w-5vw">故障</div>
