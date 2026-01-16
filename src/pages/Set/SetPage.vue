@@ -49,13 +49,13 @@
       <div class="bgItem_tit">主副页喷墨起始打印位置</div>
       <section v-if="formData.uvMainOffset0" class="bg_jianbian ml-2vw flex">
         <div class="flex items-center">
-          <div class="ml-2vw pr-0.5vw">X轴:</div>
-          <a-input v-model:value="formData.uvMainOffset0.x" :class="keyInput === 'uvMainOffset0,x' ? 'keyInput' : ''" class="w-10vw" placeholder="请输入0~1200" :maxlength="15" @click.stop="onInputFocus($event, ['uvMainOffset0', 'x'], 15)" />
-          <div class="ml-0.5vw mr-5vw">mm</div>
+          <div class="ml-3.1vw pr-0.5vw">X轴:</div>
+          <a-input v-model:value="formData.uvMainOffset0.x" :class="keyInput === 'uvMainOffset0,x' ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~1200" :maxlength="15" @click.stop="onInputFocus($event, ['uvMainOffset0', 'x'], 15)" />
+          <div class="ml-0.5vw mr-14.6vw">mm</div>
         </div>
         <div class="flex items-center">
           <div class="ml-2vw pr-0.5vw">Y轴:</div>
-          <a-input v-model:value="formData.uvMainOffset0.y" :class="keyInput === 'uvMainOffset0,y' ? 'keyInput' : ''" class="w-10vw" placeholder="请输入0~1200" :maxlength="15" @click.stop="onInputFocus($event, ['uvMainOffset0', 'y'], 15)" />
+          <a-input v-model:value="formData.uvMainOffset0.y" :class="keyInput === 'uvMainOffset0,y' ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~1200" :maxlength="15" @click.stop="onInputFocus($event, ['uvMainOffset0', 'y'], 15)" />
           <div class="ml-0.5vw">mm</div>
         </div>
       </section>
@@ -67,13 +67,13 @@
           <div class="flex">
             <div class="flex items-center">
               <div class="ml-2vw pr-0.5vw">X坐标:</div>
-              <a-input v-model:value="formData.uvBase0[index].x" :class="keyInput === `uvBase0,x,${index}` ? 'keyInput' : ''" class="w-10vw" placeholder="请输入0~30000" :maxlength="9" @click.stop="onInputFocus($event, ['uvBase0', 'x', index], 9)" />
-              <div class="ml-0.5vw mr-5vw">0.001mm</div>
+              <a-input v-model:value="formData.uvBase0[index].x" :class="keyInput === `uvBase0,x,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~30000" :maxlength="9" @click.stop="onInputFocus($event, ['uvBase0', 'x', index], 9)" />
+              <div class="ml-0.5vw mr-10.9vw">0.001mm</div>
             </div>
             <div class="flex items-center">
               <div class="ml-2vw pr-0.5vw">Y坐标:</div>
-              <a-input v-model:value="formData.uvBase0[index].y" :class="keyInput === `uvBase0,y,${index}` ? 'keyInput' : ''" class="w-10vw" placeholder="请输入0~30000" :maxlength="9" @click.stop="onInputFocus($event, ['uvBase0', 'y', index], 9)" />
-              <div class="ml-0.5vw mr-5vw">0.001mm</div>
+              <a-input v-model:value="formData.uvBase0[index].y" :class="keyInput === `uvBase0,y,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~30000" :maxlength="9" @click.stop="onInputFocus($event, ['uvBase0', 'y', index], 9)" />
+              <div class="ml-0.5vw mr-9vw">0.001mm</div>
             </div>
             <div class="flex items-center">
               <div class="ml-2vw pr-0.5vw">角度:</div>
@@ -103,13 +103,13 @@
           <div class="flex">
             <div class="flex items-center">
               <div class="ml-2vw pr-0.5vw">X坐标:</div>
-              <a-input v-model:value="formData.laserBase0[index].x" :class="keyInput === `laserBase0,x,${index}` ? 'keyInput' : ''" class="w-10vw" placeholder="请输入0~90000" :maxlength="9" @click.stop="onInputFocus($event, ['laserBase0', 'x', index], 9)" />
-              <div class="ml-0.5vw mr-5vw">0.001mm</div>
+              <a-input v-model:value="formData.laserBase0[index].x" :class="keyInput === `laserBase0,x,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~90000" :maxlength="9" @click.stop="onInputFocus($event, ['laserBase0', 'x', index], 9)" />
+              <div class="ml-0.5vw mr-10.9vw">0.001mm</div>
             </div>
             <div class="flex items-center">
               <div class="ml-2vw pr-0.5vw">Y坐标:</div>
-              <a-input v-model:value="formData.laserBase0[index].y" :class="keyInput === `laserBase0,y,${index}` ? 'keyInput' : ''" class="w-10vw" placeholder="请输入0~30000" :maxlength="9" @click.stop="onInputFocus($event, ['laserBase0', 'y', index], 9)" />
-              <div class="ml-0.5vw mr-5vw">0.001mm</div>
+              <a-input v-model:value="formData.laserBase0[index].y" :class="keyInput === `laserBase0,y,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~30000" :maxlength="9" @click.stop="onInputFocus($event, ['laserBase0', 'y', index], 9)" />
+              <div class="ml-0.5vw mr-9vw">0.001mm</div>
             </div>
             <div class="flex items-center">
               <div class="ml-2vw pr-0.5vw">角度:</div>
@@ -350,7 +350,7 @@ onMounted(() => {
 <style scoped lang="less">
 .setPage {
   .bgItem {
-    margin-top: 2vh;
+    margin-top: 4vh;
     .bgItem_tit {
       font-size: 1.2vw;
       font-weight: bold;
