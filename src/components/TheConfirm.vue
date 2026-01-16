@@ -34,6 +34,9 @@
           <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('停止进本')">停止进本</a-button>
           <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('已放本')">已放本</a-button>
         </template>
+        <template v-else-if="data && data.isRetry">
+          <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('重试')">重试</a-button>
+        </template>
         <template v-else>
           <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('继续任务')">继续任务</a-button>
           <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('停止进本')">停止进本</a-button>
@@ -72,6 +75,7 @@ async function submitOKHandel(key: string) {
     else if (key === '停止进本') temp = 1;
     else if (key === '暂停设备') temp = 2;
     else if (key === '已放本') temp = 3;
+    else if (key === '重试') temp = 4;
     await homeModule.errorHandle({ type: props.data.type, position: props.data.position, operate: temp });
     notification.success({ message: '成功', description: `${key}操作成功`, placement: 'bottomRight', class: 'notification-custom-class' });
   } catch (error) {

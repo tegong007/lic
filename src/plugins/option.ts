@@ -58,14 +58,14 @@ export const idTypesOptions: OptionType[] = [
 ];
 // 加注类型
 export const cnObsvTypeOptions: OptionType[] = [
-  { value: 0, label: '对外身份加注' },
-  { value: 1, label: '补发加注' },
-  { value: 2, label: '换发加注' },
-  { value: 3, label: '姓名加注' },
-  { value: 4, label: '曾用名加注' },
-  { value: 5, label: '任命加注' },
-  { value: 6, label: '个案护照加注' },
-  { value: 7, label: '曾持护照加注' },
+  { value: 0, label: '对外身份' },
+  { value: 1, label: '补发' },
+  { value: 2, label: '换发' },
+  { value: 3, label: '姓名' },
+  { value: 4, label: '曾用名' },
+  { value: 5, label: '任命' },
+  { value: 6, label: '个案护照' },
+  { value: 7, label: '曾持护照' },
 ];
 // 生产模式
 export const produceModeOptions: OptionType[] = [
@@ -84,9 +84,18 @@ export function getOptionsByName(name: any | keyof typeof Option): OptionType[] 
 }
 
 // 实现一个方法，根据给定的 value 输出对应的 label
-export function findLabelByValue(name: any | keyof typeof Option, value: string | number | null): string | undefined {
-  const optionsArray = getOptionsByName(name);
-  if (!optionsArray) return undefined;
-  const option = optionsArray.find((item: any) => item.value === value);
-  return option ? option.label : undefined;
+export function findLabelByValue(name: any, value: any): string | undefined {
+  if (typeof value === 'object') {
+    let temp = '';
+    value.forEach((element: any, index: number) => {
+      temp = temp + findLabelByValue(name, element);
+      if (index < value.length - 1) temp = `${temp}+`;
+    });
+    return temp;
+  } else {
+    const optionsArray = getOptionsByName(name);
+    if (!optionsArray) return undefined;
+    const option = optionsArray.find((item: any) => item.value === value);
+    return option ? option.label : undefined;
+  }
 }

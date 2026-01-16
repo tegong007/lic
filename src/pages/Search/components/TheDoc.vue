@@ -68,10 +68,15 @@
           </div>
           <img v-if="value.photo" class="absolute top-1vh h-8vh -right-4vw" :src="`data:image/png;base64,${value.photo}`" />
         </div>
-        <div class="mt-1vh">
-          <a-button type="link" class="btn_in mr-1vw" @click.stop="onItemClick('chakan', value)">查看更多</a-button>
-          <a-button v-if="value.docStatus === 0 || value.docStatus === 4" type="link" class="btn_in mr-1vw" @click.stop="onItemClick('设为成功', value)">设为成功</a-button>
-          <a-button v-if="value.docStatus === 0 || value.docStatus === 3" type="link" class="btn_in" @click.stop="onItemClick('设为失败', value)">设为失败</a-button>
+        <div class="flex justify-between">
+          <div class="mt-1vh w-35%">
+            <a-button type="link" class="btn_in mr-1vw" @click.stop="onItemClick('chakan', value)">查看更多</a-button>
+            <a-button v-if="value.docStatus === 0 || value.docStatus === 4" type="link" class="btn_in mr-1vw" @click.stop="onItemClick('设为成功', value)">设为成功</a-button>
+            <a-button v-if="value.docStatus === 0 || value.docStatus === 3" type="link" class="btn_in" @click.stop="onItemClick('设为失败', value)">设为失败</a-button>
+          </div>
+          <div class="w-27%">加注类型: {{ findLabelByValue('cnObsvTypeOptions', value.cnObsvType) }}</div>
+          <div class="w-20%"></div>
+          <div class="w-31%"></div>
         </div>
       </div>
     </div>
