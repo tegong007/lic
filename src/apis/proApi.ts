@@ -18,8 +18,8 @@ const homeModule = {
 // 智能质检
 const checkModule = {
   qualityCheckLast: () => request.post(`${v1}/tss/quality-check-last`), // 质检最新结果查询
-  qualityCheckGet: () => request.post(`${v1}/tss/quality-check-get`), // 质检参数读取
-  qualityCheckSet: (data: any) => request.post(`${v1}/tss/quality-check-set`, data), // 质检参数设置
+  qualityCheckGet: () => request.post(`${v1}/tss/mv-para-get`), // 质检参数读取
+  qualityCheckSet: (data: any) => request.post(`${v1}/tss/mv-para-set`, data), // 质检参数设置
   qualityCheckHistoy: (data: any) => request.post(`${v1}/tss/quality-check-history`, data), // 质检历史记录查询
 };
 

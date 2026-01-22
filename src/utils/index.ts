@@ -30,6 +30,9 @@ export function convertJSONStringToNumbers(obj: any): { data: any; errors: strin
       platform: '平台',
       l1ChannelNo: '光源1通道号',
       l2ChannelNo: '光源2通道号',
+      stdPortraitX: 'X坐标',
+      stdPortraitY: 'Y坐标',
+      rotationCorrectionAngle: '',
     };
     // 获取显示名称
     let displayPath = '';
@@ -46,6 +49,18 @@ export function convertJSONStringToNumbers(obj: any): { data: any; errors: strin
       const intValue = Number(value);
       if (Number.isNaN(intValue) || intValue < 0 || intValue > 30000 || value === '') {
         errors.push(`${fullPath}: 值 ${value} 超出范围 0-30000`);
+        return false;
+      }
+      if (typeof value === 'string' && value.includes('.')) {
+        errors.push(`${fullPath}: 不能存在小数位数`);
+        return false;
+      }
+      return true;
+    }
+    if (['stdPortraitX', 'stdPortraitY'].includes(key)) {
+      const intValue = Number(value);
+      if (Number.isNaN(intValue) || intValue < 0 || intValue > 90000 || value === '') {
+        errors.push(`${fullPath}: 值 ${value} 超出范围 0-90000`);
         return false;
       }
       if (typeof value === 'string' && value.includes('.')) {
@@ -75,6 +90,14 @@ export function convertJSONStringToNumbers(obj: any): { data: any; errors: strin
       const intValue = Number.parseInt(value, 10);
       if (Number.isNaN(intValue) || intValue < -1 || intValue > 255) {
         errors.push(`${fullPath}: 值 ${value} 超出范围 -1-255`);
+        return false;
+      }
+      return true;
+    }
+    if (key === 'rotationCorrectionAngle') {
+      const intValue = Number.parseInt(value, 10);
+      if (Number.isNaN(intValue) || intValue < -5000 || intValue > 5000) {
+        errors.push(`${fullPath}: 值 ${value} 超出范围 -5000-5000`);
         return false;
       }
       return true;

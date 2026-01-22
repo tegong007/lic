@@ -129,6 +129,23 @@
           <a-input v-model:value="formData.ocrBeforeUv[0].usExposureTime" :class="keyInput === 'ocrBeforeUv,usExposureTime' ? 'keyInput' : ''" class="w-12vw" placeholder="请输入62~9999764" :maxlength="12" @click.stop="onInputFocus($event, ['ocrBeforeUv', 'usExposureTime'], 12)" />
         </div>
       </section>
+      <section v-if="formData.ocrBeforeUv && formData.ocrBeforeUv[0]" class="bg_jianbian ml-2vw flex">
+        <div class="mr-2vw flex items-center">
+          <div class="ml-2vw w-14.5vw">激光人像预设位置(像素)</div>
+        </div>
+        <div class="mr-1vw flex items-center">
+          <div class="ml-0.5vw pr-0.5vw">X:</div>
+          <a-input v-model:value="formData.ocrBeforeUv[0].stdPortraitX" :class="keyInput === 'ocrBeforeUv,stdPortraitX' ? 'keyInput' : ''" class="w-10vw" placeholder="请输入0~90000" :maxlength="5" @click.stop="onInputFocus($event, ['ocrBeforeUv', 'stdPortraitX'], 5)" />
+        </div>
+        <div class="mr-3vw flex items-center">
+          <div class="ml-0.5vw pr-0.5vw">Y:</div>
+          <a-input v-model:value="formData.ocrBeforeUv[0].stdPortraitY" :class="keyInput === 'ocrBeforeUv,stdPortraitY' ? 'keyInput' : ''" class="w-10vw" placeholder="请输入0~90000" :maxlength="5" @click.stop="onInputFocus($event, ['ocrBeforeUv', 'stdPortraitY'], 5)" />
+        </div>
+        <div class="mr-3vw flex items-center">
+          <div class="ml-0.5vw pr-0.5vw">旋转角度:</div>
+          <a-input v-model:value="formData.ocrBeforeUv[0].rotationCorrectionAngle" :class="keyInput === 'ocrBeforeUv,rotationCorrectionAngle' ? 'keyInput' : ''" class="w-15vw" placeholder="请输入-5000~5000" :maxlength="5" @click.stop="onInputFocus($event, ['ocrBeforeUv', 'rotationCorrectionAngle'], 5)" />
+        </div>
+      </section>
       <section v-if="formData.ocrBeforeUv && formData.ocrBeforeUv[0] && formData.ocrBeforeUv[0].markTopLeftRegion" class="bg_jianbian ml-2vw flex">
         <div class="mr-2vw flex items-center">
           <div class="ml-2vw w-14.5vw">标记左上角搜索区域(像素)</div>

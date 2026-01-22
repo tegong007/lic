@@ -53,19 +53,17 @@
   </div>
   <a-flex justify="space-between" class="bgB mx-auto mt-2.1vh h-8vh w-80%">
     <a-flex class="items-center gap-2vw">
-      <TheButton :title="t('质检设置')" @click="$goto('CheckSelectPage', { key: 2 })" />
-      <TheButton :title="t('质检记录')" @click="$goto('CheckSelectPage', { key: 1 })" />
+      <TheButton title="参数设置" @click="$goto('CheckSelectPage', { key: 2 })" />
+      <TheButton title="质检记录" @click="$goto('CheckSelectPage', { key: 1 })" />
     </a-flex>
   </a-flex>
 </template>
 
 <script setup lang="ts">
 import { api } from 'v-viewer';
-import { useI18n } from 'vue-i18n';
 import { checkModule } from '@/apis/proApi';
 import useCustomTimer from '@/utils/useCustomTimer';
 
-const { t } = useI18n();
 const { start } = useCustomTimer();
 
 const state = ref({ code: -1, msg: '--' });

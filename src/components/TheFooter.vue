@@ -17,7 +17,7 @@
         <span class="text-1.7vw line-height-5vh">主页</span>
       </div>
       <div class="bgBtn transition-transform duration-300" :class="actived === 1 ? 'actived' : 'hover:scale-105'" @click="$goto('CheckPage')">
-        <span class="text-1.7vw line-height-5vh">智能质检</span>
+        <span class="text-1.7vw line-height-5vh">机器视觉</span>
       </div>
       <div class="bgBtn transition-transform duration-300" :class="actived === 2 ? 'actived' : 'hover:scale-105'" @click="$goto('DefendPage')">
         <span class="text-1.7vw line-height-5vh">设备维护</span>
