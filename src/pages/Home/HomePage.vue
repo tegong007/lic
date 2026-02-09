@@ -1,8 +1,8 @@
 <template>
-  <div class="bgT mt-6.5vh w-100% flex justify-center font-[xiaowei]">
+  <div class="bgT mt-6.5vh w-100% flex justify-center font-[siyuan]">
     <div v-for="(value, index) in statistics" :key="index" class="mx-1.5% w-14% text-center">
-      <div class="mt-5vh text-7vh">{{ value.value }}</div>
-      <div class="-mt-2vh" text-2vw>{{ value.item }}</div>
+      <div class="mt-4.5vh text-6.5vh">{{ value.value }}</div>
+      <div class="-mt-0.5vh" text-2vw>{{ value.item }}</div>
       <img class="m-auto block w-18vw -mt-2vh" src="@/assets/image/tmp_bottom.png" />
     </div>
     <div class="flex items-center justify-center font-[siyuan]">
@@ -38,7 +38,7 @@
   <a-flex>
     <TheTable class="bgM3" name="喷墨打印模块" :data="additionPrint" :count="3" />
     <TheTable class="bgM2" name="激光打印模块" :data="mainPrint" :count="2" />
-    <TheTable class="bgM1" name="空白本检测模块" :data="blankCheck" :count="1" />
+    <TheTable class="bgM1" name="进本模块" :data="blankCheck" :count="1" />
   </a-flex>
   <a-flex justify="space-between" class="bgB mx-auto mt-3.5vh h-8vh w-85%">
     <a-flex class="items-center gap-2vw">
@@ -89,7 +89,7 @@ async function getDataPage() {
       entire.value = data.respData.entire; // 当前生产任务
       additionPrint.value = data.respData.additionPrint; // 喷墨打印模块
       mainPrint.value = data.respData.mainPrint; // 激光打印模块
-      blankCheck.value = data.respData.blankCheck; // 空白本检测模块
+      blankCheck.value = data.respData.blankCheck; // 进本模块
       errorInfo.value = entire.value.errorInfo || {};
       /* if (errorInfo.value.isShow && modal.value.title === '') modal.value = { open: true, title: '错误弹窗提示', data: errorInfo.value, key: -1 };
       else if (!errorInfo.value.isShow && modal.value.title === '错误弹窗提示') modal.value = { open: false, title: '', key: -1 }; */

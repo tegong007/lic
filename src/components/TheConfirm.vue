@@ -29,13 +29,16 @@
     </template>
     <div v-else class="w-full pb-12vh pt-13vh text-center text-2.5vw color-#ffffff">{{ `确定执行${props.title}？` }}</div>
     <template #footer>
-      <a-flex v-if="props.title === '错误弹窗提示'" justify="center" align="center" class="gap-10%">
+      <a-flex v-if="props.title === '错误弹窗提示'" justify="center" align="center" class="gap-5%">
         <template v-if="data && data.type === 10">
           <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('停止进本')">停止进本</a-button>
           <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('已放本')">已放本</a-button>
         </template>
         <template v-else-if="data && data.isRetry">
           <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('重试')">重试</a-button>
+          <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('继续任务')">继续任务</a-button>
+          <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('停止进本')">停止进本</a-button>
+          <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('暂停设备')">暂停设备</a-button>
         </template>
         <template v-else>
           <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('继续任务')">继续任务</a-button>

@@ -33,6 +33,7 @@ const defendModule = {
   sendCmd: (data: any) => request.post(`${v1}/tss/error-handle/send-cmd`, data), // 发送错误处理指令
   removeDoc: (data: any) => request.post(`${v1}/tss/error-handle/remove-doc`, data), // 已手动取本
   Done: (data: any) => request.post(`${v1}/tss/error-handle/done`, data), // 已处理错误
+  printSelfTest: () => request.post(`${v1}/tss/print-self-test`), // 自检
 };
 
 // 设备设置

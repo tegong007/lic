@@ -3,13 +3,13 @@
     <img class="h-7vw w-9vw" src="@/assets/image/tmp_left.png" />
     <a-flex class="mt-4vh w-90% overflow-hidden text-center">
       <div>
-        <div class="bgC1">
+        <!-- <div class="bgC1">
           <div class="pt-1.5vh text-center text-1.3vw">质检状态</div>
           <div class="h-50vh flex items-center justify-center text-2.5vw">
             <span v-if="state.msg.length <= 10">{{ state.msg }}</span>
             <marquee v-else behavior="scroll" direction="left" width="80%">{{ state.msg }}</marquee>
           </div>
-        </div>
+        </div> -->
         <!-- <div class="bgC1">
           <div class="pt-1.5vh text-center text-1.3vw">照片采样</div>
           <div class="h-20vh flex items-center justify-center">
@@ -18,7 +18,7 @@
         </div> -->
       </div>
       <div class="bgC2">
-        <div class="pt-1.5vh text-center text-1.3vw">质检结果</div>
+        <div class="pt-2.5vh text-center text-1.3vw">质检结果</div>
         <div class="bgB mt-3vh flex justify-around py-1vh text-1vw">
           <div>{{ mainCheck.time || '--' }}</div>
           <div>证件号：{{ mainCheck.docID || '--' }}</div>
@@ -43,7 +43,7 @@
               </td>
             </tr>
           </table>
-          <div v-if="mainCheck.markedImage" class="mt-3vh w-40% flex items-center justify-end">
+          <div v-if="mainCheck.markedImage" class="ml-2vw mt-3vh w-30% flex items-center justify-end">
             <img :src="`data:image/png;base64,${mainCheck.markedImage}`" class="w-75%" @click="viewImage([`data:image/png;base64,${mainCheck.markedImage}`])" />
           </div>
         </div>
@@ -116,13 +116,14 @@ onMounted(async () => {
   background-image: url('@/assets/image/bg_c10.png');
 }
 .bgC2 {
-  width: 47vw;
+  // width: 47vw;
+  width: 90vw;
   height: 63.2vh;
   margin: 3vh 1vw 0 0;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  background-image: url('@/assets/image/bg_c2.png');
+  background-image: url('@/assets/image/bg_c2x.png');
   span {
     box-shadow:
       0px 4px 4px 0px #00000040,

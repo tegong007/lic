@@ -50,13 +50,13 @@
       <section v-if="formData.uvMainOffset0" class="bg_jianbian ml-2vw flex">
         <div class="flex items-center">
           <div class="ml-3.1vw pr-0.5vw">X轴:</div>
-          <a-input v-model:value="formData.uvMainOffset0.x" :class="keyInput === 'uvMainOffset0,x' ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~1200" :maxlength="15" @click.stop="onInputFocus($event, ['uvMainOffset0', 'x'], 15)" />
-          <div class="ml-0.5vw mr-14.6vw">mm</div>
+          <a-input v-model:value="formData.uvMainOffset0.x" :class="keyInput === 'uvMainOffset0,x' ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~20000" :maxlength="9" @click.stop="onInputFocus($event, ['uvMainOffset0', 'x'], 9)" />
+          <div class="ml-0.5vw mr-14.6vw">0.001mm</div>
         </div>
         <div class="flex items-center">
           <div class="ml-2vw pr-0.5vw">Y轴:</div>
-          <a-input v-model:value="formData.uvMainOffset0.y" :class="keyInput === 'uvMainOffset0,y' ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~1200" :maxlength="15" @click.stop="onInputFocus($event, ['uvMainOffset0', 'y'], 15)" />
-          <div class="ml-0.5vw">mm</div>
+          <a-input v-model:value="formData.uvMainOffset0.y" :class="keyInput === 'uvMainOffset0,y' ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~20000" :maxlength="9" @click.stop="onInputFocus($event, ['uvMainOffset0', 'y'], 9)" />
+          <div class="ml-0.5vw">0.001mm</div>
         </div>
       </section>
     </div>
@@ -325,8 +325,8 @@ async function saveData() {
           } else if (item2 === 'x' || item2 === 'y') {
             if (item2 === 'x') tit = '主副页喷墨起始打印位置X轴';
             else if (item2 === 'y') tit = '主副页喷墨起始打印位置Y轴';
-            reg = /^(?:1200(?:\.0{1,3})?|(?:1[01]?\d{0,2}|[1-9]\d{0,2}|0)(?:\.\d{1,3})?)$/;
-            if (!temp[item][item2].match(reg)) error = `${tit}有误，应该是0~1200内`;
+            reg = /^(?:20000(?:\.0{1,3})?|1?\d{1,4}(?:\.\d{1,3})?)$/;
+            if (!temp[item][item2].match(reg)) error = `${tit}有误，应该是0~20000内`;
           }
           if (!Number.isNaN(Number(temp[item][item2])) && typeof temp[item][item2] !== 'boolean') temp[item][item2] = Number(temp[item][item2]);
         }

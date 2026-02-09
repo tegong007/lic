@@ -27,6 +27,7 @@ declare module 'vue-router/auto-routes' {
     '/Defend/components/TheInkjet': RouteRecordInfo<'/Defend/components/TheInkjet', '/Defend/components/TheInkjet', Record<never, never>, Record<never, never>>,
     '/Defend/components/TheLaser': RouteRecordInfo<'/Defend/components/TheLaser', '/Defend/components/TheLaser', Record<never, never>, Record<never, never>>,
     '/Defend/components/TheLight': RouteRecordInfo<'/Defend/components/TheLight', '/Defend/components/TheLight', Record<never, never>, Record<never, never>>,
+    '/Defend/components/ThePrint': RouteRecordInfo<'/Defend/components/ThePrint', '/Defend/components/ThePrint', Record<never, never>, Record<never, never>>,
     '/Defend/components/TheReader': RouteRecordInfo<'/Defend/components/TheReader', '/Defend/components/TheReader', Record<never, never>, Record<never, never>>,
     '/Defend/components/TheTest': RouteRecordInfo<'/Defend/components/TheTest', '/Defend/components/TheTest', Record<never, never>, Record<never, never>>,
     '/Defend/DefendPage': RouteRecordInfo<'/Defend/DefendPage', '/Defend/DefendPage', Record<never, never>, Record<never, never>>,

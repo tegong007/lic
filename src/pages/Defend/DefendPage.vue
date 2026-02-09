@@ -32,6 +32,9 @@
           <Inkjet v-if="options.uvPrinters" :data="options.uvPrinters" @update-item="handleUpdateItem" />
           <Light v-if="options.lamps" :data="options.lamps" :act="actived" @update-item="handleUpdateItem" />
         </template>
+        <template v-if="actived === 1">
+          <ThePrint :data="options.uvPrinters" :update-item="handleUpdateItem" />
+        </template>
       </div>
     </a-flex>
   </div>
@@ -46,6 +49,7 @@ import TheFw from '@/pages/Defend/components/TheFw.vue';
 import Inkjet from '@/pages/Defend/components/TheInkjet.vue';
 import Laser from '@/pages/Defend/components/TheLaser.vue';
 import Light from '@/pages/Defend/components/TheLight.vue';
+import ThePrint from '@/pages/Defend/components/ThePrint.vue';
 import Reader from '@/pages/Defend/components/TheReader.vue';
 import TheTest from '@/pages/Defend/components/TheTest.vue';
 import { useAppStore } from '@/store/index';
@@ -54,7 +58,7 @@ const { notification } = App.useApp();
 const route = useRoute();
 
 const actived = ref(-1);
-const navs: any = { x1: { name: '空白本检测模块', key: 1 }, x2: { name: '激光打印模块', key: 2 }, x3: { name: '喷墨打印模块', key: 3 }, x4: { name: '添加测试任务', key: 4 }, x5: { name: '工位操作', key: 5 }, x6: { name: '关于设备', key: 6 } };
+const navs: any = { x1: { name: '进本模块', key: 1 }, x2: { name: '激光打印模块', key: 2 }, x3: { name: '喷墨打印模块', key: 3 }, x4: { name: '添加测试任务', key: 4 }, x5: { name: '工位操作', key: 5 }, x6: { name: '关于设备', key: 6 } };
 const options: any = ref({});
 
 function setActived(key: number) {

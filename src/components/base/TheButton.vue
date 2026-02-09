@@ -8,7 +8,7 @@
       }
     "
   >
-    <span class="text-1.8vw line-height-[6vh] font-[xiaowei]">{{ props.title }}</span>
+    <span class="text-1.8vw line-height-[6vh] font-[youshe]">{{ props.title }}</span>
   </div>
 </template>
 
@@ -34,11 +34,11 @@ div {
       #0e5fff 90%,
       rgba(14, 95, 255, 0.2161) 100%
     ),
-    linear-gradient(90deg, rgba(10, 33, 87, 0) -23%, #0e5fff 8%, rgba(10, 33, 87, 0) 43%), linear-gradient(90deg, rgba(10, 33, 87, 0) 55%, #0e5fff 92%, rgba(10, 33, 87, 0) 131%);
+    linear-gradient(90deg, #0a215700 -23%, #0e5fff 8%, #0a215700 43%), linear-gradient(90deg, #0a215700 55%, #0e5fff 92%, #0a215700 131%);
   box-sizing: border-box;
   border: 2px solid;
-  border-image: linear-gradient(90deg, rgba(14, 95, 255, 0) 0%, rgba(3, 22, 62, 0.3) 24%, #ffffff 51%, rgba(3, 22, 62, 0.3) 78%, rgba(14, 95, 255, 0) 99%) 2;
-  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.3);
+  border-image: linear-gradient(90deg, #0e5fff00 0%, #03163e4d 24%, #ffffff 51%, #03163e4d 78%, #0e5fff00 99%) 2;
+  box-shadow: 0px 4px 10px 0px #0000004d;
   border-radius: 8px;
 }
 </style>

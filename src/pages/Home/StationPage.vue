@@ -35,7 +35,7 @@ const { notification } = App.useApp();
 const route = useRoute();
 
 const actived = ref(0);
-const navs: any = { x3: { name: '喷墨打印模块', key: 3 }, x2: { name: '激光打印模块', key: 2 }, x1: { name: '空白本检测模块', key: 1 } };
+const navs: any = { x3: { name: '喷墨打印模块', key: 3 }, x2: { name: '激光打印模块', key: 2 }, x1: { name: '进本模块', key: 1 } };
 const lists: any = ref([]);
 
 function setActived(key: number) {
