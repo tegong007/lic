@@ -47,49 +47,49 @@
     </div>
     <div class="bgItem">
       <div class="bgItem_tit">主副页喷墨起始打印位置</div>
-      <section v-if="formData.uvMainOffset0" class="bg_jianbian ml-2vw flex">
+      <section v-if="formData.uvMainOffsetHigh" class="bg_jianbian ml-2vw flex">
         <div class="flex items-center">
           <div class="ml-3.1vw pr-0.5vw">X轴:</div>
-          <a-input v-model:value="formData.uvMainOffset0.x" :class="keyInput === 'uvMainOffset0,x' ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~20000" :maxlength="9" @click.stop="onInputFocus($event, ['uvMainOffset0', 'x'], 9)" />
+          <a-input v-model:value="formData.uvMainOffsetHigh.x" :class="keyInput === 'uvMainOffsetHigh,x' ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~20000" :maxlength="9" @click.stop="onInputFocus($event, ['uvMainOffsetHigh', 'x'], 9)" />
           <div class="ml-0.5vw mr-14.6vw">0.001mm</div>
         </div>
         <div class="flex items-center">
           <div class="ml-2vw pr-0.5vw">Y轴:</div>
-          <a-input v-model:value="formData.uvMainOffset0.y" :class="keyInput === 'uvMainOffset0,y' ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~20000" :maxlength="9" @click.stop="onInputFocus($event, ['uvMainOffset0', 'y'], 9)" />
+          <a-input v-model:value="formData.uvMainOffsetHigh.y" :class="keyInput === 'uvMainOffsetHigh,y' ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~20000" :maxlength="9" @click.stop="onInputFocus($event, ['uvMainOffsetHigh', 'y'], 9)" />
           <div class="ml-0.5vw">0.001mm</div>
         </div>
       </section>
     </div>
     <div class="bgItem">
       <div class="bgItem_tit">主副页喷墨定位基准</div>
-      <template v-if="formData.uvBase0">
-        <section v-for="(value, index) in formData.uvBase0" :key="index" class="bg_jianbian ml-2vw">
+      <template v-if="formData.uvBaseHigh">
+        <section v-for="(value, index) in formData.uvBaseHigh" :key="index" class="bg_jianbian ml-2vw">
           <div class="flex">
             <div class="flex items-center">
               <div class="ml-2vw pr-0.5vw">X坐标:</div>
-              <a-input v-model:value="formData.uvBase0[index].x" :class="keyInput === `uvBase0,x,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~30000" :maxlength="9" @click.stop="onInputFocus($event, ['uvBase0', 'x', index], 9)" />
+              <a-input v-model:value="formData.uvBaseHigh[index].x" :class="keyInput === `uvBaseHigh,x,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~30000" :maxlength="9" @click.stop="onInputFocus($event, ['uvBaseHigh', 'x', index], 9)" />
               <div class="ml-0.5vw mr-10.9vw">0.001mm</div>
             </div>
             <div class="flex items-center">
               <div class="ml-2vw pr-0.5vw">Y坐标:</div>
-              <a-input v-model:value="formData.uvBase0[index].y" :class="keyInput === `uvBase0,y,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~30000" :maxlength="9" @click.stop="onInputFocus($event, ['uvBase0', 'y', index], 9)" />
+              <a-input v-model:value="formData.uvBaseHigh[index].y" :class="keyInput === `uvBaseHigh,y,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~30000" :maxlength="9" @click.stop="onInputFocus($event, ['uvBaseHigh', 'y', index], 9)" />
               <div class="ml-0.5vw mr-9vw">0.001mm</div>
             </div>
             <div class="flex items-center">
               <div class="ml-2vw pr-0.5vw">角度:</div>
-              <a-input v-model:value="formData.uvBase0[index].angle" :class="keyInput === `uvBase0,angle,${index}` ? 'keyInput' : ''" class="w-8vw" placeholder="请输入" :maxlength="8" @click.stop="onInputFocus($event, ['uvBase0', 'angle', index], 8)" />
+              <a-input v-model:value="formData.uvBaseHigh[index].angle" :class="keyInput === `uvBaseHigh,angle,${index}` ? 'keyInput' : ''" class="w-8vw" placeholder="请输入" :maxlength="8" @click.stop="onInputFocus($event, ['uvBaseHigh', 'angle', index], 8)" />
               <div class="ml-0.5vw">0.001度</div>
             </div>
           </div>
           <div class="mt-2vh flex">
             <div class="flex items-center">
               <div class="ml-2vw pr-0.5vw">X偏移:</div>
-              <a-input v-model:value="formData.uvBase0[index].offsetX" :class="keyInput === `uvBase0,offsetX,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入-10000 ~ 10000" :maxlength="6" @click.stop="onInputFocus($event, ['uvBase0', 'offsetX', index], 6)" />
+              <a-input v-model:value="formData.uvBaseHigh[index].offsetX" :class="keyInput === `uvBaseHigh,offsetX,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入-10000 ~ 10000" :maxlength="6" @click.stop="onInputFocus($event, ['uvBaseHigh', 'offsetX', index], 6)" />
               <div class="ml-0.5vw mr-1vw">0.001mm(向左为负/向右为正)</div>
             </div>
             <div class="flex items-center">
               <div class="ml-2vw pr-0.5vw">Y偏移:</div>
-              <a-input v-model:value="formData.uvBase0[index].offsetY" :class="keyInput === `uvBase0,offsetY,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入-10000 ~ 10000" :maxlength="6" @click.stop="onInputFocus($event, ['uvBase0', 'offsetY', index], 6)" />
+              <a-input v-model:value="formData.uvBaseHigh[index].offsetY" :class="keyInput === `uvBaseHigh,offsetY,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入-10000 ~ 10000" :maxlength="6" @click.stop="onInputFocus($event, ['uvBaseHigh', 'offsetY', index], 6)" />
               <div class="ml-0.5vw">0.001mm(向上为负/向下为正)</div>
             </div>
           </div>
@@ -98,34 +98,34 @@
     </div>
     <div class="bgItem">
       <div class="bgItem_tit">激光定位基准</div>
-      <template v-if="formData.laserBase0">
-        <section v-for="(value, index) in formData.laserBase0" :key="index" class="bg_jianbian ml-2vw">
+      <template v-if="formData.laserBaseHigh">
+        <section v-for="(value, index) in formData.laserBaseHigh" :key="index" class="bg_jianbian ml-2vw">
           <div class="flex">
             <div class="flex items-center">
               <div class="ml-2vw pr-0.5vw">X坐标:</div>
-              <a-input v-model:value="formData.laserBase0[index].x" :class="keyInput === `laserBase0,x,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~90000" :maxlength="9" @click.stop="onInputFocus($event, ['laserBase0', 'x', index], 9)" />
+              <a-input v-model:value="formData.laserBaseHigh[index].x" :class="keyInput === `laserBaseHigh,x,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~90000" :maxlength="9" @click.stop="onInputFocus($event, ['laserBaseHigh', 'x', index], 9)" />
               <div class="ml-0.5vw mr-10.9vw">0.001mm</div>
             </div>
             <div class="flex items-center">
               <div class="ml-2vw pr-0.5vw">Y坐标:</div>
-              <a-input v-model:value="formData.laserBase0[index].y" :class="keyInput === `laserBase0,y,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~30000" :maxlength="9" @click.stop="onInputFocus($event, ['laserBase0', 'y', index], 9)" />
+              <a-input v-model:value="formData.laserBaseHigh[index].y" :class="keyInput === `laserBaseHigh,y,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~30000" :maxlength="9" @click.stop="onInputFocus($event, ['laserBaseHigh', 'y', index], 9)" />
               <div class="ml-0.5vw mr-9vw">0.001mm</div>
             </div>
             <div class="flex items-center">
               <div class="ml-2vw pr-0.5vw">角度:</div>
-              <a-input v-model:value="formData.laserBase0[index].angle" :class="keyInput === `laserBase0,angle,${index}` ? 'keyInput' : ''" class="w-8vw" placeholder="请输入" :maxlength="8" @click.stop="onInputFocus($event, ['laserBase0', 'angle', index], 8)" />
+              <a-input v-model:value="formData.laserBaseHigh[index].angle" :class="keyInput === `laserBaseHigh,angle,${index}` ? 'keyInput' : ''" class="w-8vw" placeholder="请输入" :maxlength="8" @click.stop="onInputFocus($event, ['laserBaseHigh', 'angle', index], 8)" />
               <div class="ml-0.5vw">0.001度</div>
             </div>
           </div>
           <div class="mt-2vh flex">
             <div class="flex items-center">
               <div class="ml-2vw pr-0.5vw">X偏移:</div>
-              <a-input v-model:value="formData.laserBase0[index].offsetX" :class="keyInput === `laserBase0,offsetX,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入-10000 ~ 10000" :maxlength="6" @click.stop="onInputFocus($event, ['laserBase0', 'offsetX', index], 6)" />
+              <a-input v-model:value="formData.laserBaseHigh[index].offsetX" :class="keyInput === `laserBaseHigh,offsetX,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入-10000 ~ 10000" :maxlength="6" @click.stop="onInputFocus($event, ['laserBaseHigh', 'offsetX', index], 6)" />
               <div class="ml-0.5vw mr-1vw">0.001mm(向左为负/向右为正)</div>
             </div>
             <div class="flex items-center">
               <div class="ml-2vw pr-0.5vw">Y偏移:</div>
-              <a-input v-model:value="formData.laserBase0[index].offsetY" :class="keyInput === `laserBase0,offsetY,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入-10000 ~ 10000" :maxlength="6" @click.stop="onInputFocus($event, ['laserBase0', 'offsetY', index], 6)" />
+              <a-input v-model:value="formData.laserBaseHigh[index].offsetY" :class="keyInput === `laserBaseHigh,offsetY,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入-10000 ~ 10000" :maxlength="6" @click.stop="onInputFocus($event, ['laserBaseHigh', 'offsetY', index], 6)" />
               <div class="ml-0.5vw">0.001mm(向上为负/向下为正)</div>
             </div>
           </div>
@@ -293,8 +293,8 @@ async function saveData() {
         if (typeof temp[item][item2] === 'object') {
           for (const item3 in temp[item][item2]) {
             if (item3 === 'x' || item3 === 'y' || item3 === 'angle' || item3 === 'offsetX' || item3 === 'offsetY') {
-              if (item === 'laserBase0') tit = `激光定位基准${temp[item][item2].position}`;
-              else if (item === 'uvBase0') tit = `主副页喷墨定位基准${temp[item][item2].position}`;
+              if (item === 'laserBaseHigh') tit = `激光定位基准${temp[item][item2].position}`;
+              else if (item === 'uvBaseHigh') tit = `主副页喷墨定位基准${temp[item][item2].position}`;
               if (item3 === 'x') tit = `${tit}X坐标`;
               else if (item3 === 'y') tit = `${tit}y坐标`;
               else if (item3 === 'angle') tit = `${tit}角度`;
