@@ -1,20 +1,21 @@
 <template>
   <SimpleKeyboard v-if="showKeyboard" keyboard-width="w-30vw" layout="num" :transform="transformValue" :input="formData[keyInput]" :max-length="4" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
-  <div class="bgItem text-1.1vw" @click="hideKeyboard">
-    <div class="bgItem_tit">任务添加</div>
-    <section class="bg_jianbian mb-2vh ml-2vw flex">
-      <div class="mr-3vw flex items-center">
-        <div class="flex items-center">
-          <div class="ml-2vw pr-0.5vw">总人数:</div>
-          <a-input v-model:value="formData.num" :class="keyInput === 'num' ? 'keyInput' : ''" class="w-9vw" placeholder="请输入1~3000" :maxlength="4" @click.stop="onInputFocus($event, 'num')" />
-        </div>
-        <div class="flex items-center">
-          <div class="ml-2vw pr-0.5vw">加急程度:</div>
-          <a-select v-model:value="formData.urgentType" class="w-7.5vw">
-            <a-select-option v-for="option in urgencyOptions" :key="option.value" :value="option.value">{{ option.label }}</a-select-option>
-          </a-select>
-        </div>
-        <a-button type="link" class="btn_search ml-3vw" @click="() => (modal = { open: true, title: '任务添加', data: {} })">确认添加</a-button>
+  <div class="bgDefend_item" @click="hideKeyboard">
+    <div class="bgDefend_tit">任务添加</div>
+    <section class="bg_listItem">
+      <div class="bgDefend_itemIn">
+        <div class="bgDefend_itemIn_tit">总人数:</div>
+        <a-input v-model:value="formData.num" :class="keyInput === 'num' ? 'keyInput' : ''" class="w-9vw" placeholder="请输入1~3000" :maxlength="4" @click.stop="onInputFocus($event, 'num')" />
+      </div>
+      <div class="bgDefend_itemIn">
+        <div class="bgDefend_itemIn_tit">加急程度:</div>
+        <a-select v-model:value="formData.urgentType" class="w-9vw">
+          <a-select-option v-for="option in urgencyOptions" :key="option.value" :value="option.value">{{ option.label }}</a-select-option>
+        </a-select>
+      </div>
+      <div class="bgDefend_itemIn">
+        <div class="bgDefend_itemIn_tit"></div>
+        <a-button type="link" class="btn_search" @click="() => (modal = { open: true, title: '任务添加', data: {} })">确认添加</a-button>
       </div>
     </section>
   </div>
@@ -88,38 +89,3 @@ function onChangeKeyboard(input: string, keyboard: any) {
   }
 }
 </script>
-
-<style scoped lang="less">
-.bgItem {
-  margin-top: 3vh;
-  .bgItem_tit {
-    font-size: 1.2vw;
-    font-weight: bold;
-    padding-bottom: 1vh;
-  }
-}
-::v-deep(.ant-input),
-::v-deep(.ant-select-selector) {
-  font-size: 1.2vw;
-  background-color: transparent !important;
-  color: #ffffff;
-  border-width: 2px !important;
-  height: 4vh !important;
-  border-radius: 0;
-  min-width: 7.5vw;
-}
-::v-deep(.ant-select-selection-item) {
-  line-height: 3.5vh !important;
-}
-::v-deep(.ant-select-selection-item) {
-  font-size: 1.2vw;
-  color: #ffffff !important;
-}
-::v-deep(.ant-input::placeholder),
-::v-deep(.ant-select-selection-placeholder) {
-  color: #989ca1;
-}
-::v-deep(.anticon svg) {
-  color: #e2e5eb;
-}
-</style>

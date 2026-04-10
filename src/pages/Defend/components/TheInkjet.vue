@@ -1,36 +1,42 @@
 <template>
   <SimpleKeyboard v-if="showKeyboard" keyboard-width="w-30vw" layout="floatNum" :transform="transformValue" :input="formData[keyInput]" :max-length="3" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
-  <div class="bgItem text-1.1vw">
+  <div class="bgDefend_item">
     <template v-for="(inkjet, index) in props.data" :key="index">
-      <div class="bgItem_tit">{{ inkjet.printerName }}</div>
-      <section v-if="inkjet.positionItems" class="bg_jianbian mb-2vh ml-2vw flex">
-        <div class="mr-3vw flex items-center">
+      <div class="bgDefend_tit">{{ inkjet.printerName }}</div>
+      <section v-if="inkjet.positionItems" class="bg_listItem">
+        <div class="bgDefend_itemIn">
           <div v-for="(value, index2) in inkjet.positionItems" :key="index2" class="flex items-center">
-            <div class="ml-2vw w-8vw">{{ value.label }}:</div>
+            <div class="bgDefend_itemIn_tit w-8vw">{{ value.label }}:</div>
             <a-select v-if="value.option.length" v-model:value="formData[value.label + index]" class="w-10vw">
               <a-select-option v-for="option in value.option" :key="option.value" :value="option.value">{{ option.label }}</a-select-option>
             </a-select>
             <a-input v-else v-model:value="formData[value.label + index]" :class="keyInput === value.label ? 'keyInput' : ''" class="w-10vw" placeholder="请输入" :maxlength="3" @click.stop="onInputFocus($event, value.label + index)" />
           </div>
-          <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/uvpdps/moto-reposition', index, inkjet)">复位</a-button>
-          <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/uvpdps/moto-move', index, inkjet, { axisType: Number(formData[`轴选择${index}`]), target: Number(formData[`目标位置(mm)${index}`]) })">移动</a-button>
+          <div class="bgDefend_itemIn">
+            <div class="bgDefend_itemIn_tit"></div>
+            <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/uvpdps/moto-reposition', index, inkjet)">复位</a-button>
+            <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/uvpdps/moto-move', index, inkjet, { axisType: Number(formData[`轴选择${index}`]), target: Number(formData[`目标位置(mm)${index}`]) })">移动</a-button>
+          </div>
         </div>
       </section>
-      <section class="bg_jianbian mb-2vh ml-2vw flex">
-        <div class="mr-3vw flex items-center">
+      <section class="bg_listItem">
+        <div class="bgDefend_itemIn">
           <div v-for="(value, index2) in inkjet.cleanItems" :key="index2" class="flex items-center">
-            <div class="ml-2vw w-8vw">{{ value.label }}:</div>
+            <div class="bgDefend_itemIn_tit w-8vw">{{ value.label }}:</div>
             <a-select v-model:value="formData[value.label + index]" class="w-10vw">
               <a-select-option v-for="option in value.option" :key="option.value" :value="option.value">{{ option.label }}</a-select-option>
             </a-select>
           </div>
-          <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/uvpdps/clean-head', index, inkjet, { headID: Number(formData[`清洗组合${index}`]), intension: Number(formData[`清洗强度${index}`]) })">清洗</a-button>
+          <div class="bgDefend_itemIn">
+            <div class="bgDefend_itemIn_tit"></div>
+            <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/uvpdps/clean-head', index, inkjet, { headID: Number(formData[`清洗组合${index}`]), intension: Number(formData[`清洗强度${index}`]) })">清洗</a-button>
+          </div>
         </div>
       </section>
-      <section v-if="inkjet.printItems && inkjet.printItems.length > 0" class="bg_jianbian mb-2vh ml-2vw flex">
-        <div class="mr-3vw flex items-center">
+      <section v-if="inkjet.printItems && inkjet.printItems.length > 0" class="bg_listItem">
+        <div class="bgDefend_itemIn">
           <div v-for="(value, index2) in inkjet.printItems" :key="index2" class="flex items-center">
-            <div class="ml-2vw w-8vw">{{ value.label }}:</div>
+            <div class="bgDefend_itemIn_tit w-8vw">{{ value.label }}:</div>
             <a-select v-model:value="formData[value.label + index]" class="w-10vw">
               <a-select-option v-for="option in value.option" :key="option.value" :value="option.value">{{ option.label }}</a-select-option>
             </a-select>
@@ -50,7 +56,7 @@ import { useAppStore } from '@/store/index';
 const props: any = defineProps({ data: Object, updateItem: Function, showKeyboard: Boolean, setShowKeyboard: Function, currentPage: String, currentModel: String });
 const { notification } = App.useApp();
 
-const formData: any = ref({ 轴选择0: '0', '目标位置(mm)0': '0', 清洗组合0: '0', 清洗强度0: '0', 打印平台0: '0' });
+const formData: any = ref({ '轴选择0': '0', '目标位置(mm)0': '0', '清洗组合0': '0', '清洗强度0': '0', '打印平台0': '0' });
 const showKeyboard = ref(false);
 const keyInput = ref('');
 const cursorPosition = ref(null);
@@ -107,39 +113,3 @@ function onChangeKeyboard(input: string, keyboard: any) {
   }
 }
 </script>
-
-<style scoped lang="less">
-.bgItem {
-  margin-top: 3vh;
-  .bgItem_tit {
-    font-size: 1.2vw;
-    font-weight: bold;
-    padding-bottom: 1vh;
-  }
-}
-
-::v-deep(.ant-input),
-::v-deep(.ant-select-selector) {
-  font-size: 1.2vw;
-  background-color: transparent !important;
-  color: #ffffff;
-  border-width: 2px !important;
-  height: 4vh !important;
-  border-radius: 0;
-  min-width: 7.5vw;
-}
-::v-deep(.ant-select-selection-item) {
-  line-height: 3.5vh !important;
-}
-::v-deep(.ant-select-selection-item) {
-  font-size: 1.2vw;
-  color: #ffffff !important;
-}
-::v-deep(.ant-input::placeholder),
-::v-deep(.ant-select-selection-placeholder) {
-  color: #989ca1;
-}
-::v-deep(.anticon svg) {
-  color: #e2e5eb;
-}
-</style>

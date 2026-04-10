@@ -1,3 +1,9 @@
+declare module '@vue/runtime-core' {
+  export interface ComponentCustomProperties {
+    $goto: (page: string, query?: any) => void;
+  }
+}
+
 declare module '*.vue' {
   import type { DefineComponent } from 'vue';
 

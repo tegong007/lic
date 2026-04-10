@@ -1,42 +1,38 @@
 <template>
-  <div class="mt-2.5vh w-92% flex">
-    <a-flex justify="around" class="mt-9vh w-94vw">
-      <div>
-        <div v-for="item in navs" :key="item.key" class="bgNav mb-2vh transition-transform duration-300" :class="actived === item.key ? 'actived' : 'hover:scale-105'" @click="setActived(item.key)">
-          <span class="text-1.5vw line-height-8vh">{{ item.name }}</span>
+  <div class="bgDefend ml-2vw mt-2vh h-65vh w-95% overflow-auto">
+    <template v-if="actived === 1">
+      <ThePrint :data="options.uvPrinters" :update-item="handleUpdateItem" />
+    </template>
+    <template v-else-if="actived === 4">
+      <TheTest :data="options.uvPrinters" :update-item="handleUpdateItem" />
+    </template>
+    <template v-else-if="actived === 5">
+      <TheFw />
+    </template>
+    <template v-else-if="actived === 6">
+      <div class="bg_listItem">
+        <div class="flex py-2vh">
+          <div class="mr-1vw w-12vw text-right">打印管理系统：</div>
+          <div>1.0.13.14</div>
+        </div>
+        <div v-for="(value, index) in options" :key="index" class="flex py-2vh">
+          <div class="mr-1vw w-12vw text-right">{{ value.name }}：</div>
+          <div>{{ value.version }}</div>
         </div>
       </div>
-      <div class="ml-2vw mt-3vh h-70vh w-full overflow-auto text-1.5vw">
-        <template v-if="actived === 6">
-          <div class="bg4 mt-2vh max-h-50vh w-60vw py-2vh pl-1vw">
-            <div class="flex py-2vh">
-              <div class="mr-1vw w-20vw text-right">打印管理系统：</div>
-              <div>1.0.13.14</div>
-            </div>
-            <div v-for="(value, index) in options" :key="index" class="flex py-2vh">
-              <div class="mr-1vw w-20vw text-right">{{ value.name }}：</div>
-              <div>{{ value.version }}</div>
-            </div>
-          </div>
-        </template>
-        <template v-else-if="actived === 5">
-          <TheFw />
-        </template>
-        <template v-else-if="actived === 4">
-          <TheTest :data="options.uvPrinters" :update-item="handleUpdateItem" />
-        </template>
-        <template v-else>
-          <Reader v-if="options.readers" :data="options.readers" :update-item="handleUpdateItem" />
-          <Camera v-if="options.cameras" :data="options.cameras" @update-item="handleUpdateItem" />
-          <Laser v-if="options.lasers" :data="options.lasers" @update-item="handleUpdateItem" />
-          <Inkjet v-if="options.uvPrinters" :data="options.uvPrinters" @update-item="handleUpdateItem" />
-          <Light v-if="options.lamps" :data="options.lamps" :act="actived" @update-item="handleUpdateItem" />
-        </template>
-        <template v-if="actived === 1">
-          <ThePrint :data="options.uvPrinters" :update-item="handleUpdateItem" />
-        </template>
-      </div>
-    </a-flex>
+    </template>
+    <template v-else>
+      <Reader v-if="options.readers" :data="options.readers" :update-item="handleUpdateItem" />
+      <Camera v-if="options.cameras" :data="options.cameras" @update-item="handleUpdateItem" />
+      <Laser v-if="options.lasers" :data="options.lasers" @update-item="handleUpdateItem" />
+      <Inkjet v-if="options.uvPrinters" :data="options.uvPrinters" @update-item="handleUpdateItem" />
+      <Light v-if="options.lamps" :data="options.lamps" :act="actived" @update-item="handleUpdateItem" />
+    </template>
+  </div>
+  <div class="bgDefend_bottom fixed bottom-0 left-12vw right-7vw flex justify-center px-3vw py-2vh">
+    <div>
+      <TheButton title="返回" @click="$goto('HomePage')" />
+    </div>
   </div>
 </template>
 
@@ -58,7 +54,6 @@ const { notification } = App.useApp();
 const route = useRoute();
 
 const actived = ref(-1);
-const navs: any = { x1: { name: '进本模块', key: 1 }, x2: { name: '激光打印模块', key: 2 }, x3: { name: '喷墨打印模块', key: 3 }, x4: { name: '添加测试任务', key: 4 }, x5: { name: '工位操作', key: 5 }, x6: { name: '关于设备', key: 6 } };
 const options: any = ref({});
 
 function setActived(key: number) {
@@ -104,27 +99,70 @@ onMounted(async () => {
 </script>
 
 <style scoped lang="less">
-.bg4 {
-  background: linear-gradient(92deg, #0390e500 0%, #0390e51f 34%, #0390e517 63%, #0390e500 99%);
-}
-.bgNav {
-  background-image: url('@/assets/image/bg_nav.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  cursor: pointer;
-  width: 15vw;
-  text-align: center;
-  height: 9vh;
-  &.actived {
-    background-image: url('@/assets/image/bg_navA.png');
-    cursor: default;
+.bgDefend {
+  ::v-deep(.ant-input),
+  ::v-deep(.ant-select-selector) {
+    font-size: 0.8vw;
+    background-color: transparent !important;
+    color: #ffffff;
+    border-width: 1px !important;
+    height: 6vh !important;
+    border-radius: 0;
+    min-width: 5vw;
+  }
+  ::v-deep(.ant-select-selection-item) {
+    line-height: 5.5vh !important;
+  }
+  ::v-deep(.ant-select-selection-item) {
+    font-size: 0.8vw;
+    color: #ffffff !important;
+  }
+  ::v-deep(.ant-input::placeholder),
+  ::v-deep(.ant-select-selection-placeholder) {
+    color: #989ca1;
+  }
+  ::v-deep(.ant-switch-checked .ant-switch-inner) {
+    background: #3662ec;
+  }
+  ::v-deep(.ant-switch-inner) {
+    background: #d8d8d8;
   }
 }
-::-webkit-scrollbar {
-  width: 1.5vw;
+.bgDefend_bottom {
+  background:
+    linear-gradient(270deg, #03163e 0%, #03163e 93%, #03163e00 100%),
+    linear-gradient(90deg, #0390e500 0%, #0390e51f 34%, #0390e517 63%, #0390e500 99%);
 }
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(90deg, #03163e 0%, #3662ec 53%);
-  border-radius: 50px;
+</style>
+
+<style lang="less">
+.bgDefend {
+  .bg_listItem {
+    padding: 2vh 0;
+    margin: 2vh 0;
+    font-size: 1vw;
+  }
+  .bgDefend_item {
+    margin-bottom: 3vh;
+    .bgDefend_tit {
+      font-size: 1vw;
+      font-weight: bold;
+    }
+    .bg_listItem {
+      display: flex;
+      .bgDefend_itemIn {
+        display: flex;
+        align-items: center;
+        margin-right: 2vw;
+        .bgDefend_itemIn_tit {
+          margin-left: 2vw;
+          padding-right: 0.5vw;
+        }
+      }
+      .keyInput {
+        border-color: #3662ec;
+      }
+    }
+  }
 }
 </style>

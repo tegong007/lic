@@ -1,62 +1,43 @@
 <template>
-  <div class="mt-6.5vh w-92% flex">
-    <img class="h-7vw w-9vw" src="@/assets/image/tmp_left.png" />
-    <a-flex class="mt-4vh w-90% overflow-hidden text-center">
-      <div>
-        <!-- <div class="bgC1">
-          <div class="pt-1.5vh text-center text-1.3vw">质检状态</div>
-          <div class="h-50vh flex items-center justify-center text-2.5vw">
-            <span v-if="state.msg.length <= 10">{{ state.msg }}</span>
-            <marquee v-else behavior="scroll" direction="left" width="80%">{{ state.msg }}</marquee>
-          </div>
-        </div> -->
-        <!-- <div class="bgC1">
-          <div class="pt-1.5vh text-center text-1.3vw">照片采样</div>
-          <div class="h-20vh flex items-center justify-center">
-            <img v-if="mainCheck.irlImgData" class="max-h-90% max-w-80%" :src="`data:image/png;base64,${mainCheck.irlImgData}`" />
-          </div>
-        </div> -->
+  <div class="ml-2vw mt-2vh w-95% flex justify-center gap-5vw">
+    <div class="w-25vw flex items-end">
+      <div class="bg_listItem w-full flex justify-center gap-5vw py-3vh">
+        <TheButton title="参数设置" @click="$goto('CheckSelectPage', { key: 2 })" />
+        <TheButton title="质检记录" @click="$goto('CheckSelectPage', { key: 1 })" />
       </div>
-      <div class="bgC2">
-        <div class="pt-2.5vh text-center text-1.3vw">质检结果</div>
-        <div class="bgB mt-3vh flex justify-around py-1vh text-1vw">
-          <div>{{ mainCheck.time || '--' }}</div>
-          <div>证件号：{{ mainCheck.docID || '--' }}</div>
-          <div>结果：<span v-if="!mainCheck.docID">检测中…</span><span v-else-if="mainCheck.qualityResult === 0" class="ok">良品</span><span v-else class="no">不良品</span></div>
-        </div>
-        <div class="flex">
-          <table class="tb1 ml-1vw mt-4vh w-50% text-1vw">
-            <tr>
-              <th class="pb-2vh">序号</th>
-              <th class="pb-2vh">检测项</th>
-              <th class="pb-2vh">状态</th>
-            </tr>
-            <tr v-for="(value, index) in items" :key="index">
-              <td>0{{ index + 1 }}</td>
-              <td class="tb1-lab" :class="mainCheck.docID && mainCheck.checkedItem[value.key] ? 'err' : ''">
-                <div>{{ value.name }}</div>
-              </td>
-              <td class="tb1-ico">
-                <img v-if="mainCheck.docID && !mainCheck.checkedItem[value.key]" src="@/assets/image/ico_ok.png" />
-                <img v-else-if="mainCheck.docID && mainCheck.checkedItem[value.key]" src="@/assets/image/ico_no.png" />
-                <img v-else src="@/assets/image/ico_wait.png" />
-              </td>
-            </tr>
-          </table>
-          <div v-if="mainCheck.markedImage" class="ml-2vw mt-3vh w-30% flex items-center justify-end">
-            <img :src="`data:image/png;base64,${mainCheck.markedImage}`" class="w-75%" @click="viewImage([`data:image/png;base64,${mainCheck.markedImage}`])" />
-          </div>
+    </div>
+    <div class="bgCheck_box mr-5vw text-0.8vw">
+      <div class="bgCheck_tit mx-auto mt-2vh w-9vw pt-0.5vh text-center text-1vw font-bold">质检结果</div>
+      <div class="bg_listItem mt-3vh flex justify-around py-1vh">
+        <div>{{ mainCheck.time || '--' }}</div>
+        <div>证件号：{{ mainCheck.docID || '--' }}</div>
+        <div>结果：<span v-if="!mainCheck.docID">检测中…</span><span v-else-if="mainCheck.qualityResult === 0" class="ok">良品</span><span v-else class="no">不良品</span></div>
+      </div>
+      <div class="bgCheck_tab flex justify-between">
+        <table class="ml-3vw mt-3vh w-20vw">
+          <tr>
+            <th class="pb-1vh">序号</th>
+            <th class="pb-1vh">检测项</th>
+            <th class="pb-1vh">状态</th>
+          </tr>
+          <tr v-for="(value, index) in items" :key="index">
+            <td>0{{ Number(index) + 1 }}</td>
+            <td>
+              <div class="tblab" :class="mainCheck.docID && mainCheck.checkedItem[value.key] ? 'err' : ''">{{ value.name }}</div>
+            </td>
+            <td class="tbico">
+              <img v-if="mainCheck.docID && !mainCheck.checkedItem[value.key]" src="@/assets/image/ico_ok.png" />
+              <img v-else-if="mainCheck.docID && mainCheck.checkedItem[value.key]" src="@/assets/image/ico_no.png" />
+              <img v-else src="@/assets/image/ico_wait.png" />
+            </td>
+          </tr>
+        </table>
+        <div v-if="mainCheck.markedImage" class="mr-2vw mt-3vh w-15vw flex items-center justify-center">
+          <img :src="`data:image/png;base64,${mainCheck.markedImage}`" class="w-80%" @click="viewImage([`data:image/png;base64,${mainCheck.markedImage}`])" />
         </div>
       </div>
-    </a-flex>
-    <img class="h-7vw w-9vw" src="@/assets/image/tmp_right.png" />
+    </div>
   </div>
-  <a-flex justify="space-between" class="bgB mx-auto mt-2.1vh h-8vh w-80%">
-    <a-flex class="items-center gap-2vw">
-      <TheButton title="参数设置" @click="$goto('CheckSelectPage', { key: 2 })" />
-      <TheButton title="质检记录" @click="$goto('CheckSelectPage', { key: 1 })" />
-    </a-flex>
-  </a-flex>
 </template>
 
 <script setup lang="ts">
@@ -106,68 +87,63 @@ onMounted(async () => {
 </script>
 
 <style scoped lang="less">
-.bgC1 {
-  width: 25vw;
-  height: 63.2vh;
-  margin: 3vh 0 0 1vw;
+.bgCheck_box {
+  width: 42vw;
+  height: 72vh;
   background-size: contain;
   background-repeat: no-repeat;
+  background-image: url('@/assets/image/bg_labelMax.png');
   background-position: center;
-  background-image: url('@/assets/image/bg_c10.png');
-}
-.bgC2 {
-  // width: 47vw;
-  width: 90vw;
-  height: 63.2vh;
-  margin: 3vh 1vw 0 0;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-image: url('@/assets/image/bg_c2x.png');
-  span {
-    box-shadow:
-      0px 4px 4px 0px #00000040,
-      inset 0px -1px 1px 0px #ffffff57;
-    border: 1px solid #3f89dd;
-    background: linear-gradient(359deg, #ffffff35 1%, #008eff4a 98%);
-    font-size: 0.8vw;
-    padding: 0.5vh 0.5vw;
-    &.ok {
-      color: #5fcc34;
-      background: #ebffee;
-      border: 2px solid #6fd662;
-    }
-    &.no {
-      color: #e31008;
-      background: #facdcd;
-      border: 2px solid #ff0000;
+  .bgCheck_tit {
+    background: url('@/assets/image/bg_navItem.png') no-repeat;
+    background-size: cover;
+  }
+  .bg_listItem {
+    span {
+      box-shadow:
+        0px 4px 4px 0px #00000040,
+        inset 0px -1px 1px 0px #ffffff57;
+      border: 1px solid #3f89dd;
+      background: linear-gradient(359deg, #ffffff35 1%, #008eff4a 98%);
+      font-size: 0.7vw;
+      padding: 0.5vh 0.5vw;
+      &.ok {
+        color: #5fcc34;
+        background: #ebffee;
+        border: 2px solid #6fd662;
+      }
+      &.no {
+        color: #e31008;
+        background: #facdcd;
+        border: 2px solid #ff0000;
+      }
     }
   }
-}
-.bgB {
-  background: linear-gradient(90deg, #0390e500 0%, #0390e51f 34%, #0390e517 63%, #0390e500 99%);
-}
-.tb1 {
-  td {
-    &.tb1-lab div {
-      padding-left: 0.5vw;
-      text-align: left;
-      background: linear-gradient(358deg, #ffffff35 11%, #008eff4a 87%);
-      box-shadow:
-        0px 3.67px 3.67px 0px #00000040,
-        inset 0px -0.92px 0.92px 0px #ffffff57;
-      border: 0.92px solid #3f89dd;
-    }
-    &.err div {
-      border: 0.92px solid #ff0000;
-      background: #facdcd;
-      color: #e31008;
-    }
-    &.tb1-ico {
-      img {
-        display: block;
-        margin: 0.7vh auto 0 auto;
-        width: 2vw;
+  .bgCheck_tab {
+    table tr {
+      font-size: 0.7vw;
+      td {
+        text-align: center;
+        padding-bottom: 1vh;
+        &.tbico img {
+          margin: 0 auto;
+          width: 35%;
+        }
+        .tblab {
+          text-align: left;
+          background: linear-gradient(358deg, #ffffff35 11%, #008eff4a 87%);
+          box-shadow:
+            0px 3.67px 3.67px 0px #00000040,
+            inset 0px -0.92px 0.92px 0px #ffffff57;
+          border: 0.92px solid #3f89dd;
+          padding-left: 0.5vw;
+
+          &.err {
+            border: 0.92px solid #ff0000;
+            background: #facdcd;
+            color: #e31008;
+          }
+        }
       }
     }
   }

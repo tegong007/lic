@@ -1,9 +1,10 @@
 <template>
-  <div class="bgItem text-1.1vw">
-    <div class="bgItem_tit">自检</div>
-    <section class="bg_jianbian mb-2vh ml-2vw flex">
-      <div class="mr-3vw flex items-center">
-        <a-button type="link" class="btn_search ml-3vw" @click="() => (modal = { open: true, title: '打印自检页', data: {} })">打印自检页</a-button>
+  <div class="bgDefend_item">
+    <div class="bgDefend_tit">自检</div>
+    <section class="bg_listItem">
+      <div class="bgDefend_itemIn">
+        <div class="bgDefend_itemIn_tit"></div>
+        <a-button type="link" class="btn_search" @click="() => (modal = { open: true, title: '打印自检页', data: {} })">打印自检页</a-button>
       </div>
     </section>
   </div>
@@ -39,38 +40,3 @@ async function controlMachine() {
   }
 }
 </script>
-
-<style scoped lang="less">
-.bgItem {
-  margin-top: 3vh;
-  .bgItem_tit {
-    font-size: 1.2vw;
-    font-weight: bold;
-    padding-bottom: 1vh;
-  }
-}
-::v-deep(.ant-input),
-::v-deep(.ant-select-selector) {
-  font-size: 1.2vw;
-  background-color: transparent !important;
-  color: #ffffff;
-  border-width: 2px !important;
-  height: 4vh !important;
-  border-radius: 0;
-  min-width: 7.5vw;
-}
-::v-deep(.ant-select-selection-item) {
-  line-height: 3.5vh !important;
-}
-::v-deep(.ant-select-selection-item) {
-  font-size: 1.2vw;
-  color: #ffffff !important;
-}
-::v-deep(.ant-input::placeholder),
-::v-deep(.ant-select-selection-placeholder) {
-  color: #989ca1;
-}
-::v-deep(.anticon svg) {
-  color: #e2e5eb;
-}
-</style>

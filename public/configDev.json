@@ -2,7 +2,7 @@
   "fullscreen": false,
   "devTools": true,
   "width": 1920,
-  "height": 1080,
+  "height": 579,
   "serverAddress": "http://192.168.88.12:6102",
   "timeOut": 10000,
   "lang": "cn",

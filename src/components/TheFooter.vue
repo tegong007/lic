@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed bottom-1.5vh left-3vw w-full">
+  <!-- <div class="fixed bottom-1.5vh left-3vw w-full">
     <a-flex class="gap-2.2vw">
       <template v-for="(value, index) in link" :key="index">
         <div v-if="value.color" :key="index" class="w-3vw text-center">
@@ -10,25 +10,23 @@
         </div>
       </template>
     </a-flex>
-  </div>
-  <div class="fixed bottom-1vh right-2.5vw">
-    <a-flex justify="end">
-      <div class="bgBtn transition-transform duration-300" :class="actived === 0 ? 'actived' : 'hover:scale-105'" @click="$goto('HomePage')">
-        <span class="text-1.7vw line-height-5vh">主页</span>
-      </div>
-      <div class="bgBtn transition-transform duration-300" :class="actived === 1 ? 'actived' : 'hover:scale-105'" @click="$goto('CheckPage')">
-        <span class="text-1.7vw line-height-5vh">机器视觉</span>
-      </div>
-      <div class="bgBtn transition-transform duration-300" :class="actived === 2 ? 'actived' : 'hover:scale-105'" @click="$goto('DefendPage')">
-        <span class="text-1.7vw line-height-5vh">设备维护</span>
-      </div>
-      <div class="bgBtn transition-transform duration-300" :class="actived === 3 ? 'actived' : 'hover:scale-105'" @click="$goto('SetPage')">
-        <span class="text-1.7vw line-height-5vh">设备设置</span>
-      </div>
-      <div class="bgBtn transition-transform duration-300" :class="actived === 4 ? 'actived' : 'hover:scale-105'" @click="$goto('SearchPage')">
-        <span class="text-1.7vw line-height-5vh">查询</span>
-      </div>
-    </a-flex>
+  </div> -->
+  <div class="">
+    <div class="bgBtn transition-transform duration-300" :class="actived === 0 ? 'actived' : 'hover:scale-105'" @click="$goto('HomePage')">
+      <span class="text-1.7vw line-height-5vh">主页</span>
+    </div>
+    <div class="bgBtn transition-transform duration-300" :class="actived === 1 ? 'actived' : 'hover:scale-105'" @click="$goto('CheckPage')">
+      <span class="text-1.7vw line-height-5vh">机器视觉</span>
+    </div>
+    <div class="bgBtn transition-transform duration-300" :class="actived === 2 ? 'actived' : 'hover:scale-105'" @click="$goto('DefendPage')">
+      <span class="text-1.7vw line-height-5vh">设备维护</span>
+    </div>
+    <div class="bgBtn transition-transform duration-300" :class="actived === 3 ? 'actived' : 'hover:scale-105'" @click="$goto('SetPage')">
+      <span class="text-1.7vw line-height-5vh">设备设置</span>
+    </div>
+    <div class="bgBtn transition-transform duration-300" :class="actived === 4 ? 'actived' : 'hover:scale-105'" @click="$goto('SearchPage')">
+      <span class="text-1.7vw line-height-5vh">查询</span>
+    </div>
   </div>
 </template>
 

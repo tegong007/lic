@@ -23,13 +23,10 @@ async function bootstrap() {
   const { default: App } = await import('./App.vue');
   const app = createApp(App);
   setupStore(app);
-  app.use(i18n);
-  app.use(Antd);
-  app.use(router).use(VueViewer);
-  app.use(VxeUI).use(VxeUITable);
+  app.use(i18n).use(Antd).use(router).use(VueViewer).use(VxeUI).use(VxeUITable);
   app.component('CountTo', CountTo);
   app.config.globalProperties.$goto = function (page: string, query?: any) {
-    page === '-1' ? router.go(-1) : router.push({ name: page, query });
+    page === '-1' ? router.go(-1) : router.push({ name: page as any, query });
   };
   app.mount('#app').$nextTick(() => {
     postMessage({ payload: 'removeLoading' }, '*');

@@ -1,9 +1,9 @@
 <template>
-  <div class="bgItem text-1.1vw">
-    <div class="bgItem_tit">摄像头</div>
-    <section class="bg_jianbian mb-2vh ml-2vw flex">
-      <div v-for="(camera, index) in props.data" :key="index" class="mr-3vw flex items-center">
-        <div class="ml-2vw pr-0.5vw">{{ camera.cameraName }}:</div>
+  <div class="bgDefend_item">
+    <div class="bgDefend_tit">摄像头</div>
+    <section class="bg_listItem">
+      <div v-for="(camera, index) in props.data" :key="index" class="bgDefend_itemIn">
+        <div class="bgDefend_itemIn_tit">{{ camera.cameraName }}:</div>
         <a-button type="link" class="btn_search" @click="transferApi(camera)">{{ t('拍照') }}</a-button>
       </div>
     </section>
@@ -43,14 +43,3 @@ async function transferApi(cameraObj: any) {
   }
 }
 </script>
-
-<style scoped lang="less">
-.bgItem {
-  margin-top: 3vh;
-  .bgItem_tit {
-    font-size: 1.2vw;
-    font-weight: bold;
-    padding-bottom: 1vh;
-  }
-}
-</style>

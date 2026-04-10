@@ -1,33 +1,33 @@
 <template>
-  <a-modal width="44vw" :get-container="false" :open="props.open" :closable="false" centered force-render>
+  <a-modal width="27.7vw" :get-container="false" :open="props.open" :closable="false" centered force-render>
     <SimpleKeyboard v-if="focus && props.title === '补打备注'" :transform="transformValue" :input="text" :max-length="20" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
     <SimpleKeyboard v-if="focus && props.title === '开始进本'" :transform="transformValue" layout="num" :input="text" :max-length="20" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
     <template v-if="props.title === '补打备注'">
-      <div class="w-full pb-6vh pt-7vh text-center text-2.5vw color-#ffffff">{{ `${props.title}前请输入证本号` }}</div>
-      <a-input v-model:value="text" :class="focus ? 'keyInput' : ''" class="mb-6vh w-100% py-10px text-1.5vw" placeholder="请输入证本号" :maxlength="15" @click.stop="onInputFocus($event)" />
+      <div class="w-full pb-6vh pt-7vh text-center text-1.2vw color-#ffffff">{{ `${props.title}前请输入证本号` }}</div>
+      <a-input v-model:value="text" :class="focus ? 'keyInput' : ''" class="mb-6vh w-100% py-10px text-1vw" placeholder="请输入证本号" :maxlength="15" @click.stop="onInputFocus($event)" />
     </template>
     <template v-else-if="props.title === '开始进本'">
-      <div class="w-full pb-0vh pt-7vh text-center text-2.5vw color-#ffffff">{{ `${props.title}前请输入进本数` }}</div>
-      <div class="w-full pb-6vh pt-0vh text-center text-2vw color-#ffffff">{{ `(范围1~${props.desc})` }}</div>
-      <a-input v-model:value="text" :class="focus ? 'keyInput' : ''" class="mx-auto mb-6vh block w-80% py-10px text-1.5vw" placeholder="请输入进本数" :maxlength="15" @click.stop="onInputFocus($event)" />
+      <div class="w-full pb-0vh pt-7vh text-center text-1.4vw color-#ffffff">{{ `${props.title}前请输入进本数` }}</div>
+      <div class="w-full pb-6vh pt-0vh text-center text-1vw color-#ffffff">{{ `(范围1~${props.desc})` }}</div>
+      <a-input v-model:value="text" :class="focus ? 'keyInput' : ''" class="mx-auto mb-6vh block w-80% py-10px text-1vw" placeholder="请输入进本数" :maxlength="15" @click.stop="onInputFocus($event)" />
     </template>
     <template v-else-if="props.title === '任务添加成功'">
-      <div class="w-full pb-6vh pt-7vh text-center text-2.5vw color-#ffffff">{{ props.title }}</div>
-      <div class="text-1.5vw text-#ffffff">
+      <div class="w-full pb-6vh pt-7vh text-center text-1.2vw color-#ffffff">{{ props.title }}</div>
+      <div class="text-1vw text-#ffffff">
         <div class="mx-auto w-60% pb-2vh">任务号: {{ props.data.batchID }}</div>
         <div class="mx-auto w-60% pb-2vh">批次号: {{ props.data.taskID }}</div>
         <div class="mx-auto w-60% pb-2vh">总人数: {{ props.data.totalPeopleNum }}</div>
       </div>
     </template>
     <template v-else-if="props.title === '喷墨机状态'">
-      <div class="w-full pb-6vh pt-7vh text-center text-2.5vw color-#ffffff">{{ props.title }}</div>
-      <div class="mx-auto w-90% pb-6vh text-1.5vw text-#ffffff">{{ props.desc }}</div>
+      <div class="w-full pb-6vh pt-7vh text-center text-1.2vw color-#ffffff">{{ props.title }}</div>
+      <div class="mx-auto w-90% pb-6vh text-1vw text-#ffffff">{{ props.desc }}</div>
     </template>
     <template v-else-if="props.title === '错误弹窗提示'">
-      <div class="w-full pb-6vh pt-7vh text-center text-2.5vw color-#ffffff">{{ props.data ? props.data.title : '--' }}</div>
-      <div class="mx-auto h-20vh w-90% overflow-auto text-1.5vw text-#ffffff">{{ props.data ? props.data.msg : '--' }}</div>
+      <div class="w-full pb-6vh pt-7vh text-center text-1.2vw color-#ffffff">{{ props.data ? props.data.title : '--' }}</div>
+      <div class="mx-auto h-20vh w-90% overflow-auto text-1vw text-#ffffff">{{ props.data ? props.data.msg : '--' }}</div>
     </template>
-    <div v-else class="w-full pb-12vh pt-13vh text-center text-2.5vw color-#ffffff">{{ `确定执行${props.title}？` }}</div>
+    <div v-else class="w-full pb-12vh pt-13vh text-center text-1.2vw color-#ffffff">{{ `确定执行${props.title}？` }}</div>
     <template #footer>
       <a-flex v-if="props.title === '错误弹窗提示'" justify="center" align="center" class="gap-5%">
         <template v-if="data && data.type === 10">
@@ -184,7 +184,7 @@ function onChangeKeyboard(input: string, keyboard: any) {
   background-image: url('@/assets/image/bg_modal.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  height: 54vh;
+  height: 68.5vh;
   background-color: #03163e;
 }
 ::v-deep(.ant-modal-mask) {

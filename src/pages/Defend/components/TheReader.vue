@@ -1,10 +1,10 @@
 <template>
-  <div class="bgItem text-1.1vw">
+  <div class="bgDefend_item">
     <SimpleKeyboard v-if="showKeyboard" :transform="transformValue" :input="formData[keyInput]" :max-length="40" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
-    <div class="bgItem_tit">读写器</div>
-    <section v-for="(reader, index) in props.data" :key="index" class="bg_jianbian mb-1vh ml-2vw flex">
-      <div class="mr-3vw flex items-center">
-        <div class="ml-2vw pr-0.5vw">{{ reader.readerName }}:</div>
+    <div class="bgDefend_tit">读写器</div>
+    <section v-for="(reader, index) in props.data" :key="index" class="bg_listItem">
+      <div class="bgDefend_itemIn">
+        <div class="bgDefend_itemIn_tit">{{ reader.readerName }}:</div>
         <a-input v-model:value="formData[reader.deviceIndex]" :class="keyInput === reader.deviceIndex ? 'keyInput' : ''" class="w-30vw" placeholder="请输入" :maxlength="40" @click="onInputFocus($event, reader.deviceIndex)" />
         <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/ips-r/read-test-data', index, reader)">读数据</a-button>
         <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/ips-r/read-card-uid', index, reader)">读卡UID</a-button>
@@ -78,26 +78,3 @@ function onChangeKeyboard(input: string, keyboard: any) {
   }
 }
 </script>
-
-<style scoped lang="less">
-.bgItem {
-  margin-top: 3vh;
-  .bgItem_tit {
-    font-size: 1.2vw;
-    font-weight: bold;
-    padding-bottom: 1vh;
-  }
-}
-::v-deep(.ant-input) {
-  font-size: 1.2vw;
-  background-color: transparent !important;
-  color: #ffffff;
-  border-width: 2px !important;
-  height: 4vh !important;
-  border-radius: 0;
-  min-width: 7.5vw;
-}
-::v-deep(.ant-input::placeholder) {
-  color: #989ca1;
-}
-</style>

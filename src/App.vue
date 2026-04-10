@@ -2,14 +2,18 @@
   <a-config-provider :locale="locale === 'cn' ? zhCN : enUS">
     <a-app>
       <a-spin :spinning="appStore.spinning" :indicator="indicator" tip="加载中…">
-        <div class="bg relative h-100vh flex flex-col items-center">
-          <Header />
-          <router-view v-slot="{ Component, route: curRoute }">
-            <transition name="fade">
-              <component :is="Component" :key="curRoute.fullPath" />
-            </transition>
-          </router-view>
-          <Footer />
+        <div class="bgApp h-100vh pt-4vh font-[siyuan]">
+          <TheHeader />
+          <div class="flex">
+            <TheNaver class="w-9.7vw" />
+            <div class="flex flex-col flex-1">
+              <router-view v-slot="{ Component, route: curRoute }">
+                <transition name="fade">
+                  <component :is="Component" :key="curRoute.fullPath" />
+                </transition>
+              </router-view>
+            </div>
+          </div>
         </div>
         <TheExit v-if="exitShow" :open="exitShow" :handle-ok="() => openExitModal(false)" :handle-cancel="() => openExitModal(false)" title="退出系统" />
         <TheConfirm v-if="modal.open" :open="modal.open" :title="modal.title" :desc="modal.desc" :data="modal.data" :handle-ok="controlMachine" :handle-cancel="() => (modal = { open: false, title: '', key: -1 })" />
@@ -26,8 +30,8 @@ import zhCN from 'ant-design-vue/es/locale/zh_CN';
 import { h, watchEffect } from 'vue';
 import { homeModule } from '@/apis/proApi';
 import TheExit from '@/components/TheExit.vue';
-import Footer from '@/components/TheFooter.vue';
-import Header from '@/components/TheHeader.vue';
+import TheHeader from '@/components/TheHeader.vue';
+import TheNaver from '@/components/TheNaver.vue';
 
 import { useAppStore } from '@/store';
 
@@ -55,8 +59,6 @@ async function getDataPage() {
       if (temp.isShow && modal.value.title === '') modal.value = { open: true, title: '错误弹窗提示', data: temp, key: -1 };
       else if (!temp.isShow && modal.value.title === '错误弹窗提示') modal.value = { open: false, title: '', key: -1 };
     }
-  } catch {
-    // modal.value = { open: true, title: '错误弹窗提示', data: '123', key: -1 };
   } finally {
     setTimeout(() => {
       getDataPage();
@@ -96,13 +98,10 @@ onUnmounted(() => {
 
 <style scoped lang="less">
 * {
-  user-select: none;
-  color: #ffffff;
-  .bg {
-    background: url('@/assets/image/bg.png') center;
-    background-size: 100% 100%;
-    position: relative;
-    min-height: 100vh;
+  .bgApp {
+    background:
+      radial-gradient(128% 128% at 50% 0%, #03163e 0%, #03163eff 37%, #3662ec00 99%),
+      linear-gradient(264deg, #03163e 1%, #1d3974 98%), linear-gradient(#03163e, #03163e);
     .fade-enter-active,
     .fade-leave-active {
       transition: opacity 0.3s ease;
@@ -115,12 +114,6 @@ onUnmounted(() => {
     .fade-enter-to,
     .fade-leave-from {
       opacity: 1;
-    }
-    router-view {
-      display: block;
-      width: 100%;
-      flex: 1;
-      position: relative;
     }
   }
 }

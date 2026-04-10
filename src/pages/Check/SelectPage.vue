@@ -1,16 +1,12 @@
 <template>
-  <div class="mt-2.5vh w-92% flex">
-    <a-flex justify="around" class="mt-9vh w-94vw">
-      <div>
-        <div v-for="item in navs" :key="item.key" class="bgNav mb-4vh transition-transform duration-300" :class="choose === item.key ? 'actived' : 'hover:scale-105'" @click="setActived(item.key)">
-          <span class="text-1.5vw line-height-8vh">{{ item.name }}</span>
-        </div>
-      </div>
-      <div class="ml-2vw overflow-auto text-1.5vw">
-        <TheRecord v-if="choose === 1" :page="pages" :data="lists" @callback="getCallback" />
-        <TheSet v-else-if="choose === 2" />
-      </div>
-    </a-flex>
+  <div class="bgSelect ml-2vw mt-2vh h-65vh w-95% overflow-auto">
+    <TheRecord v-if="choose === 1" :page="pages" :data="lists" @callback="getCallback" />
+    <TheSet v-else-if="choose === 2" />
+  </div>
+  <div class="bgSelect_bottom fixed bottom-0 left-12vw right-7vw flex justify-center px-3vw py-2vh">
+    <div>
+      <TheButton title="返回" @click="$goto('CheckPage')" />
+    </div>
   </div>
 </template>
 
@@ -28,8 +24,7 @@ const route = useRoute();
 const form: any = ref({});
 const choose = ref(-1);
 const lists = ref([]);
-const pages = ref({ total: 0, current: 1, size: 10 });
-const navs: any = { x1: { name: '质检记录', key: 1 }, x2: { name: '质检设置', key: 2 } };
+const pages = ref({ total: 0, current: 1, size: 5 });
 
 function setActived(key: number) {
   if (key !== choose.value) {
@@ -41,7 +36,7 @@ function setActived(key: number) {
 
 // 回调事件
 function getCallback(param: any) {
-  const page = param.page || { total: 0, current: 1, size: 10 };
+  const page = param.page || { total: 0, current: 1, size: 5 };
   if (param.formData) {
     form.value = param.formData;
     pages.value = page;
@@ -55,7 +50,7 @@ async function getData() {
     let data: any;
     if (choose.value === 1) {
       const temp: any = form.value.dateRange || ['', ''];
-      data = await checkModule.qualityCheckHistoy({ ...form.value, dateRange: undefined, beginDate: temp[0], endDate: temp[1], page: pages.value.current, rowPerPage: 10 });
+      data = await checkModule.qualityCheckHistoy({ ...form.value, dateRange: undefined, beginDate: temp[0], endDate: temp[1], page: pages.value.current, rowPerPage: 5 });
       if (data.respData) {
         lists.value = data.respData.checkedInfo;
         pages.value = { total: data.respData.totalRows, current: data.respData.page, size: data.respData.rowPerPage };
@@ -76,59 +71,70 @@ onMounted(async () => {
 </script>
 
 <style scoped lang="less">
-.bgNav {
-  background-image: url('@/assets/image/bg_nav.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  cursor: pointer;
-  width: 15vw;
-  text-align: center;
-  height: 9vh;
-  &.actived {
-    background-image: url('@/assets/image/bg_navA.png');
-    cursor: default;
+.bgSelect {
+  ::v-deep(.ant-input),
+  ::v-deep(.ant-select-selector) {
+    font-size: 0.8vw;
+    background-color: transparent !important;
+    color: #ffffff;
+    border-width: 1px !important;
+    height: 6vh !important;
+    border-radius: 0;
+    min-width: 5vw;
+  }
+  ::v-deep(.ant-select-selection-item) {
+    line-height: 5.5vh !important;
+  }
+  ::v-deep(.ant-select-selection-item) {
+    font-size: 0.8vw;
+    color: #ffffff !important;
+  }
+  ::v-deep(.ant-input::placeholder),
+  ::v-deep(.ant-select-selection-placeholder) {
+    color: #989ca1;
+  }
+  ::v-deep(.ant-switch-checked .ant-switch-inner) {
+    background: #3662ec;
+  }
+  ::v-deep(.ant-switch-inner) {
+    background: #d8d8d8;
   }
 }
-::v-deep(.ant-form-item) {
-  margin-bottom: 0;
+.bgSelect_bottom {
+  background:
+    linear-gradient(270deg, #03163e 0%, #03163e 93%, #03163e00 100%),
+    linear-gradient(90deg, #0390e500 0%, #0390e51f 34%, #0390e517 63%, #0390e500 99%);
 }
-::v-deep(.ant-form-item-label label) {
-  color: #ffffff;
-  font-size: 1.3vw;
-  height: 4vh;
-}
-::v-deep(.ant-input),
-::v-deep(.ant-select-selector),
-::v-deep(.ant-picker-range) {
-  font-size: 1.2vw;
-  background-color: transparent !important;
-  color: #ffffff;
-  border-width: 2px !important;
-  height: 4vh !important;
-  border-radius: 0;
-  min-width: 7.5vw;
-}
-::v-deep(.ant-select-selection-item) {
-  line-height: 3.5vh !important;
-}
-::v-deep(.ant-picker-range input),
-::v-deep(.ant-select-selection-item) {
-  font-size: 1.2vw;
-  color: #ffffff !important;
-}
-::v-deep(.ant-input::placeholder),
-::v-deep(.ant-select-selection-placeholder),
-::v-deep(.ant-picker-input input::placeholder) {
-  color: #989ca1;
-}
-::v-deep(.anticon svg) {
-  color: #e2e5eb;
-}
-::v-deep(.ant-dropdown-trigger) {
-  padding-right: 2vw;
-}
-::v-deep(.ant-dropdown-trigger .anticon) {
-  position: absolute;
-  top: 1vh;
+</style>
+
+<style lang="less">
+.bgSelect {
+  .bg_listItem {
+    padding: 2vh 0;
+    margin: 2vh 0;
+    font-size: 1vw;
+  }
+  .bgSelect_item {
+    margin-bottom: 3vh;
+    .bgSelect_tit {
+      font-size: 1vw;
+      font-weight: bold;
+    }
+    .bg_listItem {
+      display: flex;
+      .bgSelect_itemIn {
+        display: flex;
+        align-items: center;
+        margin-right: 2vw;
+        .bgSelect_itemIn_tit {
+          margin-left: 2vw;
+          padding-right: 0.5vw;
+        }
+      }
+      .keyInput {
+        border-color: #3662ec;
+      }
+    }
+  }
 }
 </style>

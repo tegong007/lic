@@ -21,7 +21,7 @@ const { notification } = App.useApp();
 const form = ref({});
 const choose = ref(1);
 const lists = ref([]);
-const pages = ref({ total: 0, current: 1, size: 4 });
+const pages = ref({ total: 0, current: 1, size: 3 });
 const modal = ref({ open: false, title: '', item: {} });
 const detail = ref({ open: false, item: {} });
 
@@ -79,7 +79,7 @@ async function handleModal() {
 
 // 回调事件
 function getCallback(param: any) {
-  const page = param.page || { total: 0, current: 1, size: 4 };
+  const page = param.page || { total: 0, current: 1, size: 3 };
   if (param.formData) {
     form.value = param.formData;
     choose.value = param.formData.choose;
@@ -89,7 +89,7 @@ function getCallback(param: any) {
     if (param.key === 'chakan') {
       if (choose.value === 1) {
         form.value = { taskID: param.items.taskID };
-        pages.value = { total: 0, current: 1, size: 4 };
+        pages.value = { total: 0, current: 1, size: 3 };
         choose.value = 2;
         getData();
       } else if (choose.value === 2 || choose.value === 3) {
@@ -106,9 +106,9 @@ async function getData() {
   try {
     useAppStore().setSpinning(true);
     let data: any;
-    if (choose.value === 1) data = await searchModule.getTask({ ...form.value, page: pages.value.current, rowPerPage: 4 });
-    else if (choose.value === 2) data = await searchModule.docData({ ...form.value, page: pages.value.current, rowPerPage: 4 });
-    else if (choose.value === 3) data = await searchModule.physicalDoc({ ...form.value, page: pages.value.current, rowPerPage: 4 });
+    if (choose.value === 1) data = await searchModule.getTask({ ...form.value, page: pages.value.current, rowPerPage: 3 });
+    else if (choose.value === 2) data = await searchModule.docData({ ...form.value, page: pages.value.current, rowPerPage: 3 });
+    else if (choose.value === 3) data = await searchModule.physicalDoc({ ...form.value, page: pages.value.current, rowPerPage: 3 });
     if (data.respData) {
       if (choose.value === 1) {
         lists.value = data.respData.taskInfo;
@@ -135,30 +135,32 @@ onMounted(() => {
 
 <style scoped lang="less">
 ::v-deep(.ant-form-item) {
-  margin-bottom: 0;
+  margin-bottom: 0vh;
+}
+::v-deep(.ant-form-item-label) {
+  line-height: 6vh !important;
 }
 ::v-deep(.ant-form-item-label label) {
   color: #ffffff;
-  font-size: 1.3vw;
-  height: 4vh;
+  font-size: 0.8vw;
 }
 ::v-deep(.ant-input),
 ::v-deep(.ant-select-selector),
 ::v-deep(.ant-picker-range) {
-  font-size: 1.2vw;
+  font-size: 0.8vw;
   background-color: transparent !important;
   color: #ffffff;
-  border-width: 2px !important;
-  height: 4vh !important;
+  border-width: 1px !important;
+  height: 6vh !important;
   border-radius: 0;
-  min-width: 7.5vw;
+  min-width: 5vw;
 }
 ::v-deep(.ant-select-selection-item) {
-  line-height: 3.5vh !important;
+  line-height: 5.5vh !important;
 }
 ::v-deep(.ant-picker-range input),
 ::v-deep(.ant-select-selection-item) {
-  font-size: 1.2vw;
+  font-size: 0.8vw;
   color: #ffffff !important;
 }
 ::v-deep(.ant-input::placeholder),
@@ -169,11 +171,22 @@ onMounted(() => {
 ::v-deep(.anticon svg) {
   color: #e2e5eb;
 }
-::v-deep(.ant-dropdown-trigger) {
-  padding-right: 2vw;
-}
-::v-deep(.ant-dropdown-trigger .anticon) {
-  position: absolute;
-  top: 1vh;
+::v-deep(.vxe-pager) {
+  font-size: 0.8vw;
+  color: #cfdef1;
+  background-color: transparent;
+  .vxe-pager--prev-btn,
+  .vxe-pager--num-btn,
+  .vxe-pager--next-btn {
+    color: #ffffff;
+    background: transparent;
+  }
+  .is--active {
+    background: #3662ec;
+    color: #ffffff !important;
+  }
+  .is--disabled {
+    color: #989ca1 !important;
+  }
 }
 </style>

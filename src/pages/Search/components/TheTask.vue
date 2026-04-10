@@ -1,7 +1,7 @@
 <template>
-  <div class="mt-12vh w-94vw">
+  <div class="ml-2vw mt-2vh w-95%">
     <SimpleKeyboard v-if="showKeyboard" :transform="transformValue" :input="formData[keyInput]" :max-length="30" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
-    <div class="flex items-center gap-1vw">
+    <div class="flex items-center justify-between gap-1vw">
       <a-form-item label="搜索类型" name="choose">
         <a-select v-model:value="formData.choose" @change="onBtnClick('search2')">
           <a-select-option :value="1">任务</a-select-option>
@@ -10,69 +10,62 @@
         </a-select>
       </a-form-item>
       <a-form-item label="任务号" name="taskID">
-        <a-input v-model:value="formData.taskID" :class="keyInput === 'taskID' ? 'keyInput' : ''" class="w-13vw bg-transparent" placeholder="请输入" :maxlength="30" @click.stop="onInputFocus($event, 'taskID')" />
+        <a-input v-model:value="formData.taskID" :class="keyInput === 'taskID' ? 'keyInput' : ''" class="w-15vw bg-transparent" placeholder="请输入" :maxlength="30" @click.stop="onInputFocus($event, 'taskID')" />
       </a-form-item>
       <a-form-item label="批次号" name="batchID">
-        <a-input v-model:value="formData.batchID" :class="keyInput === 'batchID' ? 'keyInput' : ''" class="w-23vw bg-transparent" placeholder="请输入" :maxlength="30" @click.stop="onInputFocus($event, 'batchID')" />
+        <a-input v-model:value="formData.batchID" :class="keyInput === 'batchID' ? 'keyInput' : ''" class="w-15vw bg-transparent" placeholder="请输入" :maxlength="30" @click.stop="onInputFocus($event, 'batchID')" />
       </a-form-item>
       <a-form-item label="状态" name="status">
         <a-select v-model:value="formData.status">
           <a-select-option v-for="option in TaskStatusOptions" :key="option.value" :value="option.value">{{ option.label }}</a-select-option>
         </a-select>
       </a-form-item>
-    </div>
-    <div class="mb-2vh mt-2vh flex items-center justify-between">
       <a-form-item label="时间范围" name="status">
         <a-range-picker v-model:value="formData.dateRange" :locale="lang" value-format="YYYY-MM-DD" input-read-only :allow-clear="false" />
       </a-form-item>
-      <div class="flex">
-        <a-button type="link" class="btn_search mr-1vw" @click="onBtnClick('search')">查询</a-button>
-        <a-button type="link" class="btn_search mr-1vw" @click="onBtnClick('clear')">清空</a-button>
-        <a-button type="link" class="btn_search mr-1vw" @click="onBtnClick('refresh')">刷新</a-button>
-        <a-dropdown class="btn_search">
-          <template #overlay>
-            <a-menu @click="onItemClicks">
-              <a-menu-item :key="0">挂起</a-menu-item>
-              <a-menu-item :key="1">恢复生产</a-menu-item>
-            </a-menu>
-          </template>
-          <a-button class="btn flex items-center" style="padding-right: 10px">批量操作 ▽</a-button>
-        </a-dropdown>
-      </div>
     </div>
-    <div v-for="(value, index) in data" :key="index" class="bg_jianbian mb-2vh flex text-1vw line-height-3vh" :class="selects.includes(value.taskID) ? 'selected' : ''" @click="onListSelect(value.taskID)">
-      <div class="w-15% text-center line-height-4.5vh">
+    <div class="mb-4vh mt-3vh flex items-center justify-end">
+      <a-button type="link" class="btn_search mr-1vw" @click="onBtnClick('search')">查询</a-button>
+      <a-button type="link" class="btn_search mr-1vw" @click="onBtnClick('clear')">清空</a-button>
+      <a-button type="link" class="btn_search mr-1vw" @click="onBtnClick('refresh')">刷新</a-button>
+      <a-dropdown class="btn_search2">
+        <template #overlay>
+          <a-menu @click="onItemClicks">
+            <a-menu-item :key="0">挂起</a-menu-item>
+            <a-menu-item :key="1">恢复生产</a-menu-item>
+          </a-menu>
+        </template>
+        <a-button class="flex items-center" style="padding-right: 10px">批量操作 ▽</a-button>
+      </a-dropdown>
+    </div>
+    <div v-for="(value, index) in data" :key="index" class="bg_listItem mb-3vh flex items-center justify-between border-2px border-transparent py-1vh text-0.8vw line-height-4vh" :class="selects.includes(value.taskID) ? 'selected' : ''" @click="onListSelect(value.taskID)">
+      <div class="w-10% text-center">
         序号: {{ value.seq }}<br />
-        <span v-if="value.status === 4" class="tap_ok mt-10vh p-0.5vh">{{ findLabelByValue('TaskStatusOptions', value.status) }}</span>
-        <span v-else-if="value.status === 5" class="tap_ng mt-10vh p-0.5vh">{{ findLabelByValue('TaskStatusOptions', value.status) }}</span>
-        <span v-else class="tap_tip mt-10vh p-0.5vh">{{ findLabelByValue('TaskStatusOptions', value.status) }}</span>
+        <span v-if="value.status === 4" class="tag_ok mt-1vh w-5vw">{{ findLabelByValue('TaskStatusOptions', value.status) }}</span>
+        <span v-else-if="value.status === 5" class="tag_ng mt-1vh w-5vw">{{ findLabelByValue('TaskStatusOptions', value.status) }}</span>
+        <span v-else class="tag_tip mt-1vh w-5vw">{{ findLabelByValue('TaskStatusOptions', value.status) }}</span>
       </div>
-      <div class="w-27% text-left">
+      <div class="w-20% leading-5vh">
         任务号: {{ value.taskID }}<br /><span>批次号: {{ value.batchID }}</span>
-        <div class="mt-1vh">
-          <a-button type="link" class="btn_in mr-1vw" @click.stop="onItemClick('chakan', value)">查看证本列表</a-button>
-          <a-button v-if="value.status < 3 && value.waitingNum > 0" type="link" class="btn_in mr-1vw" @click.stop="onItemClick('挂起', value)">挂起</a-button>
-          <a-button v-if="value.hangUpNum > 0" type="link" class="btn_in" @click.stop="onItemClick('恢复生产', value)">恢复生产</a-button>
-        </div>
       </div>
       <div class="w-40%">
-        <div class="flex justify-between">
-          <div class="w-7vw">证本数: {{ value.docNum }}</div>
-          <div class="w-7vw">挂起数: {{ value.hangUpNum }}</div>
-          <div class="w-15vw">待生产数: {{ value.waitingNum }}</div>
+        <div class="flex items-center justify-between">
+          <div class="min-w-26% leading-5vh">证本数: {{ value.docNum }}<br />良本数: {{ value.productNum }}</div>
+          <div class="min-w-26% leading-5vh">挂起数: {{ value.hangUpNum }}<br />废本数: {{ value.obsoleteNum }}</div>
+          <div class="min-w-48% leading-5vh">待生产数: {{ value.waitingNum }}<br />生产时间: {{ value.startTime }}</div>
         </div>
-        <div class="flex justify-between">
-          <div class="w-7vw">良本数: {{ value.productNum }}</div>
-          <div class="w-7vw">废本数: {{ value.obsoleteNum }}</div>
-          <div class="w-15vw">生产时间: {{ value.startTime }}</div>
-        </div>
+      </div>
+      <div class="w-30% flex items-center justify-end gap-2vw">
+        <a-button type="link" class="btn_search" @click.stop="onItemClick('chakan', value)">查看证本列表</a-button>
+        <a-button v-if="value.status < 3 && value.waitingNum > 0" type="link" class="btn_search" @click.stop="onItemClick('挂起', value)">挂起</a-button>
+        <a-button v-if="value.hangUpNum > 0" type="link" class="btn_search" @click.stop="onItemClick('恢复生产', value)">恢复生产</a-button>
       </div>
     </div>
     <vxe-pager v-if="data.length > 0" v-model:current-page="pageIn.current" v-model:page-size="pageIn.size" :total="page.total" :layouts="['Home', 'PrevPage', 'Number', 'NextPage', 'End']" @page-change="onPageChange">
       <template #right>
         <div class="relative top-1">
           <span>共{{ Math.ceil(page.total / page.size) }}页，{{ page.total }}条记录</span>
-          <a-select v-if="page.total > 0" v-model:value="pageIn.current" class="scale-80 text-center" @change="onBtnClick('page')">
+          <a-select v-if="page.total > 0" v-model:value="pageIn.current" class="ml-1vw text-center" @change="onBtnClick('page')">
             <a-select-option v-for="(value, index) in Math.ceil(page.total / page.size)" :key="index" :value="value">第{{ value }}页</a-select-option>
           </a-select>
         </div>
@@ -177,28 +170,10 @@ function onChangeKeyboard(input: string, keyboard: any) {
 </script>
 
 <style scoped lang="less">
-::v-deep(.vxe-pager) {
-  font-size: 1vw;
-  color: #cfdef1;
-  background-color: transparent;
-  .vxe-pager--prev-btn,
-  .vxe-pager--num-btn,
-  .vxe-pager--next-btn {
-    color: #ffffff;
-    background: transparent;
-  }
-  .is--active {
-    background: #3662ec;
-    color: #ffffff !important;
-  }
-  .is--disabled {
-    color: #989ca1 !important;
-  }
-}
-.bg_jianbian {
-  border: 2px solid transparent;
+.bg_listItem {
+  cursor: pointer;
 }
 .selected {
-  border: #64cf44 2px solid;
+  border-color: #3662ec;
 }
 </style>

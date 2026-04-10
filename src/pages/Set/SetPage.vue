@@ -1,191 +1,205 @@
 <template>
-  <div class="setPage mt-14vh h-75vh w-94vw overflow-auto text-1.1vw">
+  <div class="ml-2vw mt-2vh h-65vh w-95% overflow-auto">
     <SimpleKeyboard v-if="showKeyboard" :transform="transformValue" :input="keyInputArr.length === 3 ? formData[keyInputArr[0]][keyInputArr[2]][keyInputArr[1]] : formData[keyInputArr[0]][keyInputArr[1]]" :max-length="limitInput" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
-    <div class="mb-7vh box-border w-full">
-      <div class="absolute z-2 w-full flex bg-#03163e">
-        <a-button type="link" class="btn_search mr-2vw w-8vw" @click="saveData">保存设置</a-button>
-        <a-button type="link" class="btn_search w-8vw" @click="getData">读取</a-button>
-      </div>
-    </div>
-    <div class="bgItem">
-      <div class="bgItem_tit">系统设置</div>
-      <section v-if="formData.systemConfig" class="bg_jianbian ml-2vw flex">
-        <!-- <div class="mr-3vw flex items-center">
-          <div class="ml-2vw pr-0.5vw">生产模式:</div>
-          <a-select v-model:value="formData.systemConfig.produceMode" class="w-13vw" disabled>
-            <a-select-option v-for="option in produceModeOptions" :key="option.value" :value="option.value">{{ option.label }}</a-select-option>
-          </a-select>
-        </div> -->
-        <div class="mr-3vw flex items-center">
-          <div class="ml-2vw pr-0.5vw">下发数据立刻启动:</div>
+    <div class="bgSet_item">
+      <div class="bgSet_tit">系统设置</div>
+      <section v-if="formData.systemConfig" class="bg_listItem">
+        <div class="bgSet_itemIn">
+          <div class="bgSet_itemIn_tit">下发数据立刻启动:</div>
           <a-switch v-model:checked="formData.systemConfig.startAfterAddTask" />
         </div>
-        <div class="mr-3vw flex items-center">
-          <div class="ml-2vw pr-0.5vw">初始化时清洗喷头:</div>
+        <div class="bgSet_itemIn">
+          <div class="bgSet_itemIn_tit">初始化时清洗喷头:</div>
           <a-switch v-model:checked="formData.systemConfig.isCleanUvWhenInit" />
         </div>
-        <div class="mr-3vw flex items-center">
-          <div class="ml-2vw pr-0.5vw">TMS ip地址:</div>
+        <div class="bgSet_itemIn">
+          <div class="bgSet_itemIn_tit">启用提前配号:</div>
+          <a-switch v-model:checked="formData.docTypeConfig.isPreDocID" />
+        </div>
+      </section>
+      <section v-if="formData.docTypeConfig" class="bg_listItem">
+        <div class="bgSet_itemIn">
+          <div class="bgSet_itemIn_tit">TMS ip地址:</div>
           <a-input v-model:value="formData.systemConfig.ipTMS" :class="keyInput === 'systemConfig,ipTMS' ? 'keyInput' : ''" class="w-12vw" placeholder="请输入" :maxlength="15" @click.stop="onInputFocus($event, ['systemConfig', 'ipTMS'], 15)" />
         </div>
-        <div class="flex items-center">
-          <div class="ml-2vw pr-0.5vw">本机IP:</div>
+        <div class="bgSet_itemIn">
+          <div class="bgSet_itemIn_tit">本机IP:</div>
           <a-input v-model:value="formData.systemConfig.ipLocal" :class="keyInput === 'systemConfig,ipLocal' ? 'keyInput' : ''" class="w-12vw" placeholder="请输入" :maxlength="15" @click.stop="onInputFocus($event, ['systemConfig', 'ipLocal'], 15)" />
         </div>
       </section>
-      <section v-if="formData.docTypeConfig" class="bg_jianbian ml-2vw flex">
-        <div class="mr-3vw flex items-center">
-          <div class="ml-2vw pr-0.5vw">启用提前配号:</div>
-          <a-switch v-model:checked="formData.docTypeConfig.isPreDocID" />
+      <section v-if="formData.docTypeConfig" class="bg_listItem">
+        <div class="bgSet_itemIn">
+          <div class="bgSet_itemIn_tit">支持护照类型:</div>
+          <div class="bgSet_itemIn gap-2vw">
+            <div v-if="formData.docTypeConfig.isSupportNormal"><span></span>普通护照</div>
+            <div v-if="formData.docTypeConfig.isSupportPublic"><span></span>公务护照</div>
+            <div v-if="formData.docTypeConfig.isSupportDiplomatic"><span></span>外交护照</div>
+            <div v-if="formData.docTypeConfig.isSupportNormalPublic"><span></span>因公普通护照</div>
+            <div v-if="formData.docTypeConfig.isSupportConsular"><span></span>领事护照</div>
+          </div>
         </div>
-        <div v-if="formData.docTypeConfig.isSupportNormal" class="px-2.5vw">支持普通护照</div>
-        <div v-if="formData.docTypeConfig.isSupportPublic" class="px-2.5vw">支持公务护照</div>
-        <div v-if="formData.docTypeConfig.isSupportDiplomatic" class="px-2.5vw">支持外交护照</div>
-        <div v-if="formData.docTypeConfig.isSupportNormalPublic" class="px-2.5vw">支持因公普通护照</div>
-        <div v-if="formData.docTypeConfig.isSupportConsular" class="px-2.5vw">支持领事护照</div>
       </section>
     </div>
-    <div class="bgItem">
-      <div class="bgItem_tit">主副页喷墨起始打印位置</div>
-      <section v-if="formData.uvMainOffsetHigh" class="bg_jianbian ml-2vw flex">
-        <div class="flex items-center">
-          <div class="ml-3.1vw pr-0.5vw">X轴:</div>
+    <div class="bgSet_item">
+      <div class="bgSet_tit">主副页喷墨起始打印位置</div>
+      <section v-if="formData.uvMainOffsetHigh" class="bg_listItem">
+        <div class="bgSet_itemIn">
+          <div class="bgSet_itemIn_tit">X轴:</div>
           <a-input v-model:value="formData.uvMainOffsetHigh.x" :class="keyInput === 'uvMainOffsetHigh,x' ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~20000" :maxlength="9" @click.stop="onInputFocus($event, ['uvMainOffsetHigh', 'x'], 9)" />
-          <div class="ml-0.5vw mr-14.6vw">0.001mm</div>
+          <div class="bgSet_itemIn_desc">0.001mm</div>
         </div>
-        <div class="flex items-center">
-          <div class="ml-2vw pr-0.5vw">Y轴:</div>
+        <div class="bgSet_itemIn">
+          <div class="bgSet_itemIn_tit">Y轴:</div>
           <a-input v-model:value="formData.uvMainOffsetHigh.y" :class="keyInput === 'uvMainOffsetHigh,y' ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~20000" :maxlength="9" @click.stop="onInputFocus($event, ['uvMainOffsetHigh', 'y'], 9)" />
-          <div class="ml-0.5vw">0.001mm</div>
+          <div class="bgSet_itemIn_desc">0.001mm</div>
         </div>
       </section>
     </div>
-    <div class="bgItem">
-      <div class="bgItem_tit">主副页喷墨定位基准</div>
+    <div class="bgSet_item">
+      <div class="bgSet_tit">主副页喷墨定位基准</div>
       <template v-if="formData.uvBaseHigh">
-        <section v-for="(value, index) in formData.uvBaseHigh" :key="index" class="bg_jianbian ml-2vw">
+        <section v-for="(value, index) in formData.uvBaseHigh" :key="index" class="bg_listItem flex-col">
           <div class="flex">
-            <div class="flex items-center">
-              <div class="ml-2vw pr-0.5vw">X坐标:</div>
+            <div class="bgSet_itemIn">
+              <div class="bgSet_itemIn_tit">X坐标:</div>
               <a-input v-model:value="formData.uvBaseHigh[index].x" :class="keyInput === `uvBaseHigh,x,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~30000" :maxlength="9" @click.stop="onInputFocus($event, ['uvBaseHigh', 'x', index], 9)" />
-              <div class="ml-0.5vw mr-10.9vw">0.001mm</div>
+              <div class="bgSet_itemIn_desc">0.001mm</div>
             </div>
-            <div class="flex items-center">
-              <div class="ml-2vw pr-0.5vw">Y坐标:</div>
+            <div class="bgSet_itemIn">
+              <div class="bgSet_itemIn_tit">Y坐标:</div>
               <a-input v-model:value="formData.uvBaseHigh[index].y" :class="keyInput === `uvBaseHigh,y,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~30000" :maxlength="9" @click.stop="onInputFocus($event, ['uvBaseHigh', 'y', index], 9)" />
-              <div class="ml-0.5vw mr-9vw">0.001mm</div>
+              <div class="bgSet_itemIn_desc">0.001mm</div>
             </div>
-            <div class="flex items-center">
-              <div class="ml-2vw pr-0.5vw">角度:</div>
+            <div class="bgSet_itemIn">
+              <div class="bgSet_itemIn_tit">角度:</div>
               <a-input v-model:value="formData.uvBaseHigh[index].angle" :class="keyInput === `uvBaseHigh,angle,${index}` ? 'keyInput' : ''" class="w-8vw" placeholder="请输入" :maxlength="8" @click.stop="onInputFocus($event, ['uvBaseHigh', 'angle', index], 8)" />
-              <div class="ml-0.5vw">0.001度</div>
+              <div class="bgSet_itemIn_desc">0.001度</div>
             </div>
           </div>
           <div class="mt-2vh flex">
-            <div class="flex items-center">
-              <div class="ml-2vw pr-0.5vw">X偏移:</div>
+            <div class="bgSet_itemIn">
+              <div class="bgSet_itemIn_tit">X偏移:</div>
               <a-input v-model:value="formData.uvBaseHigh[index].offsetX" :class="keyInput === `uvBaseHigh,offsetX,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入-10000 ~ 10000" :maxlength="6" @click.stop="onInputFocus($event, ['uvBaseHigh', 'offsetX', index], 6)" />
-              <div class="ml-0.5vw mr-1vw">0.001mm(向左为负/向右为正)</div>
+              <div class="bgSet_itemIn_desc">0.001mm(向左为负/向右为正)</div>
             </div>
-            <div class="flex items-center">
-              <div class="ml-2vw pr-0.5vw">Y偏移:</div>
+            <div class="bgSet_itemIn">
+              <div class="bgSet_itemIn_tit">Y偏移:</div>
               <a-input v-model:value="formData.uvBaseHigh[index].offsetY" :class="keyInput === `uvBaseHigh,offsetY,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入-10000 ~ 10000" :maxlength="6" @click.stop="onInputFocus($event, ['uvBaseHigh', 'offsetY', index], 6)" />
-              <div class="ml-0.5vw">0.001mm(向上为负/向下为正)</div>
+              <div class="bgSet_itemIn_desc">0.001mm(向上为负/向下为正)</div>
             </div>
           </div>
         </section>
       </template>
     </div>
-    <div class="bgItem">
-      <div class="bgItem_tit">激光定位基准</div>
+    <div class="bgSet_item">
+      <div class="bgSet_tit">激光定位基准</div>
       <template v-if="formData.laserBaseHigh">
-        <section v-for="(value, index) in formData.laserBaseHigh" :key="index" class="bg_jianbian ml-2vw">
+        <section v-for="(value, index) in formData.laserBaseHigh" :key="index" class="bg_listItem flex-col">
+          <div class="mb-2vh">激光器{{ Number(index) + 1 }}</div>
           <div class="flex">
-            <div class="flex items-center">
-              <div class="ml-2vw pr-0.5vw">X坐标:</div>
+            <div class="bgSet_itemIn">
+              <div class="bgSet_itemIn_tit">X坐标:</div>
               <a-input v-model:value="formData.laserBaseHigh[index].x" :class="keyInput === `laserBaseHigh,x,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~90000" :maxlength="9" @click.stop="onInputFocus($event, ['laserBaseHigh', 'x', index], 9)" />
-              <div class="ml-0.5vw mr-10.9vw">0.001mm</div>
+              <div class="bgSet_itemIn_desc">0.001mm</div>
             </div>
-            <div class="flex items-center">
-              <div class="ml-2vw pr-0.5vw">Y坐标:</div>
+            <div class="bgSet_itemIn">
+              <div class="bgSet_itemIn_tit">Y坐标:</div>
               <a-input v-model:value="formData.laserBaseHigh[index].y" :class="keyInput === `laserBaseHigh,y,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~30000" :maxlength="9" @click.stop="onInputFocus($event, ['laserBaseHigh', 'y', index], 9)" />
-              <div class="ml-0.5vw mr-9vw">0.001mm</div>
+              <div class="bgSet_itemIn_desc">0.001mm</div>
             </div>
-            <div class="flex items-center">
-              <div class="ml-2vw pr-0.5vw">角度:</div>
+            <div class="bgSet_itemIn">
+              <div class="bgSet_itemIn_tit">角度:</div>
               <a-input v-model:value="formData.laserBaseHigh[index].angle" :class="keyInput === `laserBaseHigh,angle,${index}` ? 'keyInput' : ''" class="w-8vw" placeholder="请输入" :maxlength="8" @click.stop="onInputFocus($event, ['laserBaseHigh', 'angle', index], 8)" />
-              <div class="ml-0.5vw">0.001度</div>
+              <div class="bgSet_itemIn_desc">0.001度</div>
             </div>
           </div>
           <div class="mt-2vh flex">
-            <div class="flex items-center">
-              <div class="ml-2vw pr-0.5vw">X偏移:</div>
+            <div class="bgSet_itemIn">
+              <div class="bgSet_itemIn_tit">X偏移:</div>
               <a-input v-model:value="formData.laserBaseHigh[index].offsetX" :class="keyInput === `laserBaseHigh,offsetX,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入-10000 ~ 10000" :maxlength="6" @click.stop="onInputFocus($event, ['laserBaseHigh', 'offsetX', index], 6)" />
-              <div class="ml-0.5vw mr-1vw">0.001mm(向左为负/向右为正)</div>
+              <div class="bgSet_itemIn_desc">0.001mm(向左为负/向右为正)</div>
             </div>
-            <div class="flex items-center">
-              <div class="ml-2vw pr-0.5vw">Y偏移:</div>
+            <div class="bgSet_itemIn">
+              <div class="bgSet_itemIn_tit">Y偏移:</div>
               <a-input v-model:value="formData.laserBaseHigh[index].offsetY" :class="keyInput === `laserBaseHigh,offsetY,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入-10000 ~ 10000" :maxlength="6" @click.stop="onInputFocus($event, ['laserBaseHigh', 'offsetY', index], 6)" />
-              <div class="ml-0.5vw">0.001mm(向上为负/向下为正)</div>
+              <div class="bgSet_itemIn_desc">0.001mm(向上为负/向下为正)</div>
             </div>
           </div>
         </section>
       </template>
     </div>
-    <div class="bgItem">
-      <div class="bgItem_tit">工位配置</div>
-      <section v-if="formData.positionConfig" class="bg_jianbian ml-2vw flex">
-        <div class="mr-3vw flex items-center">
-          <div class="ml-2vw w-11vw">启用正反本检测工位:</div>
+    <div class="bgSet_item">
+      <div class="bgSet_tit">激光高度调整</div>
+      <template v-if="formData.laserHeight">
+        <section v-for="(value, index) in formData.laserHeight" :key="index" class="bg_listItem">
+          <div class="flex">
+            <div class="bgSet_itemIn">
+              <div class="bgSet_itemIn_tit">激光器{{ Number(index) + 1 }}:</div>
+              <a-input v-model:value="formData.laserHeight[index]" :class="keyInput === `laserHeight,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~90000" :maxlength="9" @click.stop="onInputFocus($event, ['laserHeight', index], 9)" />
+              <div class="bgSet_itemIn_desc">0.1mm</div>
+            </div>
+          </div>
+        </section>
+      </template>
+    </div>
+    <div class="bgSet_item">
+      <div class="bgSet_tit">工位配置</div>
+      <section v-if="formData.positionConfig" class="bg_listItem">
+        <div class="bgSet_itemIn">
+          <div class="bgSet_itemIn_tit">启用正反本检测工位:</div>
           <a-switch v-model:checked="formData.positionConfig.isUseDocPose" />
         </div>
-        <div class="mr-3vw flex items-center">
-          <div class="ml-2vw w-11vw">启用读芯片工位:</div>
+        <div class="bgSet_itemIn">
+          <div class="bgSet_itemIn_tit">启用读芯片工位:</div>
           <a-switch v-model:checked="formData.positionConfig.isUseReaderRead" />
         </div>
-        <div class="mr-3vw flex items-center">
-          <div class="ml-2vw w-11vw">启用OCR工位:</div>
+        <div class="bgSet_itemIn">
+          <div class="bgSet_itemIn_tit">启用OCR工位:</div>
           <a-switch v-model:checked="formData.positionConfig.isUseOcrPos" />
         </div>
-        <div class="mr-3vw flex items-center">
-          <div class="ml-2vw w-11vw">启用写芯片工位:</div>
+        <div class="bgSet_itemIn">
+          <div class="bgSet_itemIn_tit">启用写芯片工位:</div>
           <a-switch v-model:checked="formData.positionConfig.isUseReaderWrite" />
         </div>
       </section>
-      <section v-if="formData.positionConfig" class="bg_jianbian ml-2vw flex">
-        <div class="mr-3vw flex items-center">
-          <div class="ml-2vw w-11vw">启用激光定位工位:</div>
+      <section v-if="formData.positionConfig" class="bg_listItem">
+        <div class="bgSet_itemIn">
+          <div class="bgSet_itemIn_tit">启用激光定位工位:</div>
           <a-switch v-model:checked="formData.positionConfig.isUseLaserLocation" />
         </div>
-        <div class="mr-3vw flex items-center">
-          <div class="ml-2vw w-11vw">启用激光标刻工位:</div>
+        <div class="bgSet_itemIn">
+          <div class="bgSet_itemIn_tit">启用激光标刻工位:</div>
           <a-switch v-model:checked="formData.positionConfig.isUseLaserPrint" />
         </div>
-        <div class="mr-3vw flex items-center">
-          <div class="ml-2vw w-11vw">启用喷墨定位工位:</div>
+        <div class="bgSet_itemIn">
+          <div class="bgSet_itemIn_tit">启用喷墨定位工位:</div>
           <a-switch v-model:checked="formData.positionConfig.isUseUVLocation" />
         </div>
-        <div class="mr-3vw flex items-center">
-          <div class="ml-2vw w-11vw">启用喷墨打印工位:</div>
+        <div class="bgSet_itemIn">
+          <div class="bgSet_itemIn_tit">启用喷墨打印工位:</div>
           <a-switch v-model:checked="formData.positionConfig.isUseUVPrint" />
         </div>
       </section>
-      <section v-if="formData.positionConfig" class="bg_jianbian ml-2vw flex">
-        <div class="mr-3vw flex items-center">
-          <div class="ml-2vw w-11vw">启用质检工位:</div>
+      <section v-if="formData.positionConfig" class="bg_listItem">
+        <div class="bgSet_itemIn">
+          <div class="bgSet_itemIn_tit">启用质检工位:</div>
           <a-switch v-model:checked="formData.positionConfig.isUseQuality" />
         </div>
-        <div class="mr-3vw flex items-center">
-          <div class="ml-2vw w-11vw">启用芯片校验工位:</div>
+        <div class="bgSet_itemIn">
+          <div class="bgSet_itemIn_tit">启用芯片校验工位:</div>
           <a-switch v-model:checked="formData.positionConfig.isUseReaderVerify" />
         </div>
       </section>
     </div>
-    <div class="absolute bottom-13vh right-7vw mt-3vh box-border w-18vw">
-      <div class="flex justify-end">
-        <a-button type="link" class="btn_search mr-2vw w-8vw" @click="setSuccessOpen(true)">密码设置</a-button>
-        <a-button type="link" class="btn_search w-8vw" @click="openModal(true)">退出系统</a-button>
-      </div>
+  </div>
+  <div class="bgSet_bottom fixed bottom-0 left-12vw right-7vw flex justify-between px-3vw py-2vh">
+    <div>
+      <a-button type="link" class="btn_normal mr-2vw w-8vw" @click="setSuccessOpen(true)">密码设置</a-button>
+      <a-button type="link" class="btn_normal w-8vw" @click="openModal(true)">退出系统</a-button>
+    </div>
+    <div>
+      <a-button type="link" class="btn_normal mr-2vw w-8vw" @click="saveData">保存设置</a-button>
+      <a-button type="link" class="btn_normal w-8vw" @click="getData">读取</a-button>
     </div>
   </div>
   <ThePass v-if="successOpen" :open="successOpen" :handle-ok="() => setSuccessOpen(false)" :handle-cancel="() => setSuccessOpen(false)" title="设置密码" />
@@ -327,6 +341,10 @@ async function saveData() {
             else if (item2 === 'y') tit = '主副页喷墨起始打印位置Y轴';
             reg = /^(?:20000(?:\.0{1,3})?|1?\d{1,4}(?:\.\d{1,3})?)$/;
             if (!temp[item][item2].match(reg)) error = `${tit}有误，应该是0~20000内`;
+          } else if (item === 'laserHeight') {
+            tit = `激光器${Number(item2) + 1}高度`;
+            reg = /^(?:90000(?:\.0{1,3})?|(?:[1-8]\d{4}|[1-9]\d{0,3}|0)(?:\.\d{1,3})?)$/;
+            if (!temp[item][item2].match(reg)) error = `${tit}有误，应该是0~90000内`;
           }
           if (!Number.isNaN(Number(temp[item][item2])) && typeof temp[item][item2] !== 'boolean') temp[item][item2] = Number(temp[item][item2]);
         }
@@ -348,50 +366,69 @@ onMounted(() => {
 </script>
 
 <style scoped lang="less">
-.setPage {
-  .bgItem {
-    margin-top: 4vh;
-    .bgItem_tit {
-      font-size: 1.2vw;
-      font-weight: bold;
-      padding-bottom: 1vh;
+.bgSet_item {
+  margin-bottom: 3vh;
+  .bgSet_tit {
+    font-size: 1vw;
+    font-weight: bold;
+  }
+  .bg_listItem {
+    padding: 2vh 0;
+    margin: 2vh 0;
+    display: flex;
+    font-size: 0.8vw;
+    .bgSet_itemIn {
+      display: flex;
+      align-items: center;
+      margin-right: 2vw;
+      .bgSet_itemIn_tit {
+        margin-left: 2vw;
+        padding-right: 0.5vw;
+      }
+      .bgSet_itemIn_desc {
+        margin-left: 0.5vw;
+        color: #989ca1;
+      }
+      div {
+        display: flex;
+        align-items: center;
+        span {
+          display: block;
+          width: 0.5vw;
+          height: 0.5vw;
+          background-color: #3662ec;
+          border-radius: 50%;
+          margin: 0 0.3vw 0 1vw;
+          border: 1px solid #ffffff;
+        }
+      }
+    }
+    ::v-deep(.ant-input) {
+      font-size: 0.8vw;
+      background-color: transparent !important;
+      color: #ffffff;
+      border-width: 1px !important;
+      height: 6vh !important;
+      border-radius: 0;
+      min-width: 5vw;
+    }
+    ::v-deep(.ant-input::placeholder) {
+      color: #989ca1;
+    }
+    ::v-deep(.ant-switch-checked .ant-switch-inner) {
+      background: #3662ec;
+    }
+    ::v-deep(.ant-switch-inner) {
+      background: #d8d8d8;
+    }
+    .keyInput {
+      border-color: #3662ec;
     }
   }
-  .bg_jianbian {
-    margin: 1vh 0;
-  }
-  ::v-deep(.ant-input),
-  ::v-deep(.ant-select-selector),
-  ::v-deep(.ant-picker-range) {
-    font-size: 1.2vw;
-    background-color: transparent !important;
-    color: #ffffff;
-    border-width: 2px !important;
-    height: 4vh !important;
-    border-radius: 0;
-    min-width: 7.5vw;
-  }
-  ::v-deep(.ant-select-selection-item) {
-    line-height: 3.5vh !important;
-  }
-  ::v-deep(.ant-picker-range input),
-  ::v-deep(.ant-select-selection-item) {
-    font-size: 1.2vw;
-    color: #ffffff !important;
-  }
-  ::v-deep(.ant-input::placeholder),
-  ::v-deep(.ant-select-selection-placeholder),
-  ::v-deep(.ant-picker-input input::placeholder) {
-    color: #989ca1;
-  }
-  ::v-deep(.anticon svg) {
-    color: #e2e5eb;
-  }
-  ::v-deep(.ant-switch-checked .ant-switch-inner) {
-    background: #3662ec;
-  }
-  ::v-deep(.ant-switch-inner) {
-    background: #d8d8d8;
-  }
+}
+.bgSet_bottom {
+  background:
+    linear-gradient(270deg, #03163e 0%, #03163e 93%, #03163e00 100%),
+    linear-gradient(90deg, #0390e500 0%, #0390e51f 34%, #0390e517 63%, #0390e500 99%);
 }
 </style>
