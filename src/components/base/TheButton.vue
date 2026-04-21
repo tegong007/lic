@@ -1,6 +1,6 @@
 <template>
   <div
-    class="h-8.3vh w-6.9vw flex items-center justify-center"
+    class="h-3.6vh w-18.5vw flex items-center justify-center"
     :class="{ 'cursor-not-allowed': props.disable, 'transition-transform duration-300 hover:scale-105 cursor-pointer': !props.disable }"
     @click="
       (event) => {
@@ -8,7 +8,7 @@
       }
     "
   >
-    <span class="text-1.3vw line-height-[8.3vh] font-[youshe]">{{ props.title }}</span>
+    <span class="text-3vw font-[youshe]">{{ props.title }}</span>
   </div>
 </template>
 

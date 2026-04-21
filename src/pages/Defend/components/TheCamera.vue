@@ -1,8 +1,8 @@
 <template>
   <div class="bgDefend_item">
     <div class="bgDefend_tit">摄像头</div>
-    <section class="bg_listItem">
-      <div v-for="(camera, index) in props.data" :key="index" class="bgDefend_itemIn">
+    <section class="bg_listItem" style="display: block; padding-bottom: 1px;">
+      <div v-for="(camera, index) in props.data" :key="index" class="bgDefend_itemIn mb-1vh">
         <div class="bgDefend_itemIn_tit">{{ camera.cameraName }}:</div>
         <a-button type="link" class="btn_search" @click="transferApi(camera)">{{ t('拍照') }}</a-button>
       </div>

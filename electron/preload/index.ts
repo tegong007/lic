@@ -1,6 +1,31 @@
+/**
+ * Electron Preload 脚本
+ */
+
+import type { IpcRendererEvent } from 'electron';
 import { contextBridge, ipcRenderer } from 'electron';
 
-// --------- Expose some API to the Renderer process ---------
+// ==================== 类型定义 ====================
+
+interface IElectronAPI {
+  getConfig: () => Promise<unknown>;
+  setConfig: (key: string, value: unknown) => Promise<boolean>;
+  exitWindow: () => Promise<Record<string, never>>;
+}
+
+interface ILegacyIpcRenderer {
+  on: (channel: string, listener: (event: IpcRendererEvent, ...args: unknown[]) => void) => void;
+  off: (channel: string, listener: (...args: unknown[]) => void) => void;
+  send: (channel: string, ...args: unknown[]) => void;
+  invoke: (channel: string, ...args: unknown[]) => Promise<unknown>;
+}
+
+interface ILegacyElectron {
+  send: (channel: string, ...args: unknown[]) => void;
+}
+
+// ==================== 暴露 API ====================
+
 contextBridge.exposeInMainWorld('ipcRenderer', {
   on(...args: Parameters<typeof ipcRenderer.on>) {
     const [channel, listener] = args;
@@ -18,27 +43,29 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
     const [channel, ...omit] = args;
     return ipcRenderer.invoke(channel, ...omit);
   },
+} as ILegacyIpcRenderer);
 
-  // You can expose other APTs you need here.
-  // ...
-});
 contextBridge.exposeInMainWorld('electronAPI', {
-  getConfig: () => ipcRenderer.invoke('get-config'),
-  setConfig: (key, value) => ipcRenderer.invoke('modify-config', key, value),
-  exitWindow: () => ipcRenderer.invoke('Exit_Window'),
-});
+  getConfig: (): Promise<unknown> => ipcRenderer.invoke('get-config'),
+  setConfig: (key: string, value: unknown): Promise<boolean> => ipcRenderer.invoke('modify-config', key, value),
+  exitWindow: (): Promise<Record<string, never>> => ipcRenderer.invoke('Exit_Window'),
+} as IElectronAPI);
+
 contextBridge.exposeInMainWorld('electron', {
   send: ipcRenderer.send,
-});
+} as ILegacyElectron);
 
-// --------- Preload scripts loading ---------
-function domReady(condition: DocumentReadyState[] = ['complete', 'interactive']) {
+// ==================== 加载动画 ====================
+
+type DocumentReadyState = 'loading' | 'interactive' | 'complete';
+
+function domReady(condition: DocumentReadyState[] = ['complete', 'interactive']): Promise<boolean> {
   return new Promise((resolve) => {
-    if (condition.includes(document.readyState)) {
+    if (condition.includes(document.readyState as DocumentReadyState)) {
       resolve(true);
     } else {
       document.addEventListener('readystatechange', () => {
-        if (condition.includes(document.readyState)) {
+        if (condition.includes(document.readyState as DocumentReadyState)) {
           resolve(true);
         }
       });
@@ -47,24 +74,20 @@ function domReady(condition: DocumentReadyState[] = ['complete', 'interactive'])
 }
 
 const safeDOM = {
-  append(parent: HTMLElement, child: HTMLElement) {
-    if (!Array.from(parent.children).find((e) => e === child)) {
+  append(parent: HTMLElement, child: HTMLElement): HTMLElement | undefined {
+    if (!Array.from(parent.children).find(e => e === child)) {
       return parent.appendChild(child);
     }
+    return undefined;
   },
-  remove(parent: HTMLElement, child: HTMLElement) {
-    if (Array.from(parent.children).find((e) => e === child)) {
+  remove(parent: HTMLElement, child: HTMLElement): HTMLElement | undefined {
+    if (Array.from(parent.children).find(e => e === child)) {
       return parent.removeChild(child);
     }
+    return undefined;
   },
 };
 
-/**
- * https://tobiasahlin.com/spinkit
- * https://connoratherton.com/loaders
- * https://projects.lukehaas.me/css-loaders
- * https://matejkustec.github.io/SpinThatShit
- */
 function useLoading() {
   const className = `loaders-css__square-spin`;
   const styleContent = `
@@ -103,24 +126,37 @@ function useLoading() {
   oDiv.innerHTML = `<div class="${className}"><div></div></div>`;
 
   return {
-    appendLoading() {
+    appendLoading(): void {
       safeDOM.append(document.head, oStyle);
       safeDOM.append(document.body, oDiv);
     },
-    removeLoading() {
+    removeLoading(): void {
       safeDOM.remove(document.head, oStyle);
       safeDOM.remove(document.body, oDiv);
     },
   };
 }
 
-// ----------------------------------------------------------------------
-
 const { appendLoading, removeLoading } = useLoading();
-domReady().then(appendLoading);
 
-window.onmessage = (ev) => {
-  ev.data.payload === 'removeLoading' && removeLoading();
-};
+domReady().then(() => {
+  appendLoading();
+});
+
+window.addEventListener('message', (ev: MessageEvent) => {
+  if (ev.data?.payload === 'removeLoading') {
+    removeLoading();
+  }
+});
 
 setTimeout(removeLoading, 4999);
+
+// ==================== 类型声明 ====================
+
+declare global {
+  interface Window {
+    ipcRenderer: ILegacyIpcRenderer;
+    electronAPI: IElectronAPI;
+    electron: ILegacyElectron;
+  }
+}

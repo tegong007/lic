@@ -1,5 +1,5 @@
 <template>
-  <div class="ml-2vw mt-2vh w-95%">
+  <div class="mx-auto w-95%">
     <SimpleKeyboard v-if="showKeyboard" :transform="transformValue" :input="formData[keyInput]" :max-length="30" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
     <div class="flex items-center justify-between gap-1vw">
       <a-form-item label="搜索类型" name="choose">
@@ -15,50 +15,49 @@
       <a-form-item label="批次号" name="batchID">
         <a-input v-model:value="formData.batchID" :class="keyInput === 'batchID' ? 'keyInput' : ''" class="w-15vw bg-transparent" placeholder="请输入" :maxlength="30" @click.stop="onInputFocus($event, 'batchID')" />
       </a-form-item>
-      <a-form-item label="证本号" name="docID">
-        <a-input v-model:value="formData.docID" :class="keyInput === 'docID' ? 'keyInput' : ''" class="w-15vw bg-transparent" placeholder="请输入" :maxlength="30" @click.stop="onInputFocus($event, 'docID')" />
-      </a-form-item>
-      <a-form-item label="证本状态" name="docStatus">
+      <a-form-item label="状态" name="docStatus">
         <a-select v-model:value="formData.docStatus">
           <a-select-option v-for="option in docStatusOptions" :key="option.value" :value="option.value">{{ option.label }}</a-select-option>
         </a-select>
       </a-form-item>
     </div>
-    <div class="mb-4vh mt-3vh flex items-center justify-between">
+    <div class="mt-1vh flex items-center gap-1vw">
+      <a-form-item label="证本号" name="docID">
+        <a-input v-model:value="formData.docID" :class="keyInput === 'docID' ? 'keyInput' : ''" class="bg-transparent" placeholder="请输入" :maxlength="30" @click.stop="onInputFocus($event, 'docID')" />
+      </a-form-item>
       <a-form-item label="时间范围" name="status">
         <a-range-picker v-model:value="formData.dateRange" :locale="lang" value-format="YYYY-MM-DD" input-read-only :allow-clear="false" />
       </a-form-item>
-      <div class="flex">
+    </div>
+    <div class="mb-2vh mt-1vh flex items-center justify-between">
+      <div>
         <a-button type="link" class="btn_search mr-1vw" @click="onBtnClick('search')">查询</a-button>
         <a-button type="link" class="btn_search mr-1vw" @click="onBtnClick('clear')">清空</a-button>
         <a-button type="link" class="btn_search mr-1vw" @click="onBtnClick('refresh')">刷新</a-button>
-        <a-dropdown class="btn_search2">
-          <template #overlay>
-            <a-menu @click="onItemClicks">
-              <a-menu-item :key="2">设为成功</a-menu-item>
-              <a-menu-item :key="3">设为失败</a-menu-item>
-            </a-menu>
-          </template>
-          <a-button class="flex items-center" style="padding-right: 10px">批量操作 ▽</a-button>
-        </a-dropdown>
       </div>
+      <a-dropdown class="btn_search2">
+        <template #overlay>
+          <a-menu @click="onItemClicks">
+            <a-menu-item :key="2">设为成功</a-menu-item>
+            <a-menu-item :key="3">设为失败</a-menu-item>
+          </a-menu>
+        </template>
+        <a-button class="flex items-center" style="padding-right: 10px">批量操作 ▽</a-button>
+      </a-dropdown>
     </div>
-    <div v-for="(value, index) in data" :key="index" class="bg_listItem mb-2vh flex items-center justify-between border-2px border-transparent py-0.5vh text-0.8vw line-height-4vh" :class="selects.includes(value.physicalID) ? 'selected' : ''" @click="onListSelect(value.physicalID)">
-      <div class="w-10% text-center">
-        序号: {{ value.seq }}<br />
-        <span v-if="value.docStatus === 3" class="tag_ok mt-1vh w-5vw">{{ findLabelByValue('docStatusOptions', value.docStatus) }}</span>
-        <span v-else-if="value.docStatus === 4" class="tag_ng mt-1vh w-5vw">{{ findLabelByValue('docStatusOptions', value.docStatus) }}</span>
-        <span v-else class="tag_tip mt-1vh w-5vw">{{ findLabelByValue('docStatusOptions', value.docStatus) }}</span>
-      </div>
-      <div class="w-60%">
-        <div class="flex items-center justify-between">
-          <div class="min-w-30% leading-5vh">所属任务号: {{ value.taskID }}<br />所属批次号: {{ value.batchID }}</div>
-          <div class="min-w-25% leading-4vh">姓名: {{ value.cnSurname }} {{ value.cnGivenName }}<br />证本号: {{ value.docID }}<br />证本类型: {{ findLabelByValue('docTypesOptions', value.type) }}</div>
-          <div class="min-w-25% leading-4vh">加注类型: {{ findLabelByValue('cnObsvTypeOptions', value.cnObsvType) }}<br />制本开始时间: {{ value.startTime }}<br />制本结束时间: {{ value.endTime }}</div>
-          <div class="min-w-10% flex items-center justify-center"><img v-if="value.photo" class="h-8vh" :src="`data:image/png;base64,${value.photo}`" /></div>
+    <div v-for="(value, index) in data" :key="index" class="bg_listItem mb-2vh border-2px border-transparent py-1vh text-1.8vw line-height-2vh" :class="selects.includes(value.physicalID) ? 'selected' : ''" @click="onListSelect(value.physicalID)">
+      <div class="items-top flex justify-between">
+        <div class="mt-1vh w-16% text-center">
+          序号: {{ value.seq }}<br />
+          <span v-if="value.docStatus === 3" class="tag_ok mt-1vh w-15vw">{{ findLabelByValue('docStatusOptions', value.docStatus) }}</span>
+          <span v-else-if="value.docStatus === 4" class="tag_ng mt-1vh w-15vw">{{ findLabelByValue('docStatusOptions', value.docStatus) }}</span>
+          <span v-else class="tag_tip mt-1vh w-15vw">{{ findLabelByValue('docStatusOptions', value.docStatus) }}</span>
         </div>
+        <div>所属任务号: {{ value.taskID }}<br />所属批次号: {{ value.batchID }}<br />姓名: {{ value.cnSurname }} {{ value.cnGivenName }}<br />证本号: {{ value.docID }}</div>
+        <div>证本类型: {{ findLabelByValue('docTypesOptions', value.type) }}<br />加注类型: {{ findLabelByValue('cnObsvTypeOptions', value.cnObsvType) }}<br />制本开始时间: {{ value.startTime }}<br />制本结束时间: {{ value.endTime }}</div>
+        <div class="min-w-10% flex items-center justify-center"><img v-if="value.photo" class="h-8vh" :src="`data:image/png;base64,${value.photo}`" /></div>
       </div>
-      <div class="w-30% flex items-center justify-end gap-2vw">
+      <div class="ml-18% mt-1vh flex items-center gap-2vw">
         <a-button type="link" class="btn_search" @click.stop="onItemClick('chakan', value)">查看更多</a-button>
         <a-button v-if="value.docStatus === 0 || value.docStatus === 4" type="link" class="btn_search" @click.stop="onItemClick('设为成功', value)">设为成功</a-button>
         <a-button v-if="value.docStatus === 0 || value.docStatus === 3" type="link" class="btn_search" @click.stop="onItemClick('设为失败', value)">设为失败</a-button>
@@ -66,7 +65,7 @@
     </div>
     <vxe-pager v-if="data.length > 0" v-model:current-page="pageIn.current" v-model:page-size="pageIn.size" :total="page.total" :layouts="['Home', 'PrevPage', 'Number', 'NextPage', 'End']" @page-change="onPageChange">
       <template #right>
-        <div class="relative top-1">
+        <div class="relative -top-4">
           <span>共{{ Math.ceil(page.total / page.size) }}页，{{ page.total }}条记录</span>
           <a-select v-if="page.total > 0" v-model:value="pageIn.current" class="ml-1vw text-center" @change="onBtnClick('page')">
             <a-select-option v-for="(value, index) in Math.ceil(page.total / page.size)" :key="index" :value="value">第{{ value }}页</a-select-option>

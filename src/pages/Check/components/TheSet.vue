@@ -1,7 +1,7 @@
 <template>
   <SimpleKeyboard v-if="showKeyboard" layout="num" keyboard-width="w20%" :transform="transformValue" :input="keyInputArr.length === 3 ? formData[keyInputArr[0]][0][keyInputArr[1]][keyInputArr[2]] : formData[keyInputArr[0]][0][keyInputArr[1]]" :max-length="limitInput" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
-  <div @click="hideKeyboard">
-    <div class="absolute right-5vw z-2 min-w-17.7vw flex justify-end gap-2vw bg-#03163e">
+  <div class="mx-auto w-95%" @click="hideKeyboard">
+    <div class="absolute right-5vw top-10vh z-2 min-w-17.7vw flex justify-end gap-2vw bg-#03163e">
       <a-button type="link" class="btn_normal" @click="saveData">保存设置</a-button>
       <a-button type="link" class="btn_normal" @click="getData">读取</a-button>
     </div>
@@ -14,12 +14,12 @@
         </div>
         <div class="bgSelect_itemIn">
           <div class="bgSelect_itemIn_tit">曝光时间(us):</div>
-          <a-input v-model:value="formData.ocrPose[0].usExposureTime" :class="keyInput === 'ocrPose,usExposureTime' ? 'keyInput' : ''" class="w-12vw" placeholder="请输入62~9999764" :maxlength="12" @click.stop="onInputFocus($event, ['ocrPose', 'usExposureTime'], 12)" />
+          <a-input v-model:value="formData.ocrPose[0].usExposureTime" :class="keyInput === 'ocrPose,usExposureTime' ? 'keyInput' : ''" class="w-15vw" placeholder="请输入62~9999764" :maxlength="12" @click.stop="onInputFocus($event, ['ocrPose', 'usExposureTime'], 12)" />
         </div>
       </section>
       <section v-if="formData.ocrPose && formData.ocrPose[0] && formData.ocrPose[0].targetRoi" class="bg_listItem">
         <div class="bgSelect_itemIn">
-          <div class="bgSelect_itemIn_tit">护照类型文字搜索区域(像素)</div>
+          <div class="bgSelect_itemIn_tit">护照类型文字搜索区域<br />(像素)</div>
         </div>
         <div class="bgSelect_itemIn">
           <div class="bgSelect_itemIn_tit">X:</div>
@@ -66,7 +66,7 @@
       </section>
       <section v-if="formData.ocrBeforeLaser && formData.ocrBeforeLaser[0] && formData.ocrBeforeLaser[0].markTopLeftRegion" class="bg_listItem">
         <div class="bgSelect_itemIn">
-          <div class="bgSelect_itemIn_tit">标记左上角搜索区域(像素)</div>
+          <div class="bgSelect_itemIn_tit">标记左上角搜索区域<br />(像素)</div>
         </div>
         <div class="bgSelect_itemIn">
           <div class="bgSelect_itemIn_tit">X:</div>
@@ -87,7 +87,7 @@
       </section>
       <section v-if="formData.ocrBeforeLaser && formData.ocrBeforeLaser[0] && formData.ocrBeforeLaser[0].markBottomRightRegion" class="bg_listItem">
         <div class="bgSelect_itemIn">
-          <div class="bgSelect_itemIn_tit">标记右下角搜索区域(像素)</div>
+          <div class="bgSelect_itemIn_tit">标记右下角搜索区域<br />(像素)</div>
         </div>
         <div class="bgSelect_itemIn">
           <div class="bgSelect_itemIn_tit">X:</div>
@@ -121,7 +121,7 @@
       </section>
       <section v-if="formData.ocrBeforeUv && formData.ocrBeforeUv[0]" class="bg_listItem">
         <div class="bgSelect_itemIn">
-          <div class="bgSelect_itemIn_tit">激光人像预设位置(像素)</div>
+          <div class="bgSelect_itemIn_tit">激光人像预设位置<br />(像素)</div>
         </div>
         <div class="bgSelect_itemIn">
           <div class="bgSelect_itemIn_tit">X:</div>
@@ -138,7 +138,7 @@
       </section>
       <section v-if="formData.ocrBeforeUv && formData.ocrBeforeUv[0] && formData.ocrBeforeUv[0].markTopLeftRegion" class="bg_listItem">
         <div class="bgSelect_itemIn">
-          <div class="bgSelect_itemIn_tit">标记左上角搜索区域(像素)</div>
+          <div class="bgSelect_itemIn_tit">标记左上角搜索区域<br />(像素)</div>
         </div>
         <div class="bgSelect_itemIn">
           <div class="bgSelect_itemIn_tit">X:</div>
@@ -159,7 +159,7 @@
       </section>
       <section v-if="formData.ocrBeforeUv && formData.ocrBeforeUv[0] && formData.ocrBeforeUv[0].markBottomRightRegion" class="bg_listItem">
         <div class="bgSelect_itemIn">
-          <div class="bgSelect_itemIn_tit">标记右下角搜索区域(像素)</div>
+          <div class="bgSelect_itemIn_tit">标记右下角搜索区域<br />(像素)</div>
         </div>
         <div class="bgSelect_itemIn">
           <div class="bgSelect_itemIn_tit">X:</div>
@@ -180,7 +180,7 @@
       </section>
       <section v-if="formData.ocrBeforeUv && formData.ocrBeforeUv[0] && formData.ocrBeforeUv[0].cropRegion" class="bg_listItem">
         <div class="bgSelect_itemIn">
-          <div class="bgSelect_itemIn_tit">激光人像搜索区域(像素)</div>
+          <div class="bgSelect_itemIn_tit">激光人像搜索区域<br />(像素)</div>
         </div>
         <div class="bgSelect_itemIn">
           <div class="bgSelect_itemIn_tit">X:</div>
@@ -213,7 +213,7 @@
         </div>
         <div class="bgSelect_itemIn">
           <div class="bgSelect_itemIn_tit">质量要求:</div>
-          <a-select v-model:value="formData.ocrFinished[0].qualityControl" class="w-10vw">
+          <a-select v-model:value="formData.ocrFinished[0].qualityControl">
             <a-select-option value="0">低质量要求</a-select-option>
             <a-select-option value="1">中质量要求</a-select-option>
             <a-select-option value="2">高质量要求</a-select-option>

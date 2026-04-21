@@ -1,11 +1,11 @@
 <template>
-  <div class="bgHeader relative m-auto h-16.5vh w-81vw">
-    <div class="absolute top--5vh w-full text-center">
-      <span class="text-2.5vw font-[youshe]">智能护照制证平台</span>
-    </div>
-    <div class="flex justify-between px-5.5vw pt-2.5vh text-1vw">
+  <div class="bgHeader relative m-auto h-7.5vh w-100vw">
+    <div class="mt--2.5vh flex justify-between px-2vw text-2.2vw">
       <span>网络状态：{{ isConnect }}</span>
       <span>{{ currentTime }}</span>
+    </div>
+    <div class="absolute top-0.3vh w-full text-center">
+      <span class="text-5.5vw font-[youshe]">智能护照制证平台</span>
     </div>
   </div>
 </template>
@@ -42,7 +42,7 @@ onMounted(async () => {
 
 <style scoped lang="less">
 .bgHeader {
-  background: url('@/assets/image/bg_topBar.png') no-repeat center;
-  background-size: cover;
+  background: url('@/assets/image/bg_topBar.png') no-repeat bottom;
+  background-size: contain;
 }
 </style>

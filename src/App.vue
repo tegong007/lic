@@ -4,16 +4,12 @@
       <a-spin :spinning="appStore.spinning" :indicator="indicator" tip="加载中…">
         <div class="bgApp h-100vh pt-4vh font-[siyuan]">
           <TheHeader />
-          <div class="flex">
-            <TheNaver class="w-9.7vw" />
-            <div class="flex flex-col flex-1">
-              <router-view v-slot="{ Component, route: curRoute }">
-                <transition name="fade">
-                  <component :is="Component" :key="curRoute.fullPath" />
-                </transition>
-              </router-view>
-            </div>
-          </div>
+          <router-view v-slot="{ Component, route: curRoute }">
+            <transition name="fade">
+              <component :is="Component" :key="curRoute.fullPath" />
+            </transition>
+          </router-view>
+          <TheFooter />
         </div>
         <TheExit v-if="exitShow" :open="exitShow" :handle-ok="() => openExitModal(false)" :handle-cancel="() => openExitModal(false)" title="退出系统" />
         <TheConfirm v-if="modal.open" :open="modal.open" :title="modal.title" :desc="modal.desc" :data="modal.data" :handle-ok="controlMachine" :handle-cancel="() => (modal = { open: false, title: '', key: -1 })" />
@@ -30,8 +26,8 @@ import zhCN from 'ant-design-vue/es/locale/zh_CN';
 import { h, watchEffect } from 'vue';
 import { homeModule } from '@/apis/proApi';
 import TheExit from '@/components/TheExit.vue';
+import TheFooter from '@/components/TheFooter.vue';
 import TheHeader from '@/components/TheHeader.vue';
-import TheNaver from '@/components/TheNaver.vue';
 
 import { useAppStore } from '@/store';
 
@@ -83,12 +79,18 @@ async function controlMachine() {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
   // 监听主进程发送的确认退出消息
   window.ipcRenderer.on('confirm-quit', () => {
     exitShow.value = true;
   });
   getDataPage();
+  try {
+    const config = await window.electronAPI.getConfig();
+    localStorage.setItem('config', JSON.stringify(config));
+  } catch {
+    localStorage.setItem('config', '{}');
+  }
 });
 
 onUnmounted(() => {
@@ -120,7 +122,7 @@ onUnmounted(() => {
 ::v-deep(.ant-spin-spinning) {
   position: fixed !important;
   top: calc(50% - 300px) !important;
-  font-size: 30px;
+  font-size: 20px;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,8 +1,8 @@
 <template>
-  <div class="flex justify-around">
-    <div class="relative mt--1vh w-38%">
+  <div class="">
+    <div class="relative mt--1vh w-95%">
       <img src="@/assets/image/bg_machine.png" class="w-full" />
-      <div class="absolute left-0 top-0 h-100% w-100%" @click="clickActived('')">
+      <div class="absolute left-0 top-0 h-100% w-100% text-1.5vw" @click="clickActived('')">
         <template v-for="(fw, index) in lists" :key="index">
           <template v-if="fw.code !== 0">
             <div v-if="fw.quick || fw.get" class="bg_error absolute flex cursor-pointer items-center justify-center text-center" :class="(fw.uid === actived ? 'actived' : '') + fw.style" @click.stop="clickActived(fw.uid)">
@@ -13,8 +13,8 @@
         </template>
       </div>
     </div>
-    <div class="relative h-63vh w-58% overflow-auto">
-      <a-button type="link" class="btn_normal fixed bottom-15vh right-5vw" @click="clickDone">错误处理完成</a-button>
+    <div class="bgDefend_item relative h-55vh overflow-auto">
+      <a-button type="link" class="btn_normal fixed bottom-8vh right-5vw" @click="clickDone">错误处理完成</a-button>
       <template v-for="(fw, index) in lists" :key="index">
         <template v-if="(fw.uid === actived || actived === '') && (fw.quick || fw.get)">
           <div class="bgDefend_tit">
@@ -32,7 +32,6 @@
               </template>
             </div>
           </section>
-          <div class="h-3vh w-full"></div>
         </template>
       </template>
     </div>
@@ -47,19 +46,19 @@ import { useAppStore } from '@/store/index';
 const { notification } = App.useApp();
 const lists: any = ref({
   M2_SLOT2_JOB: { uid: 'M2_SLOT2_JOB', get: true, quick: true, name: '模块2仓槽2待入仓工位', code: -1, msg: '', style: ' left-6.2% top-1% bottom-38% w-6.2% write-vertical-left' },
-  M2_SLOT1_JOB: { uid: 'M2_SLOT1_JOB', get: true, quick: true, name: '模块2仓槽1待入仓工位', code: -1, msg: '', style: ' left-14.4% top-41% bottom-38% w-6.1% text-0.5vw' },
+  M2_SLOT1_JOB: { uid: 'M2_SLOT1_JOB', get: true, quick: true, name: '模块2仓槽1待入仓工位', code: -1, msg: '', style: ' left-14.4% top-41% bottom-38% w-6.1% text-1vw' },
   M2_CHECK_JOB: { uid: 'M2_CHECK_JOB', name: '模块2检查工位', code: -1, msg: '', style: ' left-21% top-19.5% bottom-36% w-8.5%' },
-  M2_INKJET_JOB: { uid: 'M2_INKJET_JOB', quick: true, name: '模块2喷墨工位', code: -1, msg: '', style: ' left-30% top-40% bottom-26% write-vertical-left w-4% text-0.6vw' },
-  M2_IJ_DELIVER_JOB: { uid: 'M2_IJ_DELIVER_JOB', quick: true, name: '模块2喷墨送本工位', code: -1, msg: '', style: ' left-34.5% top-40% bottom-26% write-vertical-left w-4% text-0.6vw' },
-  M2_DUMMY_JOB: { uid: 'M2_DUMMY_JOB', name: '模块2预留工位', code: -1, msg: '', style: ' left-38.7% top-62.5% bottom-26% w-8% text-0.5vw' },
-  M2_TRANSITION_JOB: { uid: 'M2_TRANSITION_JOB', name: '模块2过渡位', code: -1, msg: '', style: ' left-47% top-62.5% bottom-26% w-7% text-0.5vw' },
+  M2_INKJET_JOB: { uid: 'M2_INKJET_JOB', quick: true, name: '模块2喷墨工位', code: -1, msg: '', style: ' left-30% top-40% bottom-26% write-vertical-left w-4% text-1.5vw' },
+  M2_IJ_DELIVER_JOB: { uid: 'M2_IJ_DELIVER_JOB', quick: true, name: '模块2喷墨送本工位', code: -1, msg: '', style: ' left-34.5% top-40% bottom-26% write-vertical-left w-4% text-1.3vw' },
+  M2_DUMMY_JOB: { uid: 'M2_DUMMY_JOB', name: '模块2预留工位', code: -1, msg: '', style: ' left-38.7% top-62.5% bottom-26% w-8% text-1.3vw' },
+  M2_TRANSITION_JOB: { uid: 'M2_TRANSITION_JOB', name: '模块2过渡位', code: -1, msg: '', style: ' left-47% top-62.5% bottom-26% w-7% text-1.3vw' },
   M2_BELT_JOB: { uid: 'M2_BELT_JOB', quick: true, name: '模块2皮带工位', code: -1, msg: '', style: ' left-35.5% top-76.5% bottom-9.5% w-18.5%' },
-  M1_LS_DELIVER_JOB: { uid: 'M1_LS_DELIVER_JOB', quick: true, name: '模块1激光送本工位', code: -1, msg: '', style: ' left-58% top-15% bottom-53% w-6.7% text-0.5vw' },
-  M1_PHOTO_JOB: { uid: 'M1_PHOTO_JOB', name: '模块1照相工位', code: -1, msg: '', style: ' left-65% top-28% bottom-38% w-8% text-0.6vw' },
-  M1_TURN1_JOB: { uid: 'M1_TURN1_JOB', quick: true, name: '模块1翻页1工位', code: -1, msg: '', style: ' left-73.5% top-47% bottom-28% w-7% text-0.5vw' },
-  M1_WASTE_JOB: { uid: 'M1_WASTE_JOB', get: true, quick: true, name: '模块1废本仓工位', code: -1, msg: '', style: ' left-80.8% top-47% bottom-31% w-6.4% text-0.5vw' },
+  M1_LS_DELIVER_JOB: { uid: 'M1_LS_DELIVER_JOB', quick: true, name: '模块1激光送本工位', code: -1, msg: '', style: ' left-58% top-15% bottom-53% w-6.7% text-1.4vw' },
+  M1_PHOTO_JOB: { uid: 'M1_PHOTO_JOB', name: '模块1照相工位', code: -1, msg: '', style: ' left-65% top-28% bottom-38% w-8% text-1.4vw' },
+  M1_TURN1_JOB: { uid: 'M1_TURN1_JOB', quick: true, name: '模块1翻页1工位', code: -1, msg: '', style: ' left-73.5% top-47% bottom-28% w-7% text-1.4vw' },
+  M1_WASTE_JOB: { uid: 'M1_WASTE_JOB', get: true, quick: true, name: '模块1废本仓工位', code: -1, msg: '', style: ' left-80.8% top-47% bottom-31% w-6.4% text-1.4vw' },
   M1_LOAD_JOB: { uid: 'M1_LOAD_JOB', get: true, name: '模块1装本工位', code: -1, msg: '', style: ' left-87.5% top-1% bottom-35.5% w-7.5% write-vertical-left w-2.3vw ' },
-  M1_BELT_JOB: { uid: 'M1_BELT_JOB', quick: true, name: '模块1皮带工位', code: -1, msg: '', style: ' left-86% top-76.5% bottom-9.5% w-12% text-0.6vw' },
+  M1_BELT_JOB: { uid: 'M1_BELT_JOB', quick: true, name: '模块1皮带工位', code: -1, msg: '', style: ' left-86% top-76.5% bottom-9.5% w-12% text-1.5vw' },
 });
 let timeout: any = 0;
 const actived = ref('');

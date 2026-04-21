@@ -1,5 +1,6 @@
 <template>
-  <div class="ml-2vw mt-2vh h-65vh w-95% overflow-auto">
+  <TheFooter />
+  <div class="mx-auto mt-1.5vh h-77vh w-95% overflow-auto">
     <SimpleKeyboard v-if="showKeyboard" :transform="transformValue" :input="keyInputArr.length === 3 ? formData[keyInputArr[0]][keyInputArr[2]][keyInputArr[1]] : formData[keyInputArr[0]][keyInputArr[1]]" :max-length="limitInput" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
     <div class="bgSet_item">
       <div class="bgSet_tit">系统设置</div>
@@ -20,11 +21,11 @@
       <section v-if="formData.docTypeConfig" class="bg_listItem">
         <div class="bgSet_itemIn">
           <div class="bgSet_itemIn_tit">TMS ip地址:</div>
-          <a-input v-model:value="formData.systemConfig.ipTMS" :class="keyInput === 'systemConfig,ipTMS' ? 'keyInput' : ''" class="w-12vw" placeholder="请输入" :maxlength="15" @click.stop="onInputFocus($event, ['systemConfig', 'ipTMS'], 15)" />
+          <a-input v-model:value="formData.systemConfig.ipTMS" :class="keyInput === 'systemConfig,ipTMS' ? 'keyInput' : ''" class="w-20vw" placeholder="请输入" :maxlength="15" @click.stop="onInputFocus($event, ['systemConfig', 'ipTMS'], 15)" />
         </div>
         <div class="bgSet_itemIn">
           <div class="bgSet_itemIn_tit">本机IP:</div>
-          <a-input v-model:value="formData.systemConfig.ipLocal" :class="keyInput === 'systemConfig,ipLocal' ? 'keyInput' : ''" class="w-12vw" placeholder="请输入" :maxlength="15" @click.stop="onInputFocus($event, ['systemConfig', 'ipLocal'], 15)" />
+          <a-input v-model:value="formData.systemConfig.ipLocal" :class="keyInput === 'systemConfig,ipLocal' ? 'keyInput' : ''" class="w-20vw" placeholder="请输入" :maxlength="15" @click.stop="onInputFocus($event, ['systemConfig', 'ipLocal'], 15)" />
         </div>
       </section>
       <section v-if="formData.docTypeConfig" class="bg_listItem">
@@ -70,18 +71,22 @@
               <a-input v-model:value="formData.uvBaseHigh[index].y" :class="keyInput === `uvBaseHigh,y,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~30000" :maxlength="9" @click.stop="onInputFocus($event, ['uvBaseHigh', 'y', index], 9)" />
               <div class="bgSet_itemIn_desc">0.001mm</div>
             </div>
+          </div>
+          <div class="mt-1vh flex">
             <div class="bgSet_itemIn">
               <div class="bgSet_itemIn_tit">角度:</div>
               <a-input v-model:value="formData.uvBaseHigh[index].angle" :class="keyInput === `uvBaseHigh,angle,${index}` ? 'keyInput' : ''" class="w-8vw" placeholder="请输入" :maxlength="8" @click.stop="onInputFocus($event, ['uvBaseHigh', 'angle', index], 8)" />
               <div class="bgSet_itemIn_desc">0.001度</div>
             </div>
           </div>
-          <div class="mt-2vh flex">
+          <div class="mt-1vh flex">
             <div class="bgSet_itemIn">
               <div class="bgSet_itemIn_tit">X偏移:</div>
               <a-input v-model:value="formData.uvBaseHigh[index].offsetX" :class="keyInput === `uvBaseHigh,offsetX,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入-10000 ~ 10000" :maxlength="6" @click.stop="onInputFocus($event, ['uvBaseHigh', 'offsetX', index], 6)" />
               <div class="bgSet_itemIn_desc">0.001mm(向左为负/向右为正)</div>
             </div>
+          </div>
+          <div class="mt-1vh flex">
             <div class="bgSet_itemIn">
               <div class="bgSet_itemIn_tit">Y偏移:</div>
               <a-input v-model:value="formData.uvBaseHigh[index].offsetY" :class="keyInput === `uvBaseHigh,offsetY,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入-10000 ~ 10000" :maxlength="6" @click.stop="onInputFocus($event, ['uvBaseHigh', 'offsetY', index], 6)" />
@@ -107,18 +112,22 @@
               <a-input v-model:value="formData.laserBaseHigh[index].y" :class="keyInput === `laserBaseHigh,y,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~30000" :maxlength="9" @click.stop="onInputFocus($event, ['laserBaseHigh', 'y', index], 9)" />
               <div class="bgSet_itemIn_desc">0.001mm</div>
             </div>
+          </div>
+          <div class="mt-1vh flex">
             <div class="bgSet_itemIn">
               <div class="bgSet_itemIn_tit">角度:</div>
               <a-input v-model:value="formData.laserBaseHigh[index].angle" :class="keyInput === `laserBaseHigh,angle,${index}` ? 'keyInput' : ''" class="w-8vw" placeholder="请输入" :maxlength="8" @click.stop="onInputFocus($event, ['laserBaseHigh', 'angle', index], 8)" />
               <div class="bgSet_itemIn_desc">0.001度</div>
             </div>
           </div>
-          <div class="mt-2vh flex">
+          <div class="mt-1vh flex">
             <div class="bgSet_itemIn">
               <div class="bgSet_itemIn_tit">X偏移:</div>
               <a-input v-model:value="formData.laserBaseHigh[index].offsetX" :class="keyInput === `laserBaseHigh,offsetX,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入-10000 ~ 10000" :maxlength="6" @click.stop="onInputFocus($event, ['laserBaseHigh', 'offsetX', index], 6)" />
               <div class="bgSet_itemIn_desc">0.001mm(向左为负/向右为正)</div>
             </div>
+          </div>
+          <div class="mt-1vh flex">
             <div class="bgSet_itemIn">
               <div class="bgSet_itemIn_tit">Y偏移:</div>
               <a-input v-model:value="formData.laserBaseHigh[index].offsetY" :class="keyInput === `laserBaseHigh,offsetY,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入-10000 ~ 10000" :maxlength="6" @click.stop="onInputFocus($event, ['laserBaseHigh', 'offsetY', index], 6)" />
@@ -142,6 +151,35 @@
         </section>
       </template>
     </div>
+
+    <div class="bgSet_item">
+      <div class="bgSet_tit">收本槽启用</div>
+      <template v-if="formData.collectSlotEnable">
+        <section v-for="(value, index) in formData.collectSlotEnable" :key="index" class="bg_listItem">
+          <div class="flex">
+            <div class="bgSet_itemIn">
+              <div class="bgSet_itemIn_tit">收本槽{{ index }}:</div>
+              <a-switch :checked="formData.collectSlotEnable[index] === '1'" @update:checked="(val:any) => formData.collectSlotEnable[index] = val ? '1' : '0'" />
+            </div>
+          </div>
+        </section>
+      </template>
+    </div>
+
+    <div class="bgSet_item">
+      <div class="bgSet_tit">装本槽启用</div>
+      <template v-if="formData.loadSlotEnable">
+        <section v-for="(value, index) in formData.loadSlotEnable" :key="index" class="bg_listItem">
+          <div class="flex">
+            <div class="bgSet_itemIn">
+              <div class="bgSet_itemIn_tit">装本槽{{ index }}:</div>
+              <a-switch :checked="formData.loadSlotEnable[index] === '1'" @update:checked="(val:any) => formData.loadSlotEnable[index] = val ? '1' : '0'" />
+            </div>
+          </div>
+        </section>
+      </template>
+    </div>
+
     <div class="bgSet_item">
       <div class="bgSet_tit">工位配置</div>
       <section v-if="formData.positionConfig" class="bg_listItem">
@@ -157,12 +195,12 @@
           <div class="bgSet_itemIn_tit">启用OCR工位:</div>
           <a-switch v-model:checked="formData.positionConfig.isUseOcrPos" />
         </div>
+      </section>
+      <section v-if="formData.positionConfig" class="bg_listItem">
         <div class="bgSet_itemIn">
           <div class="bgSet_itemIn_tit">启用写芯片工位:</div>
           <a-switch v-model:checked="formData.positionConfig.isUseReaderWrite" />
         </div>
-      </section>
-      <section v-if="formData.positionConfig" class="bg_listItem">
         <div class="bgSet_itemIn">
           <div class="bgSet_itemIn_tit">启用激光定位工位:</div>
           <a-switch v-model:checked="formData.positionConfig.isUseLaserLocation" />
@@ -171,6 +209,8 @@
           <div class="bgSet_itemIn_tit">启用激光标刻工位:</div>
           <a-switch v-model:checked="formData.positionConfig.isUseLaserPrint" />
         </div>
+      </section>
+      <section v-if="formData.positionConfig" class="bg_listItem">
         <div class="bgSet_itemIn">
           <div class="bgSet_itemIn_tit">启用喷墨定位工位:</div>
           <a-switch v-model:checked="formData.positionConfig.isUseUVLocation" />
@@ -179,12 +219,12 @@
           <div class="bgSet_itemIn_tit">启用喷墨打印工位:</div>
           <a-switch v-model:checked="formData.positionConfig.isUseUVPrint" />
         </div>
-      </section>
-      <section v-if="formData.positionConfig" class="bg_listItem">
         <div class="bgSet_itemIn">
           <div class="bgSet_itemIn_tit">启用质检工位:</div>
           <a-switch v-model:checked="formData.positionConfig.isUseQuality" />
         </div>
+      </section>
+      <section v-if="formData.positionConfig" class="bg_listItem">
         <div class="bgSet_itemIn">
           <div class="bgSet_itemIn_tit">启用芯片校验工位:</div>
           <a-switch v-model:checked="formData.positionConfig.isUseReaderVerify" />
@@ -192,14 +232,14 @@
       </section>
     </div>
   </div>
-  <div class="bgSet_bottom fixed bottom-0 left-12vw right-7vw flex justify-between px-3vw py-2vh">
+  <div class="fixed bottom-5vh left-3vw right-3vw flex justify-between py-2vh">
     <div>
-      <a-button type="link" class="btn_normal mr-2vw w-8vw" @click="setSuccessOpen(true)">密码设置</a-button>
-      <a-button type="link" class="btn_normal w-8vw" @click="openModal(true)">退出系统</a-button>
+      <a-button type="link" class="btn_normal mr-2vw w-18.5vw" @click="saveData">保存设置</a-button>
+      <a-button type="link" class="btn_normal w-18.5vw" @click="getData">读取</a-button>
     </div>
     <div>
-      <a-button type="link" class="btn_normal mr-2vw w-8vw" @click="saveData">保存设置</a-button>
-      <a-button type="link" class="btn_normal w-8vw" @click="getData">读取</a-button>
+      <a-button type="link" class="btn_normal mr-2vw w-18.5vw" @click="setSuccessOpen(true)">密码设置</a-button>
+      <a-button type="link" class="btn_normal w-18.5vw" @click="openModal(true)">退出系统</a-button>
     </div>
   </div>
   <ThePass v-if="successOpen" :open="successOpen" :handle-ok="() => setSuccessOpen(false)" :handle-cancel="() => setSuccessOpen(false)" title="设置密码" />
@@ -211,6 +251,7 @@ import { App } from 'ant-design-vue';
 import { useI18n } from 'vue-i18n';
 import { setMoule } from '@/apis/proApi';
 import TheExit from '@/components/TheExit.vue';
+import TheFooter from '@/components/TheFooter.vue';
 import ThePass from '@/pages/Set/components/ThePass.vue';
 import { produceModeOptions } from '@/plugins/option';
 import { useAppStore } from '@/store/index';
@@ -367,16 +408,15 @@ onMounted(() => {
 
 <style scoped lang="less">
 .bgSet_item {
-  margin-bottom: 3vh;
   .bgSet_tit {
-    font-size: 1vw;
+    font-size: 2.5vw;
     font-weight: bold;
   }
   .bg_listItem {
-    padding: 2vh 0;
-    margin: 2vh 0;
+    padding: 1vh 0;
+    margin: 1vh 0;
     display: flex;
-    font-size: 0.8vw;
+    font-size: 2vw;
     .bgSet_itemIn {
       display: flex;
       align-items: center;
@@ -384,6 +424,7 @@ onMounted(() => {
       .bgSet_itemIn_tit {
         margin-left: 2vw;
         padding-right: 0.5vw;
+        min-width: 9vw;
       }
       .bgSet_itemIn_desc {
         margin-left: 0.5vw;
@@ -404,13 +445,13 @@ onMounted(() => {
       }
     }
     ::v-deep(.ant-input) {
-      font-size: 0.8vw;
+      font-size: 2vw;
       background-color: transparent !important;
       color: #ffffff;
       border-width: 1px !important;
-      height: 6vh !important;
+      height: 3vh !important;
       border-radius: 0;
-      min-width: 5vw;
+      min-width: 10vw;
     }
     ::v-deep(.ant-input::placeholder) {
       color: #989ca1;

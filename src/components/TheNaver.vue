@@ -39,23 +39,6 @@
         <span>进本模块</span>
       </div>
     </template>
-    <template v-else>
-      <div class="bgNav animation" :class="actived === 0 ? 'actived' : ''" @click="$goto('HomePage')">
-        <span>主页</span>
-      </div>
-      <div class="bgNav animation" :class="actived === 1 ? 'actived' : ''" @click="$goto('CheckPage')">
-        <span>机器视觉</span>
-      </div>
-      <div class="bgNav animation" :class="actived === 2 ? 'actived' : ''" @click="$goto('DefendPage')">
-        <span>设备维护</span>
-      </div>
-      <div class="bgNav animation" :class="actived === 3 ? 'actived' : ''" @click="$goto('SetPage')">
-        <span>设备设置</span>
-      </div>
-      <div class="bgNav animation" :class="actived === 4 ? 'actived' : ''" @click="$goto('SearchPage')">
-        <span>查询</span>
-      </div>
-    </template>
   </div>
 </template>
 
@@ -69,18 +52,7 @@ const actived2 = ref(-1);
 watch(
   route,
   () => {
-    if (route.path === '/home') {
-      actived.value = 0;
-    } else if (route.path === '/check') {
-      actived.value = 1;
-    } else if (route.path === '/defend') {
-      actived.value = 2;
-      actived2.value = Number(route.query.key) || 1;
-    } else if (route.path === '/set') {
-      actived.value = 3;
-    } else if (route.path === '/search') {
-      actived.value = 4;
-    } else if (route.path === '/check-select') {
+    if (route.path === '/check-select') {
       actived.value = 5;
       actived2.value = Number(route.query.key) || 1;
     } else if (route.path === '/home-station') {

@@ -1,3 +1,4 @@
+import type { UserConfig } from 'vite';
 import fs from 'node:fs';
 import path from 'node:path';
 import Vue from '@vitejs/plugin-vue';
@@ -12,23 +13,49 @@ import { defineConfig } from 'vite';
 import electron from 'vite-plugin-electron/simple';
 import removeNoMatch from 'vite-plugin-router-warn';
 import pkg from './package.json';
-// import vueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 
-// https://vitejs.dev/config/
-export default defineConfig(({ command }) => {
-  // const viteEnv = loadEnv(mode, process.cwd());
+interface IPackageJson {
+  debug?: {
+    env?: {
+      VITE_DEV_SERVER_URL?: string;
+    };
+  };
+  dependencies?: Record<string, string>;
+  devDependencies?: Record<string, string>;
+}
+
+const typedPkg = pkg as IPackageJson;
+
+// ==================== 配置导出 ====================
+
+export default defineConfig(({ command }): UserConfig => {
+  // 清理旧的构建产物
   fs.rmSync('dist-electron', { recursive: true, force: true });
 
-  const isServe = command === 'serve';
-  const isBuild = command === 'build';
-  const sourcemap = isServe || !!process.env.VSCODE_DEBUG;
+  const isServe: boolean = command === 'serve';
+  const isBuild: boolean = command === 'build';
+  const sourcemap: boolean | 'inline' = isServe || !!process.env.VSCODE_DEBUG;
 
-  // 定义全局变量
-  const viteDevServerUrl = process.env.VSCODE_DEBUG ? pkg.debug.env.VITE_DEV_SERVER_URL : 'http://192.168.88.12:6102';
+  // 开发服务器 URL
+  const viteDevServerUrl: string = process.env.VSCODE_DEBUG ? typedPkg.debug?.env?.VITE_DEV_SERVER_URL || '' : 'http://192.168.88.12:6102';
+
   return {
+    // ===== 插件配置 =====
     plugins: [
-      VueRouter({ extensions: ['.vue'], dts: 'src/typed-router.d.ts' }),
-      VueMacros({ plugins: { vue: Vue() } }),
+      // Vue Router 自动路由
+      VueRouter({
+        extensions: ['.vue'],
+        dts: 'src/typed-router.d.ts',
+      }),
+
+      // Vue Macros（增强 Vue 功能）
+      VueMacros({
+        plugins: {
+          vue: Vue(),
+        },
+      }),
+
+      // API 自动导入
       AutoImport({
         imports: [
           'vue',
@@ -36,7 +63,6 @@ export default defineConfig(({ command }) => {
           '@vueuse/core',
           VueRouterAutoImports,
           {
-            // add any other imports you were relying on
             'vue-router/auto': ['useLink'],
           },
         ],
@@ -44,15 +70,23 @@ export default defineConfig(({ command }) => {
         dirs: ['src/composables'],
         vueTemplate: true,
       }),
-      Components({ resolvers: [NaiveUiResolver()], dts: false }),
+
+      // 组件自动导入
+      Components({
+        resolvers: [NaiveUiResolver()],
+        dts: false,
+      }),
+
+      // UnoCSS
       Unocss(),
+
+      // Electron 构建
       electron({
         main: {
-          // Shortcut of `build.lib.entry`
           entry: 'electron/main/index.ts',
           onstart({ startup }) {
             if (process.env.VSCODE_DEBUG) {
-              console.log(/* For `.vscode/.debug.script.mjs` */ '[startup] Electron App');
+              console.log('[startup] Electron App');
             } else {
               startup();
             }
@@ -63,61 +97,58 @@ export default defineConfig(({ command }) => {
               minify: isBuild,
               outDir: 'dist-electron/main',
               rollupOptions: {
-                // Some third-party Node.js libraries may not be built correctly by Vite, especially `C/C++` addons,
-                // we can use `external` to exclude them to ensure they work correctly.
-                // Others need to put them in `dependencies` to ensure they are collected into `app.asar` after the app is built.
-                // Of course, this is not absolute, just this way is relatively simple. :)
-                external: Object.keys('dependencies' in pkg ? pkg.dependencies : {}),
+                external: Object.keys(typedPkg.dependencies || {}),
               },
             },
           },
         },
         preload: {
-          // Shortcut of `build.rollupOptions.input`.
-          // Preload scripts may contain Web assets, so use the `build.rollupOptions.input` instead `build.lib.entry`.
           input: 'electron/preload/index.ts',
           vite: {
             build: {
-              sourcemap: sourcemap ? 'inline' : undefined, // #332
+              sourcemap: sourcemap ? 'inline' : undefined,
               minify: isBuild,
               outDir: 'dist-electron/preload',
               rollupOptions: {
-                external: Object.keys('dependencies' in pkg ? pkg.dependencies : {}),
+                external: Object.keys(typedPkg.dependencies || {}),
               },
             },
           },
         },
-        // Ployfill the Electron and Node.js API for Renderer process.
-        // If you want use Node.js in Renderer process, the `nodeIntegration` needs to be enabled in the Main process.
-        // See 👉 https://github.com/electron-vite/vite-plugin-electron-renderer
         renderer: {},
       }),
+
+      // 移除路由警告
       removeNoMatch(),
-      // vueI18nPlugin({
-      //   include: path.resolve(__dirname, "./src/i18n/locales"),
-      //   runtimeOnly: false,
-      // }),
     ],
+
+    // ===== 路径别名 =====
     resolve: {
       alias: {
         '@': path.resolve(process.cwd(), 'src'),
         '~': path.resolve(process.cwd()),
       },
     },
-    server:
-      process.env.VSCODE_DEBUG &&
-      (() => {
-        const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL);
-        return {
-          host: url.hostname,
-          port: +url.port,
-        };
-      })(),
+
+    // ===== 开发服务器 =====
+    server: process.env.VSCODE_DEBUG
+      ? (() => {
+          const url = new URL(typedPkg.debug?.env?.VITE_DEV_SERVER_URL || 'http://localhost:6102');
+          return {
+            host: url.hostname,
+            port: Number(url.port),
+          };
+        })()
+      : undefined,
+
+    // ===== 构建配置 =====
     clearScreen: false,
     build: {
-      chunkSizeWarningLimit: 1024, // chunk 大小警告的限制（单位kb）
+      chunkSizeWarningLimit: 1024,
       target: 'esnext',
     },
+
+    // ===== 全局变量 =====
     define: {
       __SERVER_URL__: JSON.stringify(viteDevServerUrl),
     },

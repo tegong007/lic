@@ -1,72 +1,72 @@
 <template>
   <div class="w-full">
-    <div class="flex">
-      <div class="w-27vw">
-        <div class="flex gap-1vw">
-          <div v-for="(value, index) in statistics" :key="index" class="text-center">
-            <div class="text-1.8vw font-[xiaowei]">{{ value.value }}</div>
-            <div class="mt--2vh text-1.2vw">{{ value.item }}</div>
-            <img class="-mt-3vh" src="@/assets/image/bg_statistics.png" />
-          </div>
-        </div>
-        <div class="bgHome_box mt-10vh h-18vh text-1vw">
-          <div class="bgHome_tit mx-auto w-9vw pt-0.5vh text-center font-bold">当前生产任务</div>
-          <div class="mt-3.5vh flex items-center justify-center gap-3vw">
-            <span>证本总数：{{ entire.machineTotalDoc }}</span>
-            <span>已进本：{{ entire.machineHandledDoc }}</span>
-            <span>待进本：{{ entire.machineRemainDoc }}</span>
-          </div>
-        </div>
-      </div>
-      <TheTable class="bgHome_tb1" name="进本模块" :data="blankCheck" :count="1" />
-      <TheTable class="bgHome_tb2" name="激光打印模块" :data="mainPrint" :count="2" />
-      <TheTable class="bgHome_tb3" name="喷墨打印模块" :data="additionPrint" :count="3" />
+    <div class="mx-3vw flex justify-between">
+      <img class="h-6.5vh w-15.3vw" src="@/assets/image/ico_left.png" />
+      <img class="h-6.5vh w-15.3vw" src="@/assets/image/ico_right.png" />
     </div>
-    <div class="mt-8vh flex">
-      <div class="bgHome_box h-15vh w-60vw flex justify-between px-6vw">
-        <div class="flex items-center gap-1.3vw">
+    <div class="mx-auto w-85vw flex justify-center gap-5vw -mt-2.5vh">
+      <div v-for="(value, index) in statistics" :key="index" class="text-center">
+        <div class="text-6vw font-[xiaowei]">{{ value.value }}</div>
+        <div class="mb-1.5vh text-3.5vw -mt-1vh">{{ value.item }}</div>
+        <img class="-mt-3vh" src="@/assets/image/bg_statistics.png" />
+      </div>
+    </div>
+    <div class="bgHome_box mx-auto mt-2vh h-7vh w-90.7vw text-2.2vw">
+      <div class="bgHome_tit mx-auto w-25vw pt-0.5vh text-center font-bold">当前生产任务</div>
+      <div class="mt-1.5vh flex items-center justify-center gap-10vw text-2.5vw">
+        <span>证本总数：{{ entire.machineTotalDoc }}</span>
+        <span>已进本：{{ entire.machineHandledDoc }}</span>
+        <span>待进本：{{ entire.machineRemainDoc }}</span>
+      </div>
+    </div>
+    <TheTable class="bgHome_tb1" name="进本模块" :data="blankCheck" :count="1" />
+    <TheTable class="bgHome_tb2" name="激光打印模块" :data="mainPrint" :count="2" />
+    <TheTable class="bgHome_tb3" name="喷墨打印模块" :data="additionPrint" :count="3" />
+    <div class="mx-5vw mt-2.7vh flex gap-4vw">
+      <div class="relative cursor-pointer text-center" :class="entire.modules && entire.modules.length >= 2 ? (entire.modules[0].code === 0 && entire.modules[1].code === 0 ? 'bgHome_tip0' : entire.modules[0].code === 2 || entire.modules[1].code === 2 ? 'bgHome_tip2' : 'bgHome_tip3') : 'bgHome_tip3'" @click="setModal(7)">
+        <template v-if="entire.modules && entire.modules.length > 2">
+          <div v-if="entire.modules[0].code === 0 && entire.modules[1].code === 0">正常</div>
+          <div v-else>错误</div>
+        </template>
+        <div v-else>离线</div>
+        <img class="mx-auto w-90%" src="@/assets/image/ico_device.png" />
+        <div class="absolute bottom-0vh w-full text-center">设备机状态</div>
+      </div>
+      <div class="relative cursor-pointer text-center" :class="entire.uvStatus && entire.uvStatus.length > 0 ? `bgHome_tip${entire.uvStatus[0].status}` : 'bgHome_tip3'" @click="setModal(6)">
+        <template v-if="entire.uvStatus && entire.uvStatus.length > 0">
+          <div v-if="entire.uvStatus[0].status === 0">正常</div>
+          <div v-else-if="entire.uvStatus[0].status === 1">工作中</div>
+          <div v-else-if="entire.uvStatus[0].status === 2">警告</div>
+          <div v-else-if="entire.uvStatus[0].status === 3">故障</div>
+          <div v-else>--</div>
+        </template>
+        <div v-else>离线</div>
+        <img class="mx-auto w-90%" src="@/assets/image/ico_uv.png" />
+        <div class="absolute bottom-0vh w-full text-center">喷墨机状态</div>
+      </div>
+      <div class="flex gap-1vw">
+        <template v-for="(value, index) in link" :key="index">
+          <div v-if="value.color" :key="index" class="w-6vw overflow-hidden text-center">
+            <div class="relative mx-auto mt-2.5vh h-6vh w-60% border-1px border-gray-400 border-dashed">
+              <div class="absolute bottom-0 w-100%" :style="{ height: `${value.count}%`, backgroundColor: value.color }"></div>
+            </div>
+            <div class="mt-0.3vh text-1.5vw">{{ value.name }}</div>
+          </div>
+        </template>
+      </div>
+    </div>
+    <div class="mt-1.5vh flex">
+      <div class="bgHome_box mx-auto h-9vh w-100vw flex justify-between px-5vw">
+        <div class="flex items-center gap-2vw">
           <TheButton v-if="isProduce === 0" title="开始进本" @click="setModal(0)" />
           <TheButton v-else-if="isProduce === 2" title="继续进本" @click="setModal(8)" />
           <TheButton v-else title="暂停进本" @click="setModal(1)" />
           <TheButton title="补打加注" @click="setModal(4)" />
         </div>
-        <div class="flex items-center gap-1.3vw">
+        <div class="flex items-center gap-2vw">
           <TheButton v-if="entire.beltStatusDetail === 111 || entire.beltStatusDetail === 113" title="启动设备" @click="setModal(3)" />
           <TheButton v-else title="暂停设备" @click="setModal(2)" />
           <TheButton title="初始化" @click="setModal(5)" />
-        </div>
-      </div>
-      <div class="ml-3vw flex gap-1.5vw">
-        <div class="relative cursor-pointer text-center" :class="entire.modules && entire.modules.length >= 2 ? (entire.modules[0].code === 0 && entire.modules[1].code === 0 ? 'bgHome_tip0' : entire.modules[0].code === 2 || entire.modules[1].code === 2 ? 'bgHome_tip2' : 'bgHome_tip3') : 'bgHome_tip3'" @click="setModal(7)">
-          <template v-if="entire.modules && entire.modules.length > 2">
-            <div v-if="entire.modules[0].code === 0 && entire.modules[1].code === 0">正常</div>
-            <div v-else>错误</div>
-          </template>
-          <div v-else>离线</div>
-          <img class="mx-auto h-60%" src="@/assets/image/ico_device.png" />
-          <div class="absolute bottom-1.2vh w-full text-center">设备机状态</div>
-        </div>
-        <div class="relative cursor-pointer text-center" :class="entire.uvStatus && entire.uvStatus.length > 0 ? `bgHome_tip${entire.uvStatus[0].status}` : 'bgHome_tip3'" @click="setModal(6)">
-          <template v-if="entire.uvStatus && entire.uvStatus.length > 0">
-            <div v-if="entire.uvStatus[0].status === 0">正常</div>
-            <div v-else-if="entire.uvStatus[0].status === 1">工作中</div>
-            <div v-else-if="entire.uvStatus[0].status === 2">警告</div>
-            <div v-else-if="entire.uvStatus[0].status === 3">故障</div>
-            <div v-else>--</div>
-          </template>
-          <div v-else>离线</div>
-          <img class="mx-auto h-60%" src="@/assets/image/ico_uv.png" />
-          <div class="absolute bottom-1.2vh w-full text-center">喷墨机状态</div>
-        </div>
-        <div class="flex gap-0.5vw pl-0.5vw">
-          <template v-for="(value, index) in link" :key="index">
-            <div v-if="value.color" :key="index" class="w-2vw overflow-hidden text-center">
-              <div class="relative mx-auto mt-1vh h-11vh w-60% border-1px border-gray-400 border-dashed">
-                <div class="absolute bottom-0 w-100%" :style="{ height: `${value.count}%`, backgroundColor: value.color }"></div>
-              </div>
-              <div class="mt-1vh text-0.6vw">{{ value.name }}</div>
-            </div>
-          </template>
         </div>
       </div>
     </div>
@@ -257,14 +257,13 @@ onUnmounted(() => {
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  width: 17.9vw;
-  height: 48.5vh;
-  margin-left: 1.8vw;
+  width: 93vw;
+  height: 10.5vh;
+  margin: 1.8vh auto 0 auto;
   position: relative;
 }
 .bgHome_tb1 {
   background-image: url('@/assets/image/bg_tabMin1.png');
-  margin-left: 2.2vw;
 }
 .bgHome_tb2 {
   background-image: url('@/assets/image/bg_tabMin2.png');
@@ -278,9 +277,9 @@ onUnmounted(() => {
 .bgHome_tip3 {
   background-size: contain;
   background-repeat: no-repeat;
-  width: 4vw;
-  height: 17.4vh;
-  font-size: 0.7vw;
+  width: 14.8vw;
+  height: 10vh;
+  font-size: 2.2vw;
 }
 .bgHome_tip0 {
   background-image: url('@/assets/image/bg_state_ok.png');

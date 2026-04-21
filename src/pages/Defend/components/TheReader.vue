@@ -2,13 +2,17 @@
   <div class="bgDefend_item">
     <SimpleKeyboard v-if="showKeyboard" :transform="transformValue" :input="formData[keyInput]" :max-length="40" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
     <div class="bgDefend_tit">读写器</div>
-    <section v-for="(reader, index) in props.data" :key="index" class="bg_listItem">
-      <div class="bgDefend_itemIn">
-        <div class="bgDefend_itemIn_tit">{{ reader.readerName }}:</div>
-        <a-input v-model:value="formData[reader.deviceIndex]" :class="keyInput === reader.deviceIndex ? 'keyInput' : ''" class="w-30vw" placeholder="请输入" :maxlength="40" @click="onInputFocus($event, reader.deviceIndex)" />
-        <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/ips-r/read-test-data', index, reader)">读数据</a-button>
-        <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/ips-r/read-card-uid', index, reader)">读卡UID</a-button>
-        <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/ips-r/write-test-data', index, reader, formData[reader.deviceIndex])">写数据</a-button>
+    <section v-for="(reader, index) in props.data" :key="index">
+      <div class="bg_listItem" style="display: block;">
+        <div class="bgDefend_itemIn">
+          <div class="bgDefend_itemIn_tit">{{ reader.readerName }}:</div>
+          <a-input v-model:value="formData[reader.deviceIndex]" :class="keyInput === reader.deviceIndex ? 'keyInput' : ''" class="w-45vw" placeholder="请输入" :maxlength="40" @click="onInputFocus($event, reader.deviceIndex)" />
+        </div>
+        <div class="bgDefend_itemIn ml-12vw mt-1vh">
+          <a-button type="link" class="btn_search ml-2vw" @click="transferApi('/ips-r/read-test-data', index, reader)">读数据</a-button>
+          <a-button type="link" class="btn_search ml-2vw" @click="transferApi('/ips-r/read-card-uid', index, reader)">读卡UID</a-button>
+          <a-button type="link" class="btn_search ml-2vw" @click="transferApi('/ips-r/write-test-data', index, reader, formData[reader.deviceIndex])">写数据</a-button>
+        </div>
       </div>
     </section>
   </div>
@@ -78,3 +82,18 @@ function onChangeKeyboard(input: string, keyboard: any) {
   }
 }
 </script>
+
+<style scoped lang="less">
+::v-deep(.ant-input) {
+  font-size: 2vw;
+  background-color: transparent !important;
+  color: #ffffff;
+  border-width: 1px !important;
+  height: 3vh !important;
+  border-radius: 0;
+  min-width: 10vw;
+}
+::v-deep(.ant-input::placeholder) {
+  color: #989ca1;
+}
+</style>

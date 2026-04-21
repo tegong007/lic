@@ -2,19 +2,19 @@
   <SimpleKeyboard v-if="showKeyboard" keyboard-width="w-30vw" layout="num" :transform="transformValue" :input="formData[keyInput]" :max-length="4" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
   <div class="bgDefend_item" @click="hideKeyboard">
     <div class="bgDefend_tit">任务添加</div>
-    <section class="bg_listItem">
+    <section class="bg_listItem" style="display: block;">
       <div class="bgDefend_itemIn">
-        <div class="bgDefend_itemIn_tit">总人数:</div>
-        <a-input v-model:value="formData.num" :class="keyInput === 'num' ? 'keyInput' : ''" class="w-9vw" placeholder="请输入1~3000" :maxlength="4" @click.stop="onInputFocus($event, 'num')" />
+        <div class="bgDefend_itemIn_tit w-9.5vw">总人数:</div>
+        <a-input v-model:value="formData.num" :class="keyInput === 'num' ? 'keyInput' : ''" class="w-25vw bg-transparent" placeholder="请输入1~3000" :maxlength="4" @click.stop="onInputFocus($event, 'num')" />
       </div>
-      <div class="bgDefend_itemIn">
+      <div class="bgDefend_itemIn my-1vh">
         <div class="bgDefend_itemIn_tit">加急程度:</div>
-        <a-select v-model:value="formData.urgentType" class="w-9vw">
+        <a-select v-model:value="formData.urgentType" class="w-25vw">
           <a-select-option v-for="option in urgencyOptions" :key="option.value" :value="option.value">{{ option.label }}</a-select-option>
         </a-select>
       </div>
       <div class="bgDefend_itemIn">
-        <div class="bgDefend_itemIn_tit"></div>
+        <div class="bgDefend_itemIn_tit w-10vw"></div>
         <a-button type="link" class="btn_search" @click="() => (modal = { open: true, title: '任务添加', data: {} })">确认添加</a-button>
       </div>
     </section>
@@ -89,3 +89,28 @@ function onChangeKeyboard(input: string, keyboard: any) {
   }
 }
 </script>
+
+<style scoped lang="less">
+::v-deep(.ant-input),
+::v-deep(.ant-select-selector) {
+  font-size: 2vw;
+  background-color: transparent !important;
+  color: #ffffff;
+  border-width: 1px !important;
+  height: 3vh !important;
+  border-radius: 0;
+  min-width: 10vw;
+}
+::v-deep(.ant-input::placeholder) {
+  color: #989ca1;
+}
+::v-deep(.ant-select-selection-item) {
+  line-height: 3vh !important;
+  font-size: 2vw;
+  color: #ffffff !important;
+}
+::v-deep(.ant-input::placeholder),
+:v-deep(.ant-select-selection-placeholder) {
+  color: #989ca1;
+}
+</style>

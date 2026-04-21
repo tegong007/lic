@@ -5,8 +5,8 @@
       <section class="bg_listItem">
         <div class="bgDefend_itemIn">
           <div class="bgDefend_itemIn_tit"></div>
-          <a-button type="link" class="btn_search mr-1vw" @click="redLight(laser, laser.printItems)">红光</a-button>
-          <a-button type="link" class="btn_search mr-1vw" @click="stopLaser(laser, laser.printItems)">急停</a-button>
+          <a-button type="link" class="btn_search mr-2vw" @click="redLight(laser, laser.printItems)">红光</a-button>
+          <a-button type="link" class="btn_search mr-2vw" @click="stopLaser(laser, laser.printItems)">急停</a-button>
         </div>
       </section>
     </template>

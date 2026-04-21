@@ -1,10 +1,10 @@
 <template>
-  <a-modal width="40vw" :get-container="false" :open="props.open" wrap-class-name="test" :closable="false" centered force-render>
+  <a-modal width="78.3vw" :get-container="false" :open="props.open" wrap-class-name="test" :closable="false" centered force-render>
     <SimpleKeyboard v-if="focus" :transform="transformValue" keyboard-width="w20%" layout="num" :max-length="6" :input="formData[focus]" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
-    <div class="w-full pb-3vh pt-7vh text-center text-2.5vw color-#ffffff">{{ props.title }}</div>
-    <a-input v-model:value="formData.oldPassword" type="password" :class="focus === 'oldPassword' ? 'keyInput' : ''" class="mb-3vh w-100% py-10px text-1.5vw" placeholder="请输入旧密码" :maxlength="6" @click.stop="onInputFocus($event, 'oldPassword')" />
-    <a-input v-model:value="formData.newPassword" type="password" :class="focus === 'newPassword' ? 'keyInput' : ''" class="mb-3vh w-100% py-10px text-1.5vw" placeholder="请输入新密码（6位数字）" :maxlength="6" @click.stop="onInputFocus($event, 'newPassword')" />
-    <a-input v-model:value="formData.confirmPassword" type="password" :class="focus === 'confirmPassword' ? 'keyInput' : ''" class="mb-3vh w-100% py-10px text-1.5vw" placeholder="请再次输入新密码" :maxlength="6" @click.stop="onInputFocus($event, 'confirmPassword')" />
+    <div class="w-full pb-2vh pt-6vh text-center text-4.5vw color-#ffffff">{{ props.title }}</div>
+    <a-input v-model:value="formData.oldPassword" type="password" :class="focus === 'oldPassword' ? 'keyInput' : ''" class="mx-auto mb-2vh block w-95% text-4.5vw" placeholder="请输入旧密码" :maxlength="6" @click.stop="onInputFocus($event, 'oldPassword')" />
+    <a-input v-model:value="formData.newPassword" type="password" :class="focus === 'newPassword' ? 'keyInput' : ''" class="mx-auto mb-2vh block w-95% text-4.5vw" placeholder="请输入新密码（6位数字）" :maxlength="6" @click.stop="onInputFocus($event, 'newPassword')" />
+    <a-input v-model:value="formData.confirmPassword" type="password" :class="focus === 'confirmPassword' ? 'keyInput' : ''" class="mx-auto mb-4vh block w-95% text-4.5vw" placeholder="请再次输入新密码" :maxlength="6" @click.stop="onInputFocus($event, 'confirmPassword')" />
     <template #footer>
       <a-flex justify="center" align="center" class="gap-10%">
         <a-button class="btn transition-transform duration-300 hover:scale-105" @click="handleCancel">取消</a-button>
@@ -83,7 +83,7 @@ function onChangeKeyboard(input: string, keyboard: any) {
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-color: #03163e;
-  padding-bottom: 8vh;
+  padding-bottom: 5vh;
 }
 ::v-deep(.ant-modal-mask) {
   background: #03163ef2;
@@ -92,9 +92,10 @@ function onChangeKeyboard(input: string, keyboard: any) {
   background: #3662ec;
   border: 0;
   color: #ffffff;
-  width: 30%;
-  font-size: 3vh;
-  height: 7vh;
+  width: 21.8vw;
+  font-size: 2.5vw;
+  height: 4vh;
+  border-radius: 2px;
   &:hover {
     color: #ffffff;
   }

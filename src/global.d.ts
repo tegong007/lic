@@ -10,5 +10,4 @@ interface Window {
   serverAddress: string;
   timeOut: string;
   lang: string;
-  docCount: string;
 }

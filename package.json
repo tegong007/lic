@@ -1,24 +1,14 @@
 {
   "name": "tss-xiaohongyan",
   "type": "module",
-  "version": "2.0.13.14",
+  "version": "3.0.13.14",
   "private": true,
   "description": "base on Electron + Vue + Naive UI created project.",
   "author": "Dascom",
   "license": "MIT",
-  "keywords": [
-    "electron",
-    "rollup",
-    "vite",
-    "vue3",
-    "vue"
-  ],
+  "keywords": ["electron", "rollup", "vite", "vue3", "vue"],
   "main": "dist-electron/main/index.js",
-  "debug": {
-    "env": {
-      "VITE_DEV_SERVER_URL": "http://127.0.0.1:3344/"
-    }
-  },
+  "debug": { "env": { "VITE_DEV_SERVER_URL": "http://127.0.0.1:3344/" } },
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build && electron-builder",

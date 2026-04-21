@@ -1,16 +1,16 @@
 <template>
   <SimpleKeyboard v-if="showKeyboard" layout="num" keyboard-width="w20%" :transform="transformValue" :input="lists[keyInputArr[1]][keyInputArr[2]][keyInputArr[3]][keyInputArr[4]]" :max-length="limitInput" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
-  <div v-if="actived" class="relative ml-2vw mt-2vh h-65vh w-95% overflow-auto">
-    <div class="fixed z-2 w-83vw flex items-center justify-between bg-#03163e">
-      <div class="text-1vw font-bold">{{ navs[`x${actived}`].name }}</div>
-      <div class="flex gap-2vw">
+  <div v-if="actived" class="relative mx-auto h-65vh w-95% overflow-auto">
+    <div class="fixed z-2 w-full flex items-center justify-between bg-#03163e">
+      <div class="ml-2vw text-2.5vw font-bold">{{ navs[`x${actived}`].name }}</div>
+      <div class="mr-7vw flex gap-2vw">
         <a-button type="link" class="btn_normal" @click="getDataList">刷新状态</a-button>
         <a-button type="link" class="btn_normal" @click="saveData">保存设置</a-button>
       </div>
     </div>
-    <div class="mt-10vh text-1vw">
+    <div class="mt-5vh text-1vw">
       <div v-for="(item, index) in lists" :key="index" class="my-2vh">
-        <div class="bg_listItem flex justify-around py-2vh text-1vw">
+        <div class="bg_listItem flex justify-around py-1vh text-2vw">
           <div class="w-20vw font-bold">{{ item.item }}</div>
           <div>历史成功数：{{ item.historySuccessNum || 0 }}</div>
           <div>历史失败数：{{ item.historyFailNum || 0 }}</div>
@@ -18,17 +18,17 @@
           <div v-else-if="item.status === 2" class="error">警告</div>
           <div v-else-if="item.status === 3" class="warn">故障</div>
         </div>
-        <div class="flex text-0.8vw">
-          <div v-for="(item2, index2) in item.deviceList" :key="index2">
-            <div class="my-2vh flex items-center">
-              <div class="w-5vw pr-0.5vw text-right">名称:</div><div>{{ item2.name }}</div>
+        <div class="text-2vw">
+          <div v-for="(item2, index2) in item.deviceList" :key="index2" class="flex">
+            <div class="my-1vh flex items-center">
+              <div class="w-10vw pr-0.5vw text-right">名称:</div><div>{{ item2.name }}</div>
             </div>
-            <div class="my-2vh flex items-center">
-              <div class="w-5vw pr-0.5vw text-right">本机IP:</div>
-              <a-input v-model:value="lists[index].deviceList[index2].uid" :class="keyInput === `lists,${index},deviceList,${index2},uid` ? 'keyInput' : ''" class="w-12vw" placeholder="请输入" :maxlength="15" @click.stop="onInputFocus($event, ['lists', index, 'deviceList', index2, 'uid'], 15)" />
+            <div class="my-1vh flex items-center">
+              <div class="w-15vw pr-0.5vw text-right">本机IP:</div>
+              <a-input v-model:value="lists[index].deviceList[index2].uid" :class="keyInput === `lists,${index},deviceList,${index2},uid` ? 'keyInput' : ''" class="w-20vw" placeholder="请输入" :maxlength="15" @click.stop="onInputFocus($event, ['lists', index, 'deviceList', index2, 'uid'], 15)" />
             </div>
-            <div class="my-2vh flex items-center">
-              <div class="w-5vw pr-0.5vw text-right">是否启用:</div>
+            <div class="my-1vh flex items-center">
+              <div class="w-15vw pr-0.5vw text-right">是否启用:</div>
               <a-switch v-model:checked="lists[index].deviceList[index2].isEnable" />
             </div>
           </div>
@@ -153,13 +153,13 @@ onMounted(async () => {
 
 <style scoped lang="less">
 ::v-deep(.ant-input) {
-  font-size: 0.8vw;
+  font-size: 2vw;
   background-color: transparent !important;
   color: #ffffff;
   border-width: 1px !important;
-  height: 6vh !important;
+  height: 3vh !important;
   border-radius: 0;
-  min-width: 5vw;
+  min-width: 10vw;
 }
 ::v-deep(.ant-input::placeholder) {
   color: #989ca1;
@@ -169,8 +169,8 @@ onMounted(async () => {
   .warn,
   .error {
     text-align: center;
-    font-size: 0.8vw;
-    padding: 0 1vw;
+    font-size: 2vw;
+    padding: 0 1.5vw;
   }
   .success {
     background: #5fcc3433;
@@ -185,11 +185,11 @@ onMounted(async () => {
     color: #e31008;
   }
 }
-.bgStation_bottom {
+/*.bgStation_bottom {
   background:
     linear-gradient(270deg, #03163e 0%, #03163e 93%, #03163e00 100%),
     linear-gradient(90deg, #0390e500 0%, #0390e51f 34%, #0390e517 63%, #0390e500 99%);
-}
+}*/
 .keyInput {
   border-color: #3662ec;
 }

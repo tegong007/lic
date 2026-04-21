@@ -4,18 +4,37 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>%VITE_TITLE%</title>
+    <title>TSS</title>
   </head>
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="/embed-sdk.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         window.electronAPI.getConfig().then((config) => {
           window.serverAddress = config.serverAddress;
           window.timeOut = config.timeOut;
           window.lang = config.lang;
-          window.docCount = config.docCount;
+          if (config.aiChat) {
+            new EmbedKyEmployeeSDK({
+              employeeId: 'FiIo9YfSEMcDUt9KkRmQ',
+              code: 'R4l7XgxUb6blOzyZVy_3J',
+              autoShow: true,
+              renderConfig: {
+                width: '300px',
+                height: '500px',
+                position: 'bottom-right',
+                mode: 'floating',
+              },
+              triggerConfig: {
+                enabled: true,
+                size: 'medium',
+                position: 'bottom-right',
+                iconType: 'half',
+              },
+            });
+          }
         });
       });
     </script>

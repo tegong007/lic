@@ -4,11 +4,11 @@
     "jsx": "preserve",
     "lib": ["ESNext", "DOM"],
     "useDefineForClassFields": true,
-    "baseUrl": ".",
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"],
+      "~/*": ["./*"]
     },
     "resolveJsonModule": true,
     "types": ["vite/client", "unplugin-vue-macros/macros-global", "unplugin-vue-router/client"],

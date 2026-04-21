@@ -1,24 +1,22 @@
 <template>
-  <div class="ml-2vw mt-2vh w-95% flex justify-center gap-5vw">
-    <div class="w-25vw flex items-end">
-      <div class="bg_listItem w-full flex justify-center gap-5vw py-3vh">
-        <TheButton title="参数设置" @click="$goto('CheckSelectPage', { key: 2 })" />
-        <TheButton title="质检记录" @click="$goto('CheckSelectPage', { key: 1 })" />
-      </div>
-    </div>
-    <div class="bgCheck_box mr-5vw text-0.8vw">
-      <div class="bgCheck_tit mx-auto mt-2vh w-9vw pt-0.5vh text-center text-1vw font-bold">质检结果</div>
-      <div class="bg_listItem mt-3vh flex justify-around py-1vh">
+  <div class="mx-3vw flex justify-between">
+    <img class="h-6.5vh w-15.3vw" src="@/assets/image/ico_left.png" />
+    <img class="h-6.5vh w-15.3vw" src="@/assets/image/ico_right.png" />
+  </div>
+  <div class="mx-auto mt-8vh w-95%">
+    <div class="bgCheck_box pt-1vh text-2.2vw">
+      <div class="bgCheck_tit mx-auto w-25vw pt-0.5vh text-center font-bold">质检结果</div>
+      <div class="bg_listItem mt-1vh flex justify-around py-0.5vh">
         <div>{{ mainCheck.time || '--' }}</div>
         <div>证件号：{{ mainCheck.docID || '--' }}</div>
         <div>结果：<span v-if="!mainCheck.docID">检测中…</span><span v-else-if="mainCheck.qualityResult === 0" class="ok">良品</span><span v-else class="no">不良品</span></div>
       </div>
       <div class="bgCheck_tab flex justify-between">
-        <table class="ml-3vw mt-3vh w-20vw">
+        <table class="ml-3vw mt-1vh w-50vw">
           <tr>
-            <th class="pb-1vh">序号</th>
-            <th class="pb-1vh">检测项</th>
-            <th class="pb-1vh">状态</th>
+            <th class="pb-0.5vh">序号</th>
+            <th class="pb-0.5vh">检测项</th>
+            <th class="pb-0.5vh">状态</th>
           </tr>
           <tr v-for="(value, index) in items" :key="index">
             <td>0{{ Number(index) + 1 }}</td>
@@ -32,9 +30,15 @@
             </td>
           </tr>
         </table>
-        <div v-if="mainCheck.markedImage" class="mr-2vw mt-3vh w-15vw flex items-center justify-center">
+        <div v-if="mainCheck.markedImage" class="mr-3vw mt-1vh w-37vw flex items-center justify-center">
           <img :src="`data:image/png;base64,${mainCheck.markedImage}`" class="w-80%" @click="viewImage([`data:image/png;base64,${mainCheck.markedImage}`])" />
         </div>
+      </div>
+    </div>
+    <div class="fixed bottom-11vh w-full flex items-end">
+      <div class="bg_listItem w-full flex justify-center gap-5vw py-2vh">
+        <TheButton title="参数设置" @click="$goto('CheckSelectPage', { key: 2 })" />
+        <TheButton title="质检记录" @click="$goto('CheckSelectPage', { key: 1 })" />
       </div>
     </div>
   </div>
@@ -88,8 +92,8 @@ onMounted(async () => {
 
 <style scoped lang="less">
 .bgCheck_box {
-  width: 42vw;
-  height: 72vh;
+  width: 95.6vw;
+  height: calc(31.2vh + 4px);
   background-size: contain;
   background-repeat: no-repeat;
   background-image: url('@/assets/image/bg_labelMax.png');
@@ -105,8 +109,8 @@ onMounted(async () => {
         inset 0px -1px 1px 0px #ffffff57;
       border: 1px solid #3f89dd;
       background: linear-gradient(359deg, #ffffff35 1%, #008eff4a 98%);
-      font-size: 0.7vw;
-      padding: 0.5vh 0.5vw;
+      font-size: 2vw;
+      padding: 0.1vh 1vw;
       &.ok {
         color: #5fcc34;
         background: #ebffee;
@@ -121,10 +125,10 @@ onMounted(async () => {
   }
   .bgCheck_tab {
     table tr {
-      font-size: 0.7vw;
+      font-size: 2vw;
       td {
         text-align: center;
-        padding-bottom: 1vh;
+        padding-bottom: 0.5vh;
         &.tbico img {
           margin: 0 auto;
           width: 35%;
