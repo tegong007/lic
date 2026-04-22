@@ -4,7 +4,7 @@
   "version": "3.13.1",
   "private": true,
   "description": "base on Electron + Vue + Naive UI created project.",
-  "author": "Dascom",
+  "author": "Dascom <xxxxx@dascom.cn>",
   "license": "MIT",
   "keywords": [
     "electron",
