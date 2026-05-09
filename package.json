@@ -1,7 +1,7 @@
 {
   "name": "tss-xiaohongyan",
   "type": "module",
-  "version": "3.13.1",
+  "version": "3.13.2",
   "private": true,
   "description": "base on Electron + Vue + Naive UI created project.",
   "author": "Dascom <xxxxx@dascom.cn>",
@@ -87,13 +87,5 @@
   },
   "lint-staged": {
     "*": "eslint --fix"
-  },
-  "build": {
-    "linux": {
-      "target": [
-        "AppImage",
-        "deb"
-      ]
-    }
   }
 }

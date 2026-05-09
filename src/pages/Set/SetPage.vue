@@ -322,10 +322,10 @@ async function getData() {
       for (const item2 in formData.value[item]) {
         if (typeof formData.value[item][item2] === 'object') {
           for (const item3 in formData.value[item][item2]) {
-            formData.value[item][item2][item3] = String(formData.value[item][item2][item3]);
+            formData.value[item][item2][item3] = typeof formData.value[item][item2][item3] === 'object' ? formData.value[item][item2][item3] : String(formData.value[item][item2][item3]);
           }
         } else {
-          if (typeof formData.value[item][item2] !== 'boolean') formData.value[item][item2] = String(formData.value[item][item2]);
+          if (typeof formData.value[item][item2] !== 'boolean') formData.value[item][item2] = typeof formData.value[item][item2] === 'object' ? formData.value[item][item2] : String(formData.value[item][item2]);
         }
       }
     }

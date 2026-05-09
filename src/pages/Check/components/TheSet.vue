@@ -1,5 +1,8 @@
 <template>
-  <SimpleKeyboard v-if="showKeyboard" layout="num" keyboard-width="w20%" :transform="transformValue" :input="keyInputArr.length === 3 ? formData[keyInputArr[0]][0][keyInputArr[1]][keyInputArr[2]] : formData[keyInputArr[0]][0][keyInputArr[1]]" :max-length="limitInput" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
+  <template v-if="showKeyboard">
+    <SimpleKeyboard v-if="keyInput === 'ocrBeforeUv,stdPortraitX' || keyInput === 'ocrBeforeUv,stdPortraitY' || keyInput === 'ocrBeforeUv,rotationCorrectionAngle'" layout="fNum" keyboard-width="w20%" :transform="transformValue" :input="keyInputArr.length === 3 ? formData[keyInputArr[0]][0][keyInputArr[1]][keyInputArr[2]] : formData[keyInputArr[0]][0][keyInputArr[1]]" :max-length="limitInput" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
+    <SimpleKeyboard v-else layout="num" keyboard-width="w20%" :transform="transformValue" :input="keyInputArr.length === 3 ? formData[keyInputArr[0]][0][keyInputArr[1]][keyInputArr[2]] : formData[keyInputArr[0]][0][keyInputArr[1]]" :max-length="limitInput" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
+  </template>
   <div class="mx-auto w-95%" @click="hideKeyboard">
     <div class="absolute right-5vw top-10vh z-2 min-w-17.7vw flex justify-end gap-2vw bg-#03163e">
       <a-button type="link" class="btn_normal" @click="saveData">保存设置</a-button>
@@ -125,11 +128,11 @@
         </div>
         <div class="bgSelect_itemIn">
           <div class="bgSelect_itemIn_tit">X:</div>
-          <a-input v-model:value="formData.ocrBeforeUv[0].stdPortraitX" :class="keyInput === 'ocrBeforeUv,stdPortraitX' ? 'keyInput' : ''" class="w-10vw" placeholder="请输入0~90000" :maxlength="5" @click.stop="onInputFocus($event, ['ocrBeforeUv', 'stdPortraitX'], 5)" />
+          <a-input v-model:value="formData.ocrBeforeUv[0].stdPortraitX" :class="keyInput === 'ocrBeforeUv,stdPortraitX' ? 'keyInput' : ''" class="w-10vw" placeholder="请输入-90000~90000" :maxlength="5" @click.stop="onInputFocus($event, ['ocrBeforeUv', 'stdPortraitX'], 5)" />
         </div>
         <div class="bgSelect_itemIn">
           <div class="bgSelect_itemIn_tit">Y:</div>
-          <a-input v-model:value="formData.ocrBeforeUv[0].stdPortraitY" :class="keyInput === 'ocrBeforeUv,stdPortraitY' ? 'keyInput' : ''" class="w-10vw" placeholder="请输入0~90000" :maxlength="5" @click.stop="onInputFocus($event, ['ocrBeforeUv', 'stdPortraitY'], 5)" />
+          <a-input v-model:value="formData.ocrBeforeUv[0].stdPortraitY" :class="keyInput === 'ocrBeforeUv,stdPortraitY' ? 'keyInput' : ''" class="w-10vw" placeholder="请输入-90000~90000" :maxlength="5" @click.stop="onInputFocus($event, ['ocrBeforeUv', 'stdPortraitY'], 5)" />
         </div>
         <div class="bgSelect_itemIn">
           <div class="bgSelect_itemIn_tit">旋转角度:</div>

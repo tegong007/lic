@@ -66,6 +66,7 @@ onMounted(() => {
       shift: ['~ ! @ # $ % ^ & * ( ) _ + {bksp}', '{tab} Q W E R T Y U I O P { } |', '{lock} A S D F G H J K L : ;', '{shift} Z X C V B N M < > ? {clear}', '{change} {space} {close}'],
       num: ['1 2 3', '4 5 6', '7 8 9', '{bksp} 0 {close}'],
       floatNum: ['1 2 3', '4 5 6', '7 8 9', '{bksp} . 0 {close}'],
+      fNum: ['1 2 3', '4 5 6', '7 8 9', '{bksp} - 0 {close}'],
     },
     autoUseTouchEvents: false,
     debug: false,
@@ -292,7 +293,8 @@ watch(
 }
 
 .hg-theme-num,
-.hg-theme-floatNum {
+.hg-theme-floatNum,
+.hg-theme-fNum {
   background-color: #ececec;
   border-radius: 5px;
   box-sizing: border-box;
@@ -388,20 +390,26 @@ watch(
 }
 .hg-theme-num .hg-button span,
 .hg-theme-floatNum .hg-button span,
+.hg-theme-fNum .hg-button span,
 .hg-theme-num .hg-button span svg,
-.hg-theme-floatNum .hg-button span svg {
+.hg-theme-floatNum .hg-button span svg,
+.hg-theme-fNum .hg-button span svg {
   pointer-events: none;
 }
 .hg-theme-num .hg-row .hg-button-container,
 .hg-theme-num .hg-row .hg-button:not(:last-child),
 .hg-theme-floatNum .hg-row .hg-button-container,
-.hg-theme-floatNum .hg-row .hg-button:not(:last-child) {
+.hg-theme-floatNum .hg-row .hg-button:not(:last-child),
+.hg-theme-fNum .hg-row .hg-button-container,
+.hg-theme-fNum .hg-row .hg-button:not(:last-child) {
   margin-right: 5px;
 }
 .hg-theme-num .hg-button.hg-button-numpadadd,
 .hg-theme-num .hg-button.hg-button-numpadenter,
 .hg-theme-floatNum .hg-button.hg-button-numpadadd,
-.hg-theme-floatNum .hg-button.hg-button-numpadenter {
+.hg-theme-floatNum .hg-button.hg-button-numpadenter,
+.hg-theme-fNum .hg-button.hg-button-numpadadd,
+.hg-theme-fNum .hg-button.hg-button-numpadenter {
   height: 85px;
 }
 </style>

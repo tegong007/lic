@@ -32,7 +32,7 @@ export function convertJSONStringToNumbers(obj: any): { data: any; errors: strin
       l2ChannelNo: '光源2通道号',
       stdPortraitX: 'X坐标',
       stdPortraitY: 'Y坐标',
-      rotationCorrectionAngle: '',
+      rotationCorrectionAngle: '旋转角度',
     };
     // 获取显示名称
     let displayPath = '';
@@ -47,8 +47,8 @@ export function convertJSONStringToNumbers(obj: any): { data: any; errors: strin
     // 验证逻辑（使用原始key进行判断）
     if (['x', 'y', 'width', 'height'].includes(key)) {
       const intValue = Number(value);
-      if (Number.isNaN(intValue) || intValue < 0 || intValue > 30000 || value === '') {
-        errors.push(`${fullPath}: 值 ${value} 超出范围 0-30000`);
+      if (Number.isNaN(intValue) || intValue < -90000 || intValue > 30000 || value === '') {
+        errors.push(`${fullPath}: 值 ${value} 超出范围 -90000-30000`);
         return false;
       }
       if (typeof value === 'string' && value.includes('.')) {

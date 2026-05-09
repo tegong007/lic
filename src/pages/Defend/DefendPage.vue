@@ -21,10 +21,7 @@
       </div>
     </div>
     <div class="bgDefend ml-2vw mt-2vh h-82vh w-95% overflow-auto">
-      <template v-if="actived === 1">
-        <ThePrint :data="options.uvPrinters" :update-item="handleUpdateItem" />
-      </template>
-      <template v-else-if="actived === 4">
+      <template v-if="actived === 4">
         <TheTest :data="options.uvPrinters" :update-item="handleUpdateItem" />
       </template>
       <template v-else-if="actived === 5">
@@ -49,6 +46,9 @@
         <Inkjet v-if="options.uvPrinters" :data="options.uvPrinters" @update-item="handleUpdateItem" />
         <Light v-if="options.lamps" :data="options.lamps" :act="actived" @update-item="handleUpdateItem" />
       </template>
+      <template v-if="actived === 1">
+        <ThePrint :data="options.uvPrinters" :update-item="handleUpdateItem" />
+      </template>
     </div>
   </div>
 </template>
@@ -57,7 +57,6 @@
 import { App } from 'ant-design-vue';
 import { useRoute } from 'vue-router';
 import { defendModule } from '@/apis/proApi';
-import TheNaver from '@/components/TheNaver.vue';
 import Camera from '@/pages/Defend/components/TheCamera.vue';
 import TheFw from '@/pages/Defend/components/TheFw.vue';
 import Inkjet from '@/pages/Defend/components/TheInkjet.vue';

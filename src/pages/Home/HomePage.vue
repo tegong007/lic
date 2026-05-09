@@ -19,9 +19,9 @@
         <span>待进本：{{ entire.machineRemainDoc }}</span>
       </div>
     </div>
-    <TheTable class="bgHome_tb1" name="进本模块" :data="blankCheck" :count="1" />
+    <TheTable class="bgHome_tb1" name="喷墨打印模块" :data="additionPrint" :count="3" />
     <TheTable class="bgHome_tb2" name="激光打印模块" :data="mainPrint" :count="2" />
-    <TheTable class="bgHome_tb3" name="喷墨打印模块" :data="additionPrint" :count="3" />
+    <TheTable class="bgHome_tb3" name="进本模块" :data="blankCheck" :count="1" />
     <div class="mx-5vw mt-2.7vh flex gap-4vw">
       <div class="relative cursor-pointer text-center" :class="entire.modules && entire.modules.length >= 2 ? (entire.modules[0].code === 0 && entire.modules[1].code === 0 ? 'bgHome_tip0' : entire.modules[0].code === 2 || entire.modules[1].code === 2 ? 'bgHome_tip2' : 'bgHome_tip3') : 'bgHome_tip3'" @click="setModal(7)">
         <template v-if="entire.modules && entire.modules.length > 2">
