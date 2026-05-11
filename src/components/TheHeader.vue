@@ -30,9 +30,9 @@ async function getData() {
 }
 
 onMounted(async () => {
-  start(() => {
+  setInterval(() => {
     currentTime.value = formatDateTime();
-  }, 1);
+  }, 1000);
   await getData();
   start(() => {
     getData();
