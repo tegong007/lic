@@ -104,12 +104,12 @@
           <div class="flex">
             <div class="bgSet_itemIn">
               <div class="bgSet_itemIn_tit">X坐标:</div>
-              <a-input v-model:value="formData.laserBaseHigh[index].x" :class="keyInput === `laserBaseHigh,x,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~90000" :maxlength="9" @click.stop="onInputFocus($event, ['laserBaseHigh', 'x', index], 9)" />
+              <a-input v-model:value="formData.laserBaseHigh[index].x" :class="keyInput === `laserBaseHigh,x,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入-90000~90000" :maxlength="10" @click.stop="onInputFocus($event, ['laserBaseHigh', 'x', index], 10)" />
               <div class="bgSet_itemIn_desc">0.001mm</div>
             </div>
             <div class="bgSet_itemIn">
               <div class="bgSet_itemIn_tit">Y坐标:</div>
-              <a-input v-model:value="formData.laserBaseHigh[index].y" :class="keyInput === `laserBaseHigh,y,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入0~30000" :maxlength="9" @click.stop="onInputFocus($event, ['laserBaseHigh', 'y', index], 9)" />
+              <a-input v-model:value="formData.laserBaseHigh[index].y" :class="keyInput === `laserBaseHigh,y,${index}` ? 'keyInput' : ''" class="w-14vw" placeholder="请输入-30000~30000" :maxlength="10" @click.stop="onInputFocus($event, ['laserBaseHigh', 'y', index], 10)" />
               <div class="bgSet_itemIn_desc">0.001mm</div>
             </div>
           </div>
@@ -361,6 +361,12 @@ async function saveData() {
               } else if (item3 === 'angle') {
                 reg = /^-?(?:360000|3[0-5]\d{4}|[0-2]?\d{1,5})$/;
                 if (!temp[item][item2][item3].match(reg)) error = `${tit}有误，应该是-360000~360000内`;
+              } else if (item === 'laserBaseHigh' && item3 === 'x') {
+                reg = /^-?(?:90000(?:\.0{1,3})?|(?:[1-8]\d{4}|[1-9]\d{0,3}|0)(?:\.\d{1,3})?)$/;
+                if (!temp[item][item2][item3].match(reg)) error = `${tit}有误，应该是-90000~90000内`;
+              } else if (item === 'laserBaseHigh' && item3 === 'y') {
+                reg = /^-?(?:30000(?:\.0{1,3})?|(?:[12]\d{4}|[1-9]\d{0,3}|0)(?:\.\d{1,3})?)$/;
+                if (!temp[item][item2][item3].match(reg)) error = `${tit}有误，应该是-30000~30000内`;
               } else if (item3 === 'x') {
                 reg = /^(?:90000(?:\.0{1,3})?|(?:[1-8]\d{4}|[1-9]\d{0,3}|0)(?:\.\d{1,3})?)$/;
                 if (!temp[item][item2][item3].match(reg)) error = `${tit}有误，应该是0~90000内`;

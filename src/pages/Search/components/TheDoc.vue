@@ -67,7 +67,7 @@
       <template #right>
         <div class="relative -top-4">
           <span>共{{ Math.ceil(page.total / page.size) }}页，{{ page.total }}条记录</span>
-          <a-select v-if="page.total > 0" v-model:value="pageIn.current" class="ml-1vw text-center" @change="onBtnClick('page')">
+          <a-select v-if="page.total > 0" v-model:value="pageIn.current" class="ml-1vw w-8vw text-center" :virtual="false" @change="onBtnClick('page')">
             <a-select-option v-for="(value, index) in Math.ceil(page.total / page.size)" :key="index" :value="value">第{{ value }}页</a-select-option>
           </a-select>
         </div>
