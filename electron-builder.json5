@@ -1,9 +1,9 @@
 // @see https://www.electron.build/configuration/configuration
 {
   "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
-  "appId": "com.dascom.lightinkcraftsman",
+  "appId": "com.dascom.lightinkcraftsman.kylin",
   "asar": true,
-  "productName": "Light-Ink-Craftsman",
+  "productName": "Light-Ink-Craftsman-Kylin",
   "directories": {
     "buildResources": "public",
     "output": "release/${version}"

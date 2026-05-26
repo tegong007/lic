@@ -12,13 +12,13 @@ jobs:
       contents: write
     strategy:
       matrix:
-        architecture: [arm64]
+        architecture: [arm64] # 指定架构
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: "20"
 
@@ -44,7 +44,7 @@ jobs:
         env:
           USE_SYSTEM_FPM: "true"
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: yarn run build:linux --publish never
+        run: yarn run build:linux
 
       - name: Upload Specific Artifacts
         uses: actions/upload-artifact@v4
@@ -52,7 +52,8 @@ jobs:
           name: build-artifacts-${{ matrix.architecture }}
           path: |
             ./release/${{ env.VERSION }}/*.deb
-          if-no-files-found: error
+            !**/linux-unpacked/**
+          if-no-files-found: error # 如果未找到文件，则抛出错误
 
   release:
     needs: build
@@ -61,23 +62,17 @@ jobs:
       contents: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
-          path: ./artifacts
+          path: release/${{ env.VERSION }} # 将所有制品下载到 release/${{ env.VERSION }} 目录
 
       - name: Compress artifacts
         run: |
-          cd ./artifacts
+          cd release/${{ env.VERSION }}
           zip -r ../release-${{ github.ref_name }}.zip .
-
-      - name: Delete existing release if any
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh release view ${{ github.ref_name }} && gh release delete ${{ github.ref_name }} --yes || true
 
       - name: Create Release
         env:
