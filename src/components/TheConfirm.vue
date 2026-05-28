@@ -27,6 +27,26 @@
       <div class="w-full pb-6vh pt-7vh text-center text-1.2vw color-#ffffff">{{ props.data ? props.data.title : '--' }}</div>
       <div class="mx-auto h-20vh w-90% overflow-auto text-1vw text-#ffffff">{{ props.data ? props.data.msg : '--' }}</div>
     </template>
+    <template v-else-if="props.title === '指纹识别'">
+      <div class="h-45vw flex flex-col items-center justify-center pt-3vh">
+        <div class="fingerprint h-10vh w-10vh"></div>
+        <div class="absolute bottom--7vh text-center text-4vw text-#ffffff">{{ props.desc }}</div>
+      </div>
+    </template>
+    <template v-else-if="props.title === '人脸识别'">
+      <div class="h-28vh w-98% flex items-center justify-center pt-2vw">
+        <img :src="`${cameraIp}/fc/video-stream`" class="h-28vh w-full object-contain" alt="摄像头视频流" />
+        <img src="@/assets/image/face.png" class="absolute h-28vh w-full object-contain" alt="摄像头视频流" />
+        <div class="absolute bottom--7vh text-center text-4vw text-#ffffff">{{ props.desc }}</div>
+      </div>
+    </template>
+    <template v-else-if="props.title === '登录成功'">
+      <div class="h-20vh w-98% flex flex-col items-center justify-center gap-2vh">
+        <img src="@/assets/image/ico_success.png" class="h-10vh w-full object-contain" alt="" />
+        <div class="text-center text-4vw text-#ffffff">{{ props.desc }}</div>
+      </div>
+    </template>
+
     <div v-else class="w-full pb-5vh pt-6vh text-center text-4.5vw color-#ffffff">{{ `确定执行${props.title}？` }}</div>
     <template #footer>
       <a-flex v-if="props.title === '错误弹窗提示'" justify="center" align="center" class="gap-5%">
@@ -46,6 +66,10 @@
           <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('暂停设备')">暂停设备</a-button>
         </template>
       </a-flex>
+      <a-flex v-else-if="props.title === '指纹识别' || props.title === '人脸识别'" justify="center" align="center" class="gap-5%"></a-flex>
+      <a-flex v-else-if="props.title === '登录成功'" justify="center" align="center" class="gap-5%">
+        <a-button class="btn transition-transform duration-300 hover:scale-105" @click="handleLoginSuccessOk">{{ loginSuccessBtnText }}</a-button>
+      </a-flex>
       <a-flex v-else justify="center" align="center" class="gap-10%">
         <a-button v-if="props.title !== '任务添加成功' && props.title !== '喷墨机状态'" class="btn transition-transform duration-300 hover:scale-105" @click="handleCancel">取消</a-button>
         <a-button v-if="props.title === '补打备注' || props.title === '开始进本'" class="btn transition-transform duration-300 hover:scale-105" @click="submitOK">确定</a-button>
@@ -64,11 +88,56 @@ import { useAppStore } from '@/store/index';
 import { ensureInRange } from '@/utils/index';
 
 const props = defineProps({ open: Boolean, handleOk: Function, title: String, handleCancel: Function, data: Object, desc: String });
+
+// 登录成功倒计时
+const loginSuccessCountdown = ref(5);
+const loginSuccessBtnText = computed(() => `进入主页(${loginSuccessCountdown.value}s)`);
+
+let loginSuccessTimer: ReturnType<typeof setInterval> | null = null;
+
+watch(
+  () => `${props.open}-${props.title}`,
+  () => {
+    if (props.open && props.title === '登录成功') {
+      loginSuccessCountdown.value = 5;
+      loginSuccessTimer = setInterval(() => {
+        loginSuccessCountdown.value--;
+        if (loginSuccessCountdown.value <= 0) {
+          if (loginSuccessTimer) clearInterval(loginSuccessTimer);
+          loginSuccessTimer = null;
+          handleLoginSuccessOk();
+        }
+      }, 1000);
+    } else {
+      if (loginSuccessTimer) {
+        clearInterval(loginSuccessTimer);
+        loginSuccessTimer = null;
+      }
+    }
+  },
+);
+
+function handleLoginSuccessOk() {
+  if (loginSuccessTimer) {
+    clearInterval(loginSuccessTimer);
+    loginSuccessTimer = null;
+  }
+  if (props.handleOk) props.handleOk();
+}
+
+onUnmounted(() => {
+  if (loginSuccessTimer) {
+    clearInterval(loginSuccessTimer);
+    loginSuccessTimer = null;
+  }
+});
+
 const text = ref(props.desc || '');
 const focus = ref(false);
 const cursorPosition = ref(null);
 const transformValue: any = ref(null);
 const { notification } = App.useApp();
+const cameraIp = window.videoIP ?? 'http://localhost:6130/' + '/fc/video-stream';
 
 async function submitOKHandel(key: string) {
   try {
@@ -190,5 +259,15 @@ function onChangeKeyboard(input: string, keyboard: any) {
 }
 ::v-deep(.ant-modal-mask) {
   background: #03163ef2;
+}
+.fingerprint {
+  background-image: url('@/assets/image/fingerprint.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.face {
+  background-image: url('@/assets/image/face.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
 </style>

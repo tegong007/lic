@@ -8,6 +8,7 @@ interface Window {
   $notification: import('naive-ui').NotificationApi;
   $loadingBar: import('naive-ui').LoadingBarApi;
   serverAddress: string;
+  videoIP: string;
   timeOut: string;
   lang: string;
 }
