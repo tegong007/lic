@@ -36,11 +36,12 @@
         </div>
       </div>
     </div>
-    <TheConfirm v-if="modal.open" :open="modal.open" :title="modal.title" :desc="modal.desc" :data="modal.data" :handle-ok="controlMachine" :handle-cancel="() => setModal(-1)" />
+    <TheConfirm v-if="modal.open" :open="modal.open" :title="modal.title" :desc="modal.desc" :data="modal.data" :handle-cancel="() => setModal(-1)" />
   </div>
 </template>
 
 <script setup lang="ts">
+import type { TemplateItem } from '@/apis/loginApi';
 import { App } from 'ant-design-vue';
 import { loginModule } from '@/apis/loginApi';
 import TheConfirm from '@/components/TheConfirm.vue';
@@ -58,35 +59,52 @@ function setModal(value: number) {
   }
 }
 
-function controlMachine() {
-  setModal(-1);
-  router.push({ path: '/home' });
-}
-
 function handleLogin(type: string) {
   if (type === 'fingerprint') {
-    modal.value = { open: true, title: '指纹识别', key: -1, desc: '正在进行指纹识别检测…' };
-    setTimeout(() => {
-      modal.value = { open: true, title: '登录成功', key: -1, desc: '登录成功' };
-    }, 2000);
+    modal.value = { open: true, title: '指纹识别', key: -1, desc: '请把手指放到采集器上' };
+    startFingerprintLogin();
   } else {
-    // 人脸识别：打开弹窗并开始轮询
-    modal.value = { open: true, title: '人脸识别', desc: '正在进行人脸识别检测…', key: -1 };
+    modal.value = { open: true, title: '人脸识别', desc: '请把人脸移动到框内', key: -1 };
     startFaceRecognition();
   }
+}
+
+// 指纹识别登录轮询
+async function startFingerprintLogin() {
+  start(async () => {
+    try {
+      const pressedData: any = await loginModule.checkPressed();
+      if (pressedData.isPressed === 1) {
+        stop();
+
+        // TODO: 此处 templateList 后续从接口获取已注册模板
+        const templateList: TemplateItem[] = [];
+
+        const matchData: any = await loginModule.templateMatch({ templateList });
+        if (matchData.isSame === 0) {
+          modal.value = { open: true, title: '登录成功', key: -1, desc: '登录成功' };
+        } else {
+          modal.value = { open: true, title: '错误弹窗提示', key: -1, desc: '指纹不匹配', data: { title: '指纹识别失败', msg: '指纹匹配失败，请重试' } };
+        }
+      }
+    } catch (error) {
+      stop();
+      modal.value = { open: false, title: '', key: -1 };
+      notification.error({ message: '指纹识别失败', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
+    }
+  }, 1);
 }
 
 // 人脸识别轮询
 async function startFaceRecognition() {
   start(async () => {
     try {
-      const data: any = await loginModule.faceRecognition();
+      const data: any = await loginModule.faceIdentifyResult();
       if (data.respData) {
         const { isAlive, isSamePerson } = data.respData;
-        // 活体检测和人证对比都通过
         if (isAlive === 1 && isSamePerson === 1) {
           stop();
-          modal.value = { open: true, title: '登录成功', desc: '登录成功', key: 0 };
+          modal.value = { open: true, title: '登录成功', key: -1, desc: '登录成功' };
         }
       }
     } catch (error) {
@@ -94,11 +112,37 @@ async function startFaceRecognition() {
       modal.value = { open: false, title: '', key: -1 };
       notification.error({ message: '人脸识别失败', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
     }
-  }, 1.5);
+  }, 1);
 }
 
 function handleEnroll() {
-  notification.info({ message: '录入登录信息', description: '录入登录信息功能待对接', placement: 'bottomRight', class: 'notification-custom-class' });
+  modal.value = { open: true, title: '身份证识别', key: -1, desc: '请把身份证放到采集上' };
+  startIdCardRead();
+}
+
+// 读身份证轮询
+async function startIdCardRead() {
+  start(async () => {
+    try {
+      const data: any = await loginModule.idCardRead();
+      if (data.sName || data.sIDNumber) {
+        stop();
+        setModal(-1);
+        router.push({
+          path: '/register',
+          query: {
+            sName: data.sName || '',
+            sPhoto: data.sPhoto || '',
+            sIDNumber: data.sIDNumber || '',
+          },
+        });
+      }
+    } catch (error) {
+      stop();
+      setModal(-1);
+      notification.error({ message: '身份证识别失败', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
+    }
+  }, 1);
 }
 
 function handleExit() {

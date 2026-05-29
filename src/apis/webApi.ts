@@ -50,3 +50,14 @@ export function setBatchRank(data: any) {
   const api = `${v1}/tss/set-batch-rank`;
   return request.post(api, data);
 }
+// 录入用户信息
+export function recordUserInfo(data: {
+  account: string;
+  name: string;
+  idNumber: string;
+  headshot: string;
+  fingerprint1: string;
+}) {
+  const api = `${v1}/tss/user-info/record`;
+  return request.post(api, data);
+}

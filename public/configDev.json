@@ -3,7 +3,7 @@
   "devTools": true,
   "width": 1080,
   "height": 1940,
-  "serverAddress": "http://192.168.88.12:6102",
+  "serverAddress": "http://192.168.100.102:6102",
   "timeOut": 10000,
   "videoIP": "http://192.168.100.106:6130"
 }

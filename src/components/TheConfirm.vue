@@ -27,15 +27,16 @@
       <div class="w-full pb-6vh pt-7vh text-center text-1.2vw color-#ffffff">{{ props.data ? props.data.title : '--' }}</div>
       <div class="mx-auto h-20vh w-90% overflow-auto text-1vw text-#ffffff">{{ props.data ? props.data.msg : '--' }}</div>
     </template>
-    <template v-else-if="props.title === '指纹识别'">
+    <template v-else-if="props.title === '指纹识别' || props.title === '身份证识别'">
       <div class="h-45vw flex flex-col items-center justify-center pt-3vh">
-        <div class="fingerprint h-10vh w-10vh"></div>
+        <div v-if="props.title === '指纹识别'" class="fingerprint h-10vh w-10vh"></div>
+        <div v-else class="idCard h-15vh w-40vw"></div>
         <div class="absolute bottom--7vh text-center text-4vw text-#ffffff">{{ props.desc }}</div>
       </div>
     </template>
     <template v-else-if="props.title === '人脸识别'">
       <div class="h-28vh w-98% flex items-center justify-center pt-2vw">
-        <img :src="`${cameraIp}/fc/video-stream`" class="h-28vh w-full object-contain" alt="摄像头视频流" />
+        <img :src="loginModule.getVideoStreamUrl()" class="h-28vh w-full object-contain" alt="摄像头视频流" />
         <img src="@/assets/image/face.png" class="absolute h-28vh w-full object-contain" alt="摄像头视频流" />
         <div class="absolute bottom--7vh text-center text-4vw text-#ffffff">{{ props.desc }}</div>
       </div>
@@ -66,7 +67,7 @@
           <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('暂停设备')">暂停设备</a-button>
         </template>
       </a-flex>
-      <a-flex v-else-if="props.title === '指纹识别' || props.title === '人脸识别'" justify="center" align="center" class="gap-5%"></a-flex>
+      <a-flex v-else-if="props.title === '指纹识别' || props.title === '人脸识别' || props.title === '身份证识别'" justify="center" align="center" class="gap-5%"></a-flex>
       <a-flex v-else-if="props.title === '登录成功'" justify="center" align="center" class="gap-5%">
         <a-button class="btn transition-transform duration-300 hover:scale-105" @click="handleLoginSuccessOk">{{ loginSuccessBtnText }}</a-button>
       </a-flex>
@@ -83,6 +84,7 @@
 
 <script lang="ts" setup>
 import { App } from 'ant-design-vue';
+import { loginModule } from '@/apis/loginApi';
 import { homeModule } from '@/apis/proApi';
 import { useAppStore } from '@/store/index';
 import { ensureInRange } from '@/utils/index';
@@ -137,7 +139,6 @@ const focus = ref(false);
 const cursorPosition = ref(null);
 const transformValue: any = ref(null);
 const { notification } = App.useApp();
-const cameraIp = window.videoIP ?? 'http://localhost:6130/' + '/fc/video-stream';
 
 async function submitOKHandel(key: string) {
   try {
@@ -262,6 +263,11 @@ function onChangeKeyboard(input: string, keyboard: any) {
 }
 .fingerprint {
   background-image: url('@/assets/image/fingerprint.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.idCard {
+  background-image: url('@/assets/image/idCard.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
