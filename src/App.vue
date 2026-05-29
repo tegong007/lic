@@ -11,7 +11,7 @@
           </router-view>
           <TheFooter />
         </div>
-        <TheExit v-if="exitShow" :open="exitShow" :handle-ok="() => openExitModal(false)" :handle-cancel="() => openExitModal(false)" title="退出系统" />
+        <TheExit v-if="exitShow" :open="exitShow" :handle-cancel="() => openExitModal(false)" title="退出系统" />
         <TheConfirm v-if="modal.open" :open="modal.open" :title="modal.title" :desc="modal.desc" :data="modal.data" :handle-ok="controlMachine" :handle-cancel="() => (modal = { open: false, title: '', key: -1 })" />
       </a-spin>
     </a-app>

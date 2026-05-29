@@ -8,7 +8,10 @@
     <div class="relative top-0vh z-2 flex items-center justify-center">
       <div class="w-80vw rounded-lg py-2vh">
         <!-- 标题 -->
-        <div class="mb-3vh text-center text-4vw text-white font-bold tracking-wider">录入用户信息</div>
+        <div class="relative mb-3vh flex items-center justify-center text-center">
+          <img src="@/assets/image/ico_success.png" alt="" class="absolute left-10vw h-4vh w-4vh" />
+          <span class="text-4vw text-white font-bold tracking-wider"> 请录入用户信息</span>
+        </div>
 
         <!-- 头像 -->
         <div class="mb-2vh flex justify-center">

@@ -243,7 +243,7 @@
     </div>
   </div>
   <ThePass v-if="successOpen" :open="successOpen" :handle-ok="() => setSuccessOpen(false)" :handle-cancel="() => setSuccessOpen(false)" title="设置密码" />
-  <TheExit v-if="exitShow" :open="exitShow" :handle-ok="() => openModal(false)" :handle-cancel="() => openModal(false)" title="退出系统" />
+  <TheExit v-if="exitShow" :open="exitShow" :handle-cancel="() => openModal(false)" title="退出系统" />
 </template>
 
 <script setup lang="ts">
@@ -253,7 +253,6 @@ import { setMoule } from '@/apis/proApi';
 import TheExit from '@/components/TheExit.vue';
 import TheFooter from '@/components/TheFooter.vue';
 import ThePass from '@/pages/Set/components/ThePass.vue';
-import { produceModeOptions } from '@/plugins/option';
 import { useAppStore } from '@/store/index';
 
 const exitShow = ref(false);

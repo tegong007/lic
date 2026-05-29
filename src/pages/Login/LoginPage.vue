@@ -37,6 +37,7 @@
       </div>
     </div>
     <TheConfirm v-if="modal.open" :open="modal.open" :title="modal.title" :desc="modal.desc" :data="modal.data" :handle-cancel="() => setModal(-1)" />
+    <TheExit v-if="pwdShow" :open="pwdShow" title="请输入密码" :handle-ok="onPwdOk" :handle-cancel="() => pwdShow = false" />
   </div>
 </template>
 
@@ -45,12 +46,14 @@ import type { TemplateItem } from '@/apis/loginApi';
 import { App } from 'ant-design-vue';
 import { loginModule } from '@/apis/loginApi';
 import TheConfirm from '@/components/TheConfirm.vue';
+import TheExit from '@/components/TheExit.vue';
 import router from '@/router';
 import useCustomTimer from '@/utils/useCustomTimer';
 
 const { notification } = App.useApp();
 const { start, stop } = useCustomTimer();
 const modal: any = ref({ open: false, title: '', key: -1 });
+const pwdShow = ref(false);
 
 // 弹窗控制
 function setModal(value: number) {
@@ -116,6 +119,11 @@ async function startFaceRecognition() {
 }
 
 function handleEnroll() {
+  pwdShow.value = true;
+}
+
+function onPwdOk() {
+  pwdShow.value = false;
   modal.value = { open: true, title: '身份证识别', key: -1, desc: '请把身份证放到采集上' };
   startIdCardRead();
 }

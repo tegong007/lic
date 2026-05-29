@@ -35,6 +35,9 @@ async function onSubmit() {
     const data: any = await mainTainModule.getPassWord(params);
     if (data.code === 0) {
       useAppStore().setSpinning(false);
+      if (props.handleOk) {
+        return props.handleOk();
+      }
       if (props.title === '系统关机') window.electronAPI.exitWindow();
       else window.electron.send('quit-app');
     } else {
