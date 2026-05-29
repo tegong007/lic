@@ -9,10 +9,11 @@ function useCustomTimer(): {
 } {
   const timerRef = ref<number | null>(null);
   const isRunning = ref(false);
+  let startId = 0;
 
   const stopTimer = () => {
     if (timerRef.value !== null) {
-      window.clearInterval(timerRef.value);
+      window.clearTimeout(timerRef.value);
       timerRef.value = null;
       isRunning.value = false;
     }
@@ -32,17 +33,26 @@ function useCustomTimer(): {
       stopTimer(); // 清除之前的定时器
     }
 
+    const thisStartId = ++startId;
     isRunning.value = true;
-    timerRef.value = window.setInterval(async () => {
-      if (!isRunning.value)
-        return; // 如果定时器已停止，则跳过此次执行
+
+    const run = async () => {
+      // 如果中途调用了新的 start()，当前 run 的 ID 已过期，直接退出
+      if (thisStartId !== startId) return;
+      if (!isRunning.value) return;
       try {
-        await callback(); // 执行异步回调
-      }
-      catch (error) {
+        await callback(); // 等回调完成
+      } catch (error) {
         console.error('Timer callback error:', error);
       }
-    }, interval * 1000);
+      // 等回调完成后再次检查 ID —— stop() + 新的 start() 可能已发生
+      if (thisStartId !== startId) return;
+      if (isRunning.value) {
+        timerRef.value = window.setTimeout(run, interval * 1000);
+      }
+    };
+
+    timerRef.value = window.setTimeout(run, interval * 1000);
   };
 
   // 组件卸载时清除定时器

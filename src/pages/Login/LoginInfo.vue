@@ -52,7 +52,7 @@
 
 <script setup lang="ts">
 import { App } from 'ant-design-vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { loginModule } from '@/apis/loginApi';
 import { recordUserInfo } from '@/apis/webApi';
 import TheConfirm from '@/components/TheConfirm.vue';
@@ -60,6 +60,7 @@ import useCustomTimer from '@/utils/useCustomTimer';
 
 const { notification } = App.useApp();
 const route = useRoute();
+const router = useRouter();
 const { start, stop } = useCustomTimer();
 
 interface FormData {
@@ -132,6 +133,9 @@ function startFingerprintScan() {
         const featureData: any = await loginModule.doFeature(step);
         fingerprints[step] = { data: JSON.stringify(featureData), status: 'success' };
 
+        // 让用户看清「请抬起手指」停留片刻再进入下一步
+        await new Promise(r => setTimeout(r, 800));
+
         setModal(-1);
         fingerprintStep.value++;
 
@@ -168,6 +172,8 @@ async function onAllFingerprintsDone() {
     });
 
     notification.success({ message: '录入完成', description: '用户信息录入成功', placement: 'bottomRight', class: 'notification-custom-class' });
+
+    router.replace('/login');
   } catch (error) {
     notification.error({ message: '录入失败', description: String(error), placement: 'bottomRight', class: 'notification-custom-class' });
   }
@@ -206,10 +212,13 @@ function handleSubmit() {
   startFingerprintScan();
 }
 
-// 从路由 query 接收身份证识别结果
-formData.idCard = (route.query.sIDNumber as string) || '';
-formData.name = (route.query.sName as string) || '';
-formData.avatar = (route.query.sPhoto as string) || '';
+onMounted(async () => {
+  if (route.query.sIDNumber) {
+    formData.idCard = (route.query.sIDNumber as string) || '';
+    formData.name = (route.query.sName as string) || '';
+    formData.avatar = (route.query.sPhoto as string) || '';
+  }
+});
 
 onUnmounted(() => {
   stop();

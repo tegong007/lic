@@ -128,7 +128,7 @@ async function startIdCardRead() {
       if (data.sName || data.sIDNumber) {
         stop();
         setModal(-1);
-        router.push({
+        router.replace({
           path: '/register',
           query: {
             sName: data.sName || '',

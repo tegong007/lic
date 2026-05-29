@@ -4,7 +4,7 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/register',
+    redirect: '/login',
   },
   {
     path: '/home', // 主页
