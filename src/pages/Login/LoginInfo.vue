@@ -122,9 +122,10 @@ function startFingerprintScan() {
   start(async () => {
     try {
       const pressedData: any = await loginModule.checkPressed();
-      if (pressedData.isPressed === 1) {
+      if (pressedData.respData.isPressed === 1) {
         stop();
 
+        const featureData: any = await loginModule.doFeature(step);
         // 提示用户抬起手指，同时调用 doFeature 记录指纹
         modal.value = {
           open: true,
@@ -132,14 +133,12 @@ function startFingerprintScan() {
           key: -1,
           desc: '请抬起手指',
         };
-
-        const featureData: any = await loginModule.doFeature(step);
-        fingerprints[step] = { data: JSON.stringify(featureData), status: 'success' };
+        fingerprints[step] = { data: JSON.stringify(featureData.respData), status: 'success' };
 
         // 让用户看清「请抬起手指」停留片刻再进入下一步
         await new Promise(r => setTimeout(r, 800));
 
-        setModal(-1);
+        // setModal(-1);
         fingerprintStep.value++;
 
         if (fingerprintStep.value < 3) {
@@ -163,7 +162,7 @@ function startFingerprintScan() {
 async function onAllFingerprintsDone() {
   try {
     const templateResult: any = await loginModule.compositeTemplate();
-    const templateData = templateResult.templateData || '';
+    const templateData = templateResult.respData.templateData || '';
 
     // 调用录入接口
     await recordUserInfo({
@@ -175,7 +174,7 @@ async function onAllFingerprintsDone() {
     });
 
     notification.success({ message: '录入完成', description: '用户信息录入成功', placement: 'bottomRight', class: 'notification-custom-class' });
-
+    setModal(-1);
     router.replace('/login');
   } catch (error) {
     notification.error({ message: '录入失败', description: String(error), placement: 'bottomRight', class: 'notification-custom-class' });

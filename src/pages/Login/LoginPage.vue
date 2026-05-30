@@ -8,7 +8,7 @@
     <div class="relative top-10vh z-2 flex items-center justify-center">
       <div class="w-80vw rounded-lg py-2vh">
         <!-- 标题 -->
-        <div class="mb-3vh text-center text-4vw text-white font-bold tracking-wider">用户登录</div>
+        <div class="mb-3vh text-center text-4vw text-white font-bold tracking-wider" @dblclick="handleDoubleClick">用户登录</div>
 
         <!-- 两种登录方式 -->
         <div class="mb-5vh flex justify-center gap-15vw">
@@ -22,7 +22,7 @@
 
           <!-- 人脸识别登录 -->
           <div class="relative flex flex-col cursor-pointer cursor-pointer items-center transition-transform duration-300 hover:scale-105" @click="handleLogin('face')">
-            <div class="h-18vh w-16vh flex items-center justify-center">
+            <div class="test h-18vh w-16vh flex items-center justify-center">
               <img class="h-18vh w-16vh object-contain" src="@/assets/image/login_right.png" alt="人脸识别" />
             </div>
             <span class="absolute bottom-4vh text-2.5vw text-white">人脸识别登录</span>
@@ -37,12 +37,11 @@
       </div>
     </div>
     <TheConfirm v-if="modal.open" :open="modal.open" :title="modal.title" :desc="modal.desc" :data="modal.data" :handle-cancel="() => setModal(-1)" />
-    <TheExit v-if="pwdShow" :open="pwdShow" title="请输入密码" :handle-ok="onPwdOk" :handle-cancel="() => pwdShow = false" />
+    <TheExit v-if="pwdShow" :open="pwdShow" title="请输入密码" :handle-ok="onPwdOk" :handle-cancel="() => (pwdShow = false)" />
   </div>
 </template>
 
 <script setup lang="ts">
-import type { TemplateItem } from '@/apis/loginApi';
 import { App } from 'ant-design-vue';
 import { loginModule } from '@/apis/loginApi';
 import TheConfirm from '@/components/TheConfirm.vue';
@@ -54,6 +53,13 @@ const { notification } = App.useApp();
 const { start, stop } = useCustomTimer();
 const modal: any = ref({ open: false, title: '', key: -1 });
 const pwdShow = ref(false);
+
+function handleDoubleClick() {
+  // 处理双击事件的逻辑
+  router.replace({
+    path: '/home',
+  });
+}
 
 // 弹窗控制
 function setModal(value: number) {
@@ -77,14 +83,11 @@ async function startFingerprintLogin() {
   start(async () => {
     try {
       const pressedData: any = await loginModule.checkPressed();
-      if (pressedData.isPressed === 1) {
+      if (pressedData.respData.isPressed === 1) {
         stop();
-
-        // TODO: 此处 templateList 后续从接口获取已注册模板
-        const templateList: TemplateItem[] = [];
-
-        const matchData: any = await loginModule.templateMatch({ templateList });
-        if (matchData.isSame === 0) {
+        // const templateList: TemplateItem[] = [];
+        const matchData: any = await loginModule.templateMatch();
+        if (matchData.respData.isSame === 0) {
           modal.value = { open: true, title: '登录成功', key: -1, desc: '登录成功' };
         } else {
           modal.value = { open: true, title: '错误弹窗提示', key: -1, desc: '指纹不匹配', data: { title: '指纹识别失败', msg: '指纹匹配失败，请重试' } };
@@ -133,15 +136,15 @@ async function startIdCardRead() {
   start(async () => {
     try {
       const data: any = await loginModule.idCardRead();
-      if (data.sName || data.sIDNumber) {
+      if (data.respData.sName || data.respData.sIDNumber) {
         stop();
         setModal(-1);
         router.replace({
           path: '/register',
           query: {
-            sName: data.sName || '',
-            sPhoto: data.sPhoto || '',
-            sIDNumber: data.sIDNumber || '',
+            sName: data.respData.sName || '',
+            sPhoto: data.respData.sPhoto || '',
+            sIDNumber: data.respData.sIDNumber || '',
           },
         });
       }
@@ -161,3 +164,21 @@ onUnmounted(() => {
   stop();
 });
 </script>
+
+<style>
+.glow-on-hover {
+  @apply transition-shadow duration-500 ease-in-out;
+  @keyframes glow {
+    0% {
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
+    }
+    50% {
+      box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.5);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
+    }
+  }
+  animation: glow 1s ease-in-out infinite;
+}
+</style>

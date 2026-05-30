@@ -70,7 +70,8 @@ const loginModule = {
   compositeTemplate: () => request.post(`${baseUrl}/at/composite-template`),
 
   /** 特征模板对比 */
-  templateMatch: (params: TemplateMatchParams) => request.post(`${baseUrl}/at/template-match`, params),
+  // templateMatch: (params: TemplateMatchParams) => request.post(`${baseUrl}/at/template-match`, params),
+  templateMatch: () => request.post(`${baseUrl}/at/template-match`),
 
   /** 读身份证（15秒超时） */
   idCardRead: () => request.post(`${baseUrl}/at/id-card-read`, {}, { timeout: 15000 }),
