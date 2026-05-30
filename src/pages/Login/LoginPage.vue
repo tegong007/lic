@@ -36,7 +36,7 @@
         </div>
       </div>
     </div>
-    <TheConfirm v-if="modal.open" :open="modal.open" :title="modal.title" :desc="modal.desc" :data="modal.data" :handle-cancel="() => setModal(-1)" />
+    <TheConfirm v-if="modal.open" :open="modal.open" :title="modal.title" :desc="modal.desc" :data="modal.data" :handle-ok="modal.handleOk" :handle-cancel="() => setModal(-1)" />
     <TheExit v-if="pwdShow" :open="pwdShow" title="请输入密码" :handle-ok="onPwdOk" :handle-cancel="() => (pwdShow = false)" />
   </div>
 </template>
@@ -85,12 +85,12 @@ async function startFingerprintLogin() {
       const pressedData: any = await loginModule.checkPressed();
       if (pressedData.respData.isPressed === 1) {
         stop();
-        // const templateList: TemplateItem[] = [];
         const matchData: any = await loginModule.templateMatch();
-        if (matchData.respData.isSame === 0) {
+        if (matchData.respData.isSame === 1) {
           modal.value = { open: true, title: '登录成功', key: -1, desc: '登录成功' };
         } else {
-          modal.value = { open: true, title: '错误弹窗提示', key: -1, desc: '指纹不匹配', data: { title: '指纹识别失败', msg: '指纹匹配失败，请重试' } };
+          setModal(-1);
+          notification.error({ message: '指纹识别失败', description: '指纹匹配失败，请重试', placement: 'bottomRight', class: 'notificationE-custom-class' });
         }
       }
     } catch (error) {
@@ -111,11 +111,12 @@ async function startFaceRecognition() {
         if (isAlive === 1 && isSamePerson === 1) {
           stop();
           modal.value = { open: true, title: '登录成功', key: -1, desc: '登录成功' };
+          notification.success({ message: '登录成功', description: '登录成功', placement: 'bottomRight', class: 'notification-custom-class' });
         }
       }
     } catch (error) {
       stop();
-      modal.value = { open: false, title: '', key: -1 };
+      setModal(-1);
       notification.error({ message: '人脸识别失败', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
     }
   }, 1);
@@ -157,7 +158,15 @@ async function startIdCardRead() {
 }
 
 function handleExit() {
-  window.electron.send('quit-app');
+  modal.value = {
+    open: true,
+    title: '退出系统',
+    key: -1,
+    handleOk: () => {
+      setModal(-1);
+      window.electron.send('quit-app');
+    },
+  };
 }
 
 onUnmounted(() => {

@@ -243,14 +243,14 @@
     </div>
   </div>
   <ThePass v-if="successOpen" :open="successOpen" :handle-ok="() => setSuccessOpen(false)" :handle-cancel="() => setSuccessOpen(false)" title="设置密码" />
-  <TheExit v-if="exitShow" :open="exitShow" :handle-cancel="() => openModal(false)" title="退出系统" />
+  <TheConfirm v-if="exitShow" :open="exitShow" title="退出系统" :handle-ok="() => { exitShow = false; window.electron.send('quit-app'); }" :handle-cancel="() => openModal(false)" />
 </template>
 
 <script setup lang="ts">
 import { App } from 'ant-design-vue';
 import { useI18n } from 'vue-i18n';
 import { setMoule } from '@/apis/proApi';
-import TheExit from '@/components/TheExit.vue';
+import TheConfirm from '@/components/TheConfirm.vue';
 import TheFooter from '@/components/TheFooter.vue';
 import ThePass from '@/pages/Set/components/ThePass.vue';
 import { useAppStore } from '@/store/index';

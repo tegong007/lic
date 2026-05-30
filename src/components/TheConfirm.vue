@@ -84,12 +84,15 @@
 
 <script lang="ts" setup>
 import { App } from 'ant-design-vue';
+import { useRouter } from 'vue-router';
 import { loginModule } from '@/apis/loginApi';
 import { homeModule } from '@/apis/proApi';
 import { useAppStore } from '@/store/index';
 import { ensureInRange } from '@/utils/index';
 
 const props = defineProps({ open: Boolean, handleOk: Function, title: String, handleCancel: Function, data: Object, desc: String });
+
+const router = useRouter();
 
 // 登录成功倒计时
 const loginSuccessCountdown = ref(5);
@@ -124,7 +127,7 @@ function handleLoginSuccessOk() {
     clearInterval(loginSuccessTimer);
     loginSuccessTimer = null;
   }
-  if (props.handleOk) props.handleOk();
+  router.push('/home');
 }
 
 onUnmounted(() => {

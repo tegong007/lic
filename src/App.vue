@@ -11,8 +11,7 @@
           </router-view>
           <TheFooter />
         </div>
-        <TheExit v-if="exitShow" :open="exitShow" :handle-cancel="() => openExitModal(false)" title="退出系统" />
-        <TheConfirm v-if="modal.open" :open="modal.open" :title="modal.title" :desc="modal.desc" :data="modal.data" :handle-ok="controlMachine" :handle-cancel="() => (modal = { open: false, title: '', key: -1 })" />
+        <TheConfirm v-if="modal.open" :open="modal.open" :title="modal.title" :desc="modal.desc" :data="modal.data" :handle-ok="onConfirmOk" :handle-cancel="() => (modal = { open: false, title: '', key: -1 })" />
       </a-spin>
     </a-app>
   </a-config-provider>
@@ -25,7 +24,6 @@ import enUS from 'ant-design-vue/es/locale/en_US';
 import zhCN from 'ant-design-vue/es/locale/zh_CN';
 import { h, watchEffect } from 'vue';
 import { homeModule } from '@/apis/proApi';
-import TheExit from '@/components/TheExit.vue';
 import TheFooter from '@/components/TheFooter.vue';
 import TheHeader from '@/components/TheHeader.vue';
 
@@ -34,7 +32,6 @@ import { useAppStore } from '@/store';
 const appStore = useAppStore();
 const locale = ref(zhCN.locale);
 const indicator = h(LoadingOutlined, { style: { fontSize: '200px' } });
-const exitShow = ref(false);
 const modal: any = ref({ open: false, title: '', key: -1 });
 const { notification } = App.useApp();
 
@@ -42,10 +39,15 @@ watchEffect(() => {
   appStore.setThemeColor(appStore.primaryColor, appStore.isDark);
 });
 
-// 弹窗操作
-function openExitModal(value: boolean) {
-  exitShow.value = value;
+// 弹窗统一确认处理：优先使用 modal.handleOk，否则走 controlMachine
+function onConfirmOk() {
+  if (modal.value.handleOk) {
+    modal.value.handleOk();
+  } else {
+    controlMachine();
+  }
 }
+// 弹窗操作
 async function getDataPage() {
   try {
     const data: any = await homeModule.getHomeList();
@@ -82,7 +84,16 @@ async function controlMachine() {
 onMounted(async () => {
   // 监听主进程发送的确认退出消息
   window.ipcRenderer.on('confirm-quit', () => {
-    exitShow.value = true;
+    // exitShow.value = true;
+    modal.value = {
+      open: true,
+      title: '退出系统',
+      key: -1,
+      handleOk: () => {
+        modal.value = { open: false, title: '', key: -1 };
+        window.electron.send('quit-app');
+      },
+    };
   });
   getDataPage();
   try {

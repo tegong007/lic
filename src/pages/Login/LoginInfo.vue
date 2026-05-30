@@ -153,6 +153,7 @@ function startFingerprintScan() {
       stop();
       fingerprints[fingerprintStep.value] = { data: '', status: 'failed' };
       setModal(-1);
+      router.replace('/login');
       notification.error({ message: '指纹录入失败', description: String(error), placement: 'bottomRight', class: 'notification-custom-class' });
     }
   }, 1);
@@ -172,11 +173,11 @@ async function onAllFingerprintsDone() {
       headshot: formData.avatar,
       fingerprint1: templateData,
     });
-
     notification.success({ message: '录入完成', description: '用户信息录入成功', placement: 'bottomRight', class: 'notification-custom-class' });
+    router.replace('/home');
+  } catch (error) {
     setModal(-1);
     router.replace('/login');
-  } catch (error) {
     notification.error({ message: '录入失败', description: String(error), placement: 'bottomRight', class: 'notification-custom-class' });
   }
 }
