@@ -88,6 +88,7 @@ async function startFingerprintLogin() {
         const matchData: any = await loginModule.templateMatch();
         if (matchData.respData.isSame === 1) {
           modal.value = { open: true, title: '登录成功', key: -1, desc: '登录成功' };
+          localStorage.setItem('account', matchData.respData.account);
         } else {
           setModal(-1);
           notification.error({ message: '指纹识别失败', description: '指纹匹配失败，请重试', placement: 'bottomRight', class: 'notificationE-custom-class' });
@@ -107,9 +108,10 @@ async function startFaceRecognition() {
     try {
       const data: any = await loginModule.faceIdentifyResult();
       if (data.respData) {
-        const { isAlive, isSamePerson } = data.respData;
+        const { isAlive, isSamePerson, account } = data.respData;
         if (isAlive === 1 && isSamePerson === 1) {
           stop();
+          localStorage.setItem('account', account);
           modal.value = { open: true, title: '登录成功', key: -1, desc: '登录成功' };
           notification.success({ message: '登录成功', description: '登录成功', placement: 'bottomRight', class: 'notification-custom-class' });
         }

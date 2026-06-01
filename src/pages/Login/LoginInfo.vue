@@ -174,7 +174,7 @@ async function onAllFingerprintsDone() {
       fingerprint1: templateData,
     });
     notification.success({ message: '录入完成', description: '用户信息录入成功', placement: 'bottomRight', class: 'notification-custom-class' });
-    router.replace('/home');
+    router.replace('/login');
   } catch (error) {
     setModal(-1);
     router.replace('/login');

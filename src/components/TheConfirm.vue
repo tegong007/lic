@@ -42,9 +42,10 @@
       </div>
     </template>
     <template v-else-if="props.title === '登录成功'">
-      <div class="h-20vh w-98% flex flex-col items-center justify-center gap-2vh">
+      <div class="h-20vh w-98% flex flex-col items-center justify-center gap-1vh">
         <img src="@/assets/image/ico_success.png" class="h-10vh w-full object-contain" alt="" />
         <div class="text-center text-4vw text-#ffffff">{{ props.desc }}</div>
+        <div class="text-center text-3vw text-#ffffff">用户:{{ account }}</div>
       </div>
     </template>
 
@@ -93,39 +94,42 @@ import { ensureInRange } from '@/utils/index';
 const props = defineProps({ open: Boolean, handleOk: Function, title: String, handleCancel: Function, data: Object, desc: String });
 
 const router = useRouter();
-
+const account = ref('');
 // 登录成功倒计时
 const loginSuccessCountdown = ref(5);
 const loginSuccessBtnText = computed(() => `进入主页(${loginSuccessCountdown.value}s)`);
 
-let loginSuccessTimer: ReturnType<typeof setInterval> | null = null;
+let loginSuccessTimer: number | undefined;
 
 watch(
-  () => `${props.open}-${props.title}`,
-  () => {
-    if (props.open && props.title === '登录成功') {
+  [() => props.open, () => props.title],
+  ([newOpen, newTitle]) => {
+    // 清理旧定时器
+    if (loginSuccessTimer) {
+      clearInterval(loginSuccessTimer);
+      loginSuccessTimer = undefined; // 这里改 undefined
+    }
+
+    if (newOpen && newTitle === '登录成功') {
+      account.value = localStorage.getItem('account');
       loginSuccessCountdown.value = 5;
+
       loginSuccessTimer = setInterval(() => {
         loginSuccessCountdown.value--;
         if (loginSuccessCountdown.value <= 0) {
-          if (loginSuccessTimer) clearInterval(loginSuccessTimer);
-          loginSuccessTimer = null;
+          clearInterval(loginSuccessTimer);
+          loginSuccessTimer = undefined; // 这里也改
           handleLoginSuccessOk();
         }
       }, 1000);
-    } else {
-      if (loginSuccessTimer) {
-        clearInterval(loginSuccessTimer);
-        loginSuccessTimer = null;
-      }
     }
   },
+  { immediate: true },
 );
-
 function handleLoginSuccessOk() {
   if (loginSuccessTimer) {
     clearInterval(loginSuccessTimer);
-    loginSuccessTimer = null;
+    loginSuccessTimer = undefined;
   }
   router.push('/home');
 }
@@ -133,7 +137,7 @@ function handleLoginSuccessOk() {
 onUnmounted(() => {
   if (loginSuccessTimer) {
     clearInterval(loginSuccessTimer);
-    loginSuccessTimer = null;
+    loginSuccessTimer = undefined;
   }
 });
 

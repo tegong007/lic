@@ -159,7 +159,7 @@
           <div class="flex">
             <div class="bgSet_itemIn">
               <div class="bgSet_itemIn_tit">收本槽{{ index }}:</div>
-              <a-switch :checked="formData.collectSlotEnable[index] === '1'" @update:checked="(val:any) => formData.collectSlotEnable[index] = val ? '1' : '0'" />
+              <a-switch :checked="formData.collectSlotEnable[index] === '1'" @update:checked="(val: any) => (formData.collectSlotEnable[index] = val ? '1' : '0')" />
             </div>
           </div>
         </section>
@@ -173,7 +173,7 @@
           <div class="flex">
             <div class="bgSet_itemIn">
               <div class="bgSet_itemIn_tit">装本槽{{ index }}:</div>
-              <a-switch :checked="formData.loadSlotEnable[index] === '1'" @update:checked="(val:any) => formData.loadSlotEnable[index] = val ? '1' : '0'" />
+              <a-switch :checked="formData.loadSlotEnable[index] === '1'" @update:checked="(val: any) => (formData.loadSlotEnable[index] = val ? '1' : '0')" />
             </div>
           </div>
         </section>
@@ -239,11 +239,11 @@
     </div>
     <div>
       <a-button type="link" class="btn_normal mr-2vw w-18.5vw" @click="setSuccessOpen(true)">密码设置</a-button>
-      <a-button type="link" class="btn_normal w-18.5vw" @click="openModal(true)">退出系统</a-button>
+      <a-button type="link" class="btn_normal w-18.5vw" @click="handleExit">退出系统</a-button>
     </div>
   </div>
+  <TheConfirm v-if="modal.open" :open="modal.open" :title="modal.title" :desc="modal.desc" :data="modal.data" :handle-ok="modal.handleOk" :handle-cancel="() => setModal(-1)" />
   <ThePass v-if="successOpen" :open="successOpen" :handle-ok="() => setSuccessOpen(false)" :handle-cancel="() => setSuccessOpen(false)" title="设置密码" />
-  <TheConfirm v-if="exitShow" :open="exitShow" title="退出系统" :handle-ok="() => { exitShow = false; window.electron.send('quit-app'); }" :handle-cancel="() => openModal(false)" />
 </template>
 
 <script setup lang="ts">
@@ -255,18 +255,26 @@ import TheFooter from '@/components/TheFooter.vue';
 import ThePass from '@/pages/Set/components/ThePass.vue';
 import { useAppStore } from '@/store/index';
 
-const exitShow = ref(false);
+const modal: any = ref({ open: false, title: '', key: -1 });
 const successOpen = ref<boolean>(false);
 function setSuccessOpen(value: boolean) {
   successOpen.value = value;
   hideKeyboard();
 }
 
-// 弹窗操作
-function openModal(value: boolean) {
-  exitShow.value = value;
+function handleExit() {
   hideKeyboard();
+  modal.value = {
+    open: true,
+    title: '退出系统',
+    key: -1,
+    handleOk: () => {
+      modal.value = { open: false, title: '', key: -1 };
+      window.electron.send('quit-app');
+    },
+  };
 }
+
 const { notification } = App.useApp();
 const { t } = useI18n();
 
