@@ -65,30 +65,54 @@ function genCameraHost(): string {
 /** 活体检测状态码映射（与 Demo_websocket_origin.html 保持一致） */
 function toStateMsg(state: number): string {
   switch (state) {
-    case 1: return '未检测到人脸';
-    case 2: return '检测到多人脸';
-    case 3: return '头部姿态不正，左右转幅较大或俯仰角度较大';
-    case 4: return '太近了';
-    case 5: return '太远了';
-    case 6: return '有面部表情';
-    case 7: return '人脸模糊';
-    case 8: return '亮度不合格';
-    case 9: return '人脸不居中';
-    case 10: return '眼部遮挡';
-    case 11: return '嘴部遮挡';
-    case 12: return '人脸不在roi区域内';
-    case 13: return '有戴墨镜';
-    case 14: return '有戴口罩';
-    case 15: return '有戴眼镜';
-    case 16: return '有长胡子';
-    case 17: return '在打电话';
-    case 18: return '有戴帽子';
-    case 19: return '左脸颊有遮挡';
-    case 20: return '右脸颊有遮挡';
-    case 21: return '额头有遮挡';
-    case 22: return '下巴有遮挡';
-    case 40: return '算法无授权，请检查授权信息';
-    default: return '';
+    case 1:
+      return '未检测到人脸';
+    case 2:
+      return '检测到多人脸';
+    case 3:
+      return '头部姿态不正，左右转幅较大或俯仰角度较大';
+    case 4:
+      return '太近了';
+    case 5:
+      return '太远了';
+    case 6:
+      return '有面部表情';
+    case 7:
+      return '人脸模糊';
+    case 8:
+      return '亮度不合格';
+    case 9:
+      return '人脸不居中';
+    case 10:
+      return '眼部遮挡';
+    case 11:
+      return '嘴部遮挡';
+    case 12:
+      return '人脸不在roi区域内';
+    case 13:
+      return '有戴墨镜';
+    case 14:
+      return '有戴口罩';
+    case 15:
+      return '有戴眼镜';
+    case 16:
+      return '有长胡子';
+    case 17:
+      return '在打电话';
+    case 18:
+      return '有戴帽子';
+    case 19:
+      return '左脸颊有遮挡';
+    case 20:
+      return '右脸颊有遮挡';
+    case 21:
+      return '额头有遮挡';
+    case 22:
+      return '下巴有遮挡';
+    case 40:
+      return '算法无授权，请检查授权信息';
+    default:
+      return '';
   }
 }
 
@@ -101,17 +125,53 @@ export function useCamera() {
   const faceStatus = ref(''); // 活体检测状态文字
   const capturedImage = ref(''); // 采集到的人脸 base64（带 data URI 头，用于 img 展示）
 
-  /** 获取全局 CameraHelperWS */
-  function getCHWS(): any {
-    const g = (typeof window !== 'undefined' ? (window as any).CameraHelperWS : undefined) ?? (globalThis as any).CameraHelperWS;
-    if (!g) {
-      throw new Error('CameraHelperWS 未加载，请确保 CameraHelperWS.js 脚本已注入');
+  /** 动态加载 CameraHelperWS.js 脚本（兼容开发环境 / 和 生产环境 ../public/） */
+  async function ensureScriptLoaded(): Promise<void> {
+    // 已经加载过了，直接返回
+    if (getCHWSSafe()) return;
+
+    // 自动判断路径：file:// 协议 → 生产 Electron，http:// → 开发 Vite
+    const isProd = window.location.protocol === 'file:';
+    const scriptPath = isProd ? '../public/CameraHelperWS.js' : '/CameraHelperWS.js';
+
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = scriptPath;
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error(`加载脚本失败: ${scriptPath}`));
+      document.head.appendChild(script);
+    });
+  }
+
+  /** 尝试获取 CameraHelperWS，不抛错 */
+  function getCHWSSafe(): any {
+    try {
+      return (window as any).CameraHelperWS;
+    } catch {
+      /* */
     }
+    try {
+      return (globalThis as any).CameraHelperWS;
+    } catch {
+      /* */
+    }
+    try {
+      return (window as any).CameraHelperWS;
+    } catch {
+      /* */
+    }
+    return undefined;
+  }
+
+  /** 获取全局 CameraHelperWS（调用前需先 ensureScriptLoaded） */
+  function getCHWS(): any {
+    const g = getCHWSSafe();
+    if (!g) throw new Error('CameraHelperWS 未加载，请确保 CameraHelperWS.js 脚本已注入');
     return g;
   }
 
   /** 初始化参数 + 连接 WebSocket */
-  function init(): Promise<void> {
+  async function init(): Promise<void> {
     return new Promise((resolve, reject) => {
       try {
         const chws = getCHWS();
@@ -137,7 +197,7 @@ export function useCamera() {
   }
 
   /** 打开摄像头，启动预览流（base64 帧） */
-  function openCamera(): Promise<void> {
+  async function openCamera(): Promise<void> {
     return new Promise((resolve, reject) => {
       try {
         const chws = getCHWS();
@@ -188,16 +248,23 @@ export function useCamera() {
     errorMsg.value = '';
   }
 
-  /** 整体启动：连接 → 打开摄像头 */
+  /** 整体启动：加载脚本 → 连接 → 打开摄像头 */
   async function startPreview(): Promise<void> {
+    // 1. 确保 CameraHelperWS.js 已加载（自动判断 dev/prod 路径）
+    await ensureScriptLoaded();
+
     // 如果已经连接过（可能之前连接还存在），先重置
     if (isConnected.value) {
       try {
         closeCamera();
-      } catch { /* noop */ }
+      } catch {
+        /* noop */
+      }
       try {
         disconnect();
-      } catch { /* noop */ }
+      } catch {
+        /* noop */
+      }
     }
     errorMsg.value = '';
     await init();
@@ -213,7 +280,7 @@ export function useCamera() {
   }
 
   /** 活体检测采集：调用 CameraHelperWS.faceCheck → cropImageAdvance → 返回 raw base64（无 data URI 头） */
-  function checkLive(): Promise<string> {
+  async function checkLive(): Promise<string> {
     return new Promise((resolve, reject) => {
       let lastEvent = 0;
       const chws = getCHWS();

@@ -38,7 +38,7 @@
       <div class="h-28vh w-98% flex items-center justify-center pt-2vw">
         <img :src="cameraSrc" class="h-28vh w-full object-contain" alt="摄像头视频流" />
         <!-- 状态提示 -->
-        <div class="absolute bottom--7vh left-0 right-0 text-center text-4vw" :class="faceStatus.includes('失败') ? 'text-#ff4d4f' : 'text-#ffffff'">
+        <div class="absolute bottom--7vh left-0 right-0 text-center text-4vw" :class="(faceStatus.includes('失败') || faceStatus.includes('连接')) ? 'text-#ff4d4f' : 'text-#ffffff'">
           {{ faceStatus || props.desc }}
         </div>
       </div>
@@ -135,7 +135,7 @@ watch(
 
     // 摄像头
     if (newOpen && newTitle === '人脸识别') {
-      faceStatus.value = '';
+      faceStatus.value = '正在连接摄像头…';
       capturedImage.value = '';
       isCheckLiving.value = true;
       startPreview()
@@ -146,7 +146,9 @@ watch(
         .then((base64: string) => {
           emit('faceCaptured', base64);
         })
-        .catch((err) => {
+        .catch((err: Error) => {
+          isCheckLiving.value = false; // 致命错误，停止重试
+          faceStatus.value = `摄像头连接失败: ${err.message}`;
           console.warn('[TheConfirm] 人脸采集失败:', err);
         });
     } else if (newTitle !== '人脸识别') {
