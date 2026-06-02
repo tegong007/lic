@@ -27,7 +27,7 @@
           <!-- 账号 -->
           <div class="mb-3vh">
             <div class="mb-1vh pl-1vw text-3vw text-white">账号</div>
-            <a-input v-model:value="formData.account" placeholder="请输入账号（英文或数字）" :maxlength="30" class="form-input" @input="errors.account = ''" @click.stop="onInputFocus($event)" />
+            <a-input v-model:value="formData.account" placeholder="请输入账号（英文或数字）" :maxlength="10" class="form-input" @input="errors.account = ''" @click.stop="onInputFocus($event)" />
             <div v-if="errors.account" class="mt-1vh pl-1vw text-2.5vw text-red-400">{{ errors.account }}</div>
           </div>
 
@@ -199,8 +199,8 @@ function validate(): boolean {
     return false;
   }
 
-  if (formData.account.length > 30) {
-    errors.account = '账号不能超过30个字符';
+  if (formData.account.length > 10) {
+    errors.account = '账号不能超过10个字符';
     return false;
   }
 
