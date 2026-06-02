@@ -31,7 +31,7 @@ const emit = defineEmits(['onChange', 'onKeyPress', 'closekeyboard']);
 
 const keyboard: any = ref(null);
 
-const displayDefault = ref({ '{bksp}': '删除', '{lock}': 'caps', '{tab}': 'tab', '{shift}': 'shift', '{change}': '中文', '{space}': ' ', '{clear}': '清空', '{close}': '关闭' });
+const displayDefault = ref({ '{bksp}': '删除', '{lock}': 'caps', '{tab}': 'tab', '{shift}': 'shift', '{change}': '英文', '{space}': ' ', '{clear}': '清空', '{close}': '关闭' });
 
 function handleShift() {
   const currentLayout = keyboard.value.options.layoutName;
@@ -58,7 +58,7 @@ onMounted(() => {
     },
 
     // onKeyReleased,
-    layoutCandidates: layout.layoutCandidates,
+    layoutCandidates: null,
     layoutName: props.layout,
     theme: `hg-theme-${props.layout}`,
     layout: {

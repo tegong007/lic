@@ -1,6 +1,6 @@
 import request from '@/plugins/request';
 
-const baseUrl = window.videoIP ?? 'http://localhost:6130/';
+const baseUrl = window.biometricIP ?? 'http://localhost:6130/';
 
 // ── 类型定义 ──
 
@@ -79,8 +79,8 @@ const loginModule = {
   /** 获取视频流地址 */
   getVideoStreamUrl: () => `${baseUrl}/at/video-stream`,
 
-  /** 人脸识别结果 */
-  faceIdentifyResult: () => request.post(`${baseUrl}/at/face-identify-result`),
+  /** 人脸识别结果（传入采集到的人脸 base64，不带 data URI 头） */
+  faceIdentifyResult: (faceImg: string) => request.post(`${baseUrl}/at/face-identify-result`, { faceImg }),
 
   /** @deprecated 旧的人脸识别接口 */
   faceRecognition: () => request.post(`${baseUrl}/fc/face-identify-result`),

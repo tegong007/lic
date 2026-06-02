@@ -36,7 +36,22 @@
         </div>
       </div>
     </div>
-    <TheConfirm v-if="modal.open" :open="modal.open" :title="modal.title" :desc="modal.desc" :data="modal.data" :handle-ok="modal.handleOk" :handle-cancel="() => setModal(-1)" />
+    <TheConfirm
+      v-if="modal.open"
+      :open="modal.open"
+      :title="modal.title"
+      :desc="modal.desc"
+      :data="modal.data"
+      :handle-ok="modal.handleOk"
+      :handle-cancel="
+        () => {
+          setModal(-1);
+          stop();
+        }
+      "
+      @camera-ready="onCameraReady"
+      @face-captured="onFaceCaptured"
+    />
     <TheExit v-if="pwdShow" :open="pwdShow" title="请输入密码" :handle-ok="onPwdOk" :handle-cancel="() => (pwdShow = false)" />
   </div>
 </template>
@@ -74,7 +89,7 @@ function handleLogin(type: string) {
     startFingerprintLogin();
   } else {
     modal.value = { open: true, title: '人脸识别', desc: '请把人脸移动到框内', key: -1 };
-    startFaceRecognition();
+    // 等待摄像头就绪后通过 @camera-ready 事件触发 startFaceRecognition
   }
 }
 
@@ -95,33 +110,37 @@ async function startFingerprintLogin() {
         }
       }
     } catch (error) {
-      stop();
-      modal.value = { open: false, title: '', key: -1 };
-      notification.error({ message: '指纹识别失败', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
+      // stop();
+      // modal.value = { open: false, title: '', key: -1 };
+      notification.error({ message: '指纹识别失败', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class', maxCount: 5 });
     }
   }, 1);
 }
 
-// 人脸识别轮询
-async function startFaceRecognition() {
-  start(async () => {
-    try {
-      const data: any = await loginModule.faceIdentifyResult();
-      if (data.respData) {
-        const { isAlive, isSamePerson, account } = data.respData;
-        if (isAlive === 1 && isSamePerson === 1) {
-          stop();
-          localStorage.setItem('account', account);
-          modal.value = { open: true, title: '登录成功', key: -1, desc: '登录成功' };
-          notification.success({ message: '登录成功', description: '登录成功', placement: 'bottomRight', class: 'notification-custom-class' });
-        }
+// 摄像头就绪回调（TheConfirm 内部会自动触发 checkLive）
+function onCameraReady() {
+  // checkLive 已在 TheConfirm 内部启动，这里预留扩展
+}
+
+// 人脸采集完成，拿到 base64 → 送后端识别
+async function onFaceCaptured(base64: string) {
+  try {
+    const data: any = await loginModule.faceIdentifyResult(base64);
+    if (data.respData) {
+      const { isSamePerson } = data.respData;
+      if (isSamePerson === 1) {
+        stop();
+        localStorage.setItem('account', data.respData.account || '');
+        modal.value = { open: true, title: '登录成功', key: -1, desc: '登录成功' };
+      } else {
+        setModal(-1);
+        notification.error({ message: '人脸识别失败', description: `人脸不匹配`, placement: 'bottomRight', class: 'notificationE-custom-class' });
       }
-    } catch (error) {
-      stop();
-      setModal(-1);
-      notification.error({ message: '人脸识别失败', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
     }
-  }, 1);
+  } catch (error) {
+    setModal(-1);
+    notification.error({ message: '人脸识别失败', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
+  }
 }
 
 function handleEnroll() {

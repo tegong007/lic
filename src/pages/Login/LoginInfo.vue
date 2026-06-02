@@ -1,5 +1,6 @@
 <template>
   <div class="w-full">
+    <SimpleKeyboard v-if="focus" :transform="transformValue" :input="formData.account" :max-length="20" keyboard-width="w90%" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
     <div class="mx-3vw h-full flex justify-between">
       <img class="h-6.5vh w-15.3vw" src="@/assets/image/ico_left.png" />
       <img class="h-6.5vh w-15.3vw" src="@/assets/image/ico_right.png" />
@@ -26,7 +27,7 @@
           <!-- 账号 -->
           <div class="mb-3vh">
             <div class="mb-1vh pl-1vw text-3vw text-white">账号</div>
-            <a-input v-model:value="formData.account" placeholder="请输入账号（英文或数字）" :maxlength="30" class="form-input" @input="errors.account = ''" />
+            <a-input v-model:value="formData.account" placeholder="请输入账号（英文或数字）" :maxlength="30" class="form-input" @input="errors.account = ''" @click.stop="onInputFocus($event)" />
             <div v-if="errors.account" class="mt-1vh pl-1vw text-2.5vw text-red-400">{{ errors.account }}</div>
           </div>
 
@@ -43,8 +44,9 @@
           </div>
 
           <!-- 提交按钮 -->
-          <div class="flex justify-center pt-5vh">
+          <div class="flex justify-center gap-2vw pt-5vh">
             <a-button class="btn_submit transition-transform duration-300 hover:scale-105" @click="handleSubmit">确定并录入指纹</a-button>
+            <a-button class="btn_submit transition-transform duration-300 hover:scale-105" @click="$goto('LoginPage')">返回登录页</a-button>
           </div>
         </div>
       </div>
@@ -65,7 +67,9 @@ const { notification } = App.useApp();
 const route = useRoute();
 const router = useRouter();
 const { start, stop } = useCustomTimer();
-
+const focus = ref(false);
+const cursorPosition = ref(null);
+const transformValue: any = ref(null);
 interface FormData {
   account: string;
   idCard: string;
@@ -226,6 +230,34 @@ onMounted(async () => {
 onUnmounted(() => {
   stop();
 });
+
+function hideKeyboard() {
+  focus.value = false;
+}
+
+function onInputFocus(event: any) {
+  focus.value = true;
+  cursorPosition.value = event;
+  const rect = event.target.getBoundingClientRect();
+  const top = rect.bottom + rect.height + window.scrollY;
+  console.log('🚀 ~ onInputFocus ~ top:', top);
+  // transformValue.value = [-200, top - 280];
+  transformValue.value = [0, 200];
+}
+
+function onChangeKeyboard(input: string, keyboard: any) {
+  const caretPosition = keyboard.caretPosition;
+  if (caretPosition !== null) setInputCaretPosition(cursorPosition.value, caretPosition);
+  formData.account = input;
+  function setInputCaretPosition(element: any, pos: any) {
+    setTimeout(() => {
+      if (element.setSelectionRange) {
+        element.focus();
+        element.setSelectionRange(pos, pos);
+      }
+    }, 100);
+  }
+}
 </script>
 
 <style scoped lang="less">

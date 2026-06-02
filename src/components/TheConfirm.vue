@@ -36,9 +36,11 @@
     </template>
     <template v-else-if="props.title === '人脸识别'">
       <div class="h-28vh w-98% flex items-center justify-center pt-2vw">
-        <img :src="loginModule.getVideoStreamUrl()" class="h-28vh w-full object-contain" alt="摄像头视频流" />
-        <img src="@/assets/image/face.png" class="absolute h-28vh w-full object-contain" alt="摄像头视频流" />
-        <div class="absolute bottom--7vh text-center text-4vw text-#ffffff">{{ props.desc }}</div>
+        <img :src="cameraSrc" class="h-28vh w-full object-contain" alt="摄像头视频流" />
+        <!-- 状态提示 -->
+        <div class="absolute bottom--7vh left-0 right-0 text-center text-4vw" :class="faceStatus.includes('失败') ? 'text-#ff4d4f' : 'text-#ffffff'">
+          {{ faceStatus || props.desc }}
+        </div>
       </div>
     </template>
     <template v-else-if="props.title === '登录成功'">
@@ -68,7 +70,9 @@
           <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('暂停设备')">暂停设备</a-button>
         </template>
       </a-flex>
-      <a-flex v-else-if="props.title === '指纹识别' || props.title === '人脸识别' || props.title === '身份证识别'" justify="center" align="center" class="gap-5%"></a-flex>
+      <a-flex v-else-if="props.title === '指纹识别' || props.title === '人脸识别' || props.title === '身份证识别'" justify="center" align="center" class="gap-5%">
+        <a-button class="btn transition-transform duration-300 hover:scale-105" @click="handleCancel">取消</a-button>
+      </a-flex>
       <a-flex v-else-if="props.title === '登录成功'" justify="center" align="center" class="gap-5%">
         <a-button class="btn transition-transform duration-300 hover:scale-105" @click="handleLoginSuccessOk">{{ loginSuccessBtnText }}</a-button>
       </a-flex>
@@ -86,12 +90,13 @@
 <script lang="ts" setup>
 import { App } from 'ant-design-vue';
 import { useRouter } from 'vue-router';
-import { loginModule } from '@/apis/loginApi';
 import { homeModule } from '@/apis/proApi';
+import { useCamera } from '@/plugins/useCamera';
 import { useAppStore } from '@/store/index';
 import { ensureInRange } from '@/utils/index';
 
 const props = defineProps({ open: Boolean, handleOk: Function, title: String, handleCancel: Function, data: Object, desc: String });
+const emit = defineEmits(['cameraReady', 'faceCaptured']);
 
 const router = useRouter();
 const account = ref('');
@@ -101,13 +106,17 @@ const loginSuccessBtnText = computed(() => `进入主页(${loginSuccessCountdown
 
 let loginSuccessTimer: number | undefined;
 
+// ---- 摄像头（CameraHelperWS WebSocket 方案） ----
+const { cameraSrc, startPreview, stopCamera, faceStatus, capturedImage, checkLive } = useCamera();
+const isCheckLiving = ref(false); // 是否正在循环采集（用于控制重试）
+
 watch(
   [() => props.open, () => props.title],
   ([newOpen, newTitle]) => {
     // 清理旧定时器
     if (loginSuccessTimer) {
       clearInterval(loginSuccessTimer);
-      loginSuccessTimer = undefined; // 这里改 undefined
+      loginSuccessTimer = undefined;
     }
 
     if (newOpen && newTitle === '登录成功') {
@@ -118,10 +127,31 @@ watch(
         loginSuccessCountdown.value--;
         if (loginSuccessCountdown.value <= 0) {
           clearInterval(loginSuccessTimer);
-          loginSuccessTimer = undefined; // 这里也改
+          loginSuccessTimer = undefined;
           handleLoginSuccessOk();
         }
       }, 1000);
+    }
+
+    // 摄像头
+    if (newOpen && newTitle === '人脸识别') {
+      faceStatus.value = '';
+      capturedImage.value = '';
+      isCheckLiving.value = true;
+      startPreview()
+        .then(() => {
+          emit('cameraReady');
+          return retryCheckLive();
+        })
+        .then((base64: string) => {
+          emit('faceCaptured', base64);
+        })
+        .catch((err) => {
+          console.warn('[TheConfirm] 人脸采集失败:', err);
+        });
+    } else if (newTitle !== '人脸识别') {
+      isCheckLiving.value = false;
+      stopCamera();
     }
   },
   { immediate: true },
@@ -135,11 +165,28 @@ function handleLoginSuccessOk() {
 }
 
 onUnmounted(() => {
+  isCheckLiving.value = false;
   if (loginSuccessTimer) {
     clearInterval(loginSuccessTimer);
     loginSuccessTimer = undefined;
   }
 });
+
+/** 循环重试活体检测，直到成功或弹窗关闭 */
+async function retryCheckLive(): Promise<string> {
+  while (isCheckLiving.value) {
+    try {
+      return await checkLive();
+    } catch {
+      // 采集失败（102 或其他），faceStatus 已自动更新，
+      // 等待 1.5 秒让用户看到提示，然后自动重试
+      if (isCheckLiving.value) {
+        await new Promise(r => setTimeout(r, 1500));
+      }
+    }
+  }
+  throw new Error('采集已取消');
+}
 
 const text = ref(props.desc || '');
 const focus = ref(false);

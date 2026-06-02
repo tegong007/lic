@@ -132,7 +132,8 @@ onUnmounted(() => {
 }
 ::v-deep(.ant-spin-spinning) {
   position: fixed !important;
-  top: calc(50% - 300px) !important;
+  //  top: calc(50% - 300px) !important;
+  top: calc(10%) !important;
   font-size: 20px;
   display: flex;
   align-items: center;

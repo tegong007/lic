@@ -1,6 +1,6 @@
 <template>
   <a-modal width="78.3vw" :get-container="false" :open="props.open" wrap-class-name="test" :closable="false" centered force-render>
-    <SimpleKeyboard v-if="focus" :transform="transformValue" keyboard-width="w20%" layout="num" :max-length="6" :input="formData[focus]" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
+    <SimpleKeyboard v-if="focus" :transform="transformValue" keyboard-width="w50%" layout="num" :max-length="6" :input="formData[focus]" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
     <div class="w-full pb-2vh pt-6vh text-center text-4.5vw color-#ffffff">{{ props.title }}</div>
     <a-input v-model:value="formData.password" type="password" :class="focus === 'password' ? 'keyInput' : ''" class="mx-auto mb-4vh block w-95% text-4.5vw" placeholder="请输入六位数字密码" :maxlength="6" @click.stop="onInputFocus($event, 'password')" />
     <template #footer>
