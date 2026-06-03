@@ -15,4 +15,11 @@ interface Window {
   // expose in the `electron/preload/index.ts`
   ipcRenderer: import('electron').IpcRenderer;
   electron: { send: (channel: string, ...args: unknown[]) => void };
+  electronAPI: {
+    getConfig: () => Promise<any>;
+    setConfig: (key: string, value: unknown) => Promise<boolean>;
+    exitWindow: () => Promise<Record<string, never>>;
+    getCameraHelperPath: () => Promise<string>;
+  };
+  cameraIp?: string;
 }

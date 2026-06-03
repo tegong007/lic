@@ -171,8 +171,8 @@ async function startIdCardRead() {
         });
       }
     } catch (error) {
-      stop();
-      setModal(-1);
+      // stop();
+      // setModal(-1);
       notification.error({ message: '身份证识别失败', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
     }
   }, 1);

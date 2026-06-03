@@ -11,6 +11,7 @@ interface IElectronAPI {
   getConfig: () => Promise<unknown>;
   setConfig: (key: string, value: unknown) => Promise<boolean>;
   exitWindow: () => Promise<Record<string, never>>;
+  getCameraHelperPath: () => Promise<string>;
 }
 
 interface ILegacyIpcRenderer {
@@ -49,6 +50,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getConfig: (): Promise<unknown> => ipcRenderer.invoke('get-config'),
   setConfig: (key: string, value: unknown): Promise<boolean> => ipcRenderer.invoke('modify-config', key, value),
   exitWindow: (): Promise<Record<string, never>> => ipcRenderer.invoke('Exit_Window'),
+  getCameraHelperPath: (): Promise<string> => ipcRenderer.invoke('get-camera-helper-path'),
 } as IElectronAPI);
 
 contextBridge.exposeInMainWorld('electron', {

@@ -271,6 +271,18 @@ ipcMain.handle('modify-config', async (key, value) => {
     return false; // 返回 false 表示修改失败
   }
 });
+// 获取 CameraHelperWS.js 的可直接使用的 URL（与 readConfig() 路径逻辑一致）
+ipcMain.handle('get-camera-helper-path', () => {
+  if (process.env.VITE_DEV_SERVER_URL) {
+    // 开发环境：返回 Vite dev server 的 http URL
+    return `${VITE_DEV_SERVER_URL}/CameraHelperWS.js`;
+  } else {
+    // 打包环境：返回 file:// 绝对路径
+    const absPath = path.resolve(path.dirname(app.getPath('exe')), 'public/CameraHelperWS.js');
+    return `file:///${absPath.replace(/\\/g, '/')}`;
+  }
+});
+
 // 监听渲染进程发送的退出事件
 ipcMain.on('quit-app', () => {
   // app.quit();

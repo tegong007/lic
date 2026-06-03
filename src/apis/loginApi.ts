@@ -74,7 +74,7 @@ const loginModule = {
   templateMatch: () => request.post(`${baseUrl}/at/template-match`),
 
   /** 读身份证（15秒超时） */
-  idCardRead: () => request.post(`${baseUrl}/at/id-card-read`, {}, { timeout: 15000 }),
+  idCardRead: () => request.post(`${baseUrl}/at/id-card-read`),
 
   /** 获取视频流地址 */
   getVideoStreamUrl: () => `${baseUrl}/at/video-stream`,

@@ -125,14 +125,30 @@ export function useCamera() {
   const faceStatus = ref(''); // 活体检测状态文字
   const capturedImage = ref(''); // 采集到的人脸 base64（带 data URI 头，用于 img 展示）
 
-  /** 动态加载 CameraHelperWS.js 脚本（兼容开发环境 / 和 生产环境 ../public/） */
+  /**
+   * 动态加载 CameraHelperWS.js 脚本
+   *
+   *  打包环境 (file://) 通过 IPC 获取绝对路径，
+   *  开发环境直接走 Vite dev server 的 /CameraHelperWS.js。
+   */
   async function ensureScriptLoaded(): Promise<void> {
     // 已经加载过了，直接返回
     if (getCHWSSafe()) return;
 
-    // 自动判断路径：file:// 协议 → 生产 Electron，http:// → 开发 Vite
-    const isProd = window.location.protocol === 'file:';
-    const scriptPath = isProd ? '../public/CameraHelperWS.js' : '/CameraHelperWS.js';
+    let scriptPath: string;
+    if (window.location.protocol === 'file:') {
+      // 打包 Electron：IPC 获取 file:// 绝对路径
+      try {
+        scriptPath = await (window.electronAPI as any).getCameraHelperPath();
+      } catch {
+        throw new Error('获取 CameraHelperWS.js 路径失败');
+      }
+    } else {
+      // 开发环境
+      scriptPath = '/CameraHelperWS.js';
+    }
+
+    console.log('[useCamera] 加载脚本:', scriptPath);
 
     return new Promise((resolve, reject) => {
       const script = document.createElement('script');

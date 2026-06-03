@@ -28,19 +28,17 @@
       <div class="mx-auto h-20vh w-90% overflow-auto text-1vw text-#ffffff">{{ props.data ? props.data.msg : '--' }}</div>
     </template>
     <template v-else-if="props.title === '指纹识别' || props.title === '身份证识别'">
-      <div class="h-45vw flex flex-col items-center justify-center pt-3vh">
-        <div v-if="props.title === '指纹识别'" class="fingerprint h-10vh w-10vh"></div>
+      <div class="h-28vh w-98% flex flex-col items-center justify-center pt-2vw">
+        <div v-if="props.title === '指纹识别'" class="h-15vh w-40vw flex items-center justify-center"><div class="fingerprint h-10vh w-10vh"></div></div>
         <div v-else class="idCard h-15vh w-40vw"></div>
-        <div class="absolute bottom--7vh text-center text-4vw text-#ffffff">{{ props.desc }}</div>
+        <div class="absolute bottom--9vh text-center text-4vw text-#ffffff">{{ props.desc }}</div>
       </div>
     </template>
     <template v-else-if="props.title === '人脸识别'">
       <div class="h-28vh w-98% flex items-center justify-center pt-2vw">
         <img :src="cameraSrc" class="h-28vh w-full object-contain" alt="摄像头视频流" />
         <!-- 状态提示 -->
-        <div class="absolute bottom--7vh left-0 right-0 text-center text-4vw" :class="(faceStatus.includes('失败') || faceStatus.includes('连接')) ? 'text-#ff4d4f' : 'text-#ffffff'">
-          {{ faceStatus || props.desc }}
-        </div>
+        <div class="absolute left-0 right-0 top-[calc(100%+5vh)] text-center text-4vw" :class="faceStatus.includes('失败') || faceStatus.includes('连接') ? 'text-#ff4d4f' : 'text-#ffffff'">{{ faceStatus || props.desc }}</div>
       </div>
     </template>
     <template v-else-if="props.title === '登录成功'">
@@ -71,7 +69,7 @@
         </template>
       </a-flex>
       <a-flex v-else-if="props.title === '指纹识别' || props.title === '人脸识别' || props.title === '身份证识别'" justify="center" align="center" class="gap-5%">
-        <a-button class="btn transition-transform duration-300 hover:scale-105" @click="handleCancel">取消</a-button>
+        <a-button class="btn mt2vh transition-transform duration-300 hover:scale-105" @click="handleCancel">取消</a-button>
       </a-flex>
       <a-flex v-else-if="props.title === '登录成功'" justify="center" align="center" class="gap-5%">
         <a-button class="btn transition-transform duration-300 hover:scale-105" @click="handleLoginSuccessOk">{{ loginSuccessBtnText }}</a-button>
