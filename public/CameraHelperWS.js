@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars, unused-imports/no-unused-vars
-const CameraHelperWS = (function () {
+window.CameraHelperWS = (function () {
   let socket;
   let host;
   let paramsInner;
