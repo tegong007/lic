@@ -257,6 +257,11 @@ import { useAppStore } from '@/store/index';
 
 const modal: any = ref({ open: false, title: '', key: -1 });
 const successOpen = ref<boolean>(false);
+function setModal(value: number) {
+  if (value === -1) {
+    modal.value = { open: false, title: '', key: -1 };
+  }
+}
 function setSuccessOpen(value: boolean) {
   successOpen.value = value;
   hideKeyboard();

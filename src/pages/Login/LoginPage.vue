@@ -149,7 +149,7 @@ function handleEnroll() {
 
 function onPwdOk() {
   pwdShow.value = false;
-  modal.value = { open: true, title: '身份证识别', key: -1, desc: '请把身份证放到采集上' };
+  modal.value = { open: true, title: '身份证识别', key: -1, desc: '请把身份证放到阅读器上' };
   startIdCardRead();
 }
 
