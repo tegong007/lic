@@ -279,7 +279,9 @@ ipcMain.handle('get-camera-helper-path', () => {
   } else {
     // 打包环境：返回 file:// 绝对路径
     const absPath = path.resolve(path.dirname(app.getPath('exe')), 'public/CameraHelperWS.js');
-    return `file:///${absPath.replace(/\\/g, '/')}`;
+    const normalizedPath = absPath.replace(/\\/g, '/');
+    // Linux 下 absPath 以 / 开头（如 /opt/...），Windows 下以盘符开头（如 D:/...）
+    return normalizedPath.startsWith('/') ? `file://${normalizedPath}` : `file:///${normalizedPath}`;
   }
 });
 
