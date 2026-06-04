@@ -13,9 +13,9 @@
       <div class="bgNav animation" :class="actived === 4 ? 'actived' : ''" @click="$goto('DefendPage', { key: 4 })">
         <span>添加测试任务</span>
       </div>
-      <div class="bgNav animation" :class="actived === 5 ? 'actived' : ''" @click="$goto('DefendPage', { key: 5 })">
+      <!-- <div class="bgNav animation" :class="actived === 5 ? 'actived' : ''" @click="$goto('DefendPage', { key: 5 })">
         <span>工位操作</span>
-      </div>
+      </div> -->
       <div class="bgNav animation" :class="actived === 6 ? 'actived' : ''" @click="$goto('DefendPage', { key: 6 })">
         <span>关于设备</span>
       </div>
@@ -30,11 +30,11 @@
       <template v-else-if="actived === 6">
         <div class="bg_listItem">
           <div class="flex py-0.5vh">
-            <div class="mr-1vw w-22vw text-right">打印管理系统：</div>
+            <div class="mr-1vw w-24vw text-right">打印管理系统：</div>
             <div>{{ config.version }}</div>
           </div>
           <div v-for="(value, index) in options" :key="index" class="flex py-0.5vh">
-            <div class="mr-1vw w-22vw text-right">{{ value.name }}：</div>
+            <div class="mr-1vw w-24vw text-right">{{ value.name }}：</div>
             <div>{{ value.version }}</div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 <template>
   <div class="ml-1vw mt-4vh">
     <template v-if="actived === 2">
-      <div class="bgNav sp2 animation" :class="actived2 === 1 ? 'actived' : ''" @click="$goto('DefendPage', { key: 1 })">
+      <div class="bgNav animation sp2" :class="actived2 === 1 ? 'actived' : ''" @click="$goto('DefendPage', { key: 1 })">
         <span>进本模块</span>
       </div>
       <div class="bgNav sp2 animation" :class="actived2 === 2 ? 'actived' : ''" @click="$goto('DefendPage', { key: 2 })">
@@ -13,9 +13,9 @@
       <div class="bgNav sp2 animation" :class="actived2 === 4 ? 'actived' : ''" @click="$goto('DefendPage', { key: 4 })">
         <span>添加测试任务</span>
       </div>
-      <div class="bgNav sp2 animation" :class="actived2 === 5 ? 'actived' : ''" @click="$goto('DefendPage', { key: 5 })">
+      <!-- <div class="bgNav sp2 animation" :class="actived2 === 5 ? 'actived' : ''" @click="$goto('DefendPage', { key: 5 })">
         <span>工位操作</span>
-      </div>
+      </div> -->
       <div class="bgNav sp2 animation" :class="actived2 === 6 ? 'actived' : ''" @click="$goto('DefendPage', { key: 6 })">
         <span>关于设备</span>
       </div>

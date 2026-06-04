@@ -24,8 +24,8 @@
       <div class="mx-auto w-90% pb-6vh text-1vw text-#ffffff">{{ props.desc }}</div>
     </template>
     <template v-else-if="props.title === '错误弹窗提示'">
-      <div class="w-full pb-6vh pt-7vh text-center text-1.2vw color-#ffffff">{{ props.data ? props.data.title : '--' }}</div>
-      <div class="mx-auto h-20vh w-90% overflow-auto text-1vw text-#ffffff">{{ props.data ? props.data.msg : '--' }}</div>
+      <div class="w-full pb-3vh pt-4vh text-center text-5.2vw color-#ffffff">{{ props.data ? props.data.title : '--' }}</div>
+      <div class="mx-auto h-20vh w-90% overflow-auto text-4vw text-#ffffff">{{ props.data ? props.data.msg : '--' }}</div>
     </template>
     <template v-else-if="props.title === '指纹识别' || props.title === '身份证识别'">
       <div class="h-28vh w-98% flex flex-col items-center justify-center pt-2vw">
@@ -274,7 +274,7 @@ function onInputFocus(event: any) {
   cursorPosition.value = event;
   const rect = event.target.getBoundingClientRect();
   const top = rect.bottom + rect.height + window.scrollY;
-  transformValue.value = [-200, top - 280];
+  transformValue.value = [0, top - 280];
 }
 
 function onChangeKeyboard(input: string, keyboard: any) {
