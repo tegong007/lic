@@ -99,13 +99,13 @@ async function startFingerprintLogin() {
     try {
       const pressedData: any = await loginModule.checkPressed();
       if (pressedData.respData.isPressed === 1) {
-        stop();
         const matchData: any = await loginModule.templateMatch();
         if (matchData.respData.isSame === 1) {
+          stop();
           modal.value = { open: true, title: '登录成功', key: -1, desc: '登录成功' };
           localStorage.setItem('account', matchData.respData.account);
         } else {
-          setModal(-1);
+          // setModal(-1);
           notification.error({ message: '指纹识别失败', description: '指纹匹配失败，请重试', placement: 'bottomRight', class: 'notificationE-custom-class' });
         }
       }
@@ -133,12 +133,12 @@ async function onFaceCaptured(base64: string) {
         localStorage.setItem('account', data.respData.account || '');
         modal.value = { open: true, title: '登录成功', key: -1, desc: '登录成功' };
       } else {
-        setModal(-1);
+        // setModal(-1);
         notification.error({ message: '人脸识别失败', description: `人脸不匹配`, placement: 'bottomRight', class: 'notificationE-custom-class' });
       }
     }
   } catch (error) {
-    setModal(-1);
+    // setModal(-1);
     notification.error({ message: '人脸识别失败', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
   }
 }
