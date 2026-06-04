@@ -145,7 +145,7 @@ watch(
           emit('faceCaptured', base64);
         })
         .catch((err: Error) => {
-          // isCheckLiving.value = false; // 致命错误，停止重试
+          isCheckLiving.value = false; // 致命错误，停止重试
           faceStatus.value = `${err.message}`;
           console.warn('[TheConfirm] 人脸采集失败:', err);
         });
@@ -179,9 +179,9 @@ async function retryCheckLive(): Promise<string> {
       return await checkLive();
     } catch {
       // 采集失败（102 或其他），faceStatus 已自动更新，
-      // 等待 1.5 秒让用户看到提示，然后自动重试
+      // 等待 1秒让用户看到提示，然后自动重试
       if (isCheckLiving.value) {
-        await new Promise(r => setTimeout(r, 1500));
+        await new Promise(r => setTimeout(r, 1000));
       }
     }
   }

@@ -44,9 +44,31 @@
         <img class="mx-auto w-90%" src="@/assets/image/ico_uv.png" />
         <div class="absolute bottom-0vh w-full text-center">主副页喷墨机</div>
       </div>
-      <div class="flex gap-0.5vw">
+      <div class="flex gap-0.3vw">
         <template v-for="(value, index) in link" :key="index">
-          <div v-if="value.color" :key="index" class="w-5vw overflow-hidden text-center">
+          <div v-if="value.color" :key="index" class="w-4.8vw overflow-hidden text-center">
+            <div class="relative mx-auto mt-0vh h-6vh w-60% border-1px border-gray-400 border-dashed">
+              <div class="absolute bottom-0 w-100%" :style="{ height: `${value.count}%`, backgroundColor: value.color }"></div>
+            </div>
+            <div class="mt-0.3vh text-1.5vw">{{ value.name }}</div>
+          </div>
+        </template>
+      </div>
+      <div class="relative cursor-pointer text-center" :class="entire.uvStatus && entire.uvStatus.length > 0 ? `bgHome_tip${entire.uvStatus[1].status}` : 'bgHome_tip3'" @click="setModal(6)">
+        <template v-if="entire.uvStatus && entire.uvStatus.length > 0">
+          <div v-if="entire.uvStatus[0].status === 0">正常</div>
+          <div v-else-if="entire.uvStatus[0].status === 1">工作中</div>
+          <div v-else-if="entire.uvStatus[0].status === 2">警告</div>
+          <div v-else-if="entire.uvStatus[0].status === 3">故障</div>
+          <div v-else>--</div>
+        </template>
+        <div v-else>离线</div>
+        <img class="mx-auto w-90%" src="@/assets/image/ico_uv.png" />
+        <div class="absolute bottom-0vh w-full text-center">加注页喷墨机</div>
+      </div>
+      <div class="flex gap-0.3vw">
+        <template v-for="(value, index) in link2" :key="index">
+          <div v-if="value.color" :key="index" class="w-4.8vw overflow-hidden text-center">
             <div class="relative mx-auto mt-0vh h-6vh w-60% border-1px border-gray-400 border-dashed">
               <div class="absolute bottom-0 w-100%" :style="{ height: `${value.count}%`, backgroundColor: value.color }"></div>
             </div>
@@ -190,13 +212,16 @@ async function setModal(value: number) {
       modal.value = { open: true, title: '初始化', key: 5 };
       break;
     case 6:
-      if (entire.value.uvStatus && entire.value.uvStatus.length > 0 && (entire.value.uvStatus[0].status === 2 || entire.value.uvStatus[0].status === 3)) modal.value = { open: true, title: '喷墨机状态', key: 6, desc: entire.value.uvStatus[0].msg || '--' };
+      if (entire.value.uvStatus && entire.value.uvStatus.length > 0 && (entire.value.uvStatus[0].status === 2 || entire.value.uvStatus[0].status === 3)) modal.value = { open: true, title: '主副页喷墨机', key: 6, desc: entire.value.uvStatus[0].msg || '--' };
       break;
     case 7:
       if (entire.value.modules && entire.value.modules.length >= 2 && (entire.value.modules[0].status !== 0 || entire.value.modules[1].status !== 0)) router.push({ name: 'DefendPage', query: { key: 5 } });
       break;
     case 8:
       modal.value = { open: true, title: '继续进本', key: 0 };
+      break;
+    case 9:
+      if (entire.value.uvStatus && entire.value.uvStatus.length > 0 && (entire.value.uvStatus[1].status === 2 || entire.value.uvStatus[1].status === 3)) modal.value = { open: true, title: '加注页喷墨机', key: 6, desc: entire.value.uvStatus[1].msg || '--' };
       break;
     default:
       modal.value = { open: false, title: '', key: -1 };
