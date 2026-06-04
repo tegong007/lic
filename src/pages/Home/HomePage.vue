@@ -1,17 +1,17 @@
 <template>
   <div class="w-full">
-    <div class="mx-3vw flex justify-between">
+    <!-- <div class="mx-3vw flex justify-between">
       <img class="h-6.5vh w-15.3vw" src="@/assets/image/ico_left.png" />
       <img class="h-6.5vh w-15.3vw" src="@/assets/image/ico_right.png" />
-    </div>
-    <div class="mx-auto w-85vw flex justify-center gap-5vw -mt-2.5vh">
+    </div> -->
+    <div class="mx-auto flex justify-center gap-5vw -mt-2.5vh">
       <div v-for="(value, index) in statistics" :key="index" class="text-center">
-        <div class="text-6vw font-[xiaowei]">{{ value.value }}</div>
-        <div class="mb-1.5vh text-3.5vw -mt-1vh">{{ value.item }}</div>
+        <div class="text-5vw font-[xiaowei]">{{ value.value }}</div>
+        <div class="mb-1.5vh text-3vw -mt-1vh">{{ value.item }}</div>
         <img class="-mt-3vh" src="@/assets/image/bg_statistics.png" />
       </div>
     </div>
-    <div class="bgHome_box mx-auto mt-2vh h-7vh w-90.7vw text-2.2vw">
+    <div class="bgHome_box mx-auto mt-1vh h-7vh w-90.7vw text-2.2vw">
       <div class="bgHome_tit mx-auto w-25vw pt-0.5vh text-center font-bold">当前生产任务</div>
       <div class="mt-1.5vh flex items-center justify-center gap-10vw text-2.5vw">
         <span>证本总数：{{ entire.machineTotalDoc }}</span>
@@ -22,15 +22,15 @@
     <TheTable class="bgHome_tb1" name="喷墨打印模块" :data="additionPrint" :count="3" />
     <TheTable class="bgHome_tb2" name="激光打印模块" :data="mainPrint" :count="2" />
     <TheTable class="bgHome_tb3" name="进本模块" :data="blankCheck" :count="1" />
-    <div class="mx-5vw mt-2.7vh flex gap-4vw">
+    <div class="mx-5vw mt-1vh flex gap-2vw">
       <div class="relative cursor-pointer text-center" :class="entire.modules && entire.modules.length >= 2 ? (entire.modules[0].code === 0 && entire.modules[1].code === 0 ? 'bgHome_tip0' : entire.modules[0].code === 2 || entire.modules[1].code === 2 ? 'bgHome_tip2' : 'bgHome_tip3') : 'bgHome_tip3'" @click="setModal(7)">
         <template v-if="entire.modules && entire.modules.length > 2">
           <div v-if="entire.modules[0].code === 0 && entire.modules[1].code === 0">正常</div>
           <div v-else>错误</div>
         </template>
         <div v-else>离线</div>
-        <img class="mx-auto w-90%" src="@/assets/image/ico_device.png" />
-        <div class="absolute bottom-0vh w-full text-center">设备机状态</div>
+        <img class="mx-auto w-85%" src="@/assets/image/ico_device.png" />
+        <div class="absolute bottom-0vh w-full text-center">设备状态</div>
       </div>
       <div class="relative cursor-pointer text-center" :class="entire.uvStatus && entire.uvStatus.length > 0 ? `bgHome_tip${entire.uvStatus[0].status}` : 'bgHome_tip3'" @click="setModal(6)">
         <template v-if="entire.uvStatus && entire.uvStatus.length > 0">
@@ -42,12 +42,12 @@
         </template>
         <div v-else>离线</div>
         <img class="mx-auto w-90%" src="@/assets/image/ico_uv.png" />
-        <div class="absolute bottom-0vh w-full text-center">喷墨机状态</div>
+        <div class="absolute bottom-0vh w-full text-center">主副页喷墨机</div>
       </div>
-      <div class="flex gap-1vw">
+      <div class="flex gap-0.5vw">
         <template v-for="(value, index) in link" :key="index">
-          <div v-if="value.color" :key="index" class="w-6vw overflow-hidden text-center">
-            <div class="relative mx-auto mt-2.5vh h-6vh w-60% border-1px border-gray-400 border-dashed">
+          <div v-if="value.color" :key="index" class="w-5vw overflow-hidden text-center">
+            <div class="relative mx-auto mt-0vh h-6vh w-60% border-1px border-gray-400 border-dashed">
               <div class="absolute bottom-0 w-100%" :style="{ height: `${value.count}%`, backgroundColor: value.color }"></div>
             </div>
             <div class="mt-0.3vh text-1.5vw">{{ value.name }}</div>
@@ -100,6 +100,7 @@ const mainPrint = ref({});
 const additionPrint = ref({});
 const modal: any = ref({ open: false, title: '', key: -1 });
 const link: any = ref([]);
+const link2: any = ref([]);
 const color: any = { Y: '#ffff00', M: '#ff00ff', C: '#00ffff', K: '#000000', O: '#979797' };
 
 async function getDataPage() {
@@ -107,12 +108,17 @@ async function getDataPage() {
     const data: any = await footerModule.getLnkRemainder();
     if (data.respData && data.respData[0].inkObjects) {
       link.value = [];
+      link2.value = [];
       data.respData[0].inkObjects.forEach((element: any) => {
         link.value.push({ name: element.inkName, count: element.remainder, color: color[element.inkCode] || '' });
+      });
+      data.respData[1].inkObjects.forEach((element: any) => {
+        link2.value.push({ name: element.inkName, count: element.remainder, color: color[element.inkCode] || '' });
       });
     }
   } catch {
     link.value = [];
+    link2.value = [];
   }
   try {
     const data: any = await homeModule.getHomeList();
@@ -254,12 +260,13 @@ onUnmounted(() => {
 .bgHome_tb1,
 .bgHome_tb2,
 .bgHome_tb3 {
+  background-size: 100% 100%;
   background-position: center;
-  background-size: contain;
+  // background-size: contain;
   background-repeat: no-repeat;
   width: 93vw;
-  height: 10.5vh;
-  margin: 1.8vh auto 0 auto;
+  height: 15.5vh;
+  margin: 1vh auto 0 auto;
   position: relative;
 }
 .bgHome_tb1 {
@@ -276,10 +283,11 @@ onUnmounted(() => {
 .bgHome_tip2,
 .bgHome_tip3 {
   background-size: contain;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
-  width: 14.8vw;
-  height: 10vh;
-  font-size: 2.2vw;
+  width: 10.5vw;
+  height: 7.5vh;
+  font-size: 1.6vw;
 }
 .bgHome_tip0 {
   background-image: url('@/assets/image/bg_state_ok.png');

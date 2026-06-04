@@ -6,7 +6,7 @@
       <div class="w-92% text-center text-1.5vw">{{ props.data.msg }}</div>
     </div>
     <div class="mx-auto mt-0.5vh w-92%">
-      <Vue3SeamlessScroll :list="props.data ? props.data.periodDataList : []" class="h-5vh overflow-hidden" direction="up" :step="0.3" :hover="true" :limit-scroll-num="4" :is-watch="true" :single-height="0" :single-width="0">
+      <Vue3SeamlessScroll :list="props.data ? props.data.periodDataList : []" class="h-10vh overflow-hidden" direction="up" :step="0.3" :hover="true" :limit-scroll-num="8" :is-watch="true" :single-height="0" :single-width="0">
         <div v-for="(item, i) in props.data ? props.data.periodDataList : []" :key="i" class="w-95% flex items-center px-2 text-1.5vw">
           <div class="w-25% text-center">{{ item.docID }}</div>
           <div class="w-45% text-center">{{ item.workingStatus }}</div>
@@ -14,7 +14,7 @@
         </div>
       </Vue3SeamlessScroll>
     </div>
-    <div class="ransition-transform absolute bottom-1.5vh left-0 right-0 mx-auto w-8vw cursor-pointer rounded-50px bg-#3662ec33 py-0.3vh text-center text-1vw duration-300 hover:scale-105" @click="$goto('HomeStationPage', { key: props.count })">工位查看</div>
+    <div class="ransition-transform absolute bottom-1vh left-0 right-0 mx-auto w-8vw cursor-pointer rounded-50px bg-#3662ec33 py-0.3vh text-center text-1vw duration-300 hover:scale-105" @click="$goto('HomeStationPage', { key: props.count })">工位查看</div>
   </div>
 </template>
 

@@ -99,19 +99,19 @@ async function startFingerprintLogin() {
     try {
       const pressedData: any = await loginModule.checkPressed();
       if (pressedData.respData.isPressed === 1) {
+        stop();
         const matchData: any = await loginModule.templateMatch();
         if (matchData.respData.isSame === 1) {
-          stop();
           modal.value = { open: true, title: '登录成功', key: -1, desc: '登录成功' };
           localStorage.setItem('account', matchData.respData.account);
         } else {
-          // setModal(-1);
-          notification.error({ message: '指纹识别失败', description: '指纹匹配失败，请重试', placement: 'bottomRight', class: 'notificationE-custom-class' });
+          setModal(-1);
+          notification.error({ message: '指纹识别失败', description: '没有找到该指纹特征', placement: 'bottomRight', class: 'notificationE-custom-class' });
         }
       }
     } catch (error) {
-      // stop();
-      // modal.value = { open: false, title: '', key: -1 };
+      stop();
+      modal.value = { open: false, title: '', key: -1 };
       notification.error({ message: '指纹识别失败', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class', maxCount: 5 });
     }
   }, 1);
@@ -128,17 +128,19 @@ async function onFaceCaptured(base64: string) {
     const data: any = await loginModule.faceIdentifyResult(base64);
     if (data.respData) {
       const { isSamePerson } = data.respData;
+      stop();
       if (isSamePerson === 1) {
-        stop();
+        setModal(-1);
         localStorage.setItem('account', data.respData.account || '');
         modal.value = { open: true, title: '登录成功', key: -1, desc: '登录成功' };
       } else {
-        // setModal(-1);
-        notification.error({ message: '人脸识别失败', description: `人脸不匹配`, placement: 'bottomRight', class: 'notificationE-custom-class' });
+        setModal(-1);
+        notification.error({ message: '人脸识别失败', description: `没有找到该人脸特征`, placement: 'bottomRight', class: 'notificationE-custom-class' });
       }
     }
   } catch (error) {
-    // setModal(-1);
+    stop();
+    setModal(-1);
     notification.error({ message: '人脸识别失败', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
   }
 }

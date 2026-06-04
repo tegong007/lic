@@ -145,8 +145,8 @@ watch(
           emit('faceCaptured', base64);
         })
         .catch((err: Error) => {
-          isCheckLiving.value = false; // 致命错误，停止重试
-          faceStatus.value = `摄像头连接失败: ${err.message}`;
+          // isCheckLiving.value = false; // 致命错误，停止重试
+          faceStatus.value = `${err.message}`;
           console.warn('[TheConfirm] 人脸采集失败:', err);
         });
     } else if (newTitle !== '人脸识别') {
