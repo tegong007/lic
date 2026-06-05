@@ -5,10 +5,10 @@
         <span>进本模块</span>
       </div>
       <div class="bgNav animation" :class="actived === 2 ? 'actived' : ''" @click="$goto('DefendPage', { key: 2 })">
-        <span>激光打印模块</span>
+        <span>主副页打印模块</span>
       </div>
       <div class="bgNav animation" :class="actived === 3 ? 'actived' : ''" @click="$goto('DefendPage', { key: 3 })">
-        <span>喷墨打印模块</span>
+        <span>加注页打印模块</span>
       </div>
       <div class="bgNav animation" :class="actived === 4 ? 'actived' : ''" @click="$goto('DefendPage', { key: 4 })">
         <span>添加测试任务</span>
@@ -44,7 +44,7 @@
         <Camera v-if="options.cameras" :data="options.cameras" @update-item="handleUpdateItem" />
         <Laser v-if="options.lasers" :data="options.lasers" @update-item="handleUpdateItem" />
         <Inkjet v-if="options.uvPrinters" :data="options.uvPrinters" @update-item="handleUpdateItem" />
-        <Light v-if="options.lamps" :data="options.lamps" :act="actived" @update-item="handleUpdateItem" />
+        <!-- <Light v-if="options.lamps" :data="options.lamps" :act="actived" @update-item="handleUpdateItem" /> -->
       </template>
       <template v-if="actived === 1">
         <ThePrint :data="options.uvPrinters" :update-item="handleUpdateItem" />
@@ -145,12 +145,31 @@ onMounted(async () => {
     .bgDefend_tit {
       font-size: 2.5vw;
       font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      &::before,
+      &::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        min-width: 2vw;
+      }
+      &::before {
+        background: linear-gradient(270deg, #ffffff 0%, #ffffff00 100%);
+        margin-right: 1vw;
+      }
+      &::after {
+        background: linear-gradient(90deg, #ffffff 0%, #ffffff00 100%);
+        margin-left: 1vw;
+      }
     }
     .bg_listItem {
       padding: 1vh 0;
       margin: 1vh 0;
       display: flex;
-      font-size: 2vw;
+      font-size: 1.8vw;
       .bgDefend_itemIn {
         display: flex;
         align-items: center;
@@ -159,6 +178,23 @@ onMounted(async () => {
           margin-left: 2vw;
           padding-right: 0.5vw;
           min-width: 7vw;
+          white-space: nowrap;
+        }
+        // 第一个 bgDefend_itemIn 下的 tit 左侧小竖条
+        &:first-of-type .bgDefend_itemIn_tit:first-of-type {
+          position: relative;
+          padding-left: 1.5vw;
+          &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 1.2em;
+            border-radius: 50px;
+            background: #ffffff;
+          }
         }
       }
       ::v-deep(.ant-form-item) {
@@ -173,11 +209,12 @@ onMounted(async () => {
       }
       ::v-deep(.ant-input),
       ::v-deep(.ant-select-selector) {
-        font-size: 2vw;
+        font-size: 1.8vw;
         background-color: transparent !important;
         color: #ffffff;
-        border-width: 1px !important;
-        height: 3vh !important;
+        border-width: 0px !important;
+        background-color: #ffffff15 !important;
+        height: 2.5vh !important;
         border-radius: 0;
         min-width: 15vw;
       }

@@ -5,10 +5,10 @@
         <span>进本模块</span>
       </div>
       <div class="bgNav sp2 animation" :class="actived2 === 2 ? 'actived' : ''" @click="$goto('DefendPage', { key: 2 })">
-        <span>激光打印模块</span>
+        <span>主副页打印模块</span>
       </div>
       <div class="bgNav sp2 animation" :class="actived2 === 3 ? 'actived' : ''" @click="$goto('DefendPage', { key: 3 })">
-        <span>喷墨打印模块</span>
+        <span>加注页打印模块</span>
       </div>
       <div class="bgNav sp2 animation" :class="actived2 === 4 ? 'actived' : ''" @click="$goto('DefendPage', { key: 4 })">
         <span>添加测试任务</span>
@@ -30,10 +30,10 @@
     </template>
     <template v-else-if="actived === 6">
       <div class="bgNav sp2 animation" :class="actived2 === 3 ? 'actived' : ''" @click="$goto('HomeStationPage', { key: 3 })">
-        <span>喷墨打印模块</span>
+        <span>加注页打印模块</span>
       </div>
       <div class="bgNav sp2 animation" :class="actived2 === 2 ? 'actived' : ''" @click="$goto('HomeStationPage', { key: 2 })">
-        <span>激光打印模块</span>
+        <span>主副页打印模块</span>
       </div>
       <div class="bgNav sp2 animation" :class="actived2 === 1 ? 'actived' : ''" @click="$goto('HomeStationPage', { key: 1 })">
         <span>进本模块</span>

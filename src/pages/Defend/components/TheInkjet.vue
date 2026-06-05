@@ -4,7 +4,7 @@
     <template v-for="(inkjet, index) in props.data" :key="index">
       <div class="bgDefend_tit">{{ inkjet.printerName }}</div>
       <section v-if="inkjet.positionItems" class="bg_listItem">
-        <div class="bgDefend_itemIn" style="display: block;">
+        <div class="bgDefend_itemIn" style="display: block">
           <div v-for="(value, index2) in inkjet.positionItems" :key="index2" class="mb-1vh flex items-center">
             <div class="bgDefend_itemIn_tit w-20vw">{{ value.label }}:</div>
             <a-select v-if="value.option.length" v-model:value="formData[value.label + index]" class="w-20vw">
@@ -20,7 +20,7 @@
         </div>
       </section>
       <section class="bg_listItem">
-        <div class="bgDefend_itemIn" style="display: block;">
+        <div class="bgDefend_itemIn" style="display: block">
           <div v-for="(value, index2) in inkjet.cleanItems" :key="index2" class="mb-1vh flex items-center">
             <div class="bgDefend_itemIn_tit w-20vw">{{ value.label }}:</div>
             <a-select v-model:value="formData[value.label + index]" class="w-20vw">
@@ -56,7 +56,7 @@ import { useAppStore } from '@/store/index';
 const props: any = defineProps({ data: Object, updateItem: Function, showKeyboard: Boolean, setShowKeyboard: Function, currentPage: String, currentModel: String });
 const { notification } = App.useApp();
 
-const formData: any = ref({ '轴选择0': '0', '目标位置(mm)0': '0', '清洗组合0': '0', '清洗强度0': '0', '打印平台0': '0' });
+const formData: any = ref({ 轴选择0: '0', '目标位置(mm)0': '0', 清洗组合0: '0', 清洗强度0: '0', 打印平台0: '0' });
 const showKeyboard = ref(false);
 const keyInput = ref('');
 const cursorPosition = ref(null);
@@ -115,13 +115,18 @@ function onChangeKeyboard(input: string, keyboard: any) {
 </script>
 
 <style scoped lang="less">
+// 喷墨打印机不需要左侧小竖条
+.bgDefend_itemIn_tit::before {
+  display: none;
+}
 ::v-deep(.ant-input),
 ::v-deep(.ant-select-selector) {
-  font-size: 2vw;
+  font-size: 1.8vw;
   background-color: transparent !important;
   color: #ffffff;
-  border-width: 1px !important;
-  height: 3vh !important;
+  border-width: 0px !important;
+  background-color: #ffffff15 !important;
+  height: 2.5vh !important;
   border-radius: 0;
   min-width: 10vw;
 }

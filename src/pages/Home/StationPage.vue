@@ -21,7 +21,8 @@
         <div class="text-2vw">
           <div v-for="(item2, index2) in item.deviceList" :key="index2" class="flex">
             <div class="my-1vh flex items-center">
-              <div class="w-10vw pr-0.5vw text-right">名称:</div><div>{{ item2.name }}</div>
+              <div class="w-10vw pr-0.5vw text-right">名称:</div>
+              <div>{{ item2.name }}</div>
             </div>
             <div class="my-1vh flex items-center">
               <div class="w-15vw pr-0.5vw text-right">本机IP:</div>
@@ -53,7 +54,7 @@ const { notification } = App.useApp();
 const route = useRoute();
 
 const actived = ref(0);
-const navs: any = { x3: { name: '喷墨打印模块', key: 3 }, x2: { name: '激光打印模块', key: 2 }, x1: { name: '进本模块', key: 1 } };
+const navs: any = { x3: { name: '加注页打印模块', key: 3 }, x2: { name: '主副页打印模块', key: 2 }, x1: { name: '进本模块', key: 1 } };
 const lists: any = ref([]);
 const listsOld: any = ref([]);
 const showKeyboard = ref(false);
@@ -153,11 +154,12 @@ onMounted(async () => {
 
 <style scoped lang="less">
 ::v-deep(.ant-input) {
-  font-size: 2vw;
+  font-size: 1.8vw;
   background-color: transparent !important;
   color: #ffffff;
-  border-width: 1px !important;
-  height: 3vh !important;
+  border-width: 0px !important;
+  background-color: #ffffff15 !important;
+  height: 2.5vh !important;
   border-radius: 0;
   min-width: 10vw;
 }

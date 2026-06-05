@@ -463,11 +463,12 @@ onMounted(() => {
       }
     }
     ::v-deep(.ant-input) {
-      font-size: 2vw;
+      font-size: 1.8vw;
       background-color: transparent !important;
       color: #ffffff;
-      border-width: 1px !important;
-      height: 3vh !important;
+      border-width: 0px !important;
+      background-color: #ffffff15 !important;
+      height: 2.5vh !important;
       border-radius: 0;
       min-width: 10vw;
     }
@@ -486,8 +487,6 @@ onMounted(() => {
   }
 }
 .bgSet_bottom {
-  background:
-    linear-gradient(270deg, #03163e 0%, #03163e 93%, #03163e00 100%),
-    linear-gradient(90deg, #0390e500 0%, #0390e51f 34%, #0390e517 63%, #0390e500 99%);
+  background: linear-gradient(270deg, #03163e 0%, #03163e 93%, #03163e00 100%), linear-gradient(90deg, #0390e500 0%, #0390e51f 34%, #0390e517 63%, #0390e500 99%);
 }
 </style>

@@ -146,7 +146,7 @@ async function getDataPage() {
     const data: any = await homeModule.getHomeList();
     if (data.respData) {
       entire.value = data.respData.entire; // 当前生产任务
-      additionPrint.value = data.respData.additionPrint; // 喷墨打印模块
+      additionPrint.value = data.respData.additionPrint; // 加注页打印模块
       mainPrint.value = data.respData.mainPrint; // 激光打印模块
       blankCheck.value = data.respData.blankCheck; // 进本模块
       errorInfo.value = entire.value.errorInfo || {};

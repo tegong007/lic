@@ -2,7 +2,7 @@
   <SimpleKeyboard v-if="showKeyboard" keyboard-width="w-30vw" layout="num" :transform="transformValue" :input="formData[keyInput]" :max-length="4" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
   <div class="bgDefend_item" @click="hideKeyboard">
     <div class="bgDefend_tit">任务添加</div>
-    <section class="bg_listItem" style="display: block;">
+    <section class="bg_listItem" style="display: block">
       <div class="bgDefend_itemIn">
         <div class="bgDefend_itemIn_tit w-9.5vw">总人数:</div>
         <a-input v-model:value="formData.num" :class="keyInput === 'num' ? 'keyInput' : ''" class="w-25vw bg-transparent" placeholder="请输入1~3000" :maxlength="4" @click.stop="onInputFocus($event, 'num')" />
@@ -91,13 +91,18 @@ function onChangeKeyboard(input: string, keyboard: any) {
 </script>
 
 <style scoped lang="less">
+// 任务添加不需要左侧小竖条
+.bgDefend_itemIn_tit::before {
+  display: none;
+}
 ::v-deep(.ant-input),
 ::v-deep(.ant-select-selector) {
-  font-size: 2vw;
+  font-size: 1.8vw;
   background-color: transparent !important;
   color: #ffffff;
-  border-width: 1px !important;
-  height: 3vh !important;
+  border-width: 0px !important;
+  background-color: #ffffff15 !important;
+  height: 2.5vh !important;
   border-radius: 0;
   min-width: 10vw;
 }

@@ -17,7 +17,9 @@ body {
   .animation {
     -webkit-transition-property: -webkit-transform;
     -o-transition-property: transform;
-    transition-property: transform, -webkit-transform;
+    transition-property:
+      transform,
+      -webkit-transform;
     -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     -o-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -27,12 +29,15 @@ body {
     &:hover {
       --tw-scale-x: 1.05;
       --tw-scale-y: 1.05;
-      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
-        skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
     }
   }
   .bg_listItem {
     background: linear-gradient(90deg, #0390e500 0%, #0390e51f 34%, #0390e517 63%, #0390e500 99%);
+    // nth-of-type 按元素类型(div/section)分开计数，即使兄弟节点中混有标题 div 也能正确交替
+    &:nth-of-type(even) {
+      background: linear-gradient(91deg, #b9b9b933 0%, #b9b9b91f 34%, #b9b9b917 63%, #b9b9b900 99%);
+    }
   }
   .tag_ok,
   .tag_ng,
@@ -61,13 +66,12 @@ body {
     border: 0;
     color: #ffffff;
     height: 2.6vh;
-    font-size: 2vw;
+    font-size: 1.8vw;
     border-radius: 0;
     &:hover {
       --tw-scale-x: 1.05;
       --tw-scale-y: 1.05;
-      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
-        skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
     }
   }
   .btn_search2 {
@@ -88,8 +92,7 @@ body {
     &:hover {
       --tw-scale-x: 1.05;
       --tw-scale-y: 1.05;
-      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
-        skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
     }
   }
   .ant-picker-dropdown {
@@ -155,18 +158,6 @@ body {
     border-radius: 0px !important;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
 #app {
