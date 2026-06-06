@@ -41,6 +41,10 @@ declare module 'vue-router/auto-routes' {
     '/Search/components/TheRecord': RouteRecordInfo<'/Search/components/TheRecord', '/Search/components/TheRecord', Record<never, never>, Record<never, never>>,
     '/Search/components/TheTask': RouteRecordInfo<'/Search/components/TheTask', '/Search/components/TheTask', Record<never, never>, Record<never, never>>,
     '/Search/SearchPage': RouteRecordInfo<'/Search/SearchPage', '/Search/SearchPage', Record<never, never>, Record<never, never>>,
+    '/Set/components/SetGeneral': RouteRecordInfo<'/Set/components/SetGeneral', '/Set/components/SetGeneral', Record<never, never>, Record<never, never>>,
+    '/Set/components/SetInkjet': RouteRecordInfo<'/Set/components/SetInkjet', '/Set/components/SetInkjet', Record<never, never>, Record<never, never>>,
+    '/Set/components/SetLaser': RouteRecordInfo<'/Set/components/SetLaser', '/Set/components/SetLaser', Record<never, never>, Record<never, never>>,
+    '/Set/components/SetStation': RouteRecordInfo<'/Set/components/SetStation', '/Set/components/SetStation', Record<never, never>, Record<never, never>>,
     '/Set/components/ThePass': RouteRecordInfo<'/Set/components/ThePass', '/Set/components/ThePass', Record<never, never>, Record<never, never>>,
     '/Set/SetPage': RouteRecordInfo<'/Set/SetPage', '/Set/SetPage', Record<never, never>, Record<never, never>>,
   }
