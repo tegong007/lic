@@ -4,6 +4,8 @@
 
     <SimpleKeyboard
       v-if="showKeyboard"
+      layout="num"
+      keyboard-width="w-30vw"
       :transform="transformValue"
       :input="getKeyboardValue()"
       :max-length="limitInput"
@@ -25,7 +27,7 @@
                 v-model:value="data.uvMainOffsetHigh.x"
                 :class="keyInput === 'off.MainHigh.x' ? 'keyInput' : ''"
                 class="w-14vw"
-                placeholder="请输入0~20000"
+                placeholder="0~20000"
                 :maxlength="9"
                 @click.stop="onInputFocus($event, 'off.MainHigh.x', 9)"
               />
@@ -37,7 +39,7 @@
                 v-model:value="data.uvMainOffsetHigh.y"
                 :class="keyInput === 'off.MainHigh.y' ? 'keyInput' : ''"
                 class="w-14vw"
-                placeholder="请输入0~20000"
+                placeholder="0~20000"
                 :maxlength="9"
                 @click.stop="onInputFocus($event, 'off.MainHigh.y', 9)"
               />
@@ -53,7 +55,7 @@
                 v-model:value="data.uvMainOffsetLow.x"
                 :class="keyInput === 'off.MainLow.x' ? 'keyInput' : ''"
                 class="w-14vw"
-                placeholder="请输入0~20000"
+                placeholder="0~20000"
                 :maxlength="9"
                 @click.stop="onInputFocus($event, 'off.MainLow.x', 9)"
               />
@@ -65,7 +67,7 @@
                 v-model:value="data.uvMainOffsetLow.y"
                 :class="keyInput === 'off.MainLow.y' ? 'keyInput' : ''"
                 class="w-14vw"
-                placeholder="请输入0~20000"
+                placeholder="0~20000"
                 :maxlength="9"
                 @click.stop="onInputFocus($event, 'off.MainLow.y', 9)"
               />
@@ -85,7 +87,7 @@
                 v-model:value="data.uvObsvOffsetHigh.x"
                 :class="keyInput === 'off.ObsvHigh.x' ? 'keyInput' : ''"
                 class="w-14vw"
-                placeholder="请输入0~20000"
+                placeholder="0~20000"
                 :maxlength="9"
                 @click.stop="onInputFocus($event, 'off.ObsvHigh.x', 9)"
               />
@@ -97,7 +99,7 @@
                 v-model:value="data.uvObsvOffsetHigh.y"
                 :class="keyInput === 'off.ObsvHigh.y' ? 'keyInput' : ''"
                 class="w-14vw"
-                placeholder="请输入0~20000"
+                placeholder="0~20000"
                 :maxlength="9"
                 @click.stop="onInputFocus($event, 'off.ObsvHigh.y', 9)"
               />
@@ -113,7 +115,7 @@
                 v-model:value="data.uvObsvOffsetLow.x"
                 :class="keyInput === 'off.ObsvLow.x' ? 'keyInput' : ''"
                 class="w-14vw"
-                placeholder="请输入0~20000"
+                placeholder="0~20000"
                 :maxlength="9"
                 @click.stop="onInputFocus($event, 'off.ObsvLow.x', 9)"
               />
@@ -125,7 +127,7 @@
                 v-model:value="data.uvObsvOffsetLow.y"
                 :class="keyInput === 'off.ObsvLow.y' ? 'keyInput' : ''"
                 class="w-14vw"
-                placeholder="请输入0~20000"
+                placeholder="0~20000"
                 :maxlength="9"
                 @click.stop="onInputFocus($event, 'off.ObsvLow.y', 9)"
               />
@@ -171,7 +173,7 @@
                 v-model:value="_item.x"
                 :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.x` ? 'keyInput' : ''"
                 class="w-14vw"
-                placeholder="请输入0~30000"
+                placeholder="0~30000"
                 :maxlength="9"
                 @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.x`, 9)"
               />
@@ -183,7 +185,7 @@
                 v-model:value="_item.y"
                 :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.y` ? 'keyInput' : ''"
                 class="w-14vw"
-                placeholder="请输入0~30000"
+                placeholder="0~30000"
                 :maxlength="9"
                 @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.y`, 9)"
               />
@@ -197,7 +199,7 @@
                 v-model:value="_item.angle"
                 :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.angle` ? 'keyInput' : ''"
                 class="w-8vw"
-                placeholder="请输入"
+                placeholder=""
                 :maxlength="8"
                 @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.angle`, 8)"
               />
@@ -211,7 +213,7 @@
                 v-model:value="_item.offsetX"
                 :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.offsetX` ? 'keyInput' : ''"
                 class="w-14vw"
-                placeholder="请输入-10000~10000"
+                placeholder="-10000~10000"
                 :maxlength="6"
                 @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.offsetX`, 6)"
               />
@@ -225,7 +227,7 @@
                 v-model:value="_item.offsetY"
                 :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.offsetY` ? 'keyInput' : ''"
                 class="w-14vw"
-                placeholder="请输入-10000~10000"
+                placeholder="-10000~10000"
                 :maxlength="6"
                 @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.offsetY`, 6)"
               />
@@ -256,7 +258,7 @@
                 v-model:value="_item.x"
                 :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.x` ? 'keyInput' : ''"
                 class="w-14vw"
-                placeholder="请输入0~30000"
+                placeholder="0~30000"
                 :maxlength="9"
                 @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.x`, 9)"
               />
@@ -268,7 +270,7 @@
                 v-model:value="_item.y"
                 :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.y` ? 'keyInput' : ''"
                 class="w-14vw"
-                placeholder="请输入0~30000"
+                placeholder="0~30000"
                 :maxlength="9"
                 @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.y`, 9)"
               />
@@ -282,7 +284,7 @@
                 v-model:value="_item.angle"
                 :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.angle` ? 'keyInput' : ''"
                 class="w-8vw"
-                placeholder="请输入"
+                placeholder=""
                 :maxlength="8"
                 @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.angle`, 8)"
               />
@@ -296,7 +298,7 @@
                 v-model:value="_item.offsetX"
                 :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.offsetX` ? 'keyInput' : ''"
                 class="w-14vw"
-                placeholder="请输入-10000~10000"
+                placeholder="-10000~10000"
                 :maxlength="6"
                 @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.offsetX`, 6)"
               />
@@ -310,7 +312,7 @@
                 v-model:value="_item.offsetY"
                 :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.offsetY` ? 'keyInput' : ''"
                 class="w-14vw"
-                placeholder="请输入-10000~10000"
+                placeholder="-10000~10000"
                 :maxlength="6"
                 @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.offsetY`, 6)"
               />
@@ -390,6 +392,81 @@ function onConfirmDiscard() {
 function onConfirmCancel() {
   pendingTemplateCode.value = null;
   showConfirm.value = false;
+}
+
+// --- Validation ---
+// Range rules from API doc: UVBase x/y 0~30000, offsetX/offsetY -10000~10000; Offset x/y 0~20000
+const BASE_X_RANGE = { min: 0, max: 30000 };
+const BASE_Y_RANGE = { min: 0, max: 30000 };
+const BASE_OFFSET_X_RANGE = { min: -10000, max: 10000 };
+const BASE_OFFSET_Y_RANGE = { min: -10000, max: 10000 };
+const OFFSET_RANGE = { min: 0, max: 20000 };
+
+function validateField(rawVal: any, range: { min: number; max: number }, label: string): string | null {
+  if (rawVal == null || String(rawVal).trim() === '') return `${label}不能为空`;
+  const val = Number(rawVal);
+  if (!isFinite(val)) return `${label}的值无效`;
+  if (val < range.min || val > range.max) return `${label}超出范围（${range.min}~${range.max}），当前值：${val}`;
+  return null;
+}
+
+function validateUvBaseItems(items: any[], templateCode: string, platform: string): string[] {
+  const errors: string[] = [];
+  if (!Array.isArray(items)) return errors;
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    const pos = item.position || `喷墨定位${i + 1}`;
+    const prefix = `[${templateCode}] ${platform} ${pos}`;
+    const vx = validateField(item.x, BASE_X_RANGE, `${prefix} X坐标`);
+    if (vx) errors.push(vx);
+    const vy = validateField(item.y, BASE_Y_RANGE, `${prefix} Y坐标`);
+    if (vy) errors.push(vy);
+    const vox = validateField(item.offsetX, BASE_OFFSET_X_RANGE, `${prefix} X偏移`);
+    if (vox) errors.push(vox);
+    const voy = validateField(item.offsetY, BASE_OFFSET_Y_RANGE, `${prefix} Y偏移`);
+    if (voy) errors.push(voy);
+  }
+  return errors;
+}
+
+function validateOffset(obj: any, label: string): string[] {
+  const errors: string[] = [];
+  if (!obj) return errors;
+  const vx = validateField(obj.x, OFFSET_RANGE, `${label} X轴`);
+  if (vx) errors.push(vx);
+  const vy = validateField(obj.y, OFFSET_RANGE, `${label} Y轴`);
+  if (vy) errors.push(vy);
+  return errors;
+}
+
+function validateAll(): string[] {
+  const errors: string[] = [];
+  const uv = data.value;
+  if (!uv) return errors;
+
+  // 偏移量
+  for (const key of OFFSET_KEYS) {
+    if (uv[key]) {
+      const nameMap: Record<string, string> = {
+        uvMainOffsetHigh: '主副页-高平台',
+        uvMainOffsetLow: '主副页-低平台',
+        uvObsvOffsetHigh: '加注页-高平台',
+        uvObsvOffsetLow: '加注页-低平台',
+      };
+      errors.push(...validateOffset(uv[key], nameMap[key] || key));
+    }
+  }
+
+  // 喷墨定位基准
+  if (uv.uvLocation) {
+    for (const loc of uv.uvLocation) {
+      const tc = loc.templateCode || '未知模板';
+      errors.push(...validateUvBaseItems(loc.uvBaseHigh, tc, '高平台'));
+      errors.push(...validateUvBaseItems(loc.uvBaseLow, tc, '低平台'));
+    }
+  }
+
+  return errors;
 }
 
 // --- Helper: convert arrays/objects to/from string ---
@@ -548,6 +625,13 @@ async function save() {
     useAppStore().setSpinning(true);
     const reqData = JSON.parse(JSON.stringify(data.value));
 
+    // 先验证范围
+    const errors = validateAll();
+    if (errors.length) {
+      notification.error({ message: '参数范围错误', description: errors.join('\n'), placement: 'bottomRight', class: 'notificationE-custom-class', duration: 0 });
+      return;
+    }
+
     for (const key of OFFSET_KEYS) {
       convertOffsetFields(reqData[key], true);
     }
@@ -572,7 +656,7 @@ async function save() {
   }
 }
 
-defineExpose({ load, save });
+defineExpose({ load, save, hideKeyboard });
 
 onMounted(() => {
   load();

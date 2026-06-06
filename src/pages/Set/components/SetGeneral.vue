@@ -2,8 +2,10 @@
   <div>
     <SimpleKeyboard
       v-if="showKeyboard"
+      :layout="keyInput === 'ipTMS' || keyInput === 'ipLocal' ? 'floatNum' : 'num'"
       :transform="transformValue"
       :input="getKeyboardValue()"
+        keyboard-width="w-30vw"
       :max-length="limitInput"
       @on-change="onChangeKeyboard"
       @closekeyboard="hideKeyboard"
@@ -170,10 +172,47 @@ async function load() {
   }
 }
 
+function validateIp(ip: string, label: string): string | null {
+  if (!ip || String(ip).trim() === '') return null; // 允许为空
+  const ipv4Regex = /^((25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)\.){3}(25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)$/;
+  if (!ipv4Regex.test(String(ip))) return `${label}格式不正确，请输入有效的IP地址（如 192.168.1.1）`;
+  return null;
+}
+
+function validateAll(): string[] {
+  const errors: string[] = [];
+  const sc = data.value.systemConfig;
+  if (!sc) return errors;
+  const e1 = validateIp(sc.ipTMS, 'TMS IP地址');
+  if (e1) errors.push(e1);
+  const e2 = validateIp(sc.ipLocal, '本机IP');
+  if (e2) errors.push(e2);
+  // 保留天数
+  const days = sc.historyAliveDays;
+  if (days == null || String(days).trim() === '') {
+    errors.push('历史记录保留时间不能为空');
+  } else {
+    const n = Number(days);
+    if (!Number.isFinite(n) || !Number.isInteger(n) || n < 7 || n > 90) {
+      errors.push('历史记录保留时间超出范围（7~90天），当前值：' + days);
+    }
+  }
+  return errors;
+}
+
 async function save() {
+  const errors = validateAll();
+  if (errors.length) {
+    notification.error({ message: '参数范围错误', description: errors.join('\n'), placement: 'bottomRight', class: 'notificationE-custom-class' });
+    return;
+  }
   try {
     useAppStore().setSpinning(true);
     const reqData = JSON.parse(JSON.stringify(data.value));
+    // historyAliveDays 转 number
+    if (reqData.systemConfig && reqData.systemConfig.historyAliveDays != null) {
+      reqData.systemConfig.historyAliveDays = Number(reqData.systemConfig.historyAliveDays);
+    }
     await setMoule.setGeneral(reqData);
     notification.success({ message: '成功', description: '保存成功', class: 'notification-custom-class', placement: 'bottomRight' });
   } catch (error) {
@@ -183,7 +222,7 @@ async function save() {
   }
 }
 
-defineExpose({ load, save });
+defineExpose({ load, save, hideKeyboard });
 
 onMounted(() => {
   load();

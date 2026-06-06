@@ -219,8 +219,8 @@ onMounted(async () => {
         min-width: 15vw;
       }
       ::v-deep(.ant-select-selection-item) {
-        line-height: 3vh !important;
-        font-size: 2vw;
+        line-height: 2.5vh !important;
+        font-size: 1.8vw;
         color: #ffffff !important;
       }
       ::v-deep(.ant-input::placeholder),

@@ -163,7 +163,11 @@ async function save() {
   }
 }
 
-defineExpose({ load, save });
+function hideKeyboard() {
+  // 工位设置无键盘，占位供父组件统一调用
+}
+
+defineExpose({ load, save, hideKeyboard });
 
 onMounted(() => {
   load();

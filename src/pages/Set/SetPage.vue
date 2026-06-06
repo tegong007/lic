@@ -116,6 +116,12 @@ function handleExit() {
 
 function switchTab(tab: number) {
   if (tab !== actived.value) {
+    // 关闭所有子组件的虚拟键盘
+    setGeneralRef.value?.hideKeyboard?.();
+    setInkjetRef.value?.hideKeyboard?.();
+    setLaserRef.value?.hideKeyboard?.();
+    setStationRef.value?.hideKeyboard?.();
+
     actived.value = tab;
     const comp = getActiveComponent();
     if (comp?.load) comp.load();
@@ -232,8 +238,8 @@ function saveData() {
         min-width: 15vw;
       }
       .ant-select-selection-item {
-        line-height: 3vh !important;
-        font-size: 2vw;
+        line-height: 2.5vh !important;
+        font-size: 1.8vw;
         color: #ffffff !important;
       }
       .ant-input::placeholder,

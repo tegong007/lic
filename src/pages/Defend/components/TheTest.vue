@@ -110,8 +110,8 @@ function onChangeKeyboard(input: string, keyboard: any) {
   color: #989ca1;
 }
 ::v-deep(.ant-select-selection-item) {
-  line-height: 3vh !important;
-  font-size: 2vw;
+  line-height: 2.5vh !important;
+  font-size: 1.5vw;
   color: #ffffff !important;
 }
 ::v-deep(.ant-input::placeholder),

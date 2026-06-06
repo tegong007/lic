@@ -157,11 +157,11 @@ onMounted(() => {
   min-width: 15vw;
 }
 ::v-deep(.ant-select-selection-item) {
-  line-height: 3vh !important;
+  line-height: 2.5vh !important;
 }
 ::v-deep(.ant-picker-range input),
 ::v-deep(.ant-select-selection-item) {
-  font-size: 2vw;
+  font-size: 1.8vw;
   color: #ffffff !important;
 }
 ::v-deep(.ant-input::placeholder),

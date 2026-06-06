@@ -2,14 +2,7 @@
   <div>
     <TheConfirm title="舍弃当前修改" :open="showConfirm" :handle-ok="onConfirmDiscard" :handle-cancel="onConfirmCancel" />
 
-    <SimpleKeyboard
-      v-if="showKeyboard"
-      :transform="transformValue"
-      :input="getKeyboardValue()"
-      :max-length="limitInput"
-      @on-change="onChangeKeyboard"
-      @closekeyboard="hideKeyboard"
-    />
+    <SimpleKeyboard v-if="showKeyboard" layout="num" keyboard-width="w-30vw" :transform="transformValue" :input="getKeyboardValue()" :max-length="limitInput" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
 
     <!-- 激光定位 -->
     <div class="bgDefend_item no-first-bar">
@@ -28,12 +21,7 @@
       <!-- 高平台基准 -->
       <template v-if="currentLaserBaseHigh.length">
         <div class="inkjet-platform-label">高平台基准</div>
-        <section
-          v-for="(_item, idx) in currentLaserBaseHigh"
-          :key="`high-${idx}`"
-          class="bg_listItem"
-          style="display: block"
-        >
+        <section v-for="(_item, idx) in currentLaserBaseHigh" :key="`high-${idx}`" class="bg_listItem" style="display: block">
           <div class="bgDefend_itemIn mb-1vh">
             <div class="bgDefend_itemIn_tit inkjet-loc-tit">
               激光器{{ Number(idx) + 1 }}<template v-if="_item.position"> ({{ _item.position }})</template>:
@@ -42,68 +30,33 @@
           <div class="flex">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">X坐标:</div>
-              <a-input
-                v-model:value="_item.x"
-                :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.x` ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="请输入-90000~90000"
-                :maxlength="10"
-                @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.x`, 10)"
-              />
+              <a-input v-model:value="_item.x" :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.x` ? 'keyInput' : ''" class="w-14vw" placeholder="0~30000" :maxlength="6" @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.x`, 6)" />
               <span class="val-desc">0.001mm</span>
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">Y坐标:</div>
-              <a-input
-                v-model:value="_item.y"
-                :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.y` ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="请输入-30000~30000"
-                :maxlength="10"
-                @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.y`, 10)"
-              />
+              <a-input v-model:value="_item.y" :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.y` ? 'keyInput' : ''" class="w-14vw" placeholder="0~30000" :maxlength="6" @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.y`, 6)" />
               <span class="val-desc">0.001mm</span>
             </div>
           </div>
           <div class="mt-1vh flex">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">角度:</div>
-              <a-input
-                v-model:value="_item.angle"
-                :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.angle` ? 'keyInput' : ''"
-                class="w-8vw"
-                placeholder="请输入"
-                :maxlength="8"
-                @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.angle`, 8)"
-              />
+              <a-input v-model:value="_item.angle" :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.angle` ? 'keyInput' : ''" class="w-8vw" placeholder="" :maxlength="8" @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.angle`, 8)" />
               <span class="val-desc">0.001度</span>
             </div>
           </div>
           <div class="mt-1vh flex">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">X偏移:</div>
-              <a-input
-                v-model:value="_item.offsetX"
-                :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.offsetX` ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="请输入-10000~10000"
-                :maxlength="6"
-                @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.offsetX`, 6)"
-              />
+              <a-input v-model:value="_item.offsetX" :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.offsetX` ? 'keyInput' : ''" class="w-14vw" placeholder="-10000~10000" :maxlength="6" @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.offsetX`, 6)" />
               <span class="val-desc">0.001mm(向左为负/向右为正)</span>
             </div>
           </div>
           <div class="mt-1vh flex">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">Y偏移:</div>
-              <a-input
-                v-model:value="_item.offsetY"
-                :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.offsetY` ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="请输入-10000~10000"
-                :maxlength="6"
-                @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.offsetY`, 6)"
-              />
+              <a-input v-model:value="_item.offsetY" :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.offsetY` ? 'keyInput' : ''" class="w-14vw" placeholder="-10000~10000" :maxlength="6" @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.offsetY`, 6)" />
               <span class="val-desc">0.001mm(向上为负/向下为正)</span>
             </div>
           </div>
@@ -113,12 +66,7 @@
       <!-- 低平台基准 -->
       <template v-if="currentLaserBaseLow.length">
         <div class="inkjet-platform-label">低平台基准</div>
-        <section
-          v-for="(_item, idx) in currentLaserBaseLow"
-          :key="`low-${idx}`"
-          class="bg_listItem"
-          style="display: block"
-        >
+        <section v-for="(_item, idx) in currentLaserBaseLow" :key="`low-${idx}`" class="bg_listItem" style="display: block">
           <div class="bgDefend_itemIn mb-1vh">
             <div class="bgDefend_itemIn_tit inkjet-loc-tit">
               激光器{{ Number(idx) + 1 }}<template v-if="_item.position"> ({{ _item.position }})</template>:
@@ -127,68 +75,33 @@
           <div class="flex">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">X坐标:</div>
-              <a-input
-                v-model:value="_item.x"
-                :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.x` ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="请输入-90000~90000"
-                :maxlength="10"
-                @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.x`, 10)"
-              />
+              <a-input v-model:value="_item.x" :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.x` ? 'keyInput' : ''" class="w-14vw" placeholder="0~30000" :maxlength="6" @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.x`, 6)" />
               <span class="val-desc">0.001mm</span>
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">Y坐标:</div>
-              <a-input
-                v-model:value="_item.y"
-                :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.y` ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="请输入-30000~30000"
-                :maxlength="10"
-                @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.y`, 10)"
-              />
+              <a-input v-model:value="_item.y" :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.y` ? 'keyInput' : ''" class="w-14vw" placeholder="0~30000" :maxlength="6" @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.y`, 6)" />
               <span class="val-desc">0.001mm</span>
             </div>
           </div>
           <div class="mt-1vh flex">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">角度:</div>
-              <a-input
-                v-model:value="_item.angle"
-                :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.angle` ? 'keyInput' : ''"
-                class="w-8vw"
-                placeholder="请输入"
-                :maxlength="8"
-                @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.angle`, 8)"
-              />
+              <a-input v-model:value="_item.angle" :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.angle` ? 'keyInput' : ''" class="w-8vw" placeholder="" :maxlength="8" @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.angle`, 8)" />
               <span class="val-desc">0.001度</span>
             </div>
           </div>
           <div class="mt-1vh flex">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">X偏移:</div>
-              <a-input
-                v-model:value="_item.offsetX"
-                :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.offsetX` ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="请输入-10000~10000"
-                :maxlength="6"
-                @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.offsetX`, 6)"
-              />
+              <a-input v-model:value="_item.offsetX" :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.offsetX` ? 'keyInput' : ''" class="w-14vw" placeholder="-10000~10000" :maxlength="6" @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.offsetX`, 6)" />
               <span class="val-desc">0.001mm(向左为负/向右为正)</span>
             </div>
           </div>
           <div class="mt-1vh flex">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">Y偏移:</div>
-              <a-input
-                v-model:value="_item.offsetY"
-                :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.offsetY` ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="请输入-10000~10000"
-                :maxlength="6"
-                @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.offsetY`, 6)"
-              />
+              <a-input v-model:value="_item.offsetY" :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.offsetY` ? 'keyInput' : ''" class="w-14vw" placeholder="-10000~10000" :maxlength="6" @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.offsetY`, 6)" />
               <span class="val-desc">0.001mm(向上为负/向下为正)</span>
             </div>
           </div>
@@ -204,14 +117,7 @@
           <div class="w-full flex flex-wrap" style="row-gap: 1vh">
             <div v-for="(_val, idx) in data.laserHeight" :key="idx" class="bgDefend_itemIn" style="width: calc(50% - 2vw)">
               <div class="bgDefend_itemIn_tit">激光器{{ Number(idx) + 1 }}:</div>
-              <a-input
-                v-model:value="data.laserHeight[idx]"
-                :class="keyInput === `laserHeight.${idx}` ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="请输入0~90000"
-                :maxlength="9"
-                @click.stop="onInputFocus($event, `laserHeight.${idx}`, 9)"
-              />
+              <a-input v-model:value="data.laserHeight[idx]" :class="keyInput === `laserHeight.${idx}` ? 'keyInput' : ''" class="w-14vw" placeholder="0~4000" :maxlength="5" @click.stop="onInputFocus($event, `laserHeight.${idx}`, 5)" />
               <span class="val-desc">0.1mm</span>
             </div>
           </div>
@@ -284,6 +190,66 @@ function onConfirmDiscard() {
 function onConfirmCancel() {
   pendingTemplateCode.value = null;
   showConfirm.value = false;
+}
+
+// --- Validation ---
+// Range rules from API doc: LaserBase x/y 0~30000, offsetX/offsetY -10000~10000; laserHeight 0~4000
+const BASE_X_RANGE = { min: 0, max: 30000 };
+const BASE_Y_RANGE = { min: 0, max: 30000 };
+const BASE_OFFSET_X_RANGE = { min: -10000, max: 10000 };
+const BASE_OFFSET_Y_RANGE = { min: -10000, max: 10000 };
+const LASER_HEIGHT_RANGE = { min: 0, max: 4000 };
+
+function validateField(rawVal: any, range: { min: number; max: number }, label: string): string | null {
+  if (rawVal == null || String(rawVal).trim() === '') return `${label}不能为空`;
+  const val = Number(rawVal);
+  if (!isFinite(val)) return `${label}的值无效`;
+  if (val < range.min || val > range.max) return `${label}超出范围（${range.min}~${range.max}），当前值：${val}`;
+  return null;
+}
+
+function validateLaserBaseItems(items: any[], templateCode: string, platform: string): string[] {
+  const errors: string[] = [];
+  if (!Array.isArray(items)) return errors;
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    const pos = item.position || `激光器${i + 1}`;
+    const prefix = `[${templateCode}] ${platform} ${pos}`;
+    const vx = validateField(item.x, BASE_X_RANGE, `${prefix} X坐标`);
+    if (vx) errors.push(vx);
+    const vy = validateField(item.y, BASE_Y_RANGE, `${prefix} Y坐标`);
+    if (vy) errors.push(vy);
+    const vox = validateField(item.offsetX, BASE_OFFSET_X_RANGE, `${prefix} X偏移`);
+    if (vox) errors.push(vox);
+    const voy = validateField(item.offsetY, BASE_OFFSET_Y_RANGE, `${prefix} Y偏移`);
+    if (voy) errors.push(voy);
+  }
+  return errors;
+}
+
+function validateAll(): string[] {
+  const errors: string[] = [];
+  const laser = data.value;
+  if (!laser) return errors;
+
+  // 激光定位基准
+  if (laser.laserLocation) {
+    for (const loc of laser.laserLocation) {
+      const tc = loc.templateCode || '未知模板';
+      errors.push(...validateLaserBaseItems(loc.laserBaseHigh, tc, '高平台'));
+      errors.push(...validateLaserBaseItems(loc.laserBaseLow, tc, '低平台'));
+    }
+  }
+
+  // 激光高度
+  if (laser.laserHeight) {
+    for (let i = 0; i < laser.laserHeight.length; i++) {
+      const v = validateField(laser.laserHeight[i], LASER_HEIGHT_RANGE, `激光高度 激光器${i + 1}`);
+      if (v) errors.push(v);
+    }
+  }
+
+  return errors;
 }
 
 // --- Helpers ---
@@ -414,6 +380,13 @@ async function save() {
     useAppStore().setSpinning(true);
     const reqData = JSON.parse(JSON.stringify(data.value));
 
+    // 先验证范围
+    const errors = validateAll();
+    if (errors.length) {
+      notification.error({ message: '参数范围错误', description: errors.join('\n'), placement: 'bottomRight', class: 'notificationE-custom-class', duration: 0 });
+      return;
+    }
+
     if (reqData.laserHeight) {
       reqData.laserHeight = reqData.laserHeight.map((v: any) => Number(v));
     }
@@ -437,7 +410,7 @@ async function save() {
   }
 }
 
-defineExpose({ load, save });
+defineExpose({ load, save, hideKeyboard });
 
 onMounted(() => {
   load();
