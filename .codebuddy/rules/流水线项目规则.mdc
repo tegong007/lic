@@ -1,0 +1,48 @@
+---
+description: 
+alwaysApply: true
+enabled: true
+updatedAt: 2026-06-08T02:57:35.140Z
+provider: 
+---
+
+# 项目技术栈与编码规范
+## 核心框架
+- 主框架：Vue 3 + TypeScript + Vite
+- 桌面端：Electron + electron-builder
+- 构建工具：vite-plugin-electron
+
+## UI 组件库
+- 主 UI：ant-design-vue 4.x
+- 备用 UI：naive-ui
+- 表格：vxe-table 4.9.8 + vxe-pc-ui
+- 样式：TailwindCSS + UnoCSS + rem-to-px
+
+## 状态 / 路由 / 国际化
+- 状态管理：Pinia
+- 路由：vue-router 4.x
+- 国际化：vue-i18n 9.9.0
+
+## 常用依赖
+- 请求：axios
+- 工具：lodash 工具函数、ts-md5
+- 滚动：vue3-seamless-scroll
+- 动画：vue3-count-to
+- 预览：v-viewer
+- 键盘：simple-keyboard
+
+## 编码风格
+- 使用 TypeScript 严格类型
+- 遵循 eslint + @antfu/eslint-config 规范
+- 样式支持 less、sass
+- 自动导入：unplugin-auto-import
+- 组件自动导入：unplugin-vue-components
+
+## 命令规范
+- 开发：npm run dev
+- 构建：npm run build
+- Windows 打包：npm run build:win
+- Mac 打包：npm run build:mac
+- 代码检查：npm run lint
+- 代码修复：npm run lint:fix
+

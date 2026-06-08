@@ -1,19 +1,21 @@
 <template>
-  <div class="mx-auto ml-1vw mt-1.4vh flex text-2.2vw">
-    <div class="bgNav sp2 animation" :class="choose === 2 ? 'actived' : ''" @click="$goto('CheckSelectPage', { key: 2 })">
-      <span>参数设置</span>
+  <div>
+    <div class="mx-auto ml-1vw mt-1.4vh flex text-2.2vw">
+      <div class="bgNav sp2 animation" :class="choose === 2 ? 'actived' : ''" @click="$goto('CheckSelectPage', { key: 2 })">
+        <span>参数设置</span>
+      </div>
+      <div class="bgNav sp2 animation" :class="choose === 1 ? 'actived' : ''" @click="$goto('CheckSelectPage', { key: 1 })">
+        <span>质检记录</span>
+      </div>
     </div>
-    <div class="bgNav sp2 animation" :class="choose === 1 ? 'actived' : ''" @click="$goto('CheckSelectPage', { key: 1 })">
-      <span>质检记录</span>
+    <div class="bgSelect mx-auto mt-2vh h-77vh overflow-auto">
+      <TheRecord v-if="choose === 1" :page="pages" :data="lists" @callback="getCallback" />
+      <TheSet v-else-if="choose === 2" />
     </div>
-  </div>
-  <div class="bgSelect mx-auto mt-2vh h-77vh overflow-auto">
-    <TheRecord v-if="choose === 1" :page="pages" :data="lists" @callback="getCallback" />
-    <TheSet v-else-if="choose === 2" />
-  </div>
-  <div class="bgSelect_bottom fixed bottom-0 left-0 right-0 right-7vw mx-auto w-full flex justify-center px-3vw py-2vh">
-    <div>
-      <TheButton title="返回" @click="$goto('CheckPage')" />
+    <div v-if="choose !== 2" class="bgSelect_bottom fixed bottom-0 left-0 right-0 right-7vw mx-auto w-full flex justify-center px-3vw py-2vh">
+      <div>
+        <TheButton title="返回" @click="$goto('CheckPage')" />
+      </div>
     </div>
   </div>
 </template>
@@ -114,6 +116,9 @@ onMounted(async () => {
     height: 2.5vh !important;
     border-radius: 0;
   }
+  ::v-deep(.ant-select-selector) {
+    min-width: 12vw !important;
+  }
   ::v-deep(.ant-select-selection-item) {
     line-height: 2.5vh !important;
   }
@@ -126,6 +131,9 @@ onMounted(async () => {
   ::v-deep(.ant-select-selection-placeholder),
   ::v-deep(.ant-picker-input input::placeholder) {
     color: #989ca1;
+  }
+  ::v-deep(.ant-select-arrow) {
+    right: 0.5vw !important;
   }
   ::v-deep(.ant-switch-checked .ant-switch-inner) {
     background: #3662ec;
@@ -186,6 +194,22 @@ onMounted(async () => {
         border-color: #3662ec;
       }
     }
+  }
+}
+</style>
+
+<style lang="less">
+// 下拉菜单全局样式（teleported to body）
+.ant-select-dropdown {
+  .ant-select-item-option-content {
+    font-size: 1.8vw;
+  }
+  .ant-select-item-option {
+    min-height: unset !important;
+    height: 2.5vh !important;
+    padding: 0 12px !important;
+    display: flex !important;
+    align-items: center !important;
   }
 }
 </style>

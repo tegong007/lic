@@ -203,7 +203,7 @@ function validateAll(): string[] {
 async function save() {
   const errors = validateAll();
   if (errors.length) {
-    notification.error({ message: '参数范围错误', description: errors.join('\n'), placement: 'bottomRight', class: 'notificationE-custom-class' });
+    notification.error({ message: '参数范围错误', description: errors[0], placement: 'bottomRight', class: 'notificationE-custom-class' });
     return;
   }
   try {

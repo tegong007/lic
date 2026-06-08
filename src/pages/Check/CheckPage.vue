@@ -1,44 +1,46 @@
 <template>
-  <div class="mx-3vw flex justify-between">
-    <img class="h-6.5vh w-15.3vw" src="@/assets/image/ico_left.png" />
-    <img class="h-6.5vh w-15.3vw" src="@/assets/image/ico_right.png" />
-  </div>
-  <div class="mx-auto mt-8vh w-95%">
-    <div class="bgCheck_box pt-1vh text-2.2vw">
-      <div class="bgCheck_tit mx-auto w-25vw pt-0.5vh text-center font-bold">质检结果</div>
-      <div class="bg_listItem mt-1vh flex justify-around py-0.5vh">
-        <div>{{ mainCheck.time || '--' }}</div>
-        <div>证件号：{{ mainCheck.docID || '--' }}</div>
-        <div>结果：<span v-if="!mainCheck.docID">检测中…</span><span v-else-if="mainCheck.qualityResult === 0" class="ok">良品</span><span v-else class="no">不良品</span></div>
-      </div>
-      <div class="bgCheck_tab flex justify-between">
-        <table class="ml-3vw mt-1vh w-50vw">
-          <tr>
-            <th class="pb-0.5vh">序号</th>
-            <th class="pb-0.5vh">检测项</th>
-            <th class="pb-0.5vh">状态</th>
-          </tr>
-          <tr v-for="(value, index) in items" :key="index">
-            <td>0{{ Number(index) + 1 }}</td>
-            <td>
-              <div class="tblab" :class="mainCheck.docID && mainCheck.checkedItem[value.key] ? 'err' : ''">{{ value.name }}</div>
-            </td>
-            <td class="tbico">
-              <img v-if="mainCheck.docID && !mainCheck.checkedItem[value.key]" src="@/assets/image/ico_ok.png" />
-              <img v-else-if="mainCheck.docID && mainCheck.checkedItem[value.key]" src="@/assets/image/ico_no.png" />
-              <img v-else src="@/assets/image/ico_wait.png" />
-            </td>
-          </tr>
-        </table>
-        <div v-if="mainCheck.markedImage" class="mr-3vw mt-1vh w-37vw flex items-center justify-center">
-          <img :src="`data:image/png;base64,${mainCheck.markedImage}`" class="w-80%" @click="viewImage([`data:image/png;base64,${mainCheck.markedImage}`])" />
+  <div>
+    <div class="mx-3vw flex justify-between">
+      <img class="h-6.5vh w-15.3vw" src="@/assets/image/ico_left.png" />
+      <img class="h-6.5vh w-15.3vw" src="@/assets/image/ico_right.png" />
+    </div>
+    <div class="mx-auto mt-8vh w-95%">
+      <div class="bgCheck_box pt-1vh text-2.2vw">
+        <div class="bgCheck_tit mx-auto w-25vw pt-0.5vh text-center font-bold">质检结果</div>
+        <div class="bg_listItem mt-1vh flex justify-around py-0.5vh">
+          <div>{{ mainCheck.time || '--' }}</div>
+          <div>证件号：{{ mainCheck.docID || '--' }}</div>
+          <div>结果：<span v-if="!mainCheck.docID">检测中…</span><span v-else-if="mainCheck.qualityResult === 0" class="ok">良品</span><span v-else class="no">不良品</span></div>
+        </div>
+        <div class="bgCheck_tab flex justify-between">
+          <table class="ml-3vw mt-1vh w-50vw">
+            <tr>
+              <th class="pb-0.5vh">序号</th>
+              <th class="pb-0.5vh">检测项</th>
+              <th class="pb-0.5vh">状态</th>
+            </tr>
+            <tr v-for="(value, index) in items" :key="index">
+              <td>0{{ Number(index) + 1 }}</td>
+              <td>
+                <div class="tblab" :class="mainCheck.docID && mainCheck.checkedItem[value.key] ? 'err' : ''">{{ value.name }}</div>
+              </td>
+              <td class="tbico">
+                <img v-if="mainCheck.docID && !mainCheck.checkedItem[value.key]" src="@/assets/image/ico_ok.png" />
+                <img v-else-if="mainCheck.docID && mainCheck.checkedItem[value.key]" src="@/assets/image/ico_no.png" />
+                <img v-else src="@/assets/image/ico_wait.png" />
+              </td>
+            </tr>
+          </table>
+          <div v-if="mainCheck.markedImage" class="mr-3vw mt-1vh w-37vw flex items-center justify-center">
+            <img :src="`data:image/png;base64,${mainCheck.markedImage}`" class="w-80%" @click="viewImage([`data:image/png;base64,${mainCheck.markedImage}`])" />
+          </div>
         </div>
       </div>
-    </div>
-    <div class="fixed bottom-11vh w-full flex items-end">
-      <div class="bg_listItem w-full flex justify-center gap-5vw py-2vh">
-        <TheButton title="参数设置" @click="$goto('CheckSelectPage', { key: 2 })" />
-        <TheButton title="质检记录" @click="$goto('CheckSelectPage', { key: 1 })" />
+      <div class="fixed bottom-11vh w-full flex items-end">
+        <div class="bg_listItem w-full flex justify-center gap-5vw py-2vh">
+          <TheButton title="参数设置" @click="$goto('CheckSelectPage', { key: 2 })" />
+          <TheButton title="质检记录" @click="$goto('CheckSelectPage', { key: 1 })" />
+        </div>
       </div>
     </div>
   </div>

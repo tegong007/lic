@@ -628,7 +628,7 @@ async function save() {
     // 先验证范围
     const errors = validateAll();
     if (errors.length) {
-      notification.error({ message: '参数范围错误', description: errors.join('\n'), placement: 'bottomRight', class: 'notificationE-custom-class', duration: 0 });
+      notification.error({ message: '参数范围错误', description: errors[0], placement: 'bottomRight', class: 'notificationE-custom-class' });
       return;
     }
 

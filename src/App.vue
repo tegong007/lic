@@ -81,7 +81,19 @@ async function controlMachine() {
   }
 }
 
+// 滚动时关闭已打开的 Select 下拉框（通过模拟点击外部触发 antd 的关闭逻辑）
+let scrollTimer: ReturnType<typeof setTimeout> | null = null;
+function onScrollCloseSelect() {
+  if (scrollTimer) clearTimeout(scrollTimer);
+  scrollTimer = setTimeout(() => {
+    document.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+  }, 0);
+}
+
 onMounted(async () => {
+  // 捕获阶段监听所有元素滚动，滚动时关闭下拉框
+  document.addEventListener('scroll', onScrollCloseSelect, true);
+
   // 监听主进程发送的确认退出消息
   window.ipcRenderer.on('confirm-quit', () => {
     // exitShow.value = true;
@@ -105,6 +117,8 @@ onMounted(async () => {
 });
 
 onUnmounted(() => {
+  document.removeEventListener('scroll', onScrollCloseSelect, true);
+  if (scrollTimer) clearTimeout(scrollTimer);
   window.ipcRenderer.removeAllListeners('confirm-quit'); // 移除监听器
 });
 </script>
@@ -112,9 +126,7 @@ onUnmounted(() => {
 <style scoped lang="less">
 * {
   .bgApp {
-    background:
-      radial-gradient(128% 128% at 50% 0%, #03163e 0%, #03163eff 37%, #3662ec00 99%),
-      linear-gradient(264deg, #03163e 1%, #1d3974 98%), linear-gradient(#03163e, #03163e);
+    background: radial-gradient(128% 128% at 50% 0%, #03163e 0%, #03163eff 37%, #3662ec00 99%), linear-gradient(264deg, #03163e 1%, #1d3974 98%), linear-gradient(#03163e, #03163e);
     .fade-enter-active,
     .fade-leave-active {
       transition: opacity 0.3s ease;

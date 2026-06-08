@@ -104,9 +104,10 @@ function onChangeKeyboard(input: string, keyboard: any) {
   background-color: #ffffff15 !important;
   height: 2.5vh !important;
   border-radius: 0;
-  min-width: 10vw;
+  min-width: 12vw;
 }
-::v-deep(.ant-input::placeholder) {
+::v-deep(.ant-input::placeholder),
+::v-deep(.ant-select-selection-placeholder) {
   color: #989ca1;
 }
 ::v-deep(.ant-select-selection-item) {
@@ -114,8 +115,7 @@ function onChangeKeyboard(input: string, keyboard: any) {
   font-size: 1.5vw;
   color: #ffffff !important;
 }
-::v-deep(.ant-input::placeholder),
-:v-deep(.ant-select-selection-placeholder) {
-  color: #989ca1;
+::v-deep(.ant-select-arrow) {
+  right: 0.5vw !important;
 }
 </style>

@@ -218,6 +218,9 @@ onMounted(async () => {
         border-radius: 0;
         min-width: 15vw;
       }
+      ::v-deep(.ant-select-selector) {
+        min-width: 12vw !important;
+      }
       ::v-deep(.ant-select-selection-item) {
         line-height: 2.5vh !important;
         font-size: 1.8vw;
@@ -227,10 +230,29 @@ onMounted(async () => {
       :v-deep(.ant-select-selection-placeholder) {
         color: #989ca1;
       }
+      ::v-deep(.ant-select-arrow) {
+        right: 0.5vw !important;
+      }
       .keyInput {
         border-color: #3662ec;
       }
     }
+  }
+}
+</style>
+
+<style lang="less">
+// 下拉菜单全局样式（teleported to body）
+.ant-select-dropdown {
+  .ant-select-item-option-content {
+    font-size: 1.8vw;
+  }
+  .ant-select-item-option {
+    min-height: unset !important;
+    height: 2.5vh !important;
+    padding: 0 12px !important;
+    display: flex !important;
+    align-items: center !important;
   }
 }
 </style>
