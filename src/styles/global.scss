@@ -150,9 +150,20 @@ body {
   color: #fa5151;
   background: #b4050599;
 }
+.animation {
+  transition: transform 300ms;
+  &:hover { transform: scale(1.05); }
+}
+.actived { cursor: default; transform: none !important; }
 .bg_jianbian {
   background: linear-gradient(90deg, #0390e500 0%, #0390e51f 34%, #0390e517 63%, #0390e500 99%);
   padding: 1vh 0;
+}
+.bg_listItem {
+  background: linear-gradient(90deg, #0390e500 0%, #0390e51f 34%, #0390e517 63%, #0390e500 99%);
+  &:nth-of-type(even) {
+    background: linear-gradient(91deg, #b9b9b933 0%, #b9b9b91f 34%, #b9b9b917 63%, #b9b9b900 99%);
+  }
 }
 .btn_normal {
   background: #3662ec;

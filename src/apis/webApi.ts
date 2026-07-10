@@ -50,3 +50,8 @@ export function setBatchRank(data: any) {
   const api = `${v1}/tss/set-batch-rank`;
   return request.post(api, data);
 }
+// 录入用户信息（注册：账号、姓名、身份证号、头像、指纹模板）
+export function recordUserInfo(data: any) {
+  const api = `${v1}/tss/record-user-info`;
+  return request.post(api, data);
+}

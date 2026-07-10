@@ -1,42 +1,55 @@
 <template>
-  <div class="mt-2.5vh w-92% flex">
-    <a-flex justify="around" class="mt-9vh w-94vw">
-      <div>
-        <div v-for="item in navs" :key="item.key" class="bgNav mb-2vh transition-transform duration-300" :class="actived === item.key ? 'actived' : 'hover:scale-105'" @click="setActived(item.key)">
-          <span class="text-1.5vw line-height-8vh">{{ item.name }}</span>
-        </div>
+  <div class="flex justify-start absolute top-10vh h-">
+    <div class="ml-1vw text-1.5vw w-20vw flex-shrink-0">
+      <div class="bgNav animation" :class="actived === 1 ? 'actived' : ''" @click="$goto('DefendPage', { key: 1 })">
+        <span>进本模块</span>
       </div>
-      <div class="ml-2vw mt-3vh h-70vh w-full overflow-auto text-1.5vw">
-        <template v-if="actived === 6">
-          <div class="bg4 mt-2vh max-h-50vh w-60vw py-2vh pl-1vw">
-            <div class="flex py-2vh">
-              <div class="mr-1vw w-20vw text-right">打印管理系统：</div>
-              <div>1.0.13.14</div>
-            </div>
-            <div v-for="(value, index) in options" :key="index" class="flex py-2vh">
-              <div class="mr-1vw w-20vw text-right">{{ value.name }}：</div>
-              <div>{{ value.version }}</div>
-            </div>
+      <div class="bgNav animation" :class="actived === 2 ? 'actived' : ''" @click="$goto('DefendPage', { key: 2 })">
+        <span>主副页打印模块</span>
+      </div>
+      <div class="bgNav animation" :class="actived === 3 ? 'actived' : ''" @click="$goto('DefendPage', { key: 3 })">
+        <span>加注页打印模块</span>
+      </div>
+      <div class="bgNav animation" :class="actived === 4 ? 'actived' : ''" @click="$goto('DefendPage', { key: 4 })">
+        <span>添加测试任务</span>
+      </div>
+      <!-- <div class="bgNav animation" :class="actived === 5 ? 'actived' : ''" @click="$goto('DefendPage', { key: 5 })">
+        <span>工位操作</span>
+      </div> -->
+      <div class="bgNav animation" :class="actived === 6 ? 'actived' : ''" @click="$goto('DefendPage', { key: 6 })">
+        <span>关于设备</span>
+      </div>
+    </div>
+    <div class="bgDefend ml-2vw h-76vh w-75vw overflow-auto">
+      <template v-if="actived === 4">
+        <TheTest :data="options.uvPrinters" :update-item="handleUpdateItem" />
+      </template>
+      <template v-else-if="actived === 5">
+        <TheFw />
+      </template>
+      <template v-else-if="actived === 6">
+        <div class="bg_listItem">
+          <div class="flex py-0.5vh">
+            <div class="mr-1vw min-w-20vw flex-shrink-0 text-right">打印管理系统：</div>
+            <div class="flex-shrink-0 whitespace-nowrap">{{ config.version }}</div>
           </div>
-        </template>
-        <template v-else-if="actived === 5">
-          <TheFw />
-        </template>
-        <template v-else-if="actived === 4">
-          <TheTest :data="options.uvPrinters" :update-item="handleUpdateItem" />
-        </template>
-        <template v-else>
-          <Reader v-if="options.readers" :data="options.readers" :update-item="handleUpdateItem" />
-          <Camera v-if="options.cameras" :data="options.cameras" @update-item="handleUpdateItem" />
-          <Laser v-if="options.lasers" :data="options.lasers" @update-item="handleUpdateItem" />
-          <Inkjet v-if="options.uvPrinters" :data="options.uvPrinters" @update-item="handleUpdateItem" />
-          <Light v-if="options.lamps" :data="options.lamps" :act="actived" @update-item="handleUpdateItem" />
-        </template>
-        <template v-if="actived === 1">
-          <ThePrint :data="options.uvPrinters" :update-item="handleUpdateItem" />
-        </template>
-      </div>
-    </a-flex>
+          <div v-for="(value, index) in options" :key="index" class="flex py-0.5vh">
+            <div class="mr-1vw min-w-20vw flex-shrink-0 text-right">{{ value.name }}：</div>
+            <div class="flex-shrink-0 whitespace-nowrap">{{ value.version }}</div>
+          </div>
+        </div>
+      </template>
+      <template v-else>
+        <Reader v-if="options.readers" :data="options.readers" :update-item="handleUpdateItem" />
+        <Camera v-if="options.cameras" :data="options.cameras" @update-item="handleUpdateItem" />
+        <Laser v-if="options.lasers" :data="options.lasers" @update-item="handleUpdateItem" />
+        <Inkjet v-if="options.uvPrinters" :data="options.uvPrinters" @update-item="handleUpdateItem" />
+        <!-- <Light v-if="options.lamps" :data="options.lamps" :act="actived" @update-item="handleUpdateItem" /> -->
+      </template>
+      <template v-if="actived === 1">
+        <ThePrint :data="options.uvPrinters" :update-item="handleUpdateItem" />
+      </template>
+    </div>
   </div>
 </template>
 
@@ -58,8 +71,8 @@ const { notification } = App.useApp();
 const route = useRoute();
 
 const actived = ref(-1);
-const navs: any = { x1: { name: '进本模块', key: 1 }, x2: { name: '激光打印模块', key: 2 }, x3: { name: '喷墨打印模块', key: 3 }, x4: { name: '添加测试任务', key: 4 }, x5: { name: '工位操作', key: 5 }, x6: { name: '关于设备', key: 6 } };
 const options: any = ref({});
+const config = JSON.parse(localStorage.getItem('config') || '{}');
 
 function setActived(key: number) {
   if (key !== actived.value) {
@@ -104,27 +117,155 @@ onMounted(async () => {
 </script>
 
 <style scoped lang="less">
-.bg4 {
-  background: linear-gradient(92deg, #0390e500 0%, #0390e51f 34%, #0390e517 63%, #0390e500 99%);
-}
 .bgNav {
-  background-image: url('@/assets/image/bg_nav.png');
-  background-size: contain;
+  background-image: url('@/assets/image/bg_navBtn.png');
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   cursor: pointer;
-  width: 15vw;
+  width: 19.5vw;
   text-align: center;
-  height: 9vh;
+  height: 10vh;
+  line-height: 8vh;
+  margin-bottom: 1vh;
+  white-space: nowrap;
   &.actived {
-    background-image: url('@/assets/image/bg_navA.png');
-    cursor: default;
+    background-image: url('@/assets/image/bg_navBtn_hov.png');
   }
 }
-::-webkit-scrollbar {
-  width: 1.5vw;
+</style>
+
+<style lang="less">
+.bgDefend {
+  .bg_listItem {
+    padding: 2vh 0;
+    margin: 1vh 0;
+    font-size: 1.4vw;
+  }
+  .bgDefend_item {
+    margin-top: 2vh;
+    margin-bottom: 3vh;
+    .bgDefend_tit {
+      font-size: 1.8vw;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      &::before,
+      &::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        min-width: 2vw;
+      }
+      &::before {
+        background: linear-gradient(270deg, #ffffff 0%, #ffffff00 100%);
+        margin-right: 1vw;
+      }
+      &::after {
+        background: linear-gradient(90deg, #ffffff 0%, #ffffff00 100%);
+        margin-left: 1vw;
+      }
+    }
+    .bg_listItem {
+      padding: 1vh 0;
+      margin: 1vh 0;
+      display: flex;
+      font-size: 1.3vw;
+      .bgDefend_itemIn {
+        display: flex;
+        align-items: center;
+        margin-right: 2vw;
+        .bgDefend_itemIn_tit {
+          margin-left: 2vw;
+          padding-right: 0.5vw;
+          min-width: 7vw;
+          white-space: nowrap;
+        }
+        // 第一个 bgDefend_itemIn 下的 tit 左侧小竖条
+        &:first-of-type .bgDefend_itemIn_tit:first-of-type {
+          position: relative;
+          padding-left: 1.5vw;
+          &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 1.2em;
+            border-radius: 50px;
+            background: #ffffff;
+          }
+        }
+      }
+      ::v-deep(.ant-form-item) {
+        margin-bottom: 0vh;
+      }
+      ::v-deep(.ant-form-item-label) {
+        line-height: 3vh !important;
+      }
+      ::v-deep(.ant-form-item-label label) {
+        color: #ffffff;
+        font-size: 1.4vw;
+      }
+      ::v-deep(.ant-input),
+      ::v-deep(.ant-select-selector) {
+        font-size: 1.1vw;
+        background-color: transparent !important;
+        color: #ffffff;
+        border-width: 0px !important;
+        background-color: #ffffff15 !important;
+        height: 5vh !important;
+        border-radius: 0;
+        min-width: 15vw;
+      }
+      ::v-deep(.ant-select-selector) {
+        min-width: 12vw !important;
+      }
+      ::v-deep(.ant-select-selection-item) {
+        line-height: 5vh !important;
+        font-size: 1.1vw;
+        color: #ffffff !important;
+      }
+      ::v-deep(.ant-input::placeholder),
+      :v-deep(.ant-select-selection-placeholder) {
+        color: #989ca1;
+      }
+      ::v-deep(.ant-select-arrow) {
+        right: 0.5vw !important;
+      }
+      .keyInput {
+        border-color: #3662ec;
+      }
+    }
+  }
+  &::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #3662ec;
+    border-radius: 2px;
+  }
 }
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(90deg, #03163e 0%, #3662ec 53%);
-  border-radius: 50px;
+</style>
+
+<style lang="less">
+// 下拉菜单全局样式（teleported to body）
+.ant-select-dropdown {
+  .ant-select-item-option-content {
+    font-size: 1.3vw;
+  }
+  .ant-select-item-option {
+    min-height: unset !important;
+    height: 3.5vh !important;
+    padding: 0 12px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
 }
 </style>

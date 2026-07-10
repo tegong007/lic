@@ -19,7 +19,12 @@ import 'vxe-pc-ui/lib/style.css';
 import 'vxe-table/lib/style.css';
 import 'viewerjs/dist/viewer.css';
 
+// Mock: 由环境变量 VITE_MOCK_ENABLED 控制，设为 true 时拦截接口返回本地数据
+import { enableMock } from '@/mock/setup';
+const mockPromise = import.meta.env.VITE_MOCK_ENABLED === 'true' ? enableMock() : Promise.resolve();
+
 async function bootstrap() {
+  await mockPromise;
   const { default: App } = await import('./App.vue');
   const app = createApp(App);
   setupStore(app);

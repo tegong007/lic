@@ -1,10 +1,12 @@
 <template>
-  <div class="bgItem text-1.1vw">
-    <div class="bgItem_tit">摄像头</div>
-    <section class="bg_jianbian mb-2vh ml-2vw flex">
-      <div v-for="(camera, index) in props.data" :key="index" class="mr-3vw flex items-center">
-        <div class="ml-2vw pr-0.5vw">{{ camera.cameraName }}:</div>
+  <div class="bgDefend_item">
+    <div class="bgDefend_tit">摄像头</div>
+    <section class="bg_listItem" style="display: block; padding-bottom: 1px">
+      <div v-for="(camera, index) in props.data" :key="index" class="bgDefend_itemIn mb-1vh">
+        <div class="bgDefend_itemIn_tit">{{ camera.cameraName }}:</div>
         <a-button type="link" class="btn_search" @click="transferApi(camera)">{{ t('拍照') }}</a-button>
+        <div class="bgDefend_itemIn_tit">UID:</div>
+        <a-input v-model:value="camera.uid" disabled class="flex-1" />
       </div>
     </section>
   </div>
@@ -45,12 +47,30 @@ async function transferApi(cameraObj: any) {
 </script>
 
 <style scoped lang="less">
-.bgItem {
-  margin-top: 3vh;
-  .bgItem_tit {
-    font-size: 1.2vw;
-    font-weight: bold;
-    padding-bottom: 1vh;
+// 每个摄像头的第一个 tit（名称）左侧小竖条
+.bgDefend_itemIn .bgDefend_itemIn_tit:first-of-type {
+  position: relative;
+  padding-left: 1.5vw;
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 1.2em;
+    border-radius: 50px;
+    background: #ffffff;
   }
+}
+::v-deep(.ant-input) {
+  font-size: 1.1vw;
+  background-color: transparent !important;
+  color: #ffffff;
+  border-width: 0px !important;
+  background-color: #ffffff15 !important;
+  height: 5vh !important;
+  border-radius: 0;
+  min-width: 10vw;
 }
 </style>

@@ -4,7 +4,7 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/home',
+    redirect: '/login',
   },
   {
     path: '/home', // 主页
@@ -40,6 +40,16 @@ const routes: Array<RouteRecordRaw> = [
     path: '/search', // 查询
     name: 'SearchPage',
     component: () => import('../pages/Search/SearchPage.vue'),
+  },
+  {
+    path: '/login', // 用户登录
+    name: 'LoginPage',
+    component: () => import('@/pages/Login/LoginPage.vue'),
+  },
+  {
+    path: '/register', // 用户注册
+    name: 'RegisterPage',
+    component: () => import('@/pages/Login/LoginInfo.vue'),
   },
 ];
 

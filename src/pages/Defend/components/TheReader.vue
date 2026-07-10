@@ -1,14 +1,20 @@
 <template>
-  <div class="bgItem text-1.1vw">
+  <div class="bgDefend_item">
     <SimpleKeyboard v-if="showKeyboard" :transform="transformValue" :input="formData[keyInput]" :max-length="40" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
-    <div class="bgItem_tit">读写器</div>
-    <section v-for="(reader, index) in props.data" :key="index" class="bg_jianbian mb-1vh ml-2vw flex">
-      <div class="mr-3vw flex items-center">
-        <div class="ml-2vw pr-0.5vw">{{ reader.readerName }}:</div>
-        <a-input v-model:value="formData[reader.deviceIndex]" :class="keyInput === reader.deviceIndex ? 'keyInput' : ''" class="w-30vw" placeholder="请输入" :maxlength="40" @click="onInputFocus($event, reader.deviceIndex)" />
-        <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/ips-r/read-test-data', index, reader)">读数据</a-button>
-        <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/ips-r/read-card-uid', index, reader)">读卡UID</a-button>
-        <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/ips-r/write-test-data', index, reader, formData[reader.deviceIndex])">写数据</a-button>
+    <div class="bgDefend_tit">读写器</div>
+    <section v-for="(reader, index) in props.data" :key="index">
+      <div class="bg_listItem" style="display: block">
+        <div class="bgDefend_itemIn">
+          <div class="bgDefend_itemIn_tit">{{ reader.readerName }}:</div>
+          <a-input v-model:value="formData[reader.deviceIndex]" :class="keyInput === reader.deviceIndex ? 'keyInput' : ''" placeholder="请输入" :maxlength="40" @click="onInputFocus($event, reader.deviceIndex)" class="flex-1" />
+          <div class="bgDefend_itemIn_tit">UID:</div>
+          <a-input v-model:value="reader.uid" disabled class="flex-1" />
+        </div>
+        <div class="bgDefend_itemIn ml-12vw mt-1vh">
+          <a-button type="link" class="btn_search ml-2vw" @click="transferApi('/ips-r/read-test-data', index, reader)">读数据</a-button>
+          <a-button type="link" class="btn_search ml-2vw" @click="transferApi('/ips-r/read-card-uid', index, reader)">读卡UID</a-button>
+          <a-button type="link" class="btn_search ml-2vw" @click="transferApi('/ips-r/write-test-data', index, reader, formData[reader.deviceIndex])">写数据</a-button>
+        </div>
       </div>
     </section>
   </div>
@@ -80,24 +86,24 @@ function onChangeKeyboard(input: string, keyboard: any) {
 </script>
 
 <style scoped lang="less">
-.bgItem {
-  margin-top: 3vh;
-  .bgItem_tit {
-    font-size: 1.2vw;
-    font-weight: bold;
-    padding-bottom: 1vh;
-  }
-}
 ::v-deep(.ant-input) {
-  font-size: 1.2vw;
+  font-size: 1.1vw;
   background-color: transparent !important;
   color: #ffffff;
-  border-width: 2px !important;
-  height: 4vh !important;
+  border-width: 0px !important;
+  background-color: #ffffff15 !important;
+  height: 5vh !important;
   border-radius: 0;
-  min-width: 7.5vw;
+  min-width: 10vw;
 }
 ::v-deep(.ant-input::placeholder) {
   color: #989ca1;
+}
+// 隔行变色
+::v-deep(section:nth-of-type(odd) > .bg_listItem) {
+  background: linear-gradient(359deg, #ffffff13 1%, #008cff23 98%);
+}
+::v-deep(section:nth-of-type(even) > .bg_listItem) {
+  background: linear-gradient(91deg, #b9b9b933 0%, #b9b9b91f 34%, #b9b9b917 63%, #b9b9b900 99%);
 }
 </style>

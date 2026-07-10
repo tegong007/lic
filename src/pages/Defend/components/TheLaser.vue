@@ -1,14 +1,12 @@
 <template>
-  <div class="bgItem text-1.1vw">
+  <div class="bgDefend_item">
     <template v-for="(laser, index) in props.data" :key="index">
-      <div class="bgItem_tit">{{ laser.laserName }}</div>
-      <section class="bg_jianbian mb-1vh ml-2vw flex">
-        <div class="mr-3vw flex items-center">
-          <div class="ml-2vw pr-0.5vw"></div>
-          <!-- <a-button type="link" class="btn_search mr-1vw" @click="previewPhoto(laser, laser.printItems)">预览标刻</a-button> -->
-          <!-- <a-button type="link" class="btn_search mr-1vw" @click="printLaser(laser, laser.printItems)">标刻测试页</a-button> -->
-          <a-button type="link" class="btn_search mr-1vw" @click="redLight(laser, laser.printItems)">红光</a-button>
-          <a-button type="link" class="btn_search mr-1vw" @click="stopLaser(laser, laser.printItems)">急停</a-button>
+      <div class="bgDefend_tit">{{ laser.laserName }}</div>
+      <section class="bg_listItem">
+        <div class="bgDefend_itemIn">
+          <div class="bgDefend_itemIn_tit"></div>
+          <a-button type="link" class="btn_search mr-2vw" @click="redLight(laser, laser.printItems)">红光</a-button>
+          <a-button type="link" class="btn_search mr-2vw" @click="stopLaser(laser, laser.printItems)">急停</a-button>
         </div>
       </section>
     </template>
@@ -106,14 +104,3 @@ async function transferApi(url: any, laserObj: any) {
   }
 }
 </script>
-
-<style scoped>
-.bgItem {
-  margin-top: 3vh;
-  .bgItem_tit {
-    font-size: 1.2vw;
-    font-weight: bold;
-    padding-bottom: 1vh;
-  }
-}
-</style>

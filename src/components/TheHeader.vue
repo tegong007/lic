@@ -11,12 +11,11 @@
       </div>
     </a-flex>
   </div>
-  <TheExit v-if="exitShow" :open="exitShow" :handle-ok="() => openModal(false)" :handle-cancel="() => openModal(false)" title="系统关机" />
+  <TheConfirm v-if="exitShow" :open="exitShow" :title="'系统关机'" :handle-ok="handleExitOk" :handle-cancel="() => openModal(false)" />
 </template>
 
 <script lang="ts" setup>
 import { defendModule } from '@/apis/proApi';
-import TheExit from '@/components/TheExit.vue';
 import { formatDateTime } from '@/utils/time';
 import useCustomTimer from '@/utils/useCustomTimer';
 
@@ -29,6 +28,11 @@ const exitShow = ref(false);
 // 弹窗操作
 function openModal(value: boolean) {
   exitShow.value = value;
+}
+
+function handleExitOk() {
+  openModal(false);
+  window.electronAPI.exitWindow();
 }
 
 async function getData() {

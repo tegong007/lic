@@ -3,16 +3,16 @@
     <a-app>
       <a-spin :spinning="appStore.spinning" :indicator="indicator" tip="加载中…">
         <div class="bg relative h-100vh flex flex-col items-center">
-          <Header />
+          <Header v-if="isMainPage" />
           <router-view v-slot="{ Component, route: curRoute }">
             <transition name="fade">
               <component :is="Component" :key="curRoute.fullPath" />
             </transition>
           </router-view>
-          <Footer />
+          <Footer v-if="isMainPage" />
         </div>
-        <TheExit v-if="exitShow" :open="exitShow" :handle-ok="() => openExitModal(false)" :handle-cancel="() => openExitModal(false)" title="退出系统" />
-        <TheConfirm v-if="modal.open" :open="modal.open" :title="modal.title" :desc="modal.desc" :data="modal.data" :handle-ok="controlMachine" :handle-cancel="() => (modal = { open: false, title: '', key: -1 })" />
+
+        <TheConfirm v-if="modal.open" :open="modal.open" :title="modal.title" :desc="modal.desc" :data="modal.data" :handle-ok="modal.handleOk || controlMachine" :handle-cancel="() => (modal = { open: false, title: '', key: -1 })" />
       </a-spin>
     </a-app>
   </a-config-provider>
@@ -23,29 +23,30 @@ import { LoadingOutlined } from '@ant-design/icons-vue';
 import { App } from 'ant-design-vue';
 import enUS from 'ant-design-vue/es/locale/en_US';
 import zhCN from 'ant-design-vue/es/locale/zh_CN';
-import { h, watchEffect } from 'vue';
+import { computed, h, watchEffect } from 'vue';
+import { useRoute } from 'vue-router';
 import { homeModule } from '@/apis/proApi';
-import TheExit from '@/components/TheExit.vue';
 import Footer from '@/components/TheFooter.vue';
 import Header from '@/components/TheHeader.vue';
 
 import { useAppStore } from '@/store';
 
 const appStore = useAppStore();
+const route = useRoute();
 const locale = ref(zhCN.locale);
 const indicator = h(LoadingOutlined, { style: { fontSize: '200px' } });
-const exitShow = ref(false);
 const modal: any = ref({ open: false, title: '', key: -1 });
 const { notification } = App.useApp();
+
+const isMainPage = computed(() => {
+  const mainRoutes = ['/home', '/home-station', '/check', '/check-select', '/defend', '/set', '/search'];
+  return mainRoutes.includes(route.path);
+});
 
 watchEffect(() => {
   appStore.setThemeColor(appStore.primaryColor, appStore.isDark);
 });
 
-// 弹窗操作
-function openExitModal(value: boolean) {
-  exitShow.value = value;
-}
 async function getDataPage() {
   try {
     const data: any = await homeModule.getHomeList();
@@ -73,7 +74,7 @@ async function controlMachine() {
       await homeModule.setControlMachine({ control: modal.value.key, docNum: null });
       notification.success({ message: '成功', description: `${modal.value.title}操作成功`, placement: 'bottomRight', class: 'notification-custom-class' });
     } catch (error) {
-      notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
+      notification?.error?.({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
     } finally {
       modal.value = { open: false, title: '', key: -1 };
       useAppStore().setSpinning(false);
@@ -84,7 +85,15 @@ async function controlMachine() {
 onMounted(() => {
   // 监听主进程发送的确认退出消息
   window.ipcRenderer.on('confirm-quit', () => {
-    exitShow.value = true;
+    modal.value = {
+      open: true,
+      title: '退出系统',
+      key: -1,
+      handleOk: () => {
+        modal.value = { open: false, title: '', key: -1 };
+        window.electron.send('quit-app');
+      },
+    };
   });
   getDataPage();
 });

@@ -1,10 +1,10 @@
-import { exec, spawn } from 'node:child_process';
+import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 // import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
-import { app, BrowserWindow, dialog, ipcMain, Menu, shell, Tray } from 'electron';
+import { app, BrowserWindow, dialog, globalShortcut, ipcMain, Menu, shell } from 'electron';
 
 import { ref } from 'vue';
 // const require = createRequire(import.meta.url);
@@ -71,7 +71,7 @@ const preload = path.join(__dirname, '../preload/index.mjs');
 const indexHtml = path.join(RENDERER_DIST, 'index.html');
 
 // 需要无效化的键位
-// const keysDisabled = ['f11'];
+const keysDisabled = ['f11'];
 
 async function createWindow() {
   win = new BrowserWindow({
@@ -102,20 +102,6 @@ async function createWindow() {
     },
   });
   win.setAspectRatio(config.width / config.height); // 固定页面比例
-  const tray = new Tray(path.join(process.env.VITE_PUBLIC, 'icon/icon.ico'));
-  tray.setContextMenu(
-    Menu.buildFromTemplate([
-      {
-        label: '刷新',
-        click: () => {
-          BrowserWindow.getAllWindows().forEach((element) => {
-            element.reload();
-          });
-        },
-      },
-      { label: '退出', role: 'quit' },
-    ]),
-  );
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
@@ -137,23 +123,12 @@ async function createWindow() {
     if (url.startsWith('https:')) shell.openExternal(url);
     return { action: 'deny' };
   });
-  // keysDisabled.map((key) => {
-  //   globalShortcut.register(key, () => {
-  //     console.log(key);
-  //   });
-  //   return null;
-  // });
-
-  // win.webContents.debugger.attach('1.3');
-  // // 启用触摸模拟,并配置为移动设备模式
-  // win.webContents.debugger.sendCommand('Emulation.setTouchEmulationEnabled', {
-  //   enabled: true,
-  //   configuration: 'mobile',
-  // });
-  // // 启用“为鼠标事件生成触摸事件”的功能
-  // win.webContents.debugger.sendCommand('Emulation.setEmitTouchEventsForMouse', {
-  //   enabled: true,
-  // });
+  keysDisabled.map((key) => {
+    globalShortcut.register(key, () => {
+      console.log(key);
+    });
+    return null;
+  });
 
   win.on('close', (event) => {
     // 在这里编写处理用户退出的逻辑
@@ -181,7 +156,7 @@ function checkForUpdate() {
     newExePath = path.resolve(path.dirname(app.getPath('exe')), 'Light-Ink-Craftsman-1.0.1.exe');
   }
 
-  const opts: any = {
+  const opts = {
     type: 'question',
     buttons: ['立即更新', '稍后'],
     defaultId: 0,
@@ -296,21 +271,23 @@ ipcMain.handle('modify-config', async (key, value) => {
     return false; // 返回 false 表示修改失败
   }
 });
+// 获取 CameraHelperWS.js 的可直接使用的 URL（与 readConfig() 路径逻辑一致）
+ipcMain.handle('get-camera-helper-path', () => {
+  if (process.env.VITE_DEV_SERVER_URL) {
+    // 开发环境：返回 Vite dev server 的 http URL
+    return `${VITE_DEV_SERVER_URL}/CameraHelperWS.js`;
+  } else {
+    // 打包环境：返回 file:// 绝对路径
+    const absPath = path.resolve(path.dirname(app.getPath('exe')), 'public/CameraHelperWS.js');
+    const normalizedPath = absPath.replace(/\\/g, '/');
+    // Linux 下 absPath 以 / 开头（如 /opt/...），Windows 下以盘符开头（如 D:/...）
+    return normalizedPath.startsWith('/') ? `file://${normalizedPath}` : `file:///${normalizedPath}`;
+  }
+});
+
 // 监听渲染进程发送的退出事件
 ipcMain.on('quit-app', () => {
   // app.quit();
   canExit.value = true;
   win.close(); // 关闭窗口
-});
-
-// Main进程-关机
-ipcMain.handle('Exit_Window', async () => {
-  console.log('执行关机...');
-  // Windows
-  if (process.platform === 'win32') exec('shutdown /s /t 0');
-  // macOS
-  else if (process.platform === 'darwin') exec('osascript -e \'tell app "System Events" to shut down\'');
-  // Linux
-  else if (process.platform === 'linux') exec('shutdown now');
-  return {};
 });

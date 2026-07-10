@@ -27,6 +27,27 @@
       <div class="w-full pb-6vh pt-7vh text-center text-2.5vw color-#ffffff">{{ props.data ? props.data.title : '--' }}</div>
       <div class="mx-auto h-20vh w-90% overflow-auto text-1.5vw text-#ffffff">{{ props.data ? props.data.msg : '--' }}</div>
     </template>
+    <template v-else-if="props.title === '指纹识别' || props.title === '身份证识别'">
+      <div class="flex flex-col items-center justify-center pt-15vh">
+        <div v-if="props.title === '指纹识别'" class="fingerprint h-10vh w-10vh"></div>
+        <div v-else class="idCard h-35vh w-40vw"></div>
+        <div class="mt-4vh text-center text-2.5vw text-#ffffff">{{ props.desc }}</div>
+      </div>
+    </template>
+    <template v-else-if="props.title === '人脸识别'">
+      <div class="relative flex items-center justify-center">
+        <img :src="loginModule.getVideoStreamUrl()" class="h-51vh w-full object-contain" alt="摄像头视频流" />
+        <img src="@/assets/image/face.png" class="absolute h-51vh w-full object-contain" alt="人脸框" />
+        <div class="absolute bottom--10vh text-center text-2.5vw text-#ffffff">{{ props.desc }}</div>
+      </div>
+    </template>
+    <template v-else-if="props.title === '登录成功'">
+      <div class="flex flex-col items-center justify-center gap-1vh mt-5vh">
+        <img src="@/assets/image/ico_success.png" class="h-15vh w-full object-contain" alt="" />
+        <div class="text-center text-2vw text-#ffffff">{{ props.desc }}</div>
+        <div class="text-center text-2vw text-#ffffff">用户:{{ account }}</div>
+      </div>
+    </template>
     <div v-else class="w-full pb-12vh pt-13vh text-center text-2.5vw color-#ffffff">{{ `确定执行${props.title}？` }}</div>
     <template #footer>
       <a-flex v-if="props.title === '错误弹窗提示'" justify="center" align="center" class="gap-5%">
@@ -46,6 +67,10 @@
           <a-button class="btn transition-transform duration-300 hover:scale-105" @click="submitOKHandel('暂停设备')">暂停设备</a-button>
         </template>
       </a-flex>
+      <a-flex v-else-if="props.title === '指纹识别' || props.title === '人脸识别' || props.title === '身份证识别'" justify="center" align="center" class="gap-5%"></a-flex>
+      <a-flex v-else-if="props.title === '登录成功'" justify="center" align="center" class="gap-5%">
+        <a-button class="btn transition-transform duration-300 hover:scale-105" @click="handleLoginSuccessOk">{{ loginSuccessBtnText }}</a-button>
+      </a-flex>
       <a-flex v-else justify="center" align="center" class="gap-10%">
         <a-button v-if="props.title !== '任务添加成功' && props.title !== '喷墨机状态'" class="btn transition-transform duration-300 hover:scale-105" @click="handleCancel">取消</a-button>
         <a-button v-if="props.title === '补打备注' || props.title === '开始进本'" class="btn transition-transform duration-300 hover:scale-105" @click="submitOK">确定</a-button>
@@ -59,11 +84,59 @@
 
 <script lang="ts" setup>
 import { App } from 'ant-design-vue';
+import { useRouter } from 'vue-router';
+import { loginModule } from '@/apis/loginApi';
 import { homeModule } from '@/apis/proApi';
 import { useAppStore } from '@/store/index';
 import { ensureInRange } from '@/utils/index';
 
 const props = defineProps({ open: Boolean, handleOk: Function, title: String, handleCancel: Function, data: Object, desc: String });
+
+const router = useRouter();
+const account = ref('');
+const loginSuccessCountdown = ref(5);
+const loginSuccessBtnText = computed(() => `进入主页(${loginSuccessCountdown.value}s)`);
+
+let loginSuccessTimer: ReturnType<typeof setInterval> | undefined;
+
+watch(
+  [() => props.open, () => props.title],
+  ([newOpen, newTitle]) => {
+    if (loginSuccessTimer) {
+      clearInterval(loginSuccessTimer);
+      loginSuccessTimer = undefined;
+    }
+    if (newOpen && newTitle === '登录成功') {
+      account.value = localStorage.getItem('account') || '';
+      loginSuccessCountdown.value = 5;
+      loginSuccessTimer = setInterval(() => {
+        loginSuccessCountdown.value--;
+        if (loginSuccessCountdown.value <= 0) {
+          clearInterval(loginSuccessTimer);
+          loginSuccessTimer = undefined;
+          handleLoginSuccessOk();
+        }
+      }, 1000);
+    }
+  },
+  { immediate: true },
+);
+
+function handleLoginSuccessOk() {
+  if (loginSuccessTimer) {
+    clearInterval(loginSuccessTimer);
+    loginSuccessTimer = undefined;
+  }
+  if (props.handleCancel) props.handleCancel();
+  router.push('/home');
+}
+
+onUnmounted(() => {
+  if (loginSuccessTimer) {
+    clearInterval(loginSuccessTimer);
+    loginSuccessTimer = undefined;
+  }
+});
 const text = ref(props.desc || '');
 const focus = ref(false);
 const cursorPosition = ref(null);
@@ -176,6 +249,7 @@ function onChangeKeyboard(input: string, keyboard: any) {
   width: 30%;
   font-size: 3vh;
   height: 7vh;
+  border-radius: 2px;
   &:hover {
     color: #ffffff;
   }
@@ -189,5 +263,20 @@ function onChangeKeyboard(input: string, keyboard: any) {
 }
 ::v-deep(.ant-modal-mask) {
   background: #03163ef2;
+}
+.fingerprint {
+  background-image: url('@/assets/image/fingerprint.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.idCard {
+  background-image: url('@/assets/image/idCard.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.face {
+  background-image: url('@/assets/image/face.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
 </style>
