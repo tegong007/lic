@@ -1,9 +1,8 @@
 <template>
-  <div>
-    <TheFooter />
+  <div class="absolute top-10vh flex justify-start">
     <div class="flex justify-start">
       <!-- 左侧导航 -->
-      <div class="ml-1vw text-1.5vw w-20vw flex-shrink-0">
+      <div class="ml-1vw w-20vw flex-shrink-0 text-1.5vw">
         <div class="bgNav animation" :class="actived === 1 ? 'actived' : ''" @click="switchTab(1)">
           <span>常规设置</span>
         </div>
@@ -19,7 +18,7 @@
       </div>
 
       <!-- 右侧内容区 -->
-      <div class="bgDefend ml-2vw h-78vh w-75vw overflow-auto">
+      <div class="bgDefend ml-2vw h-71vh w-75vw overflow-auto">
         <!-- Tab 1: 常规设置 -->
         <div v-show="actived === 1">
           <SetGeneral ref="setGeneralRef" />
@@ -43,7 +42,7 @@
     </div>
 
     <!-- 底部按钮 -->
-    <div class="fixed bottom-5vh left-3vw right-3vw flex justify-between py-2vh">
+    <div class="fixed bottom-10vh left-3vw right-3vw flex justify-between py-2vh">
       <div>
         <a-button type="link" class="btn_normal mr-2vw w-18.5vw" @click="saveData">保存设置</a-button>
         <a-button type="link" class="btn_normal w-18.5vw" @click="getData">读取</a-button>
@@ -61,7 +60,6 @@
 
 <script setup lang="ts">
 import TheConfirm from '@/components/TheConfirm.vue';
-import TheFooter from '@/components/TheFooter.vue';
 import SetGeneral from '@/pages/Set/components/SetGeneral.vue';
 import SetInkjet from '@/pages/Set/components/SetInkjet.vue';
 import SetLaser from '@/pages/Set/components/SetLaser.vue';

@@ -40,6 +40,22 @@ const defendModule = {
 const setMoule = {
   setSystemPara: (data: any) => request.post(`${v1}/tss/set-system-para`, data), // 设置系统参数
   getSystemPara: () => request.post(`${v1}/tss/get-system-para`), // 获取系统参数
+
+  // 常规配置
+  setGeneral: (data: any) => request.post(`${v1}/tss/config/set-general`, data), // 设置常规配置
+  getGeneral: () => request.post(`${v1}/tss/config/get-general`), // 获取常规配置
+
+  // 喷墨配置
+  setUv: (data: any) => request.post(`${v1}/tss/config/set-uv`, data), // 设置喷墨配置
+  getUv: () => request.post(`${v1}/tss/config/get-uv`), // 获取喷墨配置
+
+  // 激光配置
+  setLaser: (data: any) => request.post(`${v1}/tss/config/set-laser`, data), // 设置激光配置
+  getLaser: () => request.post(`${v1}/tss/config/get-laser`), // 获取激光配置
+
+  // 工位配置
+  setPosition: (data: any) => request.post(`${v1}/tss/config/set-position`, data), // 设置工位配置
+  getPosition: () => request.post(`${v1}/tss/config/get-position`), // 获取工位配置
 };
 
 // 查询

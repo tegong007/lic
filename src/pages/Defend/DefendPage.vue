@@ -1,6 +1,6 @@
 <template>
-  <div class="flex justify-start absolute top-10vh h-">
-    <div class="ml-1vw text-1.5vw w-20vw flex-shrink-0">
+  <div class="absolute top-10vh flex justify-start">
+    <div class="ml-1vw w-20vw flex-shrink-0 text-1.5vw">
       <div class="bgNav animation" :class="actived === 1 ? 'actived' : ''" @click="$goto('DefendPage', { key: 1 })">
         <span>进本模块</span>
       </div>
