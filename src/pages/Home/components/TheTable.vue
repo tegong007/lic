@@ -1,12 +1,12 @@
 <template>
-  <div class="relative" :class="props.class">
-    <div class="pt-2.5vh text-center text-1.3vw">{{ props.name }}</div>
+  <div class="relative text-1.2vw" :class="props.class">
+    <div class="bgHome_tit mx-auto w-25vw pt-0.5vh text-center font-bold">{{ props.name }}</div>
     <div v-if="props.data && props.data.status > 1" class="absolute bottom-5vh left-0.8vw right-0.8vw top-1vh z-2 flex flex-col items-center justify-center" :class="`bgA${props.data.status}`">
       <div class="text-1.5vw">{{ props.data.status === 3 ? '故障' : props.data.status === 2 ? '警告' : '' }}</div>
       <div class="w-92% pt-0.5vh text-center text-1vw">{{ props.data.msg }}</div>
     </div>
     <div class="mx-auto mt-1.5vh w-92%">
-      <Vue3SeamlessScroll :list="props.data ? props.data.periodDataList : []" class="h-14.5vh overflow-hidden" direction="up" :step="0.3" :hover="true" :limit-scroll-num="4" :is-watch="true" :single-height="0" :single-width="0">
+      <Vue3SeamlessScroll :list="props.data ? props.data.periodDataList : []" class="h-28vh overflow-hidden" direction="up" :step="0.3" :hover="true" :limit-scroll-num="8" :is-watch="true" :single-height="0" :single-width="0">
         <div v-for="(item, i) in props.data ? props.data.periodDataList : []" :key="i" class="w-full flex">
           <div class="descr">{{ item.docID }}</div>
           <div class="descr">{{ item.workingStatus }}</div>
@@ -25,15 +25,16 @@ const props = defineProps({ class: String, name: String, data: Object, count: Nu
 </script>
 
 <style scoped lang="less">
+.bgHome_tit {
+  background: url('@/assets/image/bg_navItem.png') no-repeat;
+  background-size: cover;
+}
 .bgM1,
 .bgM2,
 .bgM3 {
   width: 28vw;
-  height: 29vh;
-  margin: 3vh 0.5vw 0 0.5vw;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  height: 38vh;
+  margin: 2vh 0.5vw 0 0.5vw;
   .bgA2 {
     background: #ff8f1f99;
   }
@@ -65,14 +66,5 @@ const props = defineProps({ class: String, name: String, data: Object, count: Nu
       padding-right: 0;
     }
   }
-}
-.bgM1 {
-  background-image: url('@/assets/image/bg_m1.png');
-}
-.bgM2 {
-  background-image: url('@/assets/image/bg_m2.png');
-}
-.bgM3 {
-  background-image: url('@/assets/image/bg_m3.png');
 }
 </style>

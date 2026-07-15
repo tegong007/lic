@@ -54,7 +54,7 @@
       <template v-if="data.positionConfig">
         <section class="bg_listItem">
           <div class="w-full flex flex-wrap" style="row-gap: 1vh">
-            <div v-for="item in softPositionItems" :key="item.key" class="bgDefend_itemIn" style="width: calc(50% - 2vw)">
+            <div v-for="item in softPositionItems" :key="item.key" class="bgDefend_itemIn" style="width: calc(50% - 5vw)">
               <div class="bgDefend_itemIn_tit" style="text-align: right; min-width: 18vw; flex-shrink: 0">{{ item.label }}:</div>
               <a-switch :checked="data.positionConfig[item.key]" @update:checked="(val: boolean) => (data.positionConfig[item.key] = val)" />
             </div>

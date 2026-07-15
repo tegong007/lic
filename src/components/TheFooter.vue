@@ -1,14 +1,32 @@
 <template>
   <div class="fixed bottom-1.5vh left-3vw w-full">
-    <a-flex class="gap-2.2vw">
-      <template v-for="(value, index) in link" :key="index">
-        <div v-if="value.color" :key="index" class="w-3vw text-center">
-          <div class="relative mx-auto h-6.5vh w-80% border-1px border-gray-400 border-dashed">
-            <div class="absolute bottom-0 w-100%" :style="{ height: `${value.count}%`, backgroundColor: value.color }"></div>
-          </div>
-          <span class="text-0.8vw">{{ value.name }}</span>
-        </div>
-      </template>
+    <a-flex class="gap-1vw">
+      <div v-if="link1.length" class="ink-group">
+        <div class="text-0.7vw mb-0.2vh">主副页</div>
+        <a-flex class="gap-0.3vw">
+          <template v-for="(value, index) in link1" :key="`m1-${index}`">
+            <div v-if="value.color" class="w-2.2vw text-center whitespace-nowrap">
+              <div class="relative mx-auto h-4.5vh w-1.4vw border-1px border-gray-400 border-dashed">
+                <div class="absolute bottom-0 w-100%" :style="{ height: `${value.count}%`, backgroundColor: value.color }"></div>
+              </div>
+              <span class="text-0.6vw">{{ value.name }}</span>
+            </div>
+          </template>
+        </a-flex>
+      </div>
+      <div v-if="link2.length" class="ink-group">
+        <div class="text-0.7vw mb-0.2vh">加注页</div>
+        <a-flex class="gap-0.3vw">
+          <template v-for="(value, index) in link2" :key="`m2-${index}`">
+            <div v-if="value.color" class="w-2.2vw text-center whitespace-nowrap">
+              <div class="relative mx-auto h-4.5vh w-1.4vw border-1px border-gray-400 border-dashed">
+                <div class="absolute bottom-0 w-100%" :style="{ height: `${value.count}%`, backgroundColor: value.color }"></div>
+              </div>
+              <span class="text-0.6vw">{{ value.name }}</span>
+            </div>
+          </template>
+        </a-flex>
+      </div>
     </a-flex>
   </div>
   <div class="fixed bottom-1vh right-2.5vw">
@@ -41,7 +59,8 @@ const route = useRoute();
 const { start } = useCustomTimer();
 
 const actived = ref(-1);
-const link: any = ref([]);
+const link1: any = ref([]);
+const link2: any = ref([]);
 const color: any = { Y: '#ffff00', M: '#ff00ff', C: '#00ffff', K: '#000000', O: '#979797' };
 
 watch(
@@ -60,14 +79,21 @@ watch(
 async function getData() {
   try {
     const data: any = await footerModule.getLnkRemainder();
-    if (data.respData && data.respData[0].inkObjects) {
-      link.value = [];
+    link1.value = [];
+    link2.value = [];
+    if (data.respData && data.respData[0]?.inkObjects) {
       data.respData[0].inkObjects.forEach((element: any) => {
-        link.value.push({ name: element.inkName, count: element.remainder, color: color[element.inkCode] || '' });
+        link1.value.push({ name: element.inkName, count: element.remainder, color: color[element.inkCode] || '' });
+      });
+    }
+    if (data.respData && data.respData[1]?.inkObjects) {
+      data.respData[1].inkObjects.forEach((element: any) => {
+        link2.value.push({ name: element.inkName, count: element.remainder, color: color[element.inkCode] || '' });
       });
     }
   } catch {
-    link.value = [];
+    link1.value = [];
+    link2.value = [];
   }
 }
 

@@ -1,21 +1,23 @@
 <template>
-  <div class="bgT mt-6.5vh w-100% flex justify-center font-[siyuan]">
-    <div v-for="(value, index) in statistics" :key="index" class="mx-1.5% w-14% text-center">
-      <div class="mt-4.5vh text-6.5vh">{{ value.value }}</div>
-      <div class="-mt-0.5vh" text-2vw>{{ value.item }}</div>
-      <img class="m-auto block w-18vw -mt-2vh" src="@/assets/image/tmp_bottom.png" />
+  <div class="bgT mt-10vh w-100% flex justify-center items-center font-[siyuan]">
+    <div v-for="(value, index) in statistics" :key="index" class="mx-1% w-10% text-center">
+      <div class="mt-2vh text-4.5vh">{{ value.value }}</div>
+      <div class="-mt-0vh text-1.5vw">{{ value.item }}</div>
+      <img class="m-auto block w-14vw -mt-1vh" src="@/assets/image/tmp_bottom.png" />
     </div>
-    <div class="flex items-center justify-center font-[siyuan]">
-      <div class="relative cursor-pointer text-center" :class="entire.modules && entire.modules.length >= 2 ? (entire.modules[0].code === 0 && entire.modules[1].code === 0 ? 'bgbg0' : entire.modules[0].code === 2 || entire.modules[1].code === 2 ? 'bgbg2' : 'bgbg3') : 'bgbg3'" @click="setModal(7)">
+    <div class="flex items-center justify-center font-[siyuan] gap-1vw ml-2vw">
+      <!-- 设备状态 -->
+      <div class="relative cursor-pointer text-center box-sm" :class="entire.modules && entire.modules.length >= 2 ? (entire.modules[0].code === 0 && entire.modules[1].code === 0 ? 'bgbg0' : entire.modules[0].code === 2 || entire.modules[1].code === 2 ? 'bgbg2' : 'bgbg3') : 'bgbg3'" @click="setModal(7)">
         <template v-if="entire.modules && entire.modules.length > 2">
           <div v-if="entire.modules[0].code === 0 && entire.modules[1].code === 0">正常</div>
           <div v-else>错误</div>
         </template>
         <div v-else>离线</div>
-        <img class="mx-auto mt-1.5vh" src="@/assets/image/ico_left.png" />
-        <div class="absolute bottom-1vh left-0 right-0 text-center text-1.1vw">设备机状态</div>
+        <img class="mx-auto mt-0vh w-65%" src="@/assets/image/ico_device.png" />
+        <div class="absolute bottom-1vh left-0 right-0 text-center text-1.1vw">设备状态</div>
       </div>
-      <div class="relative cursor-pointer text-center" :class="entire.uvStatus && entire.uvStatus.length > 0 ? `bgbg${entire.uvStatus[0].status}` : 'bgbg3'" @click="setModal(6)">
+      <!-- 主副页喷墨机 -->
+      <div class="relative cursor-pointer text-center box-sm" :class="entire.uvStatus && entire.uvStatus.length > 0 ? `bgbg${entire.uvStatus[0].status}` : 'bgbg3'" @click="setModal(6)">
         <template v-if="entire.uvStatus && entire.uvStatus.length > 0">
           <div v-if="entire.uvStatus[0].status === 0">正常</div>
           <div v-else-if="entire.uvStatus[0].status === 1">工作中</div>
@@ -24,23 +26,36 @@
           <div v-else>--</div>
         </template>
         <div v-else>离线</div>
-        <img class="mx-auto mt-1vh" src="@/assets/image/ico_right.png" />
-        <div class="absolute bottom-1vh left-0 right-0 text-center text-1.1vw">喷墨机状态</div>
+        <img class="mx-auto mt-0.5vh w-65%" src="@/assets/image/ico_uv.png" />
+        <div class="absolute bottom-1vh left-0 right-0 text-center text-1.1vw">主副页喷墨机</div>
+      </div>
+      <!-- 加注页喷墨机 -->
+      <div class="relative cursor-pointer text-center box-sm" :class="entire.uvStatus && entire.uvStatus.length > 1 ? `bgbg${entire.uvStatus[1].status}` : 'bgbg3'" @click="setModal(9)">
+        <template v-if="entire.uvStatus && entire.uvStatus.length > 1">
+          <div v-if="entire.uvStatus[1].status === 0">正常</div>
+          <div v-else-if="entire.uvStatus[1].status === 1">工作中</div>
+          <div v-else-if="entire.uvStatus[1].status === 2">警告</div>
+          <div v-else-if="entire.uvStatus[1].status === 3">故障</div>
+          <div v-else>--</div>
+        </template>
+        <div v-else>离线</div>
+        <img class="mx-auto mt-0.5vh w-65%" src="@/assets/image/ico_uv.png" />
+        <div class="absolute bottom-1vh left-0 right-0 text-center text-1.1vw">加注页喷墨机</div>
       </div>
     </div>
   </div>
-  <a-flex class="bgB mx-auto mt-5vh h-8vh w-85% line-height-8vh">
+  <a-flex class="bgB mx-auto mt-2vh h-8vh w-85% line-height-8vh">
     <div class="bgB1 mr-1vw w-14vw text-center text-1.3vw line-height-5.5vh">当前生产任务</div>
-    <span class="px-5vw text-1.8vw">证本总数: {{ entire.machineTotalDoc }}</span>
-    <span class="px-5vw text-1.8vw">已进本: {{ entire.machineHandledDoc }}</span>
-    <span class="px-5vw text-1.8vw">待进本: {{ entire.machineRemainDoc }}</span>
+    <span class="px-5vw text-1.8vw">证本总数：{{ entire.machineTotalDoc }}</span>
+    <span class="px-5vw text-1.8vw">已进本：{{ entire.machineHandledDoc }}</span>
+    <span class="px-5vw text-1.8vw">待进本：{{ entire.machineRemainDoc }}</span>
   </a-flex>
   <a-flex>
-    <TheTable class="bgM3" name="喷墨打印模块" :data="additionPrint" :count="3" />
-    <TheTable class="bgM2" name="激光打印模块" :data="mainPrint" :count="2" />
     <TheTable class="bgM1" name="进本模块" :data="blankCheck" :count="1" />
+    <TheTable class="bgM2" name="主副页打印模块" :data="mainPrint" :count="2" />
+    <TheTable class="bgM3" name="加注页打印模块" :data="additionPrint" :count="3" />
   </a-flex>
-  <a-flex justify="space-between" class="bgB mx-auto mt-3.5vh h-8vh w-85%">
+  <a-flex justify="space-between" class="bgB mx-auto mt-2.5vh h-8vh w-85%">
     <a-flex class="items-center gap-2vw">
       <TheButton v-if="isProduce === 0" title="开始进本" @click="setModal(0)" />
       <TheButton v-else-if="isProduce === 2" title="继续进本" @click="setModal(8)" />
@@ -153,13 +168,16 @@ async function setModal(value: number) {
       modal.value = { open: true, title: '初始化', key: 5 };
       break;
     case 6:
-      if (entire.value.uvStatus && entire.value.uvStatus.length > 0 && (entire.value.uvStatus[0].status === 2 || entire.value.uvStatus[0].status === 3)) modal.value = { open: true, title: '喷墨机状态', key: 6, desc: entire.value.uvStatus[0].msg || '--' };
+      if (entire.value.uvStatus && entire.value.uvStatus.length > 0 && (entire.value.uvStatus[0].status === 2 || entire.value.uvStatus[0].status === 3)) modal.value = { open: true, title: '主副页喷墨机', key: 6, desc: entire.value.uvStatus[0].msg || '--' };
       break;
     case 7:
       if (entire.value.modules && entire.value.modules.length >= 2 && (entire.value.modules[0].status !== 0 || entire.value.modules[1].status !== 0)) router.push({ name: 'DefendPage', query: { key: 5 } });
       break;
     case 8:
       modal.value = { open: true, title: '继续进本', key: 0 };
+      break;
+    case 9:
+      if (entire.value.uvStatus && entire.value.uvStatus.length > 1 && (entire.value.uvStatus[1].status === 2 || entire.value.uvStatus[1].status === 3)) modal.value = { open: true, title: '加注页喷墨机', key: 6, desc: entire.value.uvStatus[1].msg || '--' };
       break;
     default:
       modal.value = { open: false, title: '', key: -1 };
@@ -213,18 +231,17 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="less">
+.box-sm,
 .bgbg0,
 .bgbg1,
 .bgbg2,
 .bgbg3 {
-  background-size: contain;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   width: 7.9vw;
-  height: 16.9vh;
-  margin: 6vh 0 0 2.5vw;
+  height: 16vh;
   font-size: 1.1vw;
   img {
-    width: 55%;
     display: block;
   }
 }
@@ -255,5 +272,21 @@ onUnmounted(() => {
 }
 .error {
   background: radial-gradient(61% 61% at 50% 50%, #b4050500 49%, #b4050580 100%);
+}
+.bgM1,
+.bgM2,
+.bgM3 {
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.bgM1 {
+  background-image: url('@/assets/image/bg_tabMin3.png');
+}
+.bgM2 {
+  background-image: url('@/assets/image/bg_tabMin2.png');
+}
+.bgM3 {
+  background-image: url('@/assets/image/bg_tabMin1.png');
 }
 </style>

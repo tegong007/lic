@@ -1,22 +1,22 @@
 <template>
-  <div>
-    <div class="mx-auto ml-1vw mt-1.4vh flex text-2.2vw">
-      <div class="bgNav sp2 animation" :class="choose === 2 ? 'actived' : ''" @click="$goto('CheckSelectPage', { key: 2 })">
-        <span>参数设置</span>
+  <div class="absolute top-10vh flex justify-start">
+    <div class="flex justify-start">
+      <div class="ml-1vw w-20vw flex-shrink-0 text-1.5vw">
+        <div class="bgNav animation" :class="choose === 2 ? 'actived' : ''" @click="$goto('CheckSelectPage', { key: 2 })">
+          <span>参数设置</span>
+        </div>
+        <div class="bgNav animation" :class="choose === 1 ? 'actived' : ''" @click="$goto('CheckSelectPage', { key: 1 })">
+          <span>质检记录</span>
+        </div>
       </div>
-      <div class="bgNav sp2 animation" :class="choose === 1 ? 'actived' : ''" @click="$goto('CheckSelectPage', { key: 1 })">
-        <span>质检记录</span>
-      </div>
-    </div>
-    <div class="bgSelect mx-auto mt-2vh h-77vh overflow-auto">
-      <TheRecord v-if="choose === 1" :page="pages" :data="lists" @callback="getCallback" />
-      <TheSet v-else-if="choose === 2" />
-    </div>
-    <div v-if="choose !== 2" class="bgSelect_bottom fixed bottom-0 left-0 right-0 right-7vw mx-auto w-full flex justify-center px-3vw py-2vh">
-      <div>
-        <TheButton title="返回" @click="$goto('CheckPage')" />
+      <div class="bgDefend ml-2vw h-71vh w-75vw overflow-auto">
+        <TheRecord v-if="choose === 1" :page="pages" :data="lists" @callback="getCallback" />
+        <TheSet v-else-if="choose === 2" />
       </div>
     </div>
+    <!-- <div v-if="choose !== 2" class="fixed bottom-10vh left-3vw right-3vw flex justify-center">
+      <TheButton title="返回" @click="$goto('CheckPage')" />
+    </div> -->
   </div>
 </template>
 
@@ -83,18 +83,20 @@ onMounted(async () => {
 <style scoped lang="less">
 .bgNav {
   background-image: url('@/assets/image/bg_navBtn.png');
-  background-size: cover;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   cursor: pointer;
   width: 19.5vw;
   text-align: center;
-  height: 2.8vh;
-  line-height: 2.8vh;
+  height: 10vh;
+  line-height: 8vh;
+  margin-bottom: 1vh;
+  white-space: nowrap;
   &.actived {
     background-image: url('@/assets/image/bg_navBtn_hov.png');
   }
 }
-.bgSelect {
+.bgDefend {
   ::v-deep(.ant-form-item) {
     margin-bottom: 0vh;
   }
@@ -103,28 +105,26 @@ onMounted(async () => {
   }
   ::v-deep(.ant-form-item-label label) {
     color: #ffffff;
-    font-size: 2vw;
+    font-size: 1.4vw;
   }
   ::v-deep(.ant-input),
   ::v-deep(.ant-select-selector),
   ::v-deep(.ant-picker-range) {
-    font-size: 1.8vw;
+    font-size: 1.1vw;
     background-color: transparent !important;
     color: #ffffff;
     border-width: 0px !important;
     background-color: #ffffff15 !important;
-    height: 2.5vh !important;
+    height: 5vh !important;
     border-radius: 0;
   }
-  ::v-deep(.ant-select-selector) {
-    min-width: 12vw !important;
-  }
   ::v-deep(.ant-select-selection-item) {
-    line-height: 2.5vh !important;
+    line-height: 5vh !important;
+    font-size: 1.1vw;
+    color: #ffffff !important;
   }
-  ::v-deep(.ant-picker-range input),
-  ::v-deep(.ant-select-selection-item) {
-    font-size: 1.8vw;
+  ::v-deep(.ant-picker-range input) {
+    font-size: 1.1vw;
     color: #ffffff !important;
   }
   ::v-deep(.ant-input::placeholder),
@@ -145,7 +145,7 @@ onMounted(async () => {
     color: #e2e5eb;
   }
   ::v-deep(.vxe-pager) {
-    font-size: 2vw;
+    font-size: 1.4vw;
     color: #cfdef1;
     background-color: transparent;
     .vxe-pager--prev-btn,
@@ -162,32 +162,57 @@ onMounted(async () => {
       color: #989ca1 !important;
     }
   }
+  &::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #3662ec;
+    border-radius: 2px;
+  }
 }
 </style>
 
 <style lang="less">
-.bgSelect {
+.bgDefend {
   .bg_listItem {
-    padding: 1vh 0;
+    padding: 2vh 0;
     margin: 1vh 0;
     display: flex;
-    font-size: 2vw;
+    font-size: 1.4vw;
+    &:nth-of-type(odd) {
+      background: linear-gradient(359deg, #ffffff13 1%, #008cff23 98%);
+    }
+    &:nth-of-type(even) {
+      background: linear-gradient(91deg, #b9b9b933 0%, #b9b9b91f 34%, #b9b9b917 63%, #b9b9b900 99%);
+    }
   }
   .bgSelect_item {
     margin-bottom: 2vh;
     .bgSelect_tit {
-      font-size: 2.5vw;
+      font-size: 1.8vw;
       font-weight: bold;
     }
     .bg_listItem {
       display: flex;
+      padding: 1vh 0;
+      background: none;
+      &:nth-of-type(odd),
+      &:nth-of-type(even) {
+        background: none;
+      }
       .bgSelect_itemIn {
         display: flex;
         align-items: center;
-        margin-right: 1vw;
+        margin-right: 2vw;
         .bgSelect_itemIn_tit {
           margin-left: 2vw;
           padding-right: 0.5vw;
+          min-width: 7vw;
+          white-space: nowrap;
         }
       }
       .keyInput {
@@ -201,15 +226,34 @@ onMounted(async () => {
 <style lang="less">
 // 下拉菜单全局样式（teleported to body）
 .ant-select-dropdown {
-  .ant-select-item-option-content {
-    font-size: 1.8vw;
-  }
+  background-color: #141723;
+  border-radius: 0;
   .ant-select-item-option {
-    min-height: unset !important;
-    height: 2.5vh !important;
-    padding: 0 12px !important;
-    display: flex !important;
-    align-items: center !important;
+    padding: 1.2vh 14px !important;
+    min-height: auto !important;
+    height: auto !important;
   }
+  .ant-select-item-option-content {
+    font-size: 1.1vw !important;
+    color: #b0b4ba;
+  }
+  .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+    background-color: rgba(54, 98, 236, 0.3) !important;
+    .ant-select-item-option-content {
+      color: #ffffff;
+    }
+  }
+  .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+    background-color: #3662ec !important;
+    .ant-select-item-option-content {
+      color: #ffffff;
+    }
+  }
+  .ant-select-item-option-state {
+    color: #ffffff;
+  }
+}
+.ant-select-arrow {
+  color: #e2e5eb !important;
 }
 </style>

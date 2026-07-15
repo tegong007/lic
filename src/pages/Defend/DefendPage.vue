@@ -234,6 +234,7 @@ onMounted(async () => {
       }
       ::v-deep(.ant-select-arrow) {
         right: 0.5vw !important;
+        color: #e2e5eb !important;
       }
       .keyInput {
         border-color: #3662ec;
@@ -255,7 +256,7 @@ onMounted(async () => {
 </style>
 
 <style lang="less">
-// 下拉菜单全局样式（teleported to body）
+// 下拉菜单 & 箭头全局样式（子组件内的 select 不受父页 scoped 影响）
 .ant-select-dropdown {
   .ant-select-item-option-content {
     font-size: 1.3vw;
@@ -267,5 +268,8 @@ onMounted(async () => {
     display: flex !important;
     align-items: center !important;
   }
+}
+.ant-select-arrow {
+  color: #e2e5eb !important;
 }
 </style>

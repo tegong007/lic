@@ -489,3 +489,45 @@ onMounted(() => {
   color: #e2e5eb;
 }
 </style>
+
+<style lang="less">
+/* 下拉弹窗在 body 下，不受 scoped 影响，需全局覆盖 */
+/* 父页 SetPage.vue 设了 height/!important，需对应覆盖 */
+.ant-select-dropdown {
+  background-color: #141723;
+  border-radius: 0;
+
+  /* 加大上下内边距，覆盖父页的 height:3.5vh/padding:0 */
+  .ant-select-item-option {
+    padding: 1.2vh 14px !important;
+    min-height: auto !important;
+    height: auto !important;
+  }
+
+  /* 未选中 → 灰色文字，不刺眼 */
+  .ant-select-item-option-content {
+    font-size: 1.1vw !important;
+    color: #b0b4ba;
+  }
+
+  /* 悬停 — 与 antd 同优先级 */
+  .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+    background-color: rgba(54, 98, 236, 0.3) !important;
+    .ant-select-item-option-content {
+      color: #ffffff;
+    }
+  }
+
+  /* 选中 → 实心蓝底 + 白字，清晰可辨 */
+  .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+    background-color: #3662ec !important;
+    .ant-select-item-option-content {
+      color: #ffffff;
+    }
+  }
+
+  .ant-select-item-option-state {
+    color: #ffffff;
+  }
+}
+</style>

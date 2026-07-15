@@ -26,7 +26,7 @@
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">曝光时间:</div>
-              <a-input v-model:value="cur.ocrPose[0].usExposureTime" :class="keyInput === 'ocrPose.usExposureTime' ? 'keyInput' : ''" class="w-12vw" placeholder="62~9999764" :maxlength="12" @click.stop="onInputFocus($event, 'ocrPose.usExposureTime', 12)" />
+              <a-input v-model:value="cur.ocrPose[0].usExposureTime" :class="keyInput === 'ocrPose.usExposureTime' ? 'keyInput' : ''" class="w-9vw" placeholder="62~9999764" :maxlength="12" @click.stop="onInputFocus($event, 'ocrPose.usExposureTime', 12)" />
               <span class="val-desc">us</span>
             </div>
           </div>
@@ -39,19 +39,19 @@
             <div class="flex">
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit short-label">X:</div>
-                <a-input v-model:value="cur.ocrPose[0].targetRoi.x" :class="keyInput === 'ocrPose.targetRoi.x' ? 'keyInput' : ''" class="w-10vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrPose.targetRoi.x', 5)" />
+                <a-input v-model:value="cur.ocrPose[0].targetRoi.x" :class="keyInput === 'ocrPose.targetRoi.x' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrPose.targetRoi.x', 5)" />
               </div>
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit short-label">Y:</div>
-                <a-input v-model:value="cur.ocrPose[0].targetRoi.y" :class="keyInput === 'ocrPose.targetRoi.y' ? 'keyInput' : ''" class="w-10vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrPose.targetRoi.y', 5)" />
+                <a-input v-model:value="cur.ocrPose[0].targetRoi.y" :class="keyInput === 'ocrPose.targetRoi.y' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrPose.targetRoi.y', 5)" />
               </div>
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit short-label">宽:</div>
-                <a-input v-model:value="cur.ocrPose[0].targetRoi.width" :class="keyInput === 'ocrPose.targetRoi.width' ? 'keyInput' : ''" class="w-10vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrPose.targetRoi.width', 5)" />
+                <a-input v-model:value="cur.ocrPose[0].targetRoi.width" :class="keyInput === 'ocrPose.targetRoi.width' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrPose.targetRoi.width', 5)" />
               </div>
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit short-label">高:</div>
-                <a-input v-model:value="cur.ocrPose[0].targetRoi.height" :class="keyInput === 'ocrPose.targetRoi.height' ? 'keyInput' : ''" class="w-10vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrPose.targetRoi.height', 5)" />
+                <a-input v-model:value="cur.ocrPose[0].targetRoi.height" :class="keyInput === 'ocrPose.targetRoi.height' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrPose.targetRoi.height', 5)" />
               </div>
             </div>
           </div>
@@ -71,7 +71,7 @@
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">曝光时间:</div>
-              <a-input v-model:value="cur.ocrBlank[0].usExposureTime" :class="keyInput === 'ocrBlank.usExposureTime' ? 'keyInput' : ''" class="w-12vw" placeholder="62~9999764" :maxlength="12" @click.stop="onInputFocus($event, 'ocrBlank.usExposureTime', 12)" />
+              <a-input v-model:value="cur.ocrBlank[0].usExposureTime" :class="keyInput === 'ocrBlank.usExposureTime' ? 'keyInput' : ''" class="w-9vw" placeholder="62~9999764" :maxlength="12" @click.stop="onInputFocus($event, 'ocrBlank.usExposureTime', 12)" />
               <span class="val-desc">us</span>
             </div>
             <div class="bgDefend_itemIn">
@@ -99,7 +99,7 @@
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">曝光时间:</div>
-              <a-input v-model:value="cur.obsvQualityControl[0].usExposureTime" :class="keyInput === 'obsvQualityControl.usExposureTime' ? 'keyInput' : ''" class="w-12vw" placeholder="62~9999764" :maxlength="12" @click.stop="onInputFocus($event, 'obsvQualityControl.usExposureTime', 12)" />
+              <a-input v-model:value="cur.obsvQualityControl[0].usExposureTime" :class="keyInput === 'obsvQualityControl.usExposureTime' ? 'keyInput' : ''" class="w-9vw" placeholder="62~9999764" :maxlength="12" @click.stop="onInputFocus($event, 'obsvQualityControl.usExposureTime', 12)" />
               <span class="val-desc">us</span>
             </div>
             <div class="bgDefend_itemIn">
@@ -127,12 +127,12 @@
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">曝光时间:</div>
-              <a-input v-model:value="cur.ocrBeforeLaser[0].usExposureTime" :class="keyInput === 'ocrBeforeLaser.usExposureTime' ? 'keyInput' : ''" class="w-12vw" placeholder="62~9999764" :maxlength="12" @click.stop="onInputFocus($event, 'ocrBeforeLaser.usExposureTime', 12)" />
+              <a-input v-model:value="cur.ocrBeforeLaser[0].usExposureTime" :class="keyInput === 'ocrBeforeLaser.usExposureTime' ? 'keyInput' : ''" class="w-9vw" placeholder="62~9999764" :maxlength="12" @click.stop="onInputFocus($event, 'ocrBeforeLaser.usExposureTime', 12)" />
               <span class="val-desc">us</span>
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">旋转角度:</div>
-              <a-input v-model:value="cur.ocrBeforeLaser[0].rotationCorrectionAngle" :class="keyInput === 'ocrBeforeLaser.rotationCorrectionAngle' ? 'keyInput' : ''" class="w-12vw" placeholder="-5000~5000" :maxlength="6" @click.stop="onInputFocus($event, 'ocrBeforeLaser.rotationCorrectionAngle', 6)" />
+              <a-input v-model:value="cur.ocrBeforeLaser[0].rotationCorrectionAngle" :class="keyInput === 'ocrBeforeLaser.rotationCorrectionAngle' ? 'keyInput' : ''" class="w-9vw" placeholder="-5000~5000" :maxlength="6" @click.stop="onInputFocus($event, 'ocrBeforeLaser.rotationCorrectionAngle', 6)" />
             </div>
           </div>
         </section>
@@ -144,19 +144,19 @@
             <div class="flex">
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit short-label">X:</div>
-                <a-input v-model:value="cur.ocrBeforeLaser[0].markTopLeftRegion.x" :class="keyInput === 'ocrBeforeLaser.markTopLeftRegion.x' ? 'keyInput' : ''" class="w-10vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeLaser.markTopLeftRegion.x', 5)" />
+                <a-input v-model:value="cur.ocrBeforeLaser[0].markTopLeftRegion.x" :class="keyInput === 'ocrBeforeLaser.markTopLeftRegion.x' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeLaser.markTopLeftRegion.x', 5)" />
               </div>
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit short-label">Y:</div>
-                <a-input v-model:value="cur.ocrBeforeLaser[0].markTopLeftRegion.y" :class="keyInput === 'ocrBeforeLaser.markTopLeftRegion.y' ? 'keyInput' : ''" class="w-10vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeLaser.markTopLeftRegion.y', 5)" />
+                <a-input v-model:value="cur.ocrBeforeLaser[0].markTopLeftRegion.y" :class="keyInput === 'ocrBeforeLaser.markTopLeftRegion.y' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeLaser.markTopLeftRegion.y', 5)" />
               </div>
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit short-label">宽:</div>
-                <a-input v-model:value="cur.ocrBeforeLaser[0].markTopLeftRegion.width" :class="keyInput === 'ocrBeforeLaser.markTopLeftRegion.width' ? 'keyInput' : ''" class="w-10vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeLaser.markTopLeftRegion.width', 5)" />
+                <a-input v-model:value="cur.ocrBeforeLaser[0].markTopLeftRegion.width" :class="keyInput === 'ocrBeforeLaser.markTopLeftRegion.width' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeLaser.markTopLeftRegion.width', 5)" />
               </div>
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit short-label">高:</div>
-                <a-input v-model:value="cur.ocrBeforeLaser[0].markTopLeftRegion.height" :class="keyInput === 'ocrBeforeLaser.markTopLeftRegion.height' ? 'keyInput' : ''" class="w-10vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeLaser.markTopLeftRegion.height', 5)" />
+                <a-input v-model:value="cur.ocrBeforeLaser[0].markTopLeftRegion.height" :class="keyInput === 'ocrBeforeLaser.markTopLeftRegion.height' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeLaser.markTopLeftRegion.height', 5)" />
               </div>
             </div>
           </div>
@@ -169,19 +169,19 @@
             <div class="flex">
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit short-label">X:</div>
-                <a-input v-model:value="cur.ocrBeforeLaser[0].markBottomRightRegion.x" :class="keyInput === 'ocrBeforeLaser.markBottomRightRegion.x' ? 'keyInput' : ''" class="w-10vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeLaser.markBottomRightRegion.x', 5)" />
+                <a-input v-model:value="cur.ocrBeforeLaser[0].markBottomRightRegion.x" :class="keyInput === 'ocrBeforeLaser.markBottomRightRegion.x' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeLaser.markBottomRightRegion.x', 5)" />
               </div>
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit short-label">Y:</div>
-                <a-input v-model:value="cur.ocrBeforeLaser[0].markBottomRightRegion.y" :class="keyInput === 'ocrBeforeLaser.markBottomRightRegion.y' ? 'keyInput' : ''" class="w-10vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeLaser.markBottomRightRegion.y', 5)" />
+                <a-input v-model:value="cur.ocrBeforeLaser[0].markBottomRightRegion.y" :class="keyInput === 'ocrBeforeLaser.markBottomRightRegion.y' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeLaser.markBottomRightRegion.y', 5)" />
               </div>
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit short-label">宽:</div>
-                <a-input v-model:value="cur.ocrBeforeLaser[0].markBottomRightRegion.width" :class="keyInput === 'ocrBeforeLaser.markBottomRightRegion.width' ? 'keyInput' : ''" class="w-10vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeLaser.markBottomRightRegion.width', 5)" />
+                <a-input v-model:value="cur.ocrBeforeLaser[0].markBottomRightRegion.width" :class="keyInput === 'ocrBeforeLaser.markBottomRightRegion.width' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeLaser.markBottomRightRegion.width', 5)" />
               </div>
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit short-label">高:</div>
-                <a-input v-model:value="cur.ocrBeforeLaser[0].markBottomRightRegion.height" :class="keyInput === 'ocrBeforeLaser.markBottomRightRegion.height' ? 'keyInput' : ''" class="w-10vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeLaser.markBottomRightRegion.height', 5)" />
+                <a-input v-model:value="cur.ocrBeforeLaser[0].markBottomRightRegion.height" :class="keyInput === 'ocrBeforeLaser.markBottomRightRegion.height' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeLaser.markBottomRightRegion.height', 5)" />
               </div>
             </div>
           </div>
@@ -201,7 +201,7 @@
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">曝光时间:</div>
-              <a-input v-model:value="cur.ocrBeforeUv[0].usExposureTime" :class="keyInput === 'ocrBeforeUv.usExposureTime' ? 'keyInput' : ''" class="w-12vw" placeholder="62~9999764" :maxlength="12" @click.stop="onInputFocus($event, 'ocrBeforeUv.usExposureTime', 12)" />
+              <a-input v-model:value="cur.ocrBeforeUv[0].usExposureTime" :class="keyInput === 'ocrBeforeUv.usExposureTime' ? 'keyInput' : ''" class="w-9vw" placeholder="62~9999764" :maxlength="12" @click.stop="onInputFocus($event, 'ocrBeforeUv.usExposureTime', 12)" />
               <span class="val-desc">us</span>
             </div>
             <div class="bgDefend_itemIn">
@@ -221,15 +221,15 @@
             <div class="flex">
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit short-label">X:</div>
-                <a-input v-model:value="cur.ocrBeforeUv[0].stdPortraitX" :class="keyInput === 'ocrBeforeUv.stdPortraitX' ? 'keyInput' : ''" class="w-12vw" placeholder="0~90000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.stdPortraitX', 5)" />
+                <a-input v-model:value="cur.ocrBeforeUv[0].stdPortraitX" :class="keyInput === 'ocrBeforeUv.stdPortraitX' ? 'keyInput' : ''" class="w-9vw" placeholder="0~90000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.stdPortraitX', 5)" />
               </div>
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit short-label">Y:</div>
-                <a-input v-model:value="cur.ocrBeforeUv[0].stdPortraitY" :class="keyInput === 'ocrBeforeUv.stdPortraitY' ? 'keyInput' : ''" class="w-12vw" placeholder="0~90000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.stdPortraitY', 5)" />
+                <a-input v-model:value="cur.ocrBeforeUv[0].stdPortraitY" :class="keyInput === 'ocrBeforeUv.stdPortraitY' ? 'keyInput' : ''" class="w-9vw" placeholder="0~90000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.stdPortraitY', 5)" />
               </div>
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit">旋转角度:</div>
-                <a-input v-model:value="cur.ocrBeforeUv[0].rotationCorrectionAngle" :class="keyInput === 'ocrBeforeUv.rotationCorrectionAngle' ? 'keyInput' : ''" class="w-12vw" placeholder="-5000~5000" :maxlength="6" @click.stop="onInputFocus($event, 'ocrBeforeUv.rotationCorrectionAngle', 6)" />
+                <a-input v-model:value="cur.ocrBeforeUv[0].rotationCorrectionAngle" :class="keyInput === 'ocrBeforeUv.rotationCorrectionAngle' ? 'keyInput' : ''" class="w-9vw" placeholder="-5000~5000" :maxlength="6" @click.stop="onInputFocus($event, 'ocrBeforeUv.rotationCorrectionAngle', 6)" />
               </div>
             </div>
           </div>
@@ -242,19 +242,19 @@
             <div class="flex">
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit short-label">X:</div>
-                <a-input v-model:value="cur.ocrBeforeUv[0].markTopLeftRegion.x" :class="keyInput === 'ocrBeforeUv.markTopLeftRegion.x' ? 'keyInput' : ''" class="w-10vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.markTopLeftRegion.x', 5)" />
+                <a-input v-model:value="cur.ocrBeforeUv[0].markTopLeftRegion.x" :class="keyInput === 'ocrBeforeUv.markTopLeftRegion.x' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.markTopLeftRegion.x', 5)" />
               </div>
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit short-label">Y:</div>
-                <a-input v-model:value="cur.ocrBeforeUv[0].markTopLeftRegion.y" :class="keyInput === 'ocrBeforeUv.markTopLeftRegion.y' ? 'keyInput' : ''" class="w-10vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.markTopLeftRegion.y', 5)" />
+                <a-input v-model:value="cur.ocrBeforeUv[0].markTopLeftRegion.y" :class="keyInput === 'ocrBeforeUv.markTopLeftRegion.y' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.markTopLeftRegion.y', 5)" />
               </div>
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit short-label">宽:</div>
-                <a-input v-model:value="cur.ocrBeforeUv[0].markTopLeftRegion.width" :class="keyInput === 'ocrBeforeUv.markTopLeftRegion.width' ? 'keyInput' : ''" class="w-10vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.markTopLeftRegion.width', 5)" />
+                <a-input v-model:value="cur.ocrBeforeUv[0].markTopLeftRegion.width" :class="keyInput === 'ocrBeforeUv.markTopLeftRegion.width' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.markTopLeftRegion.width', 5)" />
               </div>
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit short-label">高:</div>
-                <a-input v-model:value="cur.ocrBeforeUv[0].markTopLeftRegion.height" :class="keyInput === 'ocrBeforeUv.markTopLeftRegion.height' ? 'keyInput' : ''" class="w-10vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.markTopLeftRegion.height', 5)" />
+                <a-input v-model:value="cur.ocrBeforeUv[0].markTopLeftRegion.height" :class="keyInput === 'ocrBeforeUv.markTopLeftRegion.height' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.markTopLeftRegion.height', 5)" />
               </div>
             </div>
           </div>
@@ -267,19 +267,19 @@
             <div class="flex">
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit short-label">X:</div>
-                <a-input v-model:value="cur.ocrBeforeUv[0].markBottomRightRegion.x" :class="keyInput === 'ocrBeforeUv.markBottomRightRegion.x' ? 'keyInput' : ''" class="w-10vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.markBottomRightRegion.x', 5)" />
+                <a-input v-model:value="cur.ocrBeforeUv[0].markBottomRightRegion.x" :class="keyInput === 'ocrBeforeUv.markBottomRightRegion.x' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.markBottomRightRegion.x', 5)" />
               </div>
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit short-label">Y:</div>
-                <a-input v-model:value="cur.ocrBeforeUv[0].markBottomRightRegion.y" :class="keyInput === 'ocrBeforeUv.markBottomRightRegion.y' ? 'keyInput' : ''" class="w-10vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.markBottomRightRegion.y', 5)" />
+                <a-input v-model:value="cur.ocrBeforeUv[0].markBottomRightRegion.y" :class="keyInput === 'ocrBeforeUv.markBottomRightRegion.y' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.markBottomRightRegion.y', 5)" />
               </div>
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit short-label">宽:</div>
-                <a-input v-model:value="cur.ocrBeforeUv[0].markBottomRightRegion.width" :class="keyInput === 'ocrBeforeUv.markBottomRightRegion.width' ? 'keyInput' : ''" class="w-10vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.markBottomRightRegion.width', 5)" />
+                <a-input v-model:value="cur.ocrBeforeUv[0].markBottomRightRegion.width" :class="keyInput === 'ocrBeforeUv.markBottomRightRegion.width' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.markBottomRightRegion.width', 5)" />
               </div>
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit short-label">高:</div>
-                <a-input v-model:value="cur.ocrBeforeUv[0].markBottomRightRegion.height" :class="keyInput === 'ocrBeforeUv.markBottomRightRegion.height' ? 'keyInput' : ''" class="w-10vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.markBottomRightRegion.height', 5)" />
+                <a-input v-model:value="cur.ocrBeforeUv[0].markBottomRightRegion.height" :class="keyInput === 'ocrBeforeUv.markBottomRightRegion.height' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.markBottomRightRegion.height', 5)" />
               </div>
             </div>
           </div>
@@ -300,19 +300,19 @@
             <div class="flex">
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit">曝光时间:</div>
-                <a-input v-model:value="cur.ocrFinished[0].usExposureTime" :class="keyInput === 'ocrFinished.usExposureTime' ? 'keyInput' : ''" class="w-12vw" placeholder="62~9999764" :maxlength="12" @click.stop="onInputFocus($event, 'ocrFinished.usExposureTime', 12)" />
+                <a-input v-model:value="cur.ocrFinished[0].usExposureTime" :class="keyInput === 'ocrFinished.usExposureTime' ? 'keyInput' : ''" class="w-9vw" placeholder="62~9999764" :maxlength="12" @click.stop="onInputFocus($event, 'ocrFinished.usExposureTime', 12)" />
                 <span class="val-desc">us</span>
               </div>
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit">红外曝光:</div>
-                <a-input v-model:value="cur.ocrFinished[0].irUsExposureTime" :class="keyInput === 'ocrFinished.irUsExposureTime' ? 'keyInput' : ''" class="w-12vw" placeholder="62~9999764" :maxlength="12" @click.stop="onInputFocus($event, 'ocrFinished.irUsExposureTime', 12)" />
+                <a-input v-model:value="cur.ocrFinished[0].irUsExposureTime" :class="keyInput === 'ocrFinished.irUsExposureTime' ? 'keyInput' : ''" class="w-9vw" placeholder="62~9999764" :maxlength="12" @click.stop="onInputFocus($event, 'ocrFinished.irUsExposureTime', 12)" />
                 <span class="val-desc">us</span>
               </div>
             </div>
             <div class="flex">
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit">紫外曝光:</div>
-                <a-input v-model:value="cur.ocrFinished[0].uvUsExposureTime" :class="keyInput === 'ocrFinished.uvUsExposureTime' ? 'keyInput' : ''" class="w-12vw" placeholder="62~9999764" :maxlength="12" @click.stop="onInputFocus($event, 'ocrFinished.uvUsExposureTime', 12)" />
+                <a-input v-model:value="cur.ocrFinished[0].uvUsExposureTime" :class="keyInput === 'ocrFinished.uvUsExposureTime' ? 'keyInput' : ''" class="w-9vw" placeholder="62~9999764" :maxlength="12" @click.stop="onInputFocus($event, 'ocrFinished.uvUsExposureTime', 12)" />
                 <span class="val-desc">us</span>
               </div>
               <div class="bgDefend_itemIn">
@@ -340,7 +340,7 @@
             <div class="flex">
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit">端口1:</div>
-                <a-input v-model:value="cur.ocrFinished[0].irlDev.l1Port" class="w-10vw" placeholder="COM1" :maxlength="10" />
+                <a-input v-model:value="cur.ocrFinished[0].irlDev.l1Port" class="w-8vw" placeholder="COM1" :maxlength="10" />
               </div>
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit">通道1:</div>
@@ -354,7 +354,7 @@
             <div class="flex">
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit">端口2:</div>
-                <a-input v-model:value="cur.ocrFinished[0].irlDev.l2Port" class="w-10vw" placeholder="COM2" :maxlength="10" />
+                <a-input v-model:value="cur.ocrFinished[0].irlDev.l2Port" class="w-8vw" placeholder="COM2" :maxlength="10" />
               </div>
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit">通道2:</div>
@@ -381,7 +381,7 @@
             <div class="flex">
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit">端口1:</div>
-                <a-input v-model:value="cur.ocrFinished[0].uvlDev.l1Port" class="w-10vw" placeholder="COM1" :maxlength="10" />
+                <a-input v-model:value="cur.ocrFinished[0].uvlDev.l1Port" class="w-8vw" placeholder="COM1" :maxlength="10" />
               </div>
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit">通道1:</div>
@@ -395,7 +395,7 @@
             <div class="flex">
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit">端口2:</div>
-                <a-input v-model:value="cur.ocrFinished[0].uvlDev.l2Port" class="w-10vw" placeholder="COM2" :maxlength="10" />
+                <a-input v-model:value="cur.ocrFinished[0].uvlDev.l2Port" class="w-8vw" placeholder="COM2" :maxlength="10" />
               </div>
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit">通道2:</div>
@@ -422,7 +422,7 @@
             <div class="flex">
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit">端口1:</div>
-                <a-input v-model:value="cur.ocrFinished[0].wlDev.l1Port" class="w-10vw" placeholder="COM1" :maxlength="10" />
+                <a-input v-model:value="cur.ocrFinished[0].wlDev.l1Port" class="w-8vw" placeholder="COM1" :maxlength="10" />
               </div>
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit">通道1:</div>
@@ -436,7 +436,7 @@
             <div class="flex">
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit">端口2:</div>
-                <a-input v-model:value="cur.ocrFinished[0].wlDev.l2Port" class="w-10vw" placeholder="COM2" :maxlength="10" />
+                <a-input v-model:value="cur.ocrFinished[0].wlDev.l2Port" class="w-8vw" placeholder="COM2" :maxlength="10" />
               </div>
               <div class="bgDefend_itemIn">
                 <div class="bgDefend_itemIn_tit">通道2:</div>
@@ -453,13 +453,15 @@
     </div>
 
     <!-- 底部按钮 -->
-    <div class="fixed bottom-1vh left-3vw right-3vw flex justify-between py-2vh">
+    <div class="fixed bottom-10vh left-3vw right-3vw flex justify-between py-2vh">
+      <div>
+        <!-- <a-button type="link" class="btn_normal mr-2vw w-18.5vw" @click="saveData">保存设置</a-button> -->
+        <!-- <a-button type="link" class="btn_normal w-18.5vw" @click="getData">读取</a-button> -->
+      </div>
       <div>
         <a-button type="link" class="btn_normal mr-2vw w-18.5vw" @click="saveData">保存设置</a-button>
         <a-button type="link" class="btn_normal w-18.5vw" @click="getData">读取</a-button>
-      </div>
-      <div>
-        <a-button type="link" class="btn_normal w-18.5vw" @click="$goto('CheckPage')">返回</a-button>
+        <!-- <a-button type="link" class="btn_normal w-18.5vw" @click="$goto('CheckPage')">返回</a-button> -->
       </div>
     </div>
   </div>
@@ -850,7 +852,6 @@ onMounted(() => {
 .inkjet-loc-tit {
   position: relative;
   padding-left: 1.5vw;
-  font-size: 1.8vw;
   &::before {
     content: '';
     position: absolute;
@@ -873,16 +874,16 @@ onMounted(() => {
 .val-desc {
   margin-left: 0.5vw;
   color: #989ca1;
-  font-size: 1.6vw;
+  font-size: 1vw;
 }
 </style>
 
 <style lang="less">
-.bgSelect {
+.bgDefend {
   .bgDefend_item {
     margin-bottom: 3vh;
     .bgDefend_tit {
-      font-size: 2.5vw;
+      font-size: 1.8vw;
       font-weight: bold;
       display: flex;
       align-items: center;
@@ -908,22 +909,15 @@ onMounted(() => {
       padding: 1vh 0;
       margin: 1vh 0;
       display: flex;
-      font-size: 1.8vw;
-      // 隔行变色
-      &:nth-of-type(odd) {
-        background: linear-gradient(359deg, #ffffff13 1%, #008cff23 98%);
-      }
-      &:nth-of-type(even) {
-        background: linear-gradient(91deg, #b9b9b933 0%, #b9b9b91f 34%, #b9b9b917 63%, #b9b9b900 99%);
-      }
+      font-size: 1.3vw;
       .bgDefend_itemIn {
         display: flex;
         align-items: center;
-        margin-right: 2vw;
+        margin-right: 1vw;
         .bgDefend_itemIn_tit {
-          margin-left: 2vw;
-          padding-right: 0.5vw;
-          min-width: 7vw;
+          margin-left: 1vw;
+          padding-right: 0.3vw;
+          min-width: 5vw;
           white-space: nowrap;
         }
         &:first-of-type .bgDefend_itemIn_tit:first-of-type {
@@ -944,21 +938,17 @@ onMounted(() => {
       }
       .ant-input,
       .ant-select-selector {
-        font-size: 1.8vw;
+        font-size: 1.1vw;
         background-color: transparent !important;
         color: #ffffff;
         border-width: 0px !important;
         background-color: #ffffff15 !important;
-        height: 2.5vh !important;
+        height: 5vh !important;
         border-radius: 0;
-        min-width: 15vw;
-      }
-      .ant-select-selector {
-        min-width: 12vw !important;
       }
       .ant-select-selection-item {
-        line-height: 2.5vh !important;
-        font-size: 1.8vw;
+        line-height: 5vh !important;
+        font-size: 1.1vw;
         color: #ffffff !important;
       }
       .ant-input::placeholder,
@@ -988,17 +978,36 @@ onMounted(() => {
   }
 }
 
-// 下拉菜单全局样式（teleported to body，必须非 scoped）
+// 下拉菜单全局样式（teleported to body）
 .ant-select-dropdown {
-  .ant-select-item-option-content {
-    font-size: 1.8vw;
-  }
+  background-color: #141723;
+  border-radius: 0;
   .ant-select-item-option {
-    min-height: unset !important;
-    height: 2.5vh !important;
-    padding: 0 12px !important;
-    display: flex !important;
-    align-items: center !important;
+    padding: 1.2vh 14px !important;
+    min-height: auto !important;
+    height: auto !important;
   }
+  .ant-select-item-option-content {
+    font-size: 1.1vw !important;
+    color: #b0b4ba;
+  }
+  .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+    background-color: rgba(54, 98, 236, 0.3) !important;
+    .ant-select-item-option-content {
+      color: #ffffff;
+    }
+  }
+  .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+    background-color: #3662ec !important;
+    .ant-select-item-option-content {
+      color: #ffffff;
+    }
+  }
+  .ant-select-item-option-state {
+    color: #ffffff;
+  }
+}
+.ant-select-arrow {
+  color: #e2e5eb !important;
 }
 </style>

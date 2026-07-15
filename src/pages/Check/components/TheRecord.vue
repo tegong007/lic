@@ -173,6 +173,21 @@ function onChangeKeyboard(input: string, keyboard: any) {
 </script>
 
 <style scoped lang="less">
+::v-deep(.ant-form-item) {
+  margin-bottom: 0;
+  .ant-form-item-row {
+    display: flex;
+    align-items: center;
+  }
+  .ant-form-item-label {
+    line-height: normal;
+    padding: 0;
+    overflow: visible;
+  }
+  .ant-form-item-control-input {
+    min-height: auto;
+  }
+}
 .bg_jianbian {
   span {
     box-shadow:
