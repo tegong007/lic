@@ -44,14 +44,7 @@
               <span class="label-icon">●</span>
               <span>账 号</span>
             </div>
-            <a-input
-              v-model:value="formData.account"
-              placeholder="请输入账号（英文或数字）"
-              :maxlength="10"
-              class="form-input"
-              @input="errors.account = ''"
-              @click.stop="onInputFocus($event)"
-            />
+            <a-input v-model:value="formData.account" placeholder="请输入账号（英文或数字）" :maxlength="10" class="form-input" @input="errors.account = ''" @click.stop="onInputFocus($event)" />
             <div v-if="errors.account" class="form-error">{{ errors.account }}</div>
           </div>
 
@@ -146,9 +139,13 @@ function setModal(value: number) {
   }
 }
 
+let scanFailed = false;
+
 function startFingerprintScan() {
   const step = fingerprintStep.value;
   if (step > 2) return;
+
+  scanFailed = false;
 
   modal.value = {
     open: true,
@@ -172,7 +169,7 @@ function startFingerprintScan() {
         };
         fingerprints[step] = { data: JSON.stringify(featureData.respData), status: 'success' };
 
-        await new Promise(r => setTimeout(r, 800));
+        await new Promise((r) => setTimeout(r, 800));
 
         fingerprintStep.value++;
 
@@ -183,6 +180,8 @@ function startFingerprintScan() {
         }
       }
     } catch (error) {
+      if (scanFailed) return;
+      scanFailed = true;
       stop();
       fingerprints[fingerprintStep.value] = { data: '', status: 'failed' };
       setModal(-1);

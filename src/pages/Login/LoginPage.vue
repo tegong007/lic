@@ -79,8 +79,14 @@ function handleDoubleClick() {
 function setModal(value: number) {
   if (value === -1) {
     modal.value = { open: false, title: '', key: -1 };
+    if (faceTimeout) {
+      clearTimeout(faceTimeout);
+      faceTimeout = null;
+    }
   }
 }
+
+let faceTimeout: ReturnType<typeof setTimeout> | null = null;
 
 function handleLogin(type: string) {
   if (type === 'fingerprint') {
@@ -88,12 +94,22 @@ function handleLogin(type: string) {
     startFingerprintLogin();
   } else {
     modal.value = { open: true, title: '人脸识别', desc: '请把人脸移动到框内', key: -1 };
-    // 等待摄像头就绪后通过 @camera-ready 事件触发 startFaceRecognition
+    // 超时：摄像头连不上则自动退出（取 timeOut 配置，默认 10 秒）
+    const timeoutMs = window.timeOut || 10000;
+    faceTimeout = setTimeout(() => {
+      setModal(-1);
+      stop();
+      notification.error({ message: '摄像头连接超时', description: '请检查摄像头是否正常连接', placement: 'bottomRight', class: 'notificationE-custom-class' });
+    }, timeoutMs);
   }
 }
 
 // 指纹识别登录轮询
+let scanFailed = false;
+
 async function startFingerprintLogin() {
+  scanFailed = false;
+
   start(async () => {
     try {
       const pressedData: any = await loginModule.checkPressed();
@@ -109,20 +125,29 @@ async function startFingerprintLogin() {
         }
       }
     } catch (error) {
+      if (scanFailed) return;
+      scanFailed = true;
       stop();
       modal.value = { open: false, title: '', key: -1 };
-      notification.error({ message: '指纹识别失败', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class', maxCount: 5 });
+      notification.error({ message: '指纹识别失败', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
     }
   }, 1);
 }
 
-// 摄像头就绪回调（TheConfirm 内部会自动触发 checkLive）
+// 摄像头就绪回调
 function onCameraReady() {
-  // checkLive 已在 TheConfirm 内部启动，这里预留扩展
+  if (faceTimeout) {
+    clearTimeout(faceTimeout);
+    faceTimeout = null;
+  }
 }
 
 // 人脸采集完成，拿到 base64 → 送后端识别
 async function onFaceCaptured(base64: string) {
+  if (faceTimeout) {
+    clearTimeout(faceTimeout);
+    faceTimeout = null;
+  }
   try {
     const data: any = await loginModule.faceIdentifyResult(base64);
     if (data.respData) {
@@ -155,7 +180,11 @@ function onPwdOk() {
 }
 
 // 读身份证轮询
+let idCardFailed = false;
+
 async function startIdCardRead() {
+  idCardFailed = false;
+
   start(async () => {
     try {
       const data: any = await loginModule.idCardRead();
@@ -172,6 +201,8 @@ async function startIdCardRead() {
         });
       }
     } catch (error) {
+      if (idCardFailed) return;
+      idCardFailed = true;
       stop();
       setModal(-1);
       notification.error({ message: '身份证识别失败', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
