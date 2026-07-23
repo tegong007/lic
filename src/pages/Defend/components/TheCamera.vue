@@ -2,11 +2,11 @@
   <div class="bgDefend_item">
     <div class="bgDefend_tit">摄像头</div>
     <section class="bg_listItem" style="display: block; padding-bottom: 1px">
-      <div v-for="(camera, index) in props.data" :key="index" class="bgDefend_itemIn mb-1vh">
-        <div class="bgDefend_itemIn_tit">{{ camera.cameraName }}:</div>
-        <a-button type="link" class="btn_search" @click="transferApi(camera)">{{ t('拍照') }}</a-button>
-        <div class="bgDefend_itemIn_tit">UID:</div>
-        <a-input v-model:value="camera.uid" disabled class="flex-1" />
+      <div v-for="(camera, index) in props.data" :key="index" class="bgDefend_itemIn camera-row mb-1vh">
+        <div class="bgDefend_itemIn_tit camera-name">{{ camera.cameraName }}:</div>
+        <a-button type="link" class="btn_search camera-btn" @click="transferApi(camera)">{{ t('拍照') }}</a-button>
+        <div class="bgDefend_itemIn_tit camera-uid-label">UID:</div>
+        <a-input v-model:value="camera.uid" disabled class="camera-uid-input" />
       </div>
     </section>
   </div>
@@ -63,7 +63,28 @@ async function transferApi(cameraObj: any) {
     background: #ffffff;
   }
 }
-::v-deep(.ant-input) {
+.camera-row {
+  width: 100%;
+}
+.camera-name {
+  flex: 0 0 15vw;
+  width: 15vw;
+}
+.camera-btn {
+  flex: 0 0 6vw;
+  width: 6vw;
+  padding: 0;
+  text-align: center;
+}
+.camera-uid-label {
+  flex: 0 0 4vw;
+  width: 4vw;
+}
+.camera-uid-input {
+  flex: 1;
+  min-width: 10vw;
+}
+:::v-deep(.ant-input) {
   font-size: 1.1vw;
   background-color: transparent !important;
   color: #ffffff;

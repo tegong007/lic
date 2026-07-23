@@ -181,43 +181,12 @@ onMounted(async () => {
   .bg_listItem {
     padding: 2vh 0;
     margin: 1vh 0;
-    display: flex;
     font-size: 1.4vw;
     &:nth-of-type(odd) {
       background: linear-gradient(359deg, #ffffff13 1%, #008cff23 98%);
     }
     &:nth-of-type(even) {
       background: linear-gradient(91deg, #b9b9b933 0%, #b9b9b91f 34%, #b9b9b917 63%, #b9b9b900 99%);
-    }
-  }
-  .bgSelect_item {
-    margin-bottom: 2vh;
-    .bgSelect_tit {
-      font-size: 1.8vw;
-      font-weight: bold;
-    }
-    .bg_listItem {
-      display: flex;
-      padding: 1vh 0;
-      background: none;
-      &:nth-of-type(odd),
-      &:nth-of-type(even) {
-        background: none;
-      }
-      .bgSelect_itemIn {
-        display: flex;
-        align-items: center;
-        margin-right: 2vw;
-        .bgSelect_itemIn_tit {
-          margin-left: 2vw;
-          padding-right: 0.5vw;
-          min-width: 7vw;
-          white-space: nowrap;
-        }
-      }
-      .keyInput {
-        border-color: #3662ec;
-      }
     }
   }
 }

@@ -4,14 +4,15 @@
     <div class="bgDefend_tit">读写器</div>
     <section v-for="(reader, index) in props.data" :key="index">
       <div class="bg_listItem" style="display: block">
-        <div class="bgDefend_itemIn">
-          <div class="bgDefend_itemIn_tit">{{ reader.readerName }}:</div>
-          <a-input v-model:value="formData[reader.deviceIndex]" :class="keyInput === reader.deviceIndex ? 'keyInput' : ''" placeholder="请输入" :maxlength="40" @click="onInputFocus($event, reader.deviceIndex)" class="flex-1" />
-          <div class="bgDefend_itemIn_tit">UID:</div>
-          <a-input v-model:value="reader.uid" disabled class="flex-1" />
+        <div class="bgDefend_itemIn reader-row">
+          <div class="bgDefend_itemIn_tit reader-name">{{ reader.readerName }}:</div>
+          <a-input v-model:value="formData[reader.deviceIndex]" :class="keyInput === reader.deviceIndex ? 'keyInput' : ''" placeholder="请输入" :maxlength="40" class="reader-input" @click="onInputFocus($event, reader.deviceIndex)" />
+          <div class="bgDefend_itemIn_tit reader-uid-label">UID:</div>
+          <a-input v-model:value="reader.uid" disabled class="reader-uid-input" />
         </div>
-        <div class="bgDefend_itemIn ml-12vw mt-1vh">
-          <a-button type="link" class="btn_search ml-2vw" @click="transferApi('/ips-r/read-test-data', index, reader)">读数据</a-button>
+        <div class="bgDefend_itemIn reader-btn-row mt-1vh">
+          <div class="bgDefend_itemIn_tit reader-name"></div>
+          <a-button type="link" class="btn_search" @click="transferApi('/ips-r/read-test-data', index, reader)">读数据</a-button>
           <a-button type="link" class="btn_search ml-2vw" @click="transferApi('/ips-r/read-card-uid', index, reader)">读卡UID</a-button>
           <a-button type="link" class="btn_search ml-2vw" @click="transferApi('/ips-r/write-test-data', index, reader, formData[reader.deviceIndex])">写数据</a-button>
         </div>
@@ -86,7 +87,28 @@ function onChangeKeyboard(input: string, keyboard: any) {
 </script>
 
 <style scoped lang="less">
-::v-deep(.ant-input) {
+.reader-row,
+.reader-btn-row {
+  width: 100%;
+}
+.reader-name {
+  flex: 0 0 12vw;
+  width: 12vw;
+}
+.reader-input {
+  flex: 0 0 18vw;
+  width: 18vw;
+  margin-right: 1vw;
+}
+.reader-uid-label {
+  flex: 0 0 4vw;
+  width: 4vw;
+}
+.reader-uid-input {
+  flex: 1;
+  min-width: 10vw;
+}
+:::v-deep(.ant-input) {
   font-size: 1.1vw;
   background-color: transparent !important;
   color: #ffffff;
@@ -96,14 +118,14 @@ function onChangeKeyboard(input: string, keyboard: any) {
   border-radius: 0;
   min-width: 10vw;
 }
-::v-deep(.ant-input::placeholder) {
+:::v-deep(.ant-input::placeholder) {
   color: #989ca1;
 }
 // 隔行变色
-::v-deep(section:nth-of-type(odd) > .bg_listItem) {
+:::v-deep(section:nth-of-type(odd) > .bg_listItem) {
   background: linear-gradient(359deg, #ffffff13 1%, #008cff23 98%);
 }
-::v-deep(section:nth-of-type(even) > .bg_listItem) {
+:::v-deep(section:nth-of-type(even) > .bg_listItem) {
   background: linear-gradient(91deg, #b9b9b933 0%, #b9b9b91f 34%, #b9b9b917 63%, #b9b9b900 99%);
 }
 </style>

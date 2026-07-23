@@ -2,8 +2,8 @@
   <div class="bgDefend_item">
     <div class="bgDefend_tit">自检</div>
     <section class="bg_listItem">
-      <div class="bgDefend_itemIn">
-        <div class="bgDefend_itemIn_tit"></div>
+      <div class="bgDefend_itemIn selftest-row">
+        <div class="bgDefend_itemIn_tit selftest-name"></div>
         <a-button type="link" class="btn_search" @click="() => (modal = { open: true, title: '打印自检页', data: {} })">打印自检页</a-button>
       </div>
     </section>
@@ -40,3 +40,13 @@ async function controlMachine() {
   }
 }
 </script>
+
+<style scoped lang="less">
+.selftest-row {
+  width: 100%;
+}
+.selftest-name {
+  flex: 0 0 15vw;
+  width: 15vw;
+}
+</style>

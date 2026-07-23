@@ -4,11 +4,11 @@
     <div class="bgDefend_tit">任务添加</div>
     <section class="bg_listItem" style="display: block">
       <div class="bgDefend_itemIn">
-        <div class="bgDefend_itemIn_tit w-9.5vw">总人数:</div>
+        <div class="bgDefend_itemIn_tit w-10vw">总人数:</div>
         <a-input v-model:value="formData.num" :class="keyInput === 'num' ? 'keyInput' : ''" class="w-25vw bg-transparent" placeholder="请输入1~3000" :maxlength="4" @click.stop="onInputFocus($event, 'num')" />
       </div>
       <div class="bgDefend_itemIn my-1vh">
-        <div class="bgDefend_itemIn_tit">加急程度:</div>
+        <div class="bgDefend_itemIn_tit w-10vw">加急程度:</div>
         <a-select v-model:value="formData.urgentType" class="w-25vw">
           <a-select-option v-for="option in urgencyOptions" :key="option.value" :value="option.value">{{ option.label }}</a-select-option>
         </a-select>

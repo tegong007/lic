@@ -13,7 +13,7 @@
             <a-input v-else v-model:value="formData[value.label + index]" :class="keyInput === value.label ? 'keyInput' : ''" class="w-20vw" placeholder="请输入" :maxlength="3" @click.stop="onInputFocus($event, value.label + index)" />
           </div>
           <div class="bgDefend_itemIn">
-            <div class="bgDefend_itemIn_tit w-19vw"></div>
+            <div class="bgDefend_itemIn_tit w-20vw"></div>
             <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/uvpdps/moto-reposition', index, inkjet)">复位</a-button>
             <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/uvpdps/moto-move', index, inkjet, { axisType: Number(formData[`轴选择${index}`]), target: Number(formData[`目标位置(mm)${index}`]) })">移动</a-button>
           </div>
@@ -28,7 +28,7 @@
             </a-select>
           </div>
           <div class="bgDefend_itemIn">
-            <div class="bgDefend_itemIn_tit w-19vw"></div>
+            <div class="bgDefend_itemIn_tit w-20vw"></div>
             <a-button type="link" class="btn_search ml-1vw" @click="transferApi('/uvpdps/clean-head', index, inkjet, { headID: Number(formData[`清洗组合${index}`]), intension: Number(formData[`清洗强度${index}`]) })">清洗</a-button>
           </div>
         </div>
@@ -56,7 +56,7 @@ import { useAppStore } from '@/store/index';
 const props: any = defineProps({ data: Object, updateItem: Function, showKeyboard: Boolean, setShowKeyboard: Function, currentPage: String, currentModel: String });
 const { notification } = App.useApp();
 
-const formData: any = ref({ 轴选择0: '0', '目标位置(mm)0': '0', 清洗组合0: '0', 清洗强度0: '0', 打印平台0: '0' });
+const formData: any = ref({ '轴选择0': '0', '目标位置(mm)0': '0', '清洗组合0': '0', '清洗强度0': '0', '打印平台0': '0' });
 const showKeyboard = ref(false);
 const keyInput = ref('');
 const cursorPosition = ref(null);

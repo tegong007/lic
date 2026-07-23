@@ -152,9 +152,14 @@ body {
 }
 .animation {
   transition: transform 300ms;
-  &:hover { transform: scale(1.05); }
+  &:hover {
+    transform: scale(1.05);
+  }
 }
-.actived { cursor: default; transform: none !important; }
+.actived {
+  cursor: default;
+  transform: none !important;
+}
 .bg_jianbian {
   background: linear-gradient(90deg, #0390e500 0%, #0390e51f 34%, #0390e517 63%, #0390e500 99%);
   padding: 1vh 0;
@@ -184,9 +189,13 @@ body {
   border: 0;
   color: #ffffff;
   height: 4vh;
-  line-height: 1vh;
+  line-height: 4vh;
   font-size: 1.2vw;
   border-radius: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1vw;
   &:hover {
     color: #ffffff !important;
     transform: scale(1.05);
