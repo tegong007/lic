@@ -19,10 +19,15 @@
         <div class="mx-auto w-60% pb-2vh">总人数: {{ props.data.totalPeopleNum }}</div>
       </div>
     </template>
-    <template v-else-if="props.title === '喷墨机状态'">
+    <template v-else-if="props.title === '主副页喷墨机'">
       <div class="w-full pb-6vh pt-7vh text-center text-2.5vw color-#ffffff">{{ props.title }}</div>
       <div class="mx-auto w-90% pb-6vh text-1.5vw text-#ffffff">{{ props.desc }}</div>
     </template>
+    <template v-else-if="props.title === '加注页喷墨机'">
+      <div class="w-full pb-6vh pt-7vh text-center text-2.5vw color-#ffffff">{{ props.title }}</div>
+      <div class="mx-auto w-90% pb-6vh text-1.5vw text-#ffffff">{{ props.desc }}</div>
+    </template>
+
     <template v-else-if="props.title === '错误弹窗提示'">
       <div class="w-full pb-6vh pt-7vh text-center text-2.5vw color-#ffffff">{{ props.data ? props.data.title : '--' }}</div>
       <div class="mx-auto h-20vh w-90% overflow-auto text-1.5vw text-#ffffff">{{ props.data ? props.data.msg : '--' }}</div>
@@ -74,9 +79,9 @@
       <a-flex v-else justify="center" align="center" class="gap-10%">
         <a-button v-if="props.title !== '任务添加成功' && props.title !== '喷墨机状态'" class="btn transition-transform duration-300 hover:scale-105" @click="handleCancel">取消</a-button>
         <a-button v-if="props.title === '补打备注' || props.title === '开始进本'" class="btn transition-transform duration-300 hover:scale-105" @click="submitOK">确定</a-button>
-        <a-button v-else-if="props.title === '喷墨机状态'" class="btn transition-transform duration-300 hover:scale-105" @click="handleCancel">确定</a-button>
+        <a-button v-else-if="props.title === '主副页喷墨机'" class="btn transition-transform duration-300 !w-40% hover:scale-105" @click="clearData(0)">清除喷墨日志</a-button>
+        <a-button v-else-if="props.title === '加注页喷墨机'" class="btn transition-transform duration-300 !w-40% hover:scale-105" @click="clearData(1)">清除喷墨日志</a-button>
         <a-button v-else class="btn transition-transform duration-300 hover:scale-105" @click="handleOk">确定</a-button>
-        <a-button v-if="props.title === '主副页喷墨机' || props.title === '加注页喷墨机'" class="btn transition-transform duration-300 hover:scale-105" @click="clearData">清除喷墨日志</a-button>
       </a-flex>
     </template>
   </a-modal>
@@ -200,11 +205,11 @@ async function submitOK() {
   }
 }
 
-async function clearData() {
+async function clearData(number: number) {
   try {
     useAppStore().setSpinning(true);
     const data: any = await homeModule.getHomeList();
-    if (data.respData.entire && data.respData.entire.uvStatus && data.respData.entire.uvStatus[0]) await homeModule.clearLog({ uid: data.respData.entire.uvStatus[0].uid });
+    if (data.respData.entire && data.respData.entire.uvStatus && data.respData.entire.uvStatus[number]) await homeModule.clearLog({ uid: data.respData.entire.uvStatus[number].uid });
     notification.success({ message: '成功', description: `${props.title}操作成功`, placement: 'bottomRight', class: 'notification-custom-class' });
   } catch (error) {
     notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
