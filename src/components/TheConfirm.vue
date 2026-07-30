@@ -42,7 +42,7 @@
       </div>
     </template>
     <template v-else-if="props.title === '登录成功'">
-      <div class="flex flex-col items-center justify-center gap-1vh mt-5vh">
+      <div class="mt-5vh flex flex-col items-center justify-center gap-1vh">
         <img src="@/assets/image/ico_success.png" class="h-15vh w-full object-contain" alt="" />
         <div class="text-center text-2vw text-#ffffff">{{ props.desc }}</div>
         <div class="text-center text-2vw text-#ffffff">用户:{{ account }}</div>
@@ -76,7 +76,7 @@
         <a-button v-if="props.title === '补打备注' || props.title === '开始进本'" class="btn transition-transform duration-300 hover:scale-105" @click="submitOK">确定</a-button>
         <a-button v-else-if="props.title === '喷墨机状态'" class="btn transition-transform duration-300 hover:scale-105" @click="handleCancel">确定</a-button>
         <a-button v-else class="btn transition-transform duration-300 hover:scale-105" @click="handleOk">确定</a-button>
-        <a-button v-if="props.title === '喷墨机状态'" class="btn transition-transform duration-300 hover:scale-105" @click="clearData">清除喷墨日志</a-button>
+        <a-button v-if="props.title === '主副页喷墨机' || props.title === '加注页喷墨机'" class="btn transition-transform duration-300 hover:scale-105" @click="clearData">清除喷墨日志</a-button>
       </a-flex>
     </template>
   </a-modal>

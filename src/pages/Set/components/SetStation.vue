@@ -121,6 +121,10 @@ const softPositionItems: { key: string; label: string }[] = [
   { key: 'isUseUVPrint', label: '启用喷墨打印工位' },
   { key: 'isUseQuality', label: '启用质检工位' },
   { key: 'isUseReaderVerify', label: '启用芯片校验工位' },
+  { key: 'isUseTransparentLocation', label: '启用透明窗定位工位' },
+  { key: 'isUseTransparentLaser', label: '启用透明窗激光工位' },
+  { key: 'isUseObsvUV', label: '启用加注页喷墨工位' },
+  { key: 'isUseObsvQuality', label: '	启用加注页质检工位' },
 ];
 
 const fwJobSettings = computed(() => {

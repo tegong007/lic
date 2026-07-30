@@ -2,16 +2,7 @@
   <div>
     <TheConfirm title="舍弃当前修改" :open="showConfirm" :handle-ok="onConfirmDiscard" :handle-cancel="onConfirmCancel" />
 
-    <SimpleKeyboard
-      v-if="showKeyboard"
-      layout="num"
-      keyboard-width="w-30vw"
-      :transform="transformValue"
-      :input="getKeyboardValue()"
-      :max-length="limitInput"
-      @on-change="onChangeKeyboard"
-      @closekeyboard="hideKeyboard"
-    />
+    <SimpleKeyboard v-if="showKeyboard" layout="num" keyboard-width="w-30vw" :transform="transformValue" :input="getKeyboardValue()" :max-length="limitInput" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
 
     <!-- 喷墨起始位置 -->
     <div class="bgDefend_item no-first-bar">
@@ -23,26 +14,12 @@
           <template v-if="data.uvMainOffsetHigh">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">主副页-高平台 X轴:</div>
-              <a-input
-                v-model:value="data.uvMainOffsetHigh.x"
-                :class="keyInput === 'off.MainHigh.x' ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="0~20000"
-                :maxlength="9"
-                @click.stop="onInputFocus($event, 'off.MainHigh.x', 9)"
-              />
+              <a-input v-model:value="data.uvMainOffsetHigh.x" :class="keyInput === 'off.MainHigh.x' ? 'keyInput' : ''" class="w-14vw" placeholder="0~200000" :maxlength="7" @click.stop="onInputFocus($event, 'off.MainHigh.x', 7)" />
               <span class="val-desc">0.001mm</span>
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">Y轴:</div>
-              <a-input
-                v-model:value="data.uvMainOffsetHigh.y"
-                :class="keyInput === 'off.MainHigh.y' ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="0~20000"
-                :maxlength="9"
-                @click.stop="onInputFocus($event, 'off.MainHigh.y', 9)"
-              />
+              <a-input v-model:value="data.uvMainOffsetHigh.y" :class="keyInput === 'off.MainHigh.y' ? 'keyInput' : ''" class="w-14vw" placeholder="0~200000" :maxlength="7" @click.stop="onInputFocus($event, 'off.MainHigh.y', 7)" />
               <span class="val-desc">0.001mm</span>
             </div>
           </template>
@@ -51,26 +28,12 @@
           <template v-if="data.uvMainOffsetLow">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">主副页-低平台 X轴:</div>
-              <a-input
-                v-model:value="data.uvMainOffsetLow.x"
-                :class="keyInput === 'off.MainLow.x' ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="0~20000"
-                :maxlength="9"
-                @click.stop="onInputFocus($event, 'off.MainLow.x', 9)"
-              />
+              <a-input v-model:value="data.uvMainOffsetLow.x" :class="keyInput === 'off.MainLow.x' ? 'keyInput' : ''" class="w-14vw" placeholder="0~200000" :maxlength="7" @click.stop="onInputFocus($event, 'off.MainLow.x', 7)" />
               <span class="val-desc">0.001mm</span>
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">Y轴:</div>
-              <a-input
-                v-model:value="data.uvMainOffsetLow.y"
-                :class="keyInput === 'off.MainLow.y' ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="0~20000"
-                :maxlength="9"
-                @click.stop="onInputFocus($event, 'off.MainLow.y', 9)"
-              />
+              <a-input v-model:value="data.uvMainOffsetLow.y" :class="keyInput === 'off.MainLow.y' ? 'keyInput' : ''" class="w-14vw" placeholder="0~200000" :maxlength="7" @click.stop="onInputFocus($event, 'off.MainLow.y', 7)" />
               <span class="val-desc">0.001mm</span>
             </div>
           </template>
@@ -83,26 +46,12 @@
           <template v-if="data.uvObsvOffsetHigh">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">加注页-高平台 X轴:</div>
-              <a-input
-                v-model:value="data.uvObsvOffsetHigh.x"
-                :class="keyInput === 'off.ObsvHigh.x' ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="0~20000"
-                :maxlength="9"
-                @click.stop="onInputFocus($event, 'off.ObsvHigh.x', 9)"
-              />
+              <a-input v-model:value="data.uvObsvOffsetHigh.x" :class="keyInput === 'off.ObsvHigh.x' ? 'keyInput' : ''" class="w-14vw" placeholder="0~200000" :maxlength="7" @click.stop="onInputFocus($event, 'off.ObsvHigh.x', 7)" />
               <span class="val-desc">0.001mm</span>
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">Y轴:</div>
-              <a-input
-                v-model:value="data.uvObsvOffsetHigh.y"
-                :class="keyInput === 'off.ObsvHigh.y' ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="0~20000"
-                :maxlength="9"
-                @click.stop="onInputFocus($event, 'off.ObsvHigh.y', 9)"
-              />
+              <a-input v-model:value="data.uvObsvOffsetHigh.y" :class="keyInput === 'off.ObsvHigh.y' ? 'keyInput' : ''" class="w-14vw" placeholder="0~200000" :maxlength="7" @click.stop="onInputFocus($event, 'off.ObsvHigh.y', 7)" />
               <span class="val-desc">0.001mm</span>
             </div>
           </template>
@@ -111,26 +60,12 @@
           <template v-if="data.uvObsvOffsetLow">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">加注页-低平台 X轴:</div>
-              <a-input
-                v-model:value="data.uvObsvOffsetLow.x"
-                :class="keyInput === 'off.ObsvLow.x' ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="0~20000"
-                :maxlength="9"
-                @click.stop="onInputFocus($event, 'off.ObsvLow.x', 9)"
-              />
+              <a-input v-model:value="data.uvObsvOffsetLow.x" :class="keyInput === 'off.ObsvLow.x' ? 'keyInput' : ''" class="w-14vw" placeholder="0~200000" :maxlength="7" @click.stop="onInputFocus($event, 'off.ObsvLow.x', 7)" />
               <span class="val-desc">0.001mm</span>
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">Y轴:</div>
-              <a-input
-                v-model:value="data.uvObsvOffsetLow.y"
-                :class="keyInput === 'off.ObsvLow.y' ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="0~20000"
-                :maxlength="9"
-                @click.stop="onInputFocus($event, 'off.ObsvLow.y', 9)"
-              />
+              <a-input v-model:value="data.uvObsvOffsetLow.y" :class="keyInput === 'off.ObsvLow.y' ? 'keyInput' : ''" class="w-14vw" placeholder="0~200000" :maxlength="7" @click.stop="onInputFocus($event, 'off.ObsvLow.y', 7)" />
               <span class="val-desc">0.001mm</span>
             </div>
           </template>
@@ -155,82 +90,38 @@
       <!-- 高平台基准 -->
       <template v-if="currentUvBaseHigh.length">
         <div class="inkjet-platform-label">高平台基准</div>
-        <section
-          v-for="(_item, idx) in currentUvBaseHigh"
-          :key="`high-${idx}`"
-          class="bg_listItem"
-          style="display: block"
-        >
+        <section v-for="(_item, idx) in currentUvBaseHigh" :key="`high-${idx}`" class="bg_listItem" style="display: block">
           <div class="bgDefend_itemIn mb-1vh">
-            <div class="bgDefend_itemIn_tit inkjet-loc-tit">
-              喷墨定位{{ Number(idx) + 1 }}<template v-if="_item.position"> ({{ _item.position }})</template>:
-            </div>
+            <div class="bgDefend_itemIn_tit inkjet-loc-tit">喷墨定位{{ Number(idx) + 1 }}<template v-if="_item.position"> </template>:</div>
           </div>
-          <div class="flex">
+          <div class="inkjet-coord-row flex">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">X坐标:</div>
-              <a-input
-                v-model:value="_item.x"
-                :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.x` ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="0~30000"
-                :maxlength="9"
-                @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.x`, 9)"
-              />
+              <a-input v-model:value="_item.x" :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.x` ? 'keyInput' : ''" class="w-10vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.x`, 5)" />
               <span class="val-desc">0.001mm</span>
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">Y坐标:</div>
-              <a-input
-                v-model:value="_item.y"
-                :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.y` ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="0~30000"
-                :maxlength="9"
-                @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.y`, 9)"
-              />
+              <a-input v-model:value="_item.y" :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.y` ? 'keyInput' : ''" class="w-10vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.y`, 5)" />
               <span class="val-desc">0.001mm</span>
             </div>
-          </div>
-          <div class="mt-1vh flex">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">角度:</div>
-              <a-input
-                v-model:value="_item.angle"
-                :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.angle` ? 'keyInput' : ''"
-                class="w-8vw"
-                placeholder=""
-                :maxlength="8"
-                @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.angle`, 8)"
-              />
+              <a-input v-model:value="_item.angle" :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.angle` ? 'keyInput' : ''" class="inkjet-angle" placeholder="" :maxlength="8" @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.angle`, 8)" />
               <span class="val-desc">0.001度</span>
             </div>
           </div>
           <div class="mt-1vh flex">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">X偏移:</div>
-              <a-input
-                v-model:value="_item.offsetX"
-                :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.offsetX` ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="-10000~10000"
-                :maxlength="6"
-                @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.offsetX`, 6)"
-              />
+              <a-input v-model:value="_item.offsetX" :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.offsetX` ? 'keyInput' : ''" class="w-10vw" placeholder="-10000~10000" :maxlength="6" @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.offsetX`, 6)" />
               <span class="val-desc">0.001mm(向左为负/向右为正)</span>
             </div>
           </div>
           <div class="mt-1vh flex">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">Y偏移:</div>
-              <a-input
-                v-model:value="_item.offsetY"
-                :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.offsetY` ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="-10000~10000"
-                :maxlength="6"
-                @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.offsetY`, 6)"
-              />
+              <a-input v-model:value="_item.offsetY" :class="keyInput === `base.${currentTemplateIdx}.high.${Number(idx)}.offsetY` ? 'keyInput' : ''" class="w-10vw" placeholder="-10000~10000" :maxlength="6" @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.high.${Number(idx)}.offsetY`, 6)" />
               <span class="val-desc">0.001mm(向上为负/向下为正)</span>
             </div>
           </div>
@@ -240,82 +131,38 @@
       <!-- 低平台基准 -->
       <template v-if="currentUvBaseLow.length">
         <div class="inkjet-platform-label">低平台基准</div>
-        <section
-          v-for="(_item, idx) in currentUvBaseLow"
-          :key="`low-${idx}`"
-          class="bg_listItem"
-          style="display: block"
-        >
+        <section v-for="(_item, idx) in currentUvBaseLow" :key="`low-${idx}`" class="bg_listItem" style="display: block">
           <div class="bgDefend_itemIn mb-1vh">
-            <div class="bgDefend_itemIn_tit inkjet-loc-tit">
-              喷墨定位{{ Number(idx) + 1 }}<template v-if="_item.position"> ({{ _item.position }})</template>:
-            </div>
+            <div class="bgDefend_itemIn_tit inkjet-loc-tit">喷墨定位{{ Number(idx) + 1 }}<template v-if="_item.position"> </template>:</div>
           </div>
-          <div class="flex">
+          <div class="inkjet-coord-row flex">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">X坐标:</div>
-              <a-input
-                v-model:value="_item.x"
-                :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.x` ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="0~30000"
-                :maxlength="9"
-                @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.x`, 9)"
-              />
+              <a-input v-model:value="_item.x" :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.x` ? 'keyInput' : ''" class="w-10vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.x`, 5)" />
               <span class="val-desc">0.001mm</span>
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">Y坐标:</div>
-              <a-input
-                v-model:value="_item.y"
-                :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.y` ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="0~30000"
-                :maxlength="9"
-                @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.y`, 9)"
-              />
+              <a-input v-model:value="_item.y" :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.y` ? 'keyInput' : ''" class="w-10vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.y`, 5)" />
               <span class="val-desc">0.001mm</span>
             </div>
-          </div>
-          <div class="mt-1vh flex">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">角度:</div>
-              <a-input
-                v-model:value="_item.angle"
-                :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.angle` ? 'keyInput' : ''"
-                class="w-8vw"
-                placeholder=""
-                :maxlength="8"
-                @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.angle`, 8)"
-              />
+              <a-input v-model:value="_item.angle" :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.angle` ? 'keyInput' : ''" class="inkjet-angle" placeholder="" :maxlength="8" @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.angle`, 8)" />
               <span class="val-desc">0.001度</span>
             </div>
           </div>
           <div class="mt-1vh flex">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">X偏移:</div>
-              <a-input
-                v-model:value="_item.offsetX"
-                :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.offsetX` ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="-10000~10000"
-                :maxlength="6"
-                @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.offsetX`, 6)"
-              />
+              <a-input v-model:value="_item.offsetX" :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.offsetX` ? 'keyInput' : ''" class="w-10vw" placeholder="-10000~10000" :maxlength="6" @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.offsetX`, 6)" />
               <span class="val-desc">0.001mm(向左为负/向右为正)</span>
             </div>
           </div>
           <div class="mt-1vh flex">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">Y偏移:</div>
-              <a-input
-                v-model:value="_item.offsetY"
-                :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.offsetY` ? 'keyInput' : ''"
-                class="w-14vw"
-                placeholder="-10000~10000"
-                :maxlength="6"
-                @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.offsetY`, 6)"
-              />
+              <a-input v-model:value="_item.offsetY" :class="keyInput === `base.${currentTemplateIdx}.low.${Number(idx)}.offsetY` ? 'keyInput' : ''" class="w-10vw" placeholder="-10000~10000" :maxlength="6" @click.stop="onInputFocus($event, `base.${currentTemplateIdx}.low.${Number(idx)}.offsetY`, 6)" />
               <span class="val-desc">0.001mm(向上为负/向下为正)</span>
             </div>
           </div>
@@ -395,17 +242,19 @@ function onConfirmCancel() {
 }
 
 // --- Validation ---
-// Range rules from API doc: UVBase x/y 0~30000, offsetX/offsetY -10000~10000; Offset x/y 0~20000
+// Range rules from API doc: UVBase x/y 0~30000, offsetX/offsetY -10000~10000; Offset x/y 0~200000
 const BASE_X_RANGE = { min: 0, max: 30000 };
 const BASE_Y_RANGE = { min: 0, max: 30000 };
 const BASE_OFFSET_X_RANGE = { min: -10000, max: 10000 };
 const BASE_OFFSET_Y_RANGE = { min: -10000, max: 10000 };
-const OFFSET_RANGE = { min: 0, max: 20000 };
+
+const OFFSET_KEYS = ['uvMainOffsetHigh', 'uvMainOffsetLow', 'uvObsvOffsetHigh', 'uvObsvOffsetLow'];
+const OFFSET_RANGE = { min: 0, max: 200000 };
 
 function validateField(rawVal: any, range: { min: number; max: number }, label: string): string | null {
   if (rawVal == null || String(rawVal).trim() === '') return `${label}不能为空`;
   const val = Number(rawVal);
-  if (!isFinite(val)) return `${label}的值无效`;
+  if (!Number.isFinite(val)) return `${label}的值无效`;
   if (val < range.min || val > range.max) return `${label}超出范围（${range.min}~${range.max}），当前值：${val}`;
   return null;
 }
@@ -491,8 +340,6 @@ function convertOffsetFields(obj: any, toNum: boolean) {
     }
   }
 }
-
-const OFFSET_KEYS = ['uvMainOffsetHigh', 'uvMainOffsetLow', 'uvObsvOffsetHigh', 'uvObsvOffsetLow'];
 
 function convertAllToStrings() {
   for (const key of OFFSET_KEYS) {
@@ -733,5 +580,12 @@ onMounted(() => {
 }
 ::v-deep(.anticon svg) {
   color: #e2e5eb;
+}
+::v-deep(.inkjet-coord-row .ant-input) {
+  width: 8vw !important;
+  min-width: 0 !important;
+}
+::v-deep(.inkjet-coord-row .inkjet-angle .ant-input) {
+  width: 5vw !important;
 }
 </style>

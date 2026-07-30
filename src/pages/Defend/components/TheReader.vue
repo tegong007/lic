@@ -6,7 +6,7 @@
       <div class="bg_listItem" style="display: block">
         <div class="bgDefend_itemIn reader-row">
           <div class="bgDefend_itemIn_tit reader-name">{{ reader.readerName }}:</div>
-          <a-input v-model:value="formData[reader.deviceIndex]" :class="keyInput === reader.deviceIndex ? 'keyInput' : ''" placeholder="请输入" :maxlength="40" class="reader-input" @click="onInputFocus($event, reader.deviceIndex)" />
+          <a-input v-model:value="formData[reader.deviceIndex]" :class="keyInput === reader.deviceIndex ? 'keyInput' : ''" placeholder="请输入测试数据" :maxlength="40" class="reader-input" @click="onInputFocus($event, reader.deviceIndex)" />
           <div class="bgDefend_itemIn_tit reader-uid-label">UID:</div>
           <a-input v-model:value="reader.uid" disabled class="reader-uid-input" />
         </div>

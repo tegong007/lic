@@ -1,13 +1,13 @@
 <template>
-  <div class="bgT mt-10vh w-100% flex justify-center items-center font-[siyuan]">
+  <div class="bgT mt-10vh w-100% flex items-center justify-center font-[siyuan]">
     <div v-for="(value, index) in statistics" :key="index" class="mx-1% w-10% text-center">
       <div class="mt-2vh text-4.5vh">{{ value.value }}</div>
       <div class="-mt-0vh text-1.5vw">{{ value.item }}</div>
       <img class="m-auto block w-14vw -mt-1vh" src="@/assets/image/tmp_bottom.png" />
     </div>
-    <div class="flex items-center justify-center font-[siyuan] gap-1vw ml-2vw">
+    <div class="ml-2vw flex items-center justify-center gap-1vw font-[siyuan]">
       <!-- 设备状态 -->
-      <div class="relative cursor-pointer text-center box-sm" :class="entire.modules && entire.modules.length >= 2 ? (entire.modules[0].code === 0 && entire.modules[1].code === 0 ? 'bgbg0' : entire.modules[0].code === 2 || entire.modules[1].code === 2 ? 'bgbg2' : 'bgbg3') : 'bgbg3'" @click="setModal(7)">
+      <div class="box-sm relative cursor-pointer text-center" :class="entire.modules && entire.modules.length >= 2 ? (entire.modules[0].code === 0 && entire.modules[1].code === 0 ? 'bgbg0' : entire.modules[0].code === 2 || entire.modules[1].code === 2 ? 'bgbg2' : 'bgbg3') : 'bgbg3'" @click="setModal(7)">
         <template v-if="entire.modules && entire.modules.length > 2">
           <div v-if="entire.modules[0].code === 0 && entire.modules[1].code === 0">正常</div>
           <div v-else>错误</div>
@@ -17,7 +17,7 @@
         <div class="absolute bottom-1vh left-0 right-0 text-center text-1.1vw">设备状态</div>
       </div>
       <!-- 主副页喷墨机 -->
-      <div class="relative cursor-pointer text-center box-sm" :class="entire.uvStatus && entire.uvStatus.length > 0 ? `bgbg${entire.uvStatus[0].status}` : 'bgbg3'" @click="setModal(6)">
+      <div class="box-sm relative cursor-pointer text-center" :class="entire.uvStatus && entire.uvStatus.length > 0 ? `bgbg${entire.uvStatus[0].status}` : 'bgbg3'" @click="setModal(6)">
         <template v-if="entire.uvStatus && entire.uvStatus.length > 0">
           <div v-if="entire.uvStatus[0].status === 0">正常</div>
           <div v-else-if="entire.uvStatus[0].status === 1">工作中</div>
@@ -30,7 +30,7 @@
         <div class="absolute bottom-1vh left-0 right-0 text-center text-1.1vw">主副页喷墨机</div>
       </div>
       <!-- 加注页喷墨机 -->
-      <div class="relative cursor-pointer text-center box-sm" :class="entire.uvStatus && entire.uvStatus.length > 1 ? `bgbg${entire.uvStatus[1].status}` : 'bgbg3'" @click="setModal(9)">
+      <div class="box-sm relative cursor-pointer text-center" :class="entire.uvStatus && entire.uvStatus.length > 1 ? `bgbg${entire.uvStatus[1].status}` : 'bgbg3'" @click="setModal(9)">
         <template v-if="entire.uvStatus && entire.uvStatus.length > 1">
           <div v-if="entire.uvStatus[1].status === 0">正常</div>
           <div v-else-if="entire.uvStatus[1].status === 1">工作中</div>
@@ -51,9 +51,9 @@
     <span class="px-5vw text-1.8vw">待进本：{{ entire.machineRemainDoc }}</span>
   </a-flex>
   <a-flex>
-    <TheTable class="bgM1" name="进本模块" :data="blankCheck" :count="1" />
-    <TheTable class="bgM2" name="主副页打印模块" :data="mainPrint" :count="2" />
     <TheTable class="bgM3" name="加注页打印模块" :data="additionPrint" :count="3" />
+    <TheTable class="bgM2" name="主副页打印模块" :data="mainPrint" :count="2" />
+    <TheTable class="bgM1" name="进本模块" :data="blankCheck" :count="1" />
   </a-flex>
   <a-flex justify="space-between" class="bgB mx-auto mt-2.5vh h-8vh w-85%">
     <a-flex class="items-center gap-2vw">
