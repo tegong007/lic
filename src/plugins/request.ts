@@ -1,11 +1,15 @@
 import type { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
-// 确保引入了 ant-design-vue
-const timeOut = window.timeOut ?? '5000';
-const service = axios.create({ timeout: Number(timeOut) });
+// 配置文件的 timeOut 在 DOMContentLoaded 后由 electronAPI.getConfig() 异步写入 window.timeOut，
+// 不能在模块加载时同步读取，需在每次请求时动态取值。
+const getTimeout = () => Number(window.timeOut ?? 5000);
+
+const service = axios.create({ timeout: getTimeout() });
 
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
+    // 每次请求动态应用配置文件中的 timeOut（避免模块加载时 window.timeOut 尚未注入）
+    config.timeout = getTimeout();
     // config.headers["Content-Type"] = "application/x-www-form-urlencoded";
     // config.headers.Authorization = "bearer ";
     return config;
