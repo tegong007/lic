@@ -1,4 +1,5 @@
 import request from '@/plugins/request';
+import { createDebouncedRequest } from '@/utils/debounceRequest';
 
 const v1 = window.serverAddress; // 后端服务
 
@@ -6,7 +7,7 @@ const v1 = window.serverAddress; // 后端服务
 const homeModule = {
   docMachineInit: () => request.post(`${v1}/tss/doc-machine/init`, { module: 'm0' }), // 制证设备初始化-全部
   getAllStatus: () => request.post(`${v1}/tss/position-status`, { moduleID: 0 }), // 工位状态查询-整机
-  getHomeList: () => request.post(`${v1}/tss/produce-status`), // 生产状态查询
+  getHomeList: () => createDebouncedRequest({ url: `${v1}/tss/produce-status`, method: 'post' }), // 生产状态查询
   getDocNumProduce: () => request.post(`${v1}/tss/get-doc-num-produce`), // 可进本数查询
   setControlMachine: (data: any) => request.post(`${v1}/tss/machine-control`, data), // 生产设备控制
   getPositionCard: (data: number) => request.post(`${v1}/tss/position-status`, { moduleID: data }), // 工位状态查询
@@ -27,7 +28,7 @@ const checkModule = {
 const defendModule = {
   getDevice: (data: number) => request.post(`${v1}/tss/get-device`, { moduleID: data }), // 部件维护查询
   getApiTransfer: (data: any) => request.post(`${v1}/tss/api-transfer`, data), // 接口转发
-  getVersion: (data: any) => request.post(`${v1}/tss/get-version`, data), // 版本号查询-所有类型
+  getVersion: (data: any) => createDebouncedRequest({ url: `${v1}/tss/get-version`, method: 'post', data }), // 版本号查询-所有类型
   addTask: (data: any) => request.post(`${v1}/tss/demo/add-task`, data), // 任务添加（演示模式）
   moduleStatus: (data: any) => request.post(`${v1}/tss/doc-machine/module-status`, data), // 制证设备模块状态查询
   sendCmd: (data: any) => request.post(`${v1}/tss/error-handle/send-cmd`, data), // 发送错误处理指令
@@ -70,7 +71,7 @@ const searchModule = {
 
 // 油墨余量
 const footerModule = {
-  getLnkRemainder: () => request.post(`${v1}/tss/get-ink-remainder`),
+  getLnkRemainder: () => createDebouncedRequest({ url: `${v1}/tss/get-ink-remainder`, method: 'post' }),
 };
 
 //   getDocNumProduce: () => request.post(`${v1}/tss/get-doc-num-produce`),
@@ -112,9 +113,9 @@ const physicalModule = {
 const mainTainModule = {
   getDevice: (data: any) => request.post(`${v1}/tss/get-device`, data),
   consumables: {
-    getLnkRemainder: () => request.post(`${v1}/tss/get-ink-remainder`),
+    getLnkRemainder: () => createDebouncedRequest({ url: `${v1}/tss/get-ink-remainder`, method: 'post' }),
   },
-  getVersion: (data: any) => request.post(`${v1}/tss/get-version`, data),
+  getVersion: (data: any) => createDebouncedRequest({ url: `${v1}/tss/get-version`, method: 'post', data }),
   getPassWord: (data: any) => request.post(`${v1}/tss/password`, data),
 };
 // 设置页面
