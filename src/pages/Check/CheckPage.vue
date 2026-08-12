@@ -25,7 +25,7 @@
           <div>结果：<span v-if="!mainCheck.docID">检测中…</span><span v-else-if="mainCheck.qualityResult === 0" class="ok">良品</span><span v-else class="no">不良品</span></div>
         </div>
         <div class="flex">
-          <table class="tb1 ml-1vw mt-4vh w-50% text-1vw">
+          <table class="tb1 ml-1vw mt-4vh w-36% text-1vw">
             <tr>
               <th class="pb-2vh">序号</th>
               <th class="pb-2vh">检测项</th>
@@ -43,8 +43,19 @@
               </td>
             </tr>
           </table>
-          <div v-if="mainCheck.markedImage" class="ml-2vw mt-3vh w-30% flex items-center justify-end">
-            <img :src="`data:image/png;base64,${mainCheck.markedImage}`" class="w-75%" @click="viewImage([`data:image/png;base64,${mainCheck.markedImage}`])" />
+          <div class="ml-1vw mt-3vh w-62% flex items-center justify-center gap-1vw">
+            <div v-if="mainCheck.markedImage" class="w-30%">
+              <div class="text-center text-1vw">白光图</div>
+              <img :src="`data:image/png;base64,${mainCheck.markedImage}`" class="w-100% cursor-pointer" @click="viewImage([`data:image/png;base64,${mainCheck.markedImage}`])" />
+            </div>
+            <div v-if="mainCheck.irlImgData" class="w-30%">
+              <div class="text-center text-1vw">红外图</div>
+              <img :src="`data:image/png;base64,${mainCheck.irlImgData}`" class="w-100% cursor-pointer" @click="viewImage([`data:image/png;base64,${mainCheck.irlImgData}`])" />
+            </div>
+            <div v-if="mainCheck.uvlImgData" class="w-30%">
+              <div class="text-center text-1vw">紫外图</div>
+              <img :src="`data:image/png;base64,${mainCheck.uvlImgData}`" class="w-100% cursor-pointer" @click="viewImage([`data:image/png;base64,${mainCheck.uvlImgData}`])" />
+            </div>
           </div>
         </div>
       </div>
@@ -68,6 +79,7 @@ const { start } = useCustomTimer();
 
 const state = ref({ code: -1, msg: '--' });
 const mainCheck: any = ref({});
+const physicaID = ref(-1); // 质检图片 ID，首次 -1，后续取返回的 physicaID
 const items = [
   { name: '主页缺色', key: 'mainColorLack' },
   { name: '主页脏污', key: 'mainDirty' },
@@ -85,8 +97,12 @@ function viewImage(list: string[]) {
 
 async function getData() {
   try {
-    const data: any = await checkModule.qualityCheckLast();
+    const data: any = await checkModule.qualityCheckLast(physicaID.value);
     if (data.respData) {
+      // 每次请求更新 physicaID，供下次轮询使用
+      if (typeof data.respData.physicaID === 'number') physicaID.value = data.respData.physicaID;
+      // refresh 为 false 时不更新页面文字/图片，保留上次结果
+      if (data.respData.refresh === false) return;
       mainCheck.value = data.respData.mainResult1;
       if (data.respData.qualityDescription) state.value = { code: data.code, msg: data.respData.qualityDescription };
       else state.value = { code: data.code, msg: data.msg || '正常' };
