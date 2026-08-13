@@ -34,8 +34,8 @@
         </a-form-item>
       </div>
 
-      <div class="flex justify-start gap-2vw">
-        <div class="w-100%">
+      <div class="flex justify-start gap-1.5vw">
+        <div :class="detail.open ? 'w-30vw flex-shrink-0' : 'w-100%'" style="align-self: flex-start">
           <div v-for="(value, index) in lists" :key="index" class="bg_jianbian mb-1vh flex cursor-pointer justify-between text-1vw line-height-2vh" @click="onItemClick(value, index)">
             <div>{{ value.time }}</div>
             <div class="w-9vw">证件号: {{ value.docID }}</div>
@@ -44,15 +44,15 @@
             <div v-else>收起 ▲</div>
           </div>
         </div>
-        <div v-if="detail.open" class="bgC2">
+        <div v-if="detail.open" class="bgC2 flex-1">
           <div class="pt-2.5vh text-center text-1.3vw">质检结果</div>
           <div class="bgB mt-2.5vh flex justify-around py-1vh text-1vw">
             <div>{{ detail.item.time || '--' }}</div>
             <div>证件号：{{ detail.item.docID || '--' }}</div>
             <div>结果：<span v-if="!detail.item.docID">检测中…</span><span v-else-if="detail.item.qualityResult === 0" class="ok">良品</span><span v-else class="no">不良品</span></div>
           </div>
-          <div class="flex">
-            <table class="tb1 ml-2vw mt-2vh w-50% text-1vw">
+          <div class="flex items-start">
+            <table class="tb1 ml-2vw mt-2vh w-35% flex-none text-1vw">
               <thead>
                 <tr>
                   <th class="pb-2vh">序号</th>
@@ -74,18 +74,16 @@
                 </tr>
               </tbody>
             </table>
-            <div class="ml-1vw mt-2vh w-40% flex items-start justify-around gap-1vw">
-              <div v-if="detail.item.markedImage" class="w-30%">
-                <div class="text-center text-1vw">紫外图</div>
-                <img :src="`data:image/png;base64,${detail.item.markedImage}`" class="w-100% cursor-pointer" @click="viewImage([`data:image/png;base64,${detail.item.markedImage}`])" />
+            <div class="mt-2vh flex flex-col flex-1 items-center gap-0.5vh pl-1vw">
+              <div class="w-100% flex items-start justify-around gap-1vw">
+                <div v-for="img in imgList.slice(0, 2)" :key="img.label" class="imgItem">
+                  <div class="text-center text-1vw">{{ img.label }}</div>
+                  <img :src="img.src" class="w-100% cursor-pointer" @click="viewImage([img.src])" />
+                </div>
               </div>
-              <div v-if="detail.item.irlImgData" class="w-30%">
-                <div class="text-center text-1vw">红外图</div>
-                <img :src="`data:image/png;base64,${detail.item.irlImgData}`" class="w-100% cursor-pointer" @click="viewImage([`data:image/png;base64,${detail.item.irlImgData}`])" />
-              </div>
-              <div v-if="detail.item.uvlImgData" class="w-30%">
-                <div class="text-center text-1vw">白光图</div>
-                <img :src="`data:image/png;base64,${detail.item.uvlImgData}`" class="w-100% cursor-pointer" @click="viewImage([`data:image/png;base64,${detail.item.uvlImgData}`])" />
+              <div v-for="img in imgList.slice(2)" :key="img.label" class="imgItem">
+                <div class="text-center text-1vw">{{ img.label }}</div>
+                <img :src="img.src" class="w-100% cursor-pointer" @click="viewImage([img.src])" />
               </div>
             </div>
           </div>
@@ -110,6 +108,7 @@
 import { App } from 'ant-design-vue';
 import locale from 'ant-design-vue/es/date-picker/locale/zh_CN';
 import { api } from 'v-viewer';
+import { computed } from 'vue';
 import { checkModule } from '@/apis/proApi';
 import { useAppStore } from '@/store/index';
 
@@ -131,6 +130,16 @@ const transformValue: any = ref(null);
 
 const detail: any = ref({ open: false, item: {} });
 const detailI: any = ref(-1);
+
+// 三张图按固定顺序：白光图、红外图、紫外图（无图则不入列）
+const imgList = computed(() => {
+  const item = detail.value.item || {};
+  const list: { label: string; src: string }[] = [];
+  if (item.markedImage) list.push({ label: '白光图', src: `data:image/png;base64,${item.markedImage}` });
+  if (item.irlImgData) list.push({ label: '红外图', src: `data:image/png;base64,${item.irlImgData}` });
+  if (item.uvlImgData) list.push({ label: '紫外图', src: `data:image/png;base64,${item.uvlImgData}` });
+  return list;
+});
 
 const items = [
   { name: '主页缺色', key: 'mainColorLack' },
@@ -313,6 +322,7 @@ onMounted(() => {
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
+  padding-bottom: 2vh;
   background-image: url('@/assets/image/bg_c2x.png');
   span {
     box-shadow:
@@ -336,6 +346,15 @@ onMounted(() => {
   .bgB {
     background: linear-gradient(90deg, #0390e500 0%, #0390e51f 34%, #0390e517 63%, #0390e500 99%);
   }
+  .imgItem {
+    width: 40%;
+    img {
+      display: block;
+      margin: 0 auto;
+      max-height: 22vh;
+      object-fit: contain;
+    }
+  }
   .tb1 {
     td {
       &.tb1-lab div {
@@ -355,8 +374,9 @@ onMounted(() => {
       &.tb1-ico {
         img {
           display: block;
-          margin: 0.7vh auto 0 auto;
-          width: 2vw;
+          margin: 0.3vw 0 0.3vw 0.5vw;
+          // margin: 0.7vh auto 0 auto;
+          width: 1.7vw;
         }
       }
     }
