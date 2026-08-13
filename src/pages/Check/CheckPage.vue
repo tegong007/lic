@@ -26,22 +26,26 @@
         </div>
         <div class="flex">
           <table class="tb1 ml-1vw mt-4vh w-36% text-1vw">
-            <tr>
-              <th class="pb-2vh">序号</th>
-              <th class="pb-2vh">检测项</th>
-              <th class="pb-2vh">状态</th>
-            </tr>
-            <tr v-for="(value, index) in items" :key="index">
-              <td>0{{ index + 1 }}</td>
-              <td class="tb1-lab" :class="mainCheck.docID && mainCheck.checkedItem[value.key] ? 'err' : ''">
-                <div>{{ value.name }}</div>
-              </td>
-              <td class="tb1-ico">
-                <img v-if="mainCheck.docID && !mainCheck.checkedItem[value.key]" src="@/assets/image/ico_ok.png" />
-                <img v-else-if="mainCheck.docID && mainCheck.checkedItem[value.key]" src="@/assets/image/ico_no.png" />
-                <img v-else src="@/assets/image/ico_wait.png" />
-              </td>
-            </tr>
+            <thead>
+              <tr>
+                <th class="pb-2vh">序号</th>
+                <th class="pb-2vh">检测项</th>
+                <th class="pb-2vh">状态</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(value, index) in items" :key="index">
+                <td>0{{ index + 1 }}</td>
+                <td class="tb1-lab" :class="mainCheck.docID && mainCheck.checkedItem[value.key] ? 'err' : ''">
+                  <div>{{ value.name }}</div>
+                </td>
+                <td class="tb1-ico">
+                  <img v-if="mainCheck.docID && !mainCheck.checkedItem[value.key]" src="@/assets/image/ico_ok.png" />
+                  <img v-else-if="mainCheck.docID && mainCheck.checkedItem[value.key]" src="@/assets/image/ico_no.png" />
+                  <img v-else src="@/assets/image/ico_wait.png" />
+                </td>
+              </tr>
+            </tbody>
           </table>
           <div class="ml-1vw mt-3vh w-62% flex items-center justify-center gap-1vw">
             <div v-if="mainCheck.markedImage" class="w-30%">

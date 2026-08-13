@@ -1,467 +1,50 @@
 <template>
-  <div>
+  <div class="set-wrap flex">
     <TheConfirm title="舍弃当前修改" :open="showConfirm" :handle-ok="onConfirmDiscard" :handle-cancel="onConfirmCancel" />
 
     <SimpleKeyboard v-if="showKeyboard" :layout="isFloatKey ? 'fNum' : 'num'" keyboard-width="w-30vw" :transform="transformValue" :input="getKeyboardValue()" :max-length="limitInput" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
 
-    <div class="bgDefend_item no-first-bar">
-      <!-- 模板选择 -->
+    <!-- 左侧模块导航（一贯 bgNav 样式） -->
+    <div class="set-nav">
+      <div
+        v-for="m in modules"
+        :key="m.key"
+        class="bgNav"
+        :class="{ actived: activeModule === m.key }"
+        @click="onMenuClick(m.key)"
+      >
+        <span>{{ m.label }}</span>
+      </div>
+    </div>
+
+    <!-- 右侧内容 -->
+    <div class="bgDefend_item set-content">
+      <!-- 模板类型（每个标题下都显示） -->
       <section v-if="templates.length" class="bg_listItem">
         <div class="bgDefend_itemIn">
-          <div class="bgDefend_itemIn_tit">模板:</div>
+          <div class="bgDefend_itemIn_tit">模板类型:</div>
           <a-select :value="selectedTemplateCode" style="width: 22vw" @change="onTemplateChange">
             <a-select-option v-for="t in templates" :key="t.code" :value="t.code">{{ t.code }}</a-select-option>
           </a-select>
         </div>
       </section>
 
-      <!-- 证本姿态检测 -->
-      <div class="bgDefend_tit">证本姿态检测</div>
-      <template v-if="cur.ocrPose?.[0]">
-        <section class="bg_listItem" style="display: block">
-          <div style="display: flex; flex-wrap: wrap; gap: 1vh">
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit">是否启用:</div>
-              <a-switch v-model:checked="cur.ocrPose[0].isEnable" />
-            </div>
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit">曝光时间:</div>
-              <a-input v-model:value="cur.ocrPose[0].usExposureTime" :class="keyInput === 'ocrPose.usExposureTime' ? 'keyInput' : ''" class="w-9vw" placeholder="62~9999764" :maxlength="12" @click.stop="onInputFocus($event, 'ocrPose.usExposureTime', 12)" />
-              <span class="val-desc">us</span>
-            </div>
-          </div>
-        </section>
-        <section v-if="cur.ocrPose[0].targetRoi" class="bg_listItem" style="display: block">
-          <div style="display: flex; flex-direction: column; gap: 1vh">
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit inkjet-loc-tit">搜索区域(像素):</div>
-            </div>
-            <div class="flex">
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit short-label">X:</div>
-                <a-input v-model:value="cur.ocrPose[0].targetRoi.x" :class="keyInput === 'ocrPose.targetRoi.x' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrPose.targetRoi.x', 5)" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit short-label">Y:</div>
-                <a-input v-model:value="cur.ocrPose[0].targetRoi.y" :class="keyInput === 'ocrPose.targetRoi.y' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrPose.targetRoi.y', 5)" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit short-label">宽:</div>
-                <a-input v-model:value="cur.ocrPose[0].targetRoi.width" :class="keyInput === 'ocrPose.targetRoi.width' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrPose.targetRoi.width', 5)" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit short-label">高:</div>
-                <a-input v-model:value="cur.ocrPose[0].targetRoi.height" :class="keyInput === 'ocrPose.targetRoi.height' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrPose.targetRoi.height', 5)" />
-              </div>
-            </div>
-          </div>
-        </section>
-      </template>
-    </div>
-
-    <!-- OCR空白页检测 -->
-    <div class="bgDefend_item no-first-bar">
-      <div class="bgDefend_tit">OCR空白页检测</div>
-      <template v-if="cur.ocrBlank?.[0]">
-        <section class="bg_listItem" style="display: block">
-          <div style="display: flex; flex-wrap: wrap; gap: 1vh">
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit">是否启用:</div>
-              <a-switch v-model:checked="cur.ocrBlank[0].isEnable" />
-            </div>
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit">曝光时间:</div>
-              <a-input v-model:value="cur.ocrBlank[0].usExposureTime" :class="keyInput === 'ocrBlank.usExposureTime' ? 'keyInput' : ''" class="w-9vw" placeholder="62~9999764" :maxlength="12" @click.stop="onInputFocus($event, 'ocrBlank.usExposureTime', 12)" />
-              <span class="val-desc">us</span>
-            </div>
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit">质量要求:</div>
-              <a-select v-model:value="cur.ocrBlank[0].qualityControl" style="width: 15vw">
-                <a-select-option value="0">低质量要求</a-select-option>
-                <a-select-option value="1">中质量要求</a-select-option>
-                <a-select-option value="2">高质量要求</a-select-option>
-              </a-select>
-            </div>
-          </div>
-        </section>
-      </template>
-    </div>
-
-    <!-- 检测质量控制 -->
-    <div class="bgDefend_item no-first-bar">
-      <div class="bgDefend_tit">检测质量控制</div>
-      <template v-if="cur.obsvQualityControl?.[0]">
-        <section class="bg_listItem" style="display: block">
-          <div style="display: flex; flex-wrap: wrap; gap: 1vh">
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit">是否启用:</div>
-              <a-switch v-model:checked="cur.obsvQualityControl[0].isEnable" />
-            </div>
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit">曝光时间:</div>
-              <a-input v-model:value="cur.obsvQualityControl[0].usExposureTime" :class="keyInput === 'obsvQualityControl.usExposureTime' ? 'keyInput' : ''" class="w-9vw" placeholder="62~9999764" :maxlength="12" @click.stop="onInputFocus($event, 'obsvQualityControl.usExposureTime', 12)" />
-              <span class="val-desc">us</span>
-            </div>
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit">质量要求:</div>
-              <a-select v-model:value="cur.obsvQualityControl[0].qualityControl" style="width: 15vw">
-                <a-select-option value="0">低质量要求</a-select-option>
-                <a-select-option value="1">中质量要求</a-select-option>
-                <a-select-option value="2">高质量要求</a-select-option>
-              </a-select>
-            </div>
-          </div>
-        </section>
-      </template>
-    </div>
-
-    <!-- 激光前检测 -->
-    <div class="bgDefend_item no-first-bar">
-      <div class="bgDefend_tit">激光前检测</div>
-      <template v-if="cur.ocrBeforeLaser?.[0]">
-        <section class="bg_listItem" style="display: block">
-          <div style="display: flex; flex-wrap: wrap; gap: 1vh">
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit">是否启用:</div>
-              <a-switch v-model:checked="cur.ocrBeforeLaser[0].isEnable" />
-            </div>
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit">曝光时间:</div>
-              <a-input v-model:value="cur.ocrBeforeLaser[0].usExposureTime" :class="keyInput === 'ocrBeforeLaser.usExposureTime' ? 'keyInput' : ''" class="w-9vw" placeholder="62~9999764" :maxlength="12" @click.stop="onInputFocus($event, 'ocrBeforeLaser.usExposureTime', 12)" />
-              <span class="val-desc">us</span>
-            </div>
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit">旋转角度:</div>
-              <a-input v-model:value="cur.ocrBeforeLaser[0].rotationCorrectionAngle" :class="keyInput === 'ocrBeforeLaser.rotationCorrectionAngle' ? 'keyInput' : ''" class="w-9vw" placeholder="-5000~5000" :maxlength="6" @click.stop="onInputFocus($event, 'ocrBeforeLaser.rotationCorrectionAngle', 6)" />
-            </div>
-          </div>
-        </section>
-        <section v-if="cur.ocrBeforeLaser[0].markTopLeftRegion" class="bg_listItem" style="display: block">
-          <div style="display: flex; flex-direction: column; gap: 1vh">
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit inkjet-loc-tit">标记左上角(像素):</div>
-            </div>
-            <div class="flex">
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit short-label">X:</div>
-                <a-input v-model:value="cur.ocrBeforeLaser[0].markTopLeftRegion.x" :class="keyInput === 'ocrBeforeLaser.markTopLeftRegion.x' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeLaser.markTopLeftRegion.x', 5)" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit short-label">Y:</div>
-                <a-input v-model:value="cur.ocrBeforeLaser[0].markTopLeftRegion.y" :class="keyInput === 'ocrBeforeLaser.markTopLeftRegion.y' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeLaser.markTopLeftRegion.y', 5)" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit short-label">宽:</div>
-                <a-input v-model:value="cur.ocrBeforeLaser[0].markTopLeftRegion.width" :class="keyInput === 'ocrBeforeLaser.markTopLeftRegion.width' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeLaser.markTopLeftRegion.width', 5)" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit short-label">高:</div>
-                <a-input v-model:value="cur.ocrBeforeLaser[0].markTopLeftRegion.height" :class="keyInput === 'ocrBeforeLaser.markTopLeftRegion.height' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeLaser.markTopLeftRegion.height', 5)" />
-              </div>
-            </div>
-          </div>
-        </section>
-        <section v-if="cur.ocrBeforeLaser[0].markBottomRightRegion" class="bg_listItem" style="display: block">
-          <div style="display: flex; flex-direction: column; gap: 1vh">
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit inkjet-loc-tit">标记右下角(像素):</div>
-            </div>
-            <div class="flex">
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit short-label">X:</div>
-                <a-input v-model:value="cur.ocrBeforeLaser[0].markBottomRightRegion.x" :class="keyInput === 'ocrBeforeLaser.markBottomRightRegion.x' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeLaser.markBottomRightRegion.x', 5)" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit short-label">Y:</div>
-                <a-input v-model:value="cur.ocrBeforeLaser[0].markBottomRightRegion.y" :class="keyInput === 'ocrBeforeLaser.markBottomRightRegion.y' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeLaser.markBottomRightRegion.y', 5)" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit short-label">宽:</div>
-                <a-input v-model:value="cur.ocrBeforeLaser[0].markBottomRightRegion.width" :class="keyInput === 'ocrBeforeLaser.markBottomRightRegion.width' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeLaser.markBottomRightRegion.width', 5)" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit short-label">高:</div>
-                <a-input v-model:value="cur.ocrBeforeLaser[0].markBottomRightRegion.height" :class="keyInput === 'ocrBeforeLaser.markBottomRightRegion.height' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeLaser.markBottomRightRegion.height', 5)" />
-              </div>
-            </div>
-          </div>
-        </section>
-      </template>
-    </div>
-
-    <!-- 喷墨前检测 -->
-    <div class="bgDefend_item no-first-bar">
-      <div class="bgDefend_tit">喷墨前检测</div>
-      <template v-if="cur.ocrBeforeUv?.[0]">
-        <section class="bg_listItem" style="display: block">
-          <div style="display: flex; flex-wrap: wrap; gap: 1vh">
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit">是否启用:</div>
-              <a-switch v-model:checked="cur.ocrBeforeUv[0].isEnable" />
-            </div>
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit">曝光时间:</div>
-              <a-input v-model:value="cur.ocrBeforeUv[0].usExposureTime" :class="keyInput === 'ocrBeforeUv.usExposureTime' ? 'keyInput' : ''" class="w-9vw" placeholder="62~9999764" :maxlength="12" @click.stop="onInputFocus($event, 'ocrBeforeUv.usExposureTime', 12)" />
-              <span class="val-desc">us</span>
-            </div>
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit">平台:</div>
-              <a-select v-model:value="cur.ocrBeforeUv[0].platform" style="width: 12vw">
-                <a-select-option value="0">平台0</a-select-option>
-                <a-select-option value="1">平台1</a-select-option>
-              </a-select>
-            </div>
-          </div>
-        </section>
-        <section class="bg_listItem" style="display: block">
-          <div style="display: flex; flex-direction: column; gap: 1vh">
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit inkjet-loc-tit">激光人像预设位置(像素):</div>
-            </div>
-            <div class="flex">
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit short-label">X:</div>
-                <a-input v-model:value="cur.ocrBeforeUv[0].stdPortraitX" :class="keyInput === 'ocrBeforeUv.stdPortraitX' ? 'keyInput' : ''" class="w-9vw" placeholder="0~90000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.stdPortraitX', 5)" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit short-label">Y:</div>
-                <a-input v-model:value="cur.ocrBeforeUv[0].stdPortraitY" :class="keyInput === 'ocrBeforeUv.stdPortraitY' ? 'keyInput' : ''" class="w-9vw" placeholder="0~90000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.stdPortraitY', 5)" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit">旋转角度:</div>
-                <a-input v-model:value="cur.ocrBeforeUv[0].rotationCorrectionAngle" :class="keyInput === 'ocrBeforeUv.rotationCorrectionAngle' ? 'keyInput' : ''" class="w-9vw" placeholder="-5000~5000" :maxlength="6" @click.stop="onInputFocus($event, 'ocrBeforeUv.rotationCorrectionAngle', 6)" />
-              </div>
-            </div>
-          </div>
-        </section>
-        <section v-if="cur.ocrBeforeUv[0].markTopLeftRegion" class="bg_listItem" style="display: block">
-          <div style="display: flex; flex-direction: column; gap: 1vh">
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit inkjet-loc-tit">标记左上角(像素):</div>
-            </div>
-            <div class="flex">
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit short-label">X:</div>
-                <a-input v-model:value="cur.ocrBeforeUv[0].markTopLeftRegion.x" :class="keyInput === 'ocrBeforeUv.markTopLeftRegion.x' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.markTopLeftRegion.x', 5)" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit short-label">Y:</div>
-                <a-input v-model:value="cur.ocrBeforeUv[0].markTopLeftRegion.y" :class="keyInput === 'ocrBeforeUv.markTopLeftRegion.y' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.markTopLeftRegion.y', 5)" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit short-label">宽:</div>
-                <a-input v-model:value="cur.ocrBeforeUv[0].markTopLeftRegion.width" :class="keyInput === 'ocrBeforeUv.markTopLeftRegion.width' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.markTopLeftRegion.width', 5)" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit short-label">高:</div>
-                <a-input v-model:value="cur.ocrBeforeUv[0].markTopLeftRegion.height" :class="keyInput === 'ocrBeforeUv.markTopLeftRegion.height' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.markTopLeftRegion.height', 5)" />
-              </div>
-            </div>
-          </div>
-        </section>
-        <section v-if="cur.ocrBeforeUv[0].markBottomRightRegion" class="bg_listItem" style="display: block">
-          <div style="display: flex; flex-direction: column; gap: 1vh">
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit inkjet-loc-tit">标记右下角(像素):</div>
-            </div>
-            <div class="flex">
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit short-label">X:</div>
-                <a-input v-model:value="cur.ocrBeforeUv[0].markBottomRightRegion.x" :class="keyInput === 'ocrBeforeUv.markBottomRightRegion.x' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.markBottomRightRegion.x', 5)" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit short-label">Y:</div>
-                <a-input v-model:value="cur.ocrBeforeUv[0].markBottomRightRegion.y" :class="keyInput === 'ocrBeforeUv.markBottomRightRegion.y' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.markBottomRightRegion.y', 5)" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit short-label">宽:</div>
-                <a-input v-model:value="cur.ocrBeforeUv[0].markBottomRightRegion.width" :class="keyInput === 'ocrBeforeUv.markBottomRightRegion.width' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.markBottomRightRegion.width', 5)" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit short-label">高:</div>
-                <a-input v-model:value="cur.ocrBeforeUv[0].markBottomRightRegion.height" :class="keyInput === 'ocrBeforeUv.markBottomRightRegion.height' ? 'keyInput' : ''" class="w-8vw" placeholder="0~30000" :maxlength="5" @click.stop="onInputFocus($event, 'ocrBeforeUv.markBottomRightRegion.height', 5)" />
-              </div>
-            </div>
-          </div>
-        </section>
-      </template>
-    </div>
-
-    <!-- 成品检测 -->
-    <div class="bgDefend_item no-first-bar">
-      <div class="bgDefend_tit">成品检测</div>
-      <template v-if="cur.ocrFinished?.[0]">
-        <section class="bg_listItem" style="display: block">
-          <div style="display: flex; flex-direction: column; gap: 1vh">
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit">是否启用:</div>
-              <a-switch v-model:checked="cur.ocrFinished[0].isEnable" />
-            </div>
-            <div class="flex">
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit">曝光时间:</div>
-                <a-input v-model:value="cur.ocrFinished[0].usExposureTime" :class="keyInput === 'ocrFinished.usExposureTime' ? 'keyInput' : ''" class="w-9vw" placeholder="62~9999764" :maxlength="12" @click.stop="onInputFocus($event, 'ocrFinished.usExposureTime', 12)" />
-                <span class="val-desc">us</span>
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit">红外曝光:</div>
-                <a-input v-model:value="cur.ocrFinished[0].irUsExposureTime" :class="keyInput === 'ocrFinished.irUsExposureTime' ? 'keyInput' : ''" class="w-9vw" placeholder="62~9999764" :maxlength="12" @click.stop="onInputFocus($event, 'ocrFinished.irUsExposureTime', 12)" />
-                <span class="val-desc">us</span>
-              </div>
-            </div>
-            <div class="flex">
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit">紫外曝光:</div>
-                <a-input v-model:value="cur.ocrFinished[0].uvUsExposureTime" :class="keyInput === 'ocrFinished.uvUsExposureTime' ? 'keyInput' : ''" class="w-9vw" placeholder="62~9999764" :maxlength="12" @click.stop="onInputFocus($event, 'ocrFinished.uvUsExposureTime', 12)" />
-                <span class="val-desc">us</span>
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit">质量要求:</div>
-                <a-select v-model:value="cur.ocrFinished[0].qualityControl" style="width: 15vw">
-                  <a-select-option value="0">低质量要求</a-select-option>
-                  <a-select-option value="1">中质量要求</a-select-option>
-                  <a-select-option value="2">高质量要求</a-select-option>
-                </a-select>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- 红外光源 -->
-        <section v-if="cur.ocrFinished[0].irlDev" class="bg_listItem" style="display: block">
-          <div style="display: flex; flex-direction: column; gap: 1vh">
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit inkjet-loc-tit">红外光源:</div>
-            </div>
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit">是否启用:</div>
-              <a-switch v-model:checked="cur.ocrFinished[0].irlDev.isEnable" />
-            </div>
-            <div class="flex">
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit">端口1:</div>
-                <a-input v-model:value="cur.ocrFinished[0].irlDev.l1Port" class="w-8vw" placeholder="COM1" :maxlength="10" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit">通道1:</div>
-                <a-input v-model:value="cur.ocrFinished[0].irlDev.l1ChannelNo" :class="keyInput === 'ocrFinished.irlDev.l1ChannelNo' ? 'keyInput' : ''" class="w-8vw" placeholder="0~255" :maxlength="3" @click.stop="onInputFocus($event, 'ocrFinished.irlDev.l1ChannelNo', 3)" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit">亮度1:</div>
-                <a-input v-model:value="cur.ocrFinished[0].irlDev.l1Brightness" :class="keyInput === 'ocrFinished.irlDev.l1Brightness' ? 'keyInput' : ''" class="w-8vw" placeholder="0~255" :maxlength="3" @click.stop="onInputFocus($event, 'ocrFinished.irlDev.l1Brightness', 3)" />
-              </div>
-            </div>
-            <div class="flex">
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit">端口2:</div>
-                <a-input v-model:value="cur.ocrFinished[0].irlDev.l2Port" class="w-8vw" placeholder="COM2" :maxlength="10" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit">通道2:</div>
-                <a-input v-model:value="cur.ocrFinished[0].irlDev.l2ChannelNo" :class="keyInput === 'ocrFinished.irlDev.l2ChannelNo' ? 'keyInput' : ''" class="w-8vw" placeholder="0~255" :maxlength="3" @click.stop="onInputFocus($event, 'ocrFinished.irlDev.l2ChannelNo', 3)" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit">亮度2:</div>
-                <a-input v-model:value="cur.ocrFinished[0].irlDev.l2Brightness" :class="keyInput === 'ocrFinished.irlDev.l2Brightness' ? 'keyInput' : ''" class="w-8vw" placeholder="0~255" :maxlength="3" @click.stop="onInputFocus($event, 'ocrFinished.irlDev.l2Brightness', 3)" />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- 紫外光源 -->
-        <section v-if="cur.ocrFinished[0].uvlDev" class="bg_listItem" style="display: block">
-          <div style="display: flex; flex-direction: column; gap: 1vh">
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit inkjet-loc-tit">紫外光源:</div>
-            </div>
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit">是否启用:</div>
-              <a-switch v-model:checked="cur.ocrFinished[0].uvlDev.isEnable" />
-            </div>
-            <div class="flex">
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit">端口1:</div>
-                <a-input v-model:value="cur.ocrFinished[0].uvlDev.l1Port" class="w-8vw" placeholder="COM1" :maxlength="10" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit">通道1:</div>
-                <a-input v-model:value="cur.ocrFinished[0].uvlDev.l1ChannelNo" :class="keyInput === 'ocrFinished.uvlDev.l1ChannelNo' ? 'keyInput' : ''" class="w-8vw" placeholder="0~255" :maxlength="3" @click.stop="onInputFocus($event, 'ocrFinished.uvlDev.l1ChannelNo', 3)" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit">亮度1:</div>
-                <a-input v-model:value="cur.ocrFinished[0].uvlDev.l1Brightness" :class="keyInput === 'ocrFinished.uvlDev.l1Brightness' ? 'keyInput' : ''" class="w-8vw" placeholder="0~255" :maxlength="3" @click.stop="onInputFocus($event, 'ocrFinished.uvlDev.l1Brightness', 3)" />
-              </div>
-            </div>
-            <div class="flex">
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit">端口2:</div>
-                <a-input v-model:value="cur.ocrFinished[0].uvlDev.l2Port" class="w-8vw" placeholder="COM2" :maxlength="10" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit">通道2:</div>
-                <a-input v-model:value="cur.ocrFinished[0].uvlDev.l2ChannelNo" :class="keyInput === 'ocrFinished.uvlDev.l2ChannelNo' ? 'keyInput' : ''" class="w-8vw" placeholder="0~255" :maxlength="3" @click.stop="onInputFocus($event, 'ocrFinished.uvlDev.l2ChannelNo', 3)" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit">亮度2:</div>
-                <a-input v-model:value="cur.ocrFinished[0].uvlDev.l2Brightness" :class="keyInput === 'ocrFinished.uvlDev.l2Brightness' ? 'keyInput' : ''" class="w-8vw" placeholder="0~255" :maxlength="3" @click.stop="onInputFocus($event, 'ocrFinished.uvlDev.l2Brightness', 3)" />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- 白光光源 -->
-        <section v-if="cur.ocrFinished[0].wlDev" class="bg_listItem" style="display: block">
-          <div style="display: flex; flex-direction: column; gap: 1vh">
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit inkjet-loc-tit">白光光源:</div>
-            </div>
-            <div class="bgDefend_itemIn">
-              <div class="bgDefend_itemIn_tit">是否启用:</div>
-              <a-switch v-model:checked="cur.ocrFinished[0].wlDev.isEnable" />
-            </div>
-            <div class="flex">
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit">端口1:</div>
-                <a-input v-model:value="cur.ocrFinished[0].wlDev.l1Port" class="w-8vw" placeholder="COM1" :maxlength="10" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit">通道1:</div>
-                <a-input v-model:value="cur.ocrFinished[0].wlDev.l1ChannelNo" :class="keyInput === 'ocrFinished.wlDev.l1ChannelNo' ? 'keyInput' : ''" class="w-8vw" placeholder="0~255" :maxlength="3" @click.stop="onInputFocus($event, 'ocrFinished.wlDev.l1ChannelNo', 3)" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit">亮度1:</div>
-                <a-input v-model:value="cur.ocrFinished[0].wlDev.l1Brightness" :class="keyInput === 'ocrFinished.wlDev.l1Brightness' ? 'keyInput' : ''" class="w-8vw" placeholder="0~255" :maxlength="3" @click.stop="onInputFocus($event, 'ocrFinished.wlDev.l1Brightness', 3)" />
-              </div>
-            </div>
-            <div class="flex">
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit">端口2:</div>
-                <a-input v-model:value="cur.ocrFinished[0].wlDev.l2Port" class="w-8vw" placeholder="COM2" :maxlength="10" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit">通道2:</div>
-                <a-input v-model:value="cur.ocrFinished[0].wlDev.l2ChannelNo" :class="keyInput === 'ocrFinished.wlDev.l2ChannelNo' ? 'keyInput' : ''" class="w-8vw" placeholder="0~255" :maxlength="3" @click.stop="onInputFocus($event, 'ocrFinished.wlDev.l2ChannelNo', 3)" />
-              </div>
-              <div class="bgDefend_itemIn">
-                <div class="bgDefend_itemIn_tit">亮度2:</div>
-                <a-input v-model:value="cur.ocrFinished[0].wlDev.l2Brightness" :class="keyInput === 'ocrFinished.wlDev.l2Brightness' ? 'keyInput' : ''" class="w-8vw" placeholder="0~255" :maxlength="3" @click.stop="onInputFocus($event, 'ocrFinished.wlDev.l2Brightness', 3)" />
-              </div>
-            </div>
-          </div>
-        </section>
-      </template>
+      <!-- 按选中标题渲染对应 section 子组件 -->
+      <component
+        :is="s.comp"
+        v-for="(s, si) in activeSections"
+        :key="si"
+        :cur="cur"
+        v-bind="s.props || {}"
+      />
     </div>
 
     <!-- 底部按钮 -->
     <div class="fixed bottom-10vh left-3vw right-3vw flex justify-between py-2vh">
-      <div>
-        <!-- <a-button type="link" class="btn_normal mr-2vw w-18.5vw" @click="saveData">保存设置</a-button> -->
-        <!-- <a-button type="link" class="btn_normal w-18.5vw" @click="getData">读取</a-button> -->
-      </div>
+      <div></div>
       <div>
         <a-button type="link" class="btn_normal mr-2vw w-18.5vw" @click="saveData">保存设置</a-button>
         <a-button type="link" class="btn_normal w-18.5vw" @click="getData">读取</a-button>
-        <!-- <a-button type="link" class="btn_normal w-18.5vw" @click="$goto('CheckPage')">返回</a-button> -->
       </div>
     </div>
   </div>
@@ -470,10 +53,75 @@
 <script setup lang="ts">
 import { App } from 'ant-design-vue';
 import { checkModule } from '@/apis/proApi';
-import { useAppStore } from '@/store/index';
 import TheConfirm from '@/components/TheConfirm.vue';
+import ModObsvQualityControl from '@/pages/Check/components/set/ModObsvQualityControl.vue';
+import ModOcrBeforeLaser from '@/pages/Check/components/set/ModOcrBeforeLaser.vue';
+import ModOcrBeforeUv from '@/pages/Check/components/set/ModOcrBeforeUv.vue';
+import ModOcrBlank from '@/pages/Check/components/set/ModOcrBlank.vue';
+import ModOcrFinished from '@/pages/Check/components/set/ModOcrFinished.vue';
+import ModOcrPose from '@/pages/Check/components/set/ModOcrPose.vue';
+import { useAppStore } from '@/store/index';
 
 const { notification } = App.useApp();
+
+// --- 模块导航（左侧总标题） ---
+// 每个标题下显示一组 section 子组件；模板类型公共块固定在每个标题顶部
+const modules = [
+  {
+    key: 'blank',
+    label: '空白检测设置',
+    sections: [
+      { comp: ModOcrBlank },
+      { comp: ModOcrPose },
+    ],
+  },
+  {
+    key: 'laser',
+    label: '激光定位设置',
+    sections: [
+      { comp: ModOcrBeforeLaser },
+    ],
+  },
+  {
+    key: 'uvHigh',
+    label: '喷墨定位设置（高）',
+    sections: [
+      { comp: ModOcrBeforeUv, props: { range: [0, 4] } },
+    ],
+  },
+  {
+    key: 'uvLow',
+    label: '喷墨定位设置（低）',
+    sections: [
+      { comp: ModOcrBeforeUv, props: { range: [4, 999] } },
+    ],
+  },
+  {
+    key: 'quality',
+    label: '质检设置',
+    sections: [
+      { comp: ModObsvQualityControl, props: { title: '加注页质量检测' } },
+      { comp: ModOcrFinished, props: { title: '主副页检测' } },
+    ],
+  },
+];
+const activeModule = ref('blank');
+const activeSections = computed(() => modules.find(m => m.key === activeModule.value)?.sections || []);
+
+// 切换模块未保存确认
+const pendingModule = ref<string | null>(null);
+const showConfirm = ref(false);
+const pendingTemplateCode = ref<string | null>(null);
+
+function onMenuClick(key: string) {
+  if (key === activeModule.value) return;
+  if (hasUnsavedChanges()) {
+    pendingModule.value = key;
+    showConfirm.value = true;
+  } else {
+    activeModule.value = key;
+  }
+}
 
 const data = ref<any>({ mvIn: [] });
 
@@ -495,10 +143,6 @@ const cur = computed(() => {
   return data.value.mvIn[idx].paraMv || {};
 });
 
-// --- 未保存切换确认 ---
-const showConfirm = ref(false);
-const pendingTemplateCode = ref<string | null>(null);
-
 function hasUnsavedChanges(): boolean {
   return JSON.stringify(data.value) !== originalDataStr;
 }
@@ -518,9 +162,15 @@ function onConfirmDiscard() {
   const original = JSON.parse(originalDataStr);
   data.value = original;
 
-  // 切换到待选模板，重新转字符串
-  selectedTemplateCode.value = pendingTemplateCode.value!;
-  pendingTemplateCode.value = null;
+  // 切换到待选模板或待选模块
+  if (pendingTemplateCode.value) {
+    selectedTemplateCode.value = pendingTemplateCode.value;
+    pendingTemplateCode.value = null;
+  }
+  if (pendingModule.value) {
+    activeModule.value = pendingModule.value;
+    pendingModule.value = null;
+  }
   showConfirm.value = false;
 
   // 重新字符串化所有数值字段
@@ -534,6 +184,7 @@ function onConfirmDiscard() {
 
 function onConfirmCancel() {
   pendingTemplateCode.value = null;
+  pendingModule.value = null;
   showConfirm.value = false;
 }
 
@@ -560,11 +211,13 @@ function hideKeyboard() {
 function getKeyboardValue(): string {
   if (!keyInput.value || !cur.value) return '';
   const parts = keyInput.value.split('.');
-  // 第一个部分是 section 名，对应 cur[section][0]
-  const [section, ...rest] = parts;
+  // 第一部分 section，第二部分可能是数组索引（数字），其后为字段路径
+  const [section, maybeIdx, ...rest] = parts;
   const arr = cur.value[section];
-  if (!arr || !arr[0]) return '';
-  let val: any = arr[0];
+  if (!arr || !Array.isArray(arr)) return '';
+  const idx = /^\d+$/.test(maybeIdx) ? Number(maybeIdx) : 0;
+  if (!arr[idx]) return '';
+  let val: any = arr[idx];
   for (const p of rest) {
     if (val == null || typeof val !== 'object') return '';
     val = val[p];
@@ -596,14 +249,16 @@ function onChangeKeyboard(input: string, keyboard: any) {
   }
   if (!keyInput.value || !cur.value) return;
   const parts = keyInput.value.split('.');
-  const [section, ...rest] = parts;
+  const [section, maybeIdx, ...rest] = parts;
   const arr = cur.value[section];
-  if (!arr || !arr[0]) return;
+  if (!arr || !Array.isArray(arr)) return;
+  const idx = /^\d+$/.test(maybeIdx) ? Number(maybeIdx) : 0;
+  if (!arr[idx]) return;
   if (rest.length === 0) {
-    arr[0] = input;
+    arr[idx] = input;
     return;
   }
-  let target: any = arr[0];
+  let target: any = arr[idx];
   for (let i = 0; i < rest.length - 1; i++) {
     if (target == null || typeof target !== 'object') return;
     target = target[rest[i]];
@@ -718,64 +373,60 @@ function validateAll(): string[] {
   const tc = selectedTemplateCode.value || '当前模板';
 
   // ocrPose
-  if (pmv.ocrPose?.[0]) {
-    const p = pmv.ocrPose[0];
-    const e = validateField(p.usExposureTime, 62, 9999764, `${tc} 证本姿态 曝光时间`);
+  (pmv.ocrPose || []).forEach((p: any, i: number) => {
+    const e = validateField(p.usExposureTime, 62, 9999764, `${tc} 证本姿态${i + 1} 曝光时间`);
     if (e) errs.push(e);
-    if (p.targetRoi) errs.push(...validateRoi(p.targetRoi, `${tc} 证本姿态搜索区域`));
-  }
+    if (p.targetRoi) errs.push(...validateRoi(p.targetRoi, `${tc} 证本姿态${i + 1}搜索区域`));
+  });
 
   // ocrBlank
-  if (pmv.ocrBlank?.[0]) {
-    const e = validateField(pmv.ocrBlank[0].usExposureTime, 62, 9999764, `${tc} OCR空白页 曝光时间`);
+  (pmv.ocrBlank || []).forEach((p: any, i: number) => {
+    const e = validateField(p.usExposureTime, 62, 9999764, `${tc} OCR空白页${i + 1} 曝光时间`);
     if (e) errs.push(e);
-  }
+  });
 
   // obsvQualityControl
-  if (pmv.obsvQualityControl?.[0]) {
-    const e = validateField(pmv.obsvQualityControl[0].usExposureTime, 62, 9999764, `${tc} 检测质量控制 曝光时间`);
+  (pmv.obsvQualityControl || []).forEach((p: any, i: number) => {
+    const e = validateField(p.usExposureTime, 62, 9999764, `${tc} 检测质量控制${i + 1} 曝光时间`);
     if (e) errs.push(e);
-  }
+  });
 
   // ocrBeforeLaser
-  if (pmv.ocrBeforeLaser?.[0]) {
-    const l = pmv.ocrBeforeLaser[0];
-    const e1 = validateField(l.usExposureTime, 62, 9999764, `${tc} 激光前检测 曝光时间`);
+  (pmv.ocrBeforeLaser || []).forEach((l: any, i: number) => {
+    const e1 = validateField(l.usExposureTime, 62, 9999764, `${tc} 激光前检测${i + 1} 曝光时间`);
     if (e1) errs.push(e1);
-    const e2 = validateField(l.rotationCorrectionAngle, -5000, 5000, `${tc} 激光前检测 旋转角度`);
+    const e2 = validateField(l.rotationCorrectionAngle, -5000, 5000, `${tc} 激光前检测${i + 1} 旋转角度`);
     if (e2) errs.push(e2);
-    if (l.markTopLeftRegion) errs.push(...validateRoi(l.markTopLeftRegion, `${tc} 激光前 左上角`));
-    if (l.markBottomRightRegion) errs.push(...validateRoi(l.markBottomRightRegion, `${tc} 激光前 右下角`));
-  }
+    if (l.markTopLeftRegion) errs.push(...validateRoi(l.markTopLeftRegion, `${tc} 激光前检测${i + 1} 左上角`));
+    if (l.markBottomRightRegion) errs.push(...validateRoi(l.markBottomRightRegion, `${tc} 激光前检测${i + 1} 右下角`));
+  });
 
   // ocrBeforeUv
-  if (pmv.ocrBeforeUv?.[0]) {
-    const uv = pmv.ocrBeforeUv[0];
-    const e1 = validateField(uv.usExposureTime, 62, 9999764, `${tc} 喷墨前检测 曝光时间`);
+  (pmv.ocrBeforeUv || []).forEach((uv: any, i: number) => {
+    const e1 = validateField(uv.usExposureTime, 62, 9999764, `${tc} 喷墨前检测${i + 1} 曝光时间`);
     if (e1) errs.push(e1);
-    const e2 = validateField(uv.stdPortraitX, 0, 90000, `${tc} 喷墨前 X坐标`);
+    const e2 = validateField(uv.stdPortraitX, 0, 90000, `${tc} 喷墨前检测${i + 1} X坐标`);
     if (e2) errs.push(e2);
-    const e3 = validateField(uv.stdPortraitY, 0, 90000, `${tc} 喷墨前 Y坐标`);
+    const e3 = validateField(uv.stdPortraitY, 0, 90000, `${tc} 喷墨前检测${i + 1} Y坐标`);
     if (e3) errs.push(e3);
-    const e4 = validateField(uv.rotationCorrectionAngle, -5000, 5000, `${tc} 喷墨前 旋转角度`);
+    const e4 = validateField(uv.rotationCorrectionAngle, -5000, 5000, `${tc} 喷墨前检测${i + 1} 旋转角度`);
     if (e4) errs.push(e4);
-    if (uv.markTopLeftRegion) errs.push(...validateRoi(uv.markTopLeftRegion, `${tc} 喷墨前 左上角`));
-    if (uv.markBottomRightRegion) errs.push(...validateRoi(uv.markBottomRightRegion, `${tc} 喷墨前 右下角`));
-  }
+    if (uv.markTopLeftRegion) errs.push(...validateRoi(uv.markTopLeftRegion, `${tc} 喷墨前检测${i + 1} 左上角`));
+    if (uv.markBottomRightRegion) errs.push(...validateRoi(uv.markBottomRightRegion, `${tc} 喷墨前检测${i + 1} 右下角`));
+  });
 
   // ocrFinished
-  if (pmv.ocrFinished?.[0]) {
-    const f = pmv.ocrFinished[0];
-    const e1 = validateField(f.usExposureTime, 62, 9999764, `${tc} 成品检测 曝光时间`);
+  (pmv.ocrFinished || []).forEach((f: any, i: number) => {
+    const e1 = validateField(f.usExposureTime, 62, 9999764, `${tc} 成品检测${i + 1} 曝光时间`);
     if (e1) errs.push(e1);
-    const e2 = validateField(f.irUsExposureTime, 62, 9999764, `${tc} 成品检测 红外曝光`);
+    const e2 = validateField(f.irUsExposureTime, 62, 9999764, `${tc} 成品检测${i + 1} 红外曝光`);
     if (e2) errs.push(e2);
-    const e3 = validateField(f.uvUsExposureTime, 62, 9999764, `${tc} 成品检测 紫外曝光`);
+    const e3 = validateField(f.uvUsExposureTime, 62, 9999764, `${tc} 成品检测${i + 1} 紫外曝光`);
     if (e3) errs.push(e3);
-    if (f.irlDev) errs.push(...validateDevice(f.irlDev, `${tc} 红外光源`));
-    if (f.uvlDev) errs.push(...validateDevice(f.uvlDev, `${tc} 紫外光源`));
-    if (f.wlDev) errs.push(...validateDevice(f.wlDev, `${tc} 白光光源`));
-  }
+    if (f.irlDev) errs.push(...validateDevice(f.irlDev, `${tc} 成品检测${i + 1} 红外光源`));
+    if (f.uvlDev) errs.push(...validateDevice(f.uvlDev, `${tc} 成品检测${i + 1} 紫外光源`));
+    if (f.wlDev) errs.push(...validateDevice(f.wlDev, `${tc} 成品检测${i + 1} 白光光源`));
+  });
 
   return errs;
 }
@@ -841,6 +492,10 @@ async function saveData() {
   }
 }
 
+// provide 键盘逻辑给子组件复用（需在 keyInput 声明之后）
+provide('onInputFocus', onInputFocus);
+provide('keyInput', keyInput);
+
 defineExpose({ hideKeyboard });
 
 onMounted(() => {
@@ -875,6 +530,45 @@ onMounted(() => {
   margin-left: 0.5vw;
   color: #989ca1;
   font-size: 1vw;
+}
+
+// --- 左侧模块导航（与质检记录一致的 bgNav 样式） ---
+.set-wrap {
+  width: 100%;
+  align-items: flex-start;
+}
+.set-nav {
+  width: 15vw;
+  flex-shrink: 0;
+  margin-right: 1vw;
+  display: flex;
+  flex-direction: column;
+  // 左侧标题固定在视口内，随外层容器（SelectPage 的 .bgDefend）统一滚动
+  position: sticky;
+  top: 0;
+}
+.bgNav {
+  background-image: url('@/assets/image/bg_navBtn.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  width: 15vw;
+  text-align: center;
+  height: 10vh;
+  line-height: 8vh;
+  margin-bottom: 1vh;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-size: 1.3vw;
+  &.actived {
+    background-image: url('@/assets/image/bg_navBtn_hov.png');
+  }
+}
+.set-content {
+  flex: 1;
+  // 不再独立滚动，由外层 .bgDefend 统一滚动，避免双滚动条
+  margin-bottom: 0;
+  padding-right: 1vw;
 }
 </style>
 

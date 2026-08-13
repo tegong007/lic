@@ -19,6 +19,12 @@ declare module 'vue-router/auto-routes' {
    */
   export interface RouteNamedMap {
     '/Check/CheckPage': RouteRecordInfo<'/Check/CheckPage', '/Check/CheckPage', Record<never, never>, Record<never, never>>,
+    '/Check/components/set/ModObsvQualityControl': RouteRecordInfo<'/Check/components/set/ModObsvQualityControl', '/Check/components/set/ModObsvQualityControl', Record<never, never>, Record<never, never>>,
+    '/Check/components/set/ModOcrBeforeLaser': RouteRecordInfo<'/Check/components/set/ModOcrBeforeLaser', '/Check/components/set/ModOcrBeforeLaser', Record<never, never>, Record<never, never>>,
+    '/Check/components/set/ModOcrBeforeUv': RouteRecordInfo<'/Check/components/set/ModOcrBeforeUv', '/Check/components/set/ModOcrBeforeUv', Record<never, never>, Record<never, never>>,
+    '/Check/components/set/ModOcrBlank': RouteRecordInfo<'/Check/components/set/ModOcrBlank', '/Check/components/set/ModOcrBlank', Record<never, never>, Record<never, never>>,
+    '/Check/components/set/ModOcrFinished': RouteRecordInfo<'/Check/components/set/ModOcrFinished', '/Check/components/set/ModOcrFinished', Record<never, never>, Record<never, never>>,
+    '/Check/components/set/ModOcrPose': RouteRecordInfo<'/Check/components/set/ModOcrPose', '/Check/components/set/ModOcrPose', Record<never, never>, Record<never, never>>,
     '/Check/components/TheRecord': RouteRecordInfo<'/Check/components/TheRecord', '/Check/components/TheRecord', Record<never, never>, Record<never, never>>,
     '/Check/components/TheSet': RouteRecordInfo<'/Check/components/TheSet', '/Check/components/TheSet', Record<never, never>, Record<never, never>>,
     '/Check/SelectPage': RouteRecordInfo<'/Check/SelectPage', '/Check/SelectPage', Record<never, never>, Record<never, never>>,

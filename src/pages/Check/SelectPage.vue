@@ -1,101 +1,25 @@
 <template>
-  <div class="absolute top-10vh flex justify-start">
-    <div class="flex justify-start">
-      <div class="ml-1vw w-20vw flex-shrink-0 text-1.5vw">
-        <div class="bgNav animation" :class="choose === 2 ? 'actived' : ''" @click="$goto('CheckSelectPage', { key: 2 })">
-          <span>参数设置</span>
-        </div>
-        <div class="bgNav animation" :class="choose === 1 ? 'actived' : ''" @click="$goto('CheckSelectPage', { key: 1 })">
-          <span>质检记录</span>
-        </div>
-      </div>
-      <div class="bgDefend ml-2vw h-71vh w-75vw overflow-auto">
-        <TheRecord v-if="choose === 1" :page="pages" :data="lists" @callback="getCallback" />
-        <TheSet v-else-if="choose === 2" />
+  <div class="absolute top-10vh w-100% flex justify-start">
+    <div class="ml-1vw flex justify-start">
+      <div class="bgDefend ml-2vw h-71vh w-90vw overflow-auto">
+        <TheSet v-if="choose === 2" />
+        <TheRecord v-else :default-check-type="0" />
       </div>
     </div>
-    <!-- <div v-if="choose !== 2" class="fixed bottom-10vh left-3vw right-3vw flex justify-center">
-      <TheButton title="返回" @click="$goto('CheckPage')" />
-    </div> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import { App } from 'ant-design-vue';
 import { useRoute } from 'vue-router';
-import { checkModule } from '@/apis/proApi';
 import TheRecord from '@/pages/Check/components/TheRecord.vue';
 import TheSet from '@/pages/Check/components/TheSet.vue';
-import { useAppStore } from '@/store/index';
 
-const { notification } = App.useApp();
 const route = useRoute();
-
-const form: any = ref({});
-const choose = ref(-1);
-const lists = ref([]);
-const pages = ref({ total: 0, current: 1, size: 5 });
-
-function setActived(key: number) {
-  if (key !== choose.value) {
-    choose.value = key;
-    form.value = {};
-    getData();
-  }
-}
-
-// 回调事件
-function getCallback(param: any) {
-  const page = param.page || { total: 0, current: 1, size: 5 };
-  if (param.formData) {
-    form.value = param.formData;
-    pages.value = page;
-    getData();
-  }
-}
-
-async function getData() {
-  try {
-    useAppStore().setSpinning(true);
-    let data: any;
-    if (choose.value === 1) {
-      const temp: any = form.value.dateRange || ['', ''];
-      data = await checkModule.qualityCheckHistoy({ ...form.value, dateRange: undefined, beginDate: temp[0], endDate: temp[1], page: pages.value.current, rowPerPage: 5 });
-      if (data.respData) {
-        lists.value = data.respData.checkedInfo;
-        pages.value = { total: data.respData.totalRows, current: data.respData.page, size: data.respData.rowPerPage };
-        if (!(pages.value.total > 0)) notification.error({ message: '完成', description: '搜索完成，没有搜到有效数据', placement: 'bottomRight', class: 'notification-custom-class' });
-      }
-    }
-  } catch (error) {
-    lists.value = [];
-    notification.error({ message: '错误', description: String(error), placement: 'bottomRight', class: 'notificationE-custom-class' });
-  } finally {
-    useAppStore().setSpinning(false);
-  }
-}
-
-onMounted(async () => {
-  setActived(Number(route.query.key || '1'));
-});
+// key=2 进入参数设置，key=1（默认）进入质检记录
+const choose = ref(Number(route.query.key || '1'));
 </script>
 
 <style scoped lang="less">
-.bgNav {
-  background-image: url('@/assets/image/bg_navBtn.png');
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  cursor: pointer;
-  width: 19.5vw;
-  text-align: center;
-  height: 10vh;
-  line-height: 8vh;
-  margin-bottom: 1vh;
-  white-space: nowrap;
-  &.actived {
-    background-image: url('@/assets/image/bg_navBtn_hov.png');
-  }
-}
 .bgDefend {
   ::v-deep(.ant-form-item) {
     margin-bottom: 0vh;
