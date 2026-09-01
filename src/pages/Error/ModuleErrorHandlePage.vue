@@ -25,7 +25,7 @@
         <div class="add-row mb-1vh flex items-center justify-end">
           <span class="mr-1vw whitespace-nowrap text-1.2vw">手动输入证本号（默认不处理）：</span>
           <!-- <a-input v-model:value="newDocID" class="doc-input mr-1vw" placeholder="请输入" allow-clear /> -->
-          <a-input v-model:value="newDocID" placeholder="请输入证本号" :maxlength="20" class="mr-1vw flex-1" @click.stop="onInputFocus($event, 'docID', 20)" @input="filterDigits" />
+          <a-input v-model:value="newDocID" placeholder="请输入证本号" :maxlength="20" class="mr-1vw flex-1" @click.stop="onInputFocus($event, 'docID')" @input="filterDigits" />
 
           <a-button type="link" class="btn_normal add-btn !mr-0" :disabled="!newDocID.trim()" @click="handleAdd">添加</a-button>
         </div>
@@ -56,6 +56,9 @@
         </div>
       </div>
     </div>
+
+    <!-- 查看动作弹框（TheConfirm 同款样式，按当前模块 uid 渲染固定动作） -->
+    <ViewActionModal :open="showActionModal" :module-uid="moduleUid" :handle-cancel="closeActionModal" />
   </div>
 </template>
 
@@ -64,8 +67,8 @@ import { App } from 'ant-design-vue';
 import { computed, nextTick, onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { ErrorModule } from '@/apis/proApi';
-
 import m1Bottom from '@/assets/image/bigScreen/error/m1-bottom.png';
+
 // 图片资源（按目录实际命名；m4 文件名拼写为 bttom，按原样导入）
 import m1Top from '@/assets/image/bigScreen/error/m1-top.png';
 import m2 from '@/assets/image/bigScreen/error/m2.png';
@@ -76,6 +79,7 @@ import m4Top from '@/assets/image/bigScreen/error/m4-top.png';
 import m6Bottom from '@/assets/image/bigScreen/error/m6-bottom.png';
 import m6Top from '@/assets/image/bigScreen/error/m6-top.png';
 import m7 from '@/assets/image/bigScreen/error/m7.png';
+import ViewActionModal from '@/components/ViewActionModal.vue';
 
 interface ExDoc {
   fwBookSn?: number;
@@ -131,6 +135,8 @@ const items = ref<ModuleItem[]>([]);
 /** 用 reactive 让行内属性变更触发重渲染 */
 const exDocList = reactive<ExDocRow[]>([]);
 const newDocID = ref('');
+/** 查看动作弹框显隐 */
+const showActionModal = ref(false);
 
 // --- 虚拟键盘（参考维护设置页 SetGeneral）---
 const showKeyboard = ref(false);
@@ -286,7 +292,11 @@ async function handleSubmit() {
 }
 
 function handleViewAction() {
-  notification.info({ message: '提示', description: '查看动作（稍候再做）', placement: 'bottomRight' });
+  showActionModal.value = true;
+}
+
+function closeActionModal() {
+  showActionModal.value = false;
 }
 
 function handleReturn() {

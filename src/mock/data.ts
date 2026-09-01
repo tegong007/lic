@@ -246,6 +246,24 @@ const tssMock: Record<string, (params?: any) => any> = {
   '/tss/error-handle/remove-doc': () => ({ success: true }),
   '/tss/error-handle/done': () => ({ success: true }),
   '/tss/error-handle/submit': () => ({ success: true, msg: '提交成功' }),
+  '/tss/deal-err-command': (params?: any) => {
+    // adapter 阶段 config.data 为 JSON 字符串，解析出 jobUid + motion 原样回显
+    let jobUid = '';
+    let motion = 0;
+    if (typeof params === 'string') {
+      try {
+        const p = JSON.parse(params);
+        jobUid = p?.jobUid || '';
+        motion = p?.motion ?? 0;
+      } catch {
+        /* ignore */
+      }
+    } else if (params) {
+      jobUid = params.jobUid || '';
+      motion = params.motion ?? 0;
+    }
+    return { success: true, jobUid, motion, msg: '指令已下发' };
+  },
   '/tss/print-self-test': () => ({ success: true }),
 
   // 设备设置

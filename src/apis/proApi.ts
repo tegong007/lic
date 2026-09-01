@@ -136,5 +136,6 @@ const ErrorModule = {
   handleDone: (data: any) => request.post(`${v1}/tss/error-handle/done`, data),
   removeDoc: (data: any) => request.post(`${v1}/tss/error-handle/remove-doc`, data),
   submitError: (data: any) => request.post(`${v1}/tss/error-handle/submit`, data),
+  dealErrCommand: (data: any) => request.post(`${v1}/tss/deal-err-command`, data), // 处理错误指令（查看动作）
 };
 export { checkModule, defendModule, documentModule, ErrorModule, footerModule, homeModule, mainTainModule, physicalModule, positionModule, searchModule, setMoule, settingMoule, TaskModule };
