@@ -1,8 +1,9 @@
 <template>
-  <div class="w-full h-full">
-    <div class="bgT h-full flex items-center justify-center font-[siyuan] mt-2vh">
+  <div class="h-full w-full">
+    <TheHeader />
+    <div class="bgT mt-2vh h-full flex items-center justify-center font-[siyuan]">
       <img class="absolute bottom-0 z-1 h-80vh w-full" src="@/assets/image/ico_bottom.png" />
-      <div class="z-2 flex justify-center mb-6.5vh">
+      <div class="z-2 mb-6.5vh flex justify-center">
         <div class="w-60vw rounded-lg py-2vh">
           <!-- 标题 -->
           <div class="mb-10vh text-center text-3.4vw text-white font-bold tracking-wider" @dblclick="handleDoubleClick">用户登录</div>
@@ -14,7 +15,7 @@
               <div class="h-22vh w-20vh flex items-center justify-center">
                 <img class="h-22vh w-20vh object-contain" src="@/assets/image/login_left.png" alt="指纹识别" />
               </div>
-              <span class="absolute bottom-4vh text-1.8vw text-white whitespace-nowrap">指纹识别登录</span>
+              <span class="absolute bottom-4vh whitespace-nowrap text-1.8vw text-white">指纹识别登录</span>
             </div>
 
             <!-- 人脸识别登录 -->
@@ -22,7 +23,7 @@
               <div class="test h-22vh w-20vh flex items-center justify-center">
                 <img class="h-22vh w-20vh object-contain" src="@/assets/image/login_right.png" alt="人脸识别" />
               </div>
-              <span class="absolute bottom-4vh text-1.8vw text-white whitespace-nowrap">人脸识别登录</span>
+              <span class="absolute bottom-4vh whitespace-nowrap text-1.8vw text-white">人脸识别登录</span>
             </div>
           </div>
 
@@ -60,6 +61,7 @@ import { App } from 'ant-design-vue';
 import { loginModule } from '@/apis/loginApi';
 import TheConfirm from '@/components/TheConfirm.vue';
 import TheExit from '@/components/TheExit.vue';
+import TheHeader from '@/components/TheHeader.vue';
 import router from '@/router';
 import useCustomTimer from '@/utils/useCustomTimer';
 
@@ -76,6 +78,8 @@ function handleDoubleClick() {
 }
 
 // 弹窗控制
+let faceTimeout: ReturnType<typeof setTimeout> | null = null;
+
 function setModal(value: number) {
   if (value === -1) {
     modal.value = { open: false, title: '', key: -1 };
@@ -85,8 +89,6 @@ function setModal(value: number) {
     }
   }
 }
-
-let faceTimeout: ReturnType<typeof setTimeout> | null = null;
 
 function handleLogin(type: string) {
   if (type === 'fingerprint') {

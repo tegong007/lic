@@ -12,6 +12,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/pages/Home/HomePage.vue'),
   },
   {
+    path: '/home-machine-error', // 整机错误模块预览
+    name: 'HomeMachineErrorPage',
+    component: () => import('@/pages/Home/MachineErrorPage.vue'),
+  },
+  {
     path: '/home-station', // 工位查看
     name: 'HomeStationPage',
     component: () => import('@/pages/Home/StationPage.vue'),

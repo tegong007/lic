@@ -39,7 +39,7 @@ const modal: any = ref({ open: false, title: '', key: -1 });
 const { notification } = App.useApp();
 
 const isMainPage = computed(() => {
-  const mainRoutes = ['/home', '/home-station', '/check', '/check-select', '/defend', '/set', '/search'];
+  const mainRoutes = ['/home', '/home-machine-error', '/home-station', '/check', '/check-select', '/defend', '/set', '/search'];
   return mainRoutes.includes(route.path);
 });
 
