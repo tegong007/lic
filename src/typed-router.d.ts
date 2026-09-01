@@ -37,6 +37,7 @@ declare module 'vue-router/auto-routes' {
     '/Defend/components/TheReader': RouteRecordInfo<'/Defend/components/TheReader', '/Defend/components/TheReader', Record<never, never>, Record<never, never>>,
     '/Defend/components/TheTest': RouteRecordInfo<'/Defend/components/TheTest', '/Defend/components/TheTest', Record<never, never>, Record<never, never>>,
     '/Defend/DefendPage': RouteRecordInfo<'/Defend/DefendPage', '/Defend/DefendPage', Record<never, never>, Record<never, never>>,
+    '/Error/ModuleErrorHandlePage': RouteRecordInfo<'/Error/ModuleErrorHandlePage', '/Error/ModuleErrorHandlePage', Record<never, never>, Record<never, never>>,
     '/Home/components/TheTable': RouteRecordInfo<'/Home/components/TheTable', '/Home/components/TheTable', Record<never, never>, Record<never, never>>,
     '/Home/HomePage': RouteRecordInfo<'/Home/HomePage', '/Home/HomePage', Record<never, never>, Record<never, never>>,
     '/Home/MachineErrorPage': RouteRecordInfo<'/Home/MachineErrorPage', '/Home/MachineErrorPage', Record<never, never>, Record<never, never>>,

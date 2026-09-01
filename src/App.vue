@@ -3,13 +3,13 @@
     <a-app>
       <a-spin :spinning="appStore.spinning" :indicator="indicator" tip="加载中…">
         <div class="bg relative h-100vh flex flex-col items-center">
-          <Header v-if="isMainPage" />
+          <Header v-if="isHeaderPage" />
           <router-view v-slot="{ Component, route: curRoute }">
             <transition name="fade">
               <component :is="Component" :key="curRoute.fullPath" />
             </transition>
           </router-view>
-          <Footer v-if="isMainPage" />
+          <Footer v-if="isFooterPage" />
         </div>
 
         <TheConfirm v-if="modal.open" :open="modal.open" :title="modal.title" :desc="modal.desc" :data="modal.data" :handle-ok="modal.handleOk || controlMachine" :handle-cancel="() => (modal = { open: false, title: '', key: -1 })" />
@@ -38,10 +38,12 @@ const indicator = h(LoadingOutlined, { style: { fontSize: '200px' } });
 const modal: any = ref({ open: false, title: '', key: -1 });
 const { notification } = App.useApp();
 
-const isMainPage = computed(() => {
-  const mainRoutes = ['/home', '/home-machine-error', '/home-station', '/check', '/check-select', '/defend', '/set', '/search'];
-  return mainRoutes.includes(route.path);
-});
+/** 哪些路由展示顶部 Header（错误处理类页面也要展示） */
+const headerRoutes = ['/home', '/home-machine-error', '/module-error-handle', '/home-station', '/check', '/check-select', '/defend', '/set', '/search'];
+/** 哪些路由展示底部 Footer 导航 tab（错误处理类页面隐藏） */
+const footerRoutes = ['/home', '/home-station', '/check', '/check-select', '/defend', '/set', '/search'];
+const isHeaderPage = computed(() => headerRoutes.includes(route.path));
+const isFooterPage = computed(() => footerRoutes.includes(route.path));
 
 watchEffect(() => {
   appStore.setThemeColor(appStore.primaryColor, appStore.isDark);

@@ -173,7 +173,7 @@ async function setModal(value: number) {
       if (entire.value.uvStatus && entire.value.uvStatus.length > 0 && (entire.value.uvStatus[0].status === 2 || entire.value.uvStatus[0].status === 3)) modal.value = { open: true, title: '主副页喷墨机', key: 6, desc: entire.value.uvStatus[0].msg || '--' };
       break;
     case 7:
-      if (entire.value.modules && entire.value.modules.length > 0 && entire.value.modules.some((m: any) => m.code !== 0)) router.push({ name: 'HomeMachineErrorPage' });
+      if (entire.value.modules && entire.value.modules.length > 0 && entire.value.modules.some((m: any) => m.code !== 0)) router.push('/home-machine-error');
       break;
     case 8:
       modal.value = { open: true, title: '继续进本', key: 0 };

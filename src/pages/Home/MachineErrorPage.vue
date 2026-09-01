@@ -1,5 +1,5 @@
 <template>
-  <div class="relative h-100vh w-full flex flex-col items-center justify-between pb-[13vh] pt-[12vh]">
+  <div class="relative h-100vh w-full flex flex-col items-center justify-between pb-[10vh] pt-[12vh]">
     <!-- 标题：维护页风格（文字 + 左右占满的线，无蓝色背景） -->
     <div class="err-page-tit w-90vw">
       <span class="err-page-tit-text">整机错误模块预览</span>
@@ -11,13 +11,23 @@
         <img class="block w-full" src="@/assets/image/bigScreen/error/machine.png" />
         <!-- 区段覆盖层：仅压机器主体（避开顶部标签区），按各模块实际宽度定位 -->
         <div class="modules-overlay absolute left-0 w-full" :style="{ height: overlayHeight }">
-          <div v-for="(section, idx) in sections" :key="idx" class="module-cell absolute top-0 h-full cursor-pointer" :class="{ 'is-error': section.error }" :style="{ left: `${sectionBounds[idx].start}%`, width: `${sectionBounds[idx].width}%` }" />
+          <div
+            v-for="(section, idx) in sections"
+            :key="idx"
+            class="module-cell absolute top-0 h-full"
+            :class="{
+              'is-error': section.error,
+              'is-clickable': isClickable(section),
+            }"
+            :style="{ left: `${sectionBounds[idx].start}%`, width: `${sectionBounds[idx].width}%` }"
+            @click="handleModuleClick(section)"
+          />
         </div>
       </div>
     </div>
 
     <!-- 返回按钮：维护页 btn_normal 样式 -->
-    <a-button type="link" class="btn_normal !mr-0" @click="handleReturn">返回</a-button>
+    <a-button type="link" class="btn_normal absolute bottom-2vh !mr-0" @click="handleReturn">返回</a-button>
   </div>
 </template>
 
@@ -32,6 +42,7 @@ const { start, stop } = useCustomTimer();
 
 interface ModuleSection {
   index: number;
+  moduleUid: string;
   error: boolean;
 }
 
@@ -57,9 +68,17 @@ const sectionBounds = [
 const sections = ref<ModuleSection[]>(
   Array.from({ length: SECTION_COUNT }, (_, i) => ({
     index: i,
+    moduleUid: `m${SECTION_COUNT - i}`,
     error: false,
   })),
 );
+
+/** 模块五、模块八飘红也禁止点击跳转 */
+const NOT_CLICKABLE_UIDS = new Set(['m5', 'm8']);
+
+function isClickable(section: ModuleSection): boolean {
+  return section.error && !NOT_CLICKABLE_UIDS.has(section.moduleUid);
+}
 
 /** 区段覆盖层高度 = 图片高度的 92%（从"模块名"下沿开始，填满机器图主体到底部） */
 const overlayHeight = ref('92%');
@@ -77,7 +96,10 @@ function parseModuleNum(uid: any): number | null {
 
 function refreshOverlay() {
   // 先清空所有 error 标志
-  sections.value.forEach(s => (s.error = false));
+  sections.value.forEach((s) => {
+    s.error = false;
+    s.moduleUid = `m${SECTION_COUNT - s.index}`;
+  });
   const list = entire.value.modules || [];
   list.forEach((m: any) => {
     // modules 数组里的 code 非 0 就是出错了
@@ -86,7 +108,10 @@ function refreshOverlay() {
     if (!num) return;
     // 模块 N → 区段索引 (N=1 时右端 i=7, N=8 时左端 i=0)
     const idx = SECTION_COUNT - num;
-    if (sections.value[idx]) sections.value[idx].error = true;
+    if (sections.value[idx]) {
+      sections.value[idx].moduleUid = String(m.uid).toLowerCase();
+      sections.value[idx].error = true;
+    }
   });
 }
 
@@ -109,7 +134,12 @@ function startPolling() {
 }
 
 function handleReturn() {
-  router.push({ name: 'HomePage' });
+  router.push('/home');
+}
+
+function handleModuleClick(section: ModuleSection) {
+  if (!isClickable(section)) return;
+  router.push({ path: '/module-error-handle', query: { uid: section.moduleUid } });
 }
 
 onMounted(() => {
@@ -155,11 +185,23 @@ onUnmounted(() => {
 
 .module-cell {
   /* 图片自带白色分割线且区段已按精确边界定位，这里不画 border 避免重叠 */
-  transition: background-color 0.4s ease;
+  transition:
+    background-color 0.4s ease,
+    outline 0.2s ease;
 }
 
 /* 出错区段：静态红色半透明遮罩 */
 .module-cell.is-error {
   background-color: rgba(180, 5, 5, 0.6);
+}
+
+/* 飘红且非 m5/m8 时可点击：手型 + hover 加深 + 描边提示 */
+.module-cell.is-clickable {
+  cursor: pointer;
+}
+.module-cell.is-clickable:hover {
+  background-color: rgba(220, 10, 10, 0.8);
+  outline: 2px solid #ff5050;
+  outline-offset: -2px;
 }
 </style>

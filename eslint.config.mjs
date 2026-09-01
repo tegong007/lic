@@ -30,6 +30,8 @@ export default antfu(
       'antfu/if-newline': 'off',
       'vue/html-self-closing': 'off',
       'vue/singleline-html-element-content-newline': 'off',
+      'style/max-statements-per-line': 'off',
+      'unused-imports/no-unused-vars': 'off',
     },
     languageOptions: {
       globals: {

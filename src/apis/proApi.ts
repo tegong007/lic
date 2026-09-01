@@ -135,5 +135,6 @@ const ErrorModule = {
   handleError: (data: any) => request.post(`${v1}/tss/error-handle/send-cmd`, data),
   handleDone: (data: any) => request.post(`${v1}/tss/error-handle/done`, data),
   removeDoc: (data: any) => request.post(`${v1}/tss/error-handle/remove-doc`, data),
+  submitError: (data: any) => request.post(`${v1}/tss/error-handle/submit`, data),
 };
 export { checkModule, defendModule, documentModule, ErrorModule, footerModule, homeModule, mainTainModule, physicalModule, positionModule, searchModule, setMoule, settingMoule, TaskModule };

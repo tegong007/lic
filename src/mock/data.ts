@@ -84,12 +84,13 @@ const tssMock: Record<string, (params?: any) => any> = {
       taskStatus: 0,
       modules: [
         { uid: 'm1', code: 3, name: '进本模块', status: 3, msg: '进本模块卡本，请检查进本通道' },
-        { uid: 'm2', code: 0, name: '激光模块', status: 0, msg: '' },
+        { uid: 'm2', code: 3, name: '激光模块', status: 3, msg: '激光模块故障' },
         { uid: 'm3', code: 2, name: '喷墨模块', status: 2, msg: '喷墨模块墨水余量低' },
-        { uid: 'm4', code: 0, name: '翻本模块', status: 0, msg: '' },
+        { uid: 'm4', code: 3, name: '翻本模块', status: 3, msg: '翻本模块异常' },
+        { uid: 'm5', code: 3, name: '打印机模块', status: 3, msg: '打印机模块异常' },
         { uid: 'm8', code: 3, name: '喷墨模块2', status: 3, msg: '喷墨模块2 喷头异常' },
-        { uid: 'm6', code: 0, name: '翻本模块2', status: 0, msg: '' },
-        { uid: 'm7', code: 0, name: '出本模块', status: 0, msg: '' },
+        { uid: 'm6', code: 3, name: '翻本模块2', status: 3, msg: '翻本模块2 异常' },
+        { uid: 'm7', code: 3, name: '出本模块', status: 3, msg: '出本模块卡本' },
       ],
       uvStatus: [{ status: 0, msg: '', uid: 'UV-001' }],
       errorInfo: { isShow: false, type: 0, position: 0, title: '', msg: '' },
@@ -138,10 +139,113 @@ const tssMock: Record<string, (params?: any) => any> = {
   '/tss/demo/add-task': () => ({ batchID: 'BATCH-001', taskID: 'TASK-001', totalPeopleNum: 100 }),
 
   // 设备维护 - 模块状态 & 错误处理
-  '/tss/doc-machine/module-status': () => ({ modules: [] }),
+  '/tss/doc-machine/module-status': (params?: any) => {
+    // adapter 阶段 config.data 已被 axios 序列化成 JSON 字符串，需兼容字符串与对象两种形态
+    let moduleUid = 'm1';
+    if (typeof params === 'string') {
+      try {
+        moduleUid = JSON.parse(params)?.moduleUid || 'm1';
+      }
+      catch {
+        moduleUid = 'm1';
+      }
+    } else if (params?.moduleUid) {
+      moduleUid = params.moduleUid;
+    }
+    const moduleMock: Record<string, any[]> = {
+      // 每个模块只返回一条工位记录；uid 含 _SLEW_JOB → 左侧显示 bottom 图，否则 top 图
+      m1: [
+        {
+          uid: 'M1_FEED_JOB',
+          code: 3,
+          msg: '卡本',
+          mainCode: 1,
+          subCode: 1,
+          exDoc: [
+            { fwBookSn: 20260821001, fwDocSn: 202608211510, docID: '12345678987654321' },
+            { fwBookSn: 20260821002, fwDocSn: 202608211511, docID: '12345678987654322' },
+            { fwBookSn: 20260821003, fwDocSn: 202608211512, docID: '12345678987654323' },
+          ],
+        },
+      ],
+      m2: [
+        {
+          uid: 'M2_LASER_JOB',
+          code: 3,
+          msg: '激光故障',
+          mainCode: 2,
+          subCode: 1,
+          exDoc: [
+            { fwBookSn: 20260822001, fwDocSn: 202608221510, docID: '22345678987654321' },
+            { fwBookSn: 20260822002, fwDocSn: 202608221511, docID: '22345678987654322' },
+            { fwBookSn: 20260822003, fwDocSn: 202608221512, docID: '22345678987654323' },
+          ],
+        },
+      ],
+      m3: [
+        {
+          uid: 'M3_SLEW_JOB',
+          code: 2,
+          msg: '墨水余量低',
+          mainCode: 3,
+          subCode: 1,
+          exDoc: [
+            { fwBookSn: 20260823001, fwDocSn: 202608231510, docID: '32345678987654321' },
+            { fwBookSn: 20260823002, fwDocSn: 202608231511, docID: '32345678987654322' },
+            { fwBookSn: 20260823003, fwDocSn: 202608231512, docID: '32345678987654323' },
+          ],
+        },
+      ],
+      m4: [
+        {
+          uid: 'M4_FEED_JOB',
+          code: 3,
+          msg: '翻本异常',
+          mainCode: 4,
+          subCode: 1,
+          exDoc: [
+            { fwBookSn: 20260824001, fwDocSn: 202608241510, docID: '42345678987654321' },
+            { fwBookSn: 20260824002, fwDocSn: 202608241511, docID: '42345678987654322' },
+            { fwBookSn: 20260824003, fwDocSn: 202608241512, docID: '42345678987654323' },
+          ],
+        },
+      ],
+      m6: [
+        {
+          uid: 'M6_SLEW_JOB',
+          code: 3,
+          msg: '翻本异常',
+          mainCode: 6,
+          subCode: 1,
+          exDoc: [
+            { fwBookSn: 20260826001, fwDocSn: 202608261510, docID: '62345678987654321' },
+            { fwBookSn: 20260826002, fwDocSn: 202608261511, docID: '62345678987654322' },
+            { fwBookSn: 20260826003, fwDocSn: 202608261512, docID: '62345678987654323' },
+          ],
+        },
+      ],
+      m7: [
+        {
+          uid: 'M7_OUT_JOB',
+          code: 3,
+          msg: '出本卡本',
+          mainCode: 7,
+          subCode: 1,
+          exDoc: [
+            { fwBookSn: 20260827001, fwDocSn: 202608271510, docID: '72345678987654321' },
+            { fwBookSn: 20260827002, fwDocSn: 202608271511, docID: '72345678987654322' },
+            { fwBookSn: 20260827003, fwDocSn: 202608271512, docID: '72345678987654323' },
+          ],
+        },
+      ],
+    };
+    // 直接返回数组即可，findMockResponse 会统一包一层 { code, respData, msg }
+    return moduleMock[moduleUid] || [];
+  },
   '/tss/error-handle/send-cmd': () => ({ success: true }),
   '/tss/error-handle/remove-doc': () => ({ success: true }),
   '/tss/error-handle/done': () => ({ success: true }),
+  '/tss/error-handle/submit': () => ({ success: true, msg: '提交成功' }),
   '/tss/print-self-test': () => ({ success: true }),
 
   // 设备设置
