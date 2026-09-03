@@ -8,12 +8,8 @@
       </div>
       <div class="ml-2vw flex items-center justify-center gap-1vw font-[siyuan]">
         <!-- 设备状态 -->
-        <div class="box-sm relative cursor-pointer text-center" :class="entire.modules && entire.modules.length >= 2 ? (entire.modules[0].code === 0 && entire.modules[1].code === 0 ? 'bgbg0' : entire.modules[0].code === 2 || entire.modules[1].code === 2 ? 'bgbg2' : 'bgbg3') : 'bgbg3'" @click="setModal(7)">
-          <template v-if="entire.modules && entire.modules.length > 2">
-            <div v-if="entire.modules[0].code === 0 && entire.modules[1].code === 0">正常</div>
-            <div v-else>错误</div>
-          </template>
-          <div v-else>离线</div>
+        <div class="box-sm relative cursor-pointer text-center" :class="deviceStatusClass" @click="setModal(7)">
+          <div>{{ deviceStatusText }}</div>
           <img class="mx-auto mt-0vh w-65%" src="@/assets/image/ico_device.png" />
           <div class="absolute bottom-1vh left-0 right-0 text-center text-1.1vw">设备状态</div>
         </div>
@@ -75,6 +71,7 @@
 
 <script setup lang="ts">
 import { App } from 'ant-design-vue';
+import { computed } from 'vue';
 import { homeModule } from '@/apis/proApi';
 import TheButton from '@/components/base/TheButton.vue';
 import TheConfirm from '@/components/TheConfirm.vue';
@@ -94,6 +91,31 @@ const statistics: any = ref([
 ]);
 const errorInfo: any = ref({});
 const entire: any = ref({ beltStatusDetail: 0, machineTotalDoc: 0, machineHandledDoc: 0, machineRemainDoc: 0, modules: {} });
+
+/** 设备状态：遍历 modules，任意 code 非 0 即视为异常（code: 0-待机 1-工作中 2-警告 3-故障） */
+const deviceHasError = computed(() => {
+  const mods = entire.value.modules;
+  if (!Array.isArray(mods) || mods.length === 0) return false;
+  return mods.some((m: any) => m.code !== 0);
+});
+const deviceHasWarning = computed(() => {
+  const mods = entire.value.modules;
+  if (!Array.isArray(mods)) return false;
+  return mods.some((m: any) => m.code === 2);
+});
+const deviceStatusClass = computed(() => {
+  const mods = entire.value.modules;
+  if (!Array.isArray(mods) || mods.length === 0) return 'bgbg3';
+  if (mods.every((m: any) => m.code === 0)) return 'bgbg0';
+  if (mods.some((m: any) => m.code === 2)) return 'bgbg2';
+  return 'bgbg3';
+});
+const deviceStatusText = computed(() => {
+  const mods = entire.value.modules;
+  if (!Array.isArray(mods) || mods.length === 0) return '离线';
+  if (mods.every((m: any) => m.code === 0)) return '正常';
+  return '错误';
+});
 const blankCheck = ref({});
 const mainPrint = ref({});
 const additionPrint = ref({});

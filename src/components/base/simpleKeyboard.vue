@@ -25,6 +25,8 @@ const props = defineProps({
   keyboardWidth: { default: 'w70%' },
   transform: { default: () => [0, 0], type: Array },
   maxLength: { default: '' },
+  /** 是否启用中文候选输入法；默认 true（兼容现有页面）。传 false 时默认英文、且无中/英切换按钮 */
+  enableChinese: { default: true, type: Boolean },
 });
 
 const emit = defineEmits(['onChange', 'onKeyPress', 'closekeyboard']);
@@ -58,7 +60,7 @@ onMounted(() => {
     },
 
     // onKeyReleased,
-    layoutCandidates: layout.layoutCandidates,
+    layoutCandidates: props.enableChinese ? layout.layoutCandidates : undefined,
     layoutName: props.layout,
     theme: `hg-theme-${props.layout}`,
     layout: {

@@ -80,8 +80,8 @@ function isClickable(section: ModuleSection): boolean {
   return section.error && !NOT_CLICKABLE_UIDS.has(section.moduleUid);
 }
 
-/** 区段覆盖层高度 = 图片高度的 92%（从"模块名"下沿开始，填满机器图主体到底部） */
-const overlayHeight = ref('92%');
+/** 区段覆盖层高度 = 图片高度的 90%（top:10% + 90% = 100%，正好填满机器图主体，避免溢出下沿） */
+const overlayHeight = ref('90%');
 
 const entire = ref<any>({});
 

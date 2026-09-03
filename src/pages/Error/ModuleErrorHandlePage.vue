@@ -1,7 +1,7 @@
 <template>
   <div class="relative h-100vh w-full flex flex-col pb-[2vh] pt-[10vh]" style="background: url('@/assets/image/bg.png') center / 100% 100% no-repeat">
-    <!-- 虚拟键盘：点击证本号输入框时唤起（参考维护设置页），证本号纯数字用 num 数字键盘 -->
-    <SimpleKeyboard v-if="showKeyboard" ref="kbRef" layout="num" keyboard-width="w-30vw" :transform="keyboardTransform" :input="newDocID" :max-length="20" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
+    <!-- 虚拟键盘：点击证本号输入框时唤起（参考维护设置页），证本号含字母，用 default 全键盘 -->
+    <SimpleKeyboard v-if="showKeyboard" ref="kbRef" layout="default" :enable-chinese="false" keyboard-width="w-30vw" :transform="keyboardTransform" :input="newDocID" :max-length="20" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
     <!-- 标题：贴左 + 只右线，中文模块名「模块一错误处理」 -->
     <div class="handle-tit w-100%">
       <span class="handle-tit-text">模块{{ moduleCn }}错误处理</span>
@@ -11,6 +11,8 @@
     <div class="content mt-2vh w-full flex flex-1 gap-2vw overflow-hidden px-4vw">
       <!-- 左侧：图片 + 查看动作（图片下方居中） -->
       <div class="img-left">
+        <!-- 左图上方错误描述条：只显示 msg（本页仅在出错时进入） -->
+        <div v-if="errorMsg" class="module-err-tip">{{ errorMsg }}</div>
         <div class="img-wrap">
           <div v-for="img in imageItems" :key="img.key" class="img-item">
             <img :src="img.src" :alt="img.key" />
@@ -23,7 +25,7 @@
       <div class="form-right flex flex-col flex-1 overflow-hidden">
         <!-- 顶部输入框 + 添加按钮（同一行、高度一致） -->
         <div class="add-row mb-1vh flex items-center justify-end">
-          <span class="mr-1vw whitespace-nowrap text-1.2vw">手动输入证本号（默认不处理）：</span>
+          <span class="mr-1vw whitespace-nowrap text-1.2vw">手动输入证本号（默认已取走）：</span>
           <!-- <a-input v-model:value="newDocID" class="doc-input mr-1vw" placeholder="请输入" allow-clear /> -->
           <a-input v-model:value="newDocID" placeholder="请输入证本号" :maxlength="20" class="mr-1vw flex-1" @click.stop="onInputFocus($event, 'docID')" @input="filterDigits" />
 
@@ -147,12 +149,11 @@ function hideKeyboard() {
   showKeyboard.value = false;
 }
 
-/** 物理键盘兜底：只允许数字 */
+/** 物理键盘兜底：只允许字母 + 数字，过滤中文与符号 */
 function filterDigits(e: any) {
   const v = e.target?.value ?? '';
-  const digits = String(v).replace(/\D/g, '');
-  if (digits !== v) newDocID.value = digits;
-  else newDocID.value = digits;
+  const cleaned = String(v).replace(/[^a-z0-9]/gi, '');
+  if (cleaned !== v) newDocID.value = cleaned;
 }
 
 function onInputFocus(event: any, key: string) {
@@ -173,9 +174,9 @@ function onInputFocus(event: any, key: string) {
 }
 
 function onChangeKeyboard(input: string, keyboard: any) {
-  // 证本号纯数字：过滤掉非数字字符（兜底，防止物理键盘输入中文/字母）
-  const digits = input.replace(/\D/g, '');
-  newDocID.value = digits;
+  // 证本号含字母：过滤掉中文与符号，仅保留字母 + 数字
+  const cleaned = input.replace(/[^a-z0-9]/gi, '');
+  newDocID.value = cleaned;
   // 同步光标位置
   const caret = keyboard?.caretPosition;
   if (caret !== null && caret !== undefined) {
@@ -190,38 +191,53 @@ function onChangeKeyboard(input: string, keyboard: any) {
 }
 
 /**
- * 左侧待渲染的图：只渲染一张
- * - 单图模块（m2/m5/m7/m8）：直接显示 m{N}.png
- * - 多图模块（m1/m3/m4/m6）：按 respData 第一条 code!=0 记录的 uid 判定 top/bottom
- *   topJobUids：命中该工位 uid 显示上图，其他一律下图
- *   m1 未明确指定，按与 m3/m4/m6 相同模式假设 M1_FEED_JOB → 上、其他 → 下
+ * 上图工位：命中即显示 top，否则 bottom（m3 / m4 / m6）
+ * m1 例外：见 BOTTOM_JOB_UIDS，仅 M1_SLEW_JOB 显示 bottom，其余都 top
  */
 const TOP_JOB_UIDS: Record<string, string[]> = {
-  m1: ['M1_FEED_JOB'],
   m3: ['M2_LASER_JOB'],
   m4: ['M3_INKJET_JOB'],
   m6: ['M5_INKJET_JOB'],
+};
+/** 下图表工位（仅 m1）：命中即 bottom，其余都 top */
+const BOTTOM_JOB_UIDS: Record<string, string[]> = {
+  m1: ['M1_SLEW_JOB'],
 };
 
 const imageItems = computed<ImageItem[]>(() => {
   const images = MODULE_IMAGES[moduleUid.value];
   if (!images) return [];
 
+  // 单图模块（m2 / m5 / m7 / m8）：直接显示一张
   if (images.single) {
     return [{ key: 'single', src: images.single }];
   }
 
-  const firstErrorItem = items.value.find(it => it.code !== 0);
-  if (!firstErrorItem) {
+  // 多图模块（m1 / m3 / m4 / m6）：循环所有 code !== 0 的工位，取第一个出错工位按其 uid 判上/下
+  const errItems = items.value.filter(it => it.code !== 0);
+  if (errItems.length === 0) {
+    // 无出错工位时默认显示上图（便于核对图片资源）
     return images.top ? [{ key: 'top', src: images.top }] : [];
   }
 
-  const uid = firstErrorItem.uid;
-  // 命中该模块的"上图工位"列表 → 显示上图，否则下图
-  const isTop = (TOP_JOB_UIDS[moduleUid.value] || []).includes(uid);
+  const uid = errItems[0].uid;
+  const bottomUids = BOTTOM_JOB_UIDS[moduleUid.value] || [];
+  // m1：命中 bottom 列表 → bottom，否则 → top；其余模块：命中 top 列表 → top，否则 → bottom
+  const isTop = bottomUids.length ? !bottomUids.includes(uid) : (TOP_JOB_UIDS[moduleUid.value] || []).includes(uid);
   const target = isTop ? images.top : images.bottom;
-  if (target) return [{ key: isTop ? 'top' : 'bottom', src: target }];
-  return [];
+  return target ? [{ key: isTop ? 'top' : 'bottom', src: target }] : [];
+});
+
+/**
+ * 左侧错误描述条内容：汇总所有 code !== 0 的出错工位。
+ * 左侧图片上方错误描述条：只显示接口返回的 msg 字段（本页仅出错时进入，取所有 code!=0 工位的 msg 拼接）。
+ */
+const errorMsg = computed(() => {
+  const msgs = items.value
+    .filter(it => it.code !== 0)
+    .map(it => String(it.msg || '').trim())
+    .filter(m => m.length > 0);
+  return msgs.length ? msgs.join('；') : '';
 });
 
 async function fetchData() {
@@ -235,7 +251,7 @@ async function fetchData() {
           exDocList.push({
             ...doc,
             key: `${item.uid}-${idx}-${doc.fwDocSn}`,
-            removed: 0,
+            removed: 1,
             isAdded: false,
           });
         });
@@ -261,7 +277,7 @@ function handleAdd() {
   const newRow: ExDocRow = {
     key: `added-${Date.now()}`,
     docID: sn,
-    removed: 0,
+    removed: 1,
     isAdded: true,
   };
   exDocList.unshift(newRow);
@@ -333,6 +349,20 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   min-height: 0;
+}
+
+/* 左图上方错误描述条：只显示 msg，红字红边提示 */
+.module-err-tip {
+  width: 100%;
+  margin-bottom: 1vh;
+  padding: 0.6vh 0.8vw;
+  font-size: 1.1vw;
+  line-height: 1.4;
+  color: #ffd2d2;
+  text-align: center;
+  background: rgba(180, 5, 5, 0.35);
+  border: 1px solid rgba(255, 80, 80, 0.6);
+  border-radius: 0.3vh;
 }
 
 .img-wrap {
