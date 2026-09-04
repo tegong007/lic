@@ -1,77 +1,79 @@
 <template>
-  <div class="mt-6.5vh w-92% flex">
-    <img class="h-7vw w-9vw" src="@/assets/image/tmp_left.png" />
-    <a-flex class="mt-4vh w-90% overflow-hidden text-center">
-      <div>
-        <!-- <div class="bgC1">
+  <div class="w-full flex flex-col items-center justify-center">
+    <div class="mt-6.5vh w-92% flex">
+      <img class="h-7vw w-9vw" src="@/assets/image/tmp_left.png" />
+      <a-flex class="mt-4vh w-90% overflow-hidden text-center">
+        <div>
+          <!-- <div class="bgC1">
           <div class="pt-1.5vh text-center text-1.3vw">质检状态</div>
           <div class="h-50vh flex items-center justify-center text-2.5vw">
             <span v-if="state.msg.length <= 10">{{ state.msg }}</span>
             <marquee v-else behavior="scroll" direction="left" width="80%">{{ state.msg }}</marquee>
           </div>
         </div> -->
-        <!-- <div class="bgC1">
+          <!-- <div class="bgC1">
           <div class="pt-1.5vh text-center text-1.3vw">照片采样</div>
           <div class="h-20vh flex items-center justify-center">
             <img v-if="mainCheck.irlImgData" class="max-h-90% max-w-80%" :src="`data:image/png;base64,${mainCheck.irlImgData}`" />
           </div>
         </div> -->
-      </div>
-      <div class="bgC2">
-        <div class="pt-2.5vh text-center text-1.3vw">质检结果</div>
-        <div class="bgB mt-3vh flex justify-around py-1vh text-1vw">
-          <div>{{ mainCheck.time || '--' }}</div>
-          <div>证件号：{{ mainCheck.docID || '--' }}</div>
-          <div>结果：<span v-if="!mainCheck.docID">检测中…</span><span v-else-if="mainCheck.qualityResult === 0" class="ok">良品</span><span v-else class="no">不良品</span></div>
         </div>
-        <div class="flex">
-          <table class="tb1 ml-1vw mt-4vh w-36% text-1vw">
-            <thead>
-              <tr>
-                <th class="pb-2vh">序号</th>
-                <th class="pb-2vh">检测项</th>
-                <th class="pb-2vh">状态</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(value, index) in items" :key="index">
-                <td>0{{ index + 1 }}</td>
-                <td class="tb1-lab" :class="mainCheck.docID && mainCheck.checkedItem[value.key] ? 'err' : ''">
-                  <div>{{ value.name }}</div>
-                </td>
-                <td class="tb1-ico">
-                  <img v-if="mainCheck.docID && !mainCheck.checkedItem[value.key]" src="@/assets/image/ico_ok.png" />
-                  <img v-else-if="mainCheck.docID && mainCheck.checkedItem[value.key]" src="@/assets/image/ico_no.png" />
-                  <img v-else src="@/assets/image/ico_wait.png" />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="ml-1vw mt-3vh w-62% flex items-center justify-center gap-1vw">
-            <div v-if="mainCheck.markedImage" class="w-30%">
-              <div class="text-center text-1vw">白光图</div>
-              <img :src="`data:image/png;base64,${mainCheck.markedImage}`" class="w-100% cursor-pointer" @click="viewImage([`data:image/png;base64,${mainCheck.markedImage}`])" />
-            </div>
-            <div v-if="mainCheck.irlImgData" class="w-30%">
-              <div class="text-center text-1vw">红外图</div>
-              <img :src="`data:image/png;base64,${mainCheck.irlImgData}`" class="w-100% cursor-pointer" @click="viewImage([`data:image/png;base64,${mainCheck.irlImgData}`])" />
-            </div>
-            <div v-if="mainCheck.uvlImgData" class="w-30%">
-              <div class="text-center text-1vw">紫外图</div>
-              <img :src="`data:image/png;base64,${mainCheck.uvlImgData}`" class="w-100% cursor-pointer" @click="viewImage([`data:image/png;base64,${mainCheck.uvlImgData}`])" />
+        <div class="bgC2">
+          <div class="pt-2.5vh text-center text-1.3vw">质检结果</div>
+          <div class="bgB mt-3vh flex justify-around py-1vh text-1vw">
+            <div>{{ mainCheck.time || '--' }}</div>
+            <div>证件号：{{ mainCheck.docID || '--' }}</div>
+            <div>结果：<span v-if="!mainCheck.docID">检测中…</span><span v-else-if="mainCheck.qualityResult === 0" class="ok">良品</span><span v-else class="no">不良品</span></div>
+          </div>
+          <div class="flex">
+            <table class="tb1 ml-1vw mt-4vh w-36% text-1vw">
+              <thead>
+                <tr>
+                  <th class="pb-2vh">序号</th>
+                  <th class="pb-2vh">检测项</th>
+                  <th class="pb-2vh">状态</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(value, index) in items" :key="index">
+                  <td>0{{ index + 1 }}</td>
+                  <td class="tb1-lab" :class="mainCheck.docID && mainCheck.checkedItem[value.key] ? 'err' : ''">
+                    <div>{{ value.name }}</div>
+                  </td>
+                  <td class="tb1-ico">
+                    <img v-if="mainCheck.docID && !mainCheck.checkedItem[value.key]" src="@/assets/image/ico_ok.png" />
+                    <img v-else-if="mainCheck.docID && mainCheck.checkedItem[value.key]" src="@/assets/image/ico_no.png" />
+                    <img v-else src="@/assets/image/ico_wait.png" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="ml-1vw mt-3vh w-62% flex items-center justify-center gap-1vw">
+              <div v-if="mainCheck.markedImage" class="w-30%">
+                <div class="text-center text-1vw">白光图</div>
+                <img :src="`data:image/png;base64,${mainCheck.markedImage}`" class="w-100% cursor-pointer" @click="viewImage([`data:image/png;base64,${mainCheck.markedImage}`])" />
+              </div>
+              <div v-if="mainCheck.irlImgData" class="w-30%">
+                <div class="text-center text-1vw">红外图</div>
+                <img :src="`data:image/png;base64,${mainCheck.irlImgData}`" class="w-100% cursor-pointer" @click="viewImage([`data:image/png;base64,${mainCheck.irlImgData}`])" />
+              </div>
+              <div v-if="mainCheck.uvlImgData" class="w-30%">
+                <div class="text-center text-1vw">紫外图</div>
+                <img :src="`data:image/png;base64,${mainCheck.uvlImgData}`" class="w-100% cursor-pointer" @click="viewImage([`data:image/png;base64,${mainCheck.uvlImgData}`])" />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </a-flex>
+      <img class="h-7vw w-9vw" src="@/assets/image/tmp_right.png" />
+    </div>
+    <a-flex justify="space-between" class="bgB mx-auto mt-2.1vh h-8vh w-80%">
+      <a-flex class="items-center gap-2vw">
+        <TheButton title="参数设置" @click="$goto('CheckSelectPage', { key: 2 })" />
+        <TheButton title="质检记录" @click="$goto('CheckSelectPage', { key: 1 })" />
+      </a-flex>
     </a-flex>
-    <img class="h-7vw w-9vw" src="@/assets/image/tmp_right.png" />
   </div>
-  <a-flex justify="space-between" class="bgB mx-auto mt-2.1vh h-8vh w-80%">
-    <a-flex class="items-center gap-2vw">
-      <TheButton title="参数设置" @click="$goto('CheckSelectPage', { key: 2 })" />
-      <TheButton title="质检记录" @click="$goto('CheckSelectPage', { key: 1 })" />
-    </a-flex>
-  </a-flex>
 </template>
 
 <script setup lang="ts">

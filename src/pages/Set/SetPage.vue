@@ -42,7 +42,7 @@
     </div>
 
     <!-- 底部按钮 -->
-    <div class="fixed bottom-10vh left-3vw right-3vw flex justify-between py-2vh">
+    <div class="fixed bottom-10vh left-3vw right-0vw flex justify-between py-2vh">
       <div>
         <a-button type="link" class="btn_normal mr-2vw w-18.5vw" @click="saveData">保存设置</a-button>
         <a-button type="link" class="btn_normal w-18.5vw" @click="getData">读取</a-button>
