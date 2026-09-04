@@ -12,7 +12,9 @@
       <!-- 左侧：图片 + 查看动作（图片下方居中） -->
       <div class="img-left">
         <!-- 左图上方错误描述条：只显示 msg（本页仅在出错时进入） -->
-        <div v-if="errorMsg" class="module-err-tip">{{ errorMsg }}</div>
+        <div v-if="errorMsgs.length" class="module-err-tip">
+          <div v-for="(msg, idx) in errorMsgs" :key="idx" class="err-tip-line">{{ msg }}</div>
+        </div>
         <div class="img-wrap">
           <div v-for="img in imageItems" :key="img.key" class="img-item">
             <img :src="img.src" :alt="img.key" />
@@ -71,15 +73,19 @@ import { useRoute, useRouter } from 'vue-router';
 import { ErrorModule } from '@/apis/proApi';
 import m1Bottom from '@/assets/image/bigScreen/error/m1-bottom.png';
 
-// 图片资源（按目录实际命名；m4 文件名拼写为 bttom，按原样导入）
 import m1Top from '@/assets/image/bigScreen/error/m1-top.png';
+// 全模块飘红图：上、下工位同时出错时展示（文件名即模块名）
+import m1All from '@/assets/image/bigScreen/error/m1.png';
 import m2 from '@/assets/image/bigScreen/error/m2.png';
 import m3Bottom from '@/assets/image/bigScreen/error/m3-bottom.png';
 import m3Top from '@/assets/image/bigScreen/error/m3-top.png';
-import m4Bottom from '@/assets/image/bigScreen/error/m4-bttom.png';
+import m3All from '@/assets/image/bigScreen/error/m3.png';
+import m4Bottom from '@/assets/image/bigScreen/error/m4-bottom.png';
 import m4Top from '@/assets/image/bigScreen/error/m4-top.png';
+import m4All from '@/assets/image/bigScreen/error/m4.png';
 import m6Bottom from '@/assets/image/bigScreen/error/m6-bottom.png';
 import m6Top from '@/assets/image/bigScreen/error/m6-top.png';
+import m6All from '@/assets/image/bigScreen/error/m6.png';
 import m7 from '@/assets/image/bigScreen/error/m7.png';
 import ViewActionModal from '@/components/ViewActionModal.vue';
 
@@ -124,12 +130,12 @@ const CN_NUM = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '
 const moduleCn = computed(() => CN_NUM[Number(moduleNum.value)] ?? moduleNum.value);
 
 /** 图片映射：模块 → top/bottom/单图 */
-const MODULE_IMAGES: Record<string, { top?: string; bottom?: string; single?: string }> = {
-  m1: { top: m1Top, bottom: m1Bottom },
+const MODULE_IMAGES: Record<string, { top?: string; bottom?: string; single?: string; all?: string }> = {
+  m1: { top: m1Top, bottom: m1Bottom, all: m1All },
   m2: { single: m2 },
-  m3: { top: m3Top, bottom: m3Bottom },
-  m4: { top: m4Top, bottom: m4Bottom },
-  m6: { top: m6Top, bottom: m6Bottom },
+  m3: { top: m3Top, bottom: m3Bottom, all: m3All },
+  m4: { top: m4Top, bottom: m4Bottom, all: m4All },
+  m6: { top: m6Top, bottom: m6Bottom, all: m6All },
   m7: { single: m7 },
 };
 
@@ -213,32 +219,40 @@ const imageItems = computed<ImageItem[]>(() => {
     return [{ key: 'single', src: images.single }];
   }
 
-  // 多图模块（m1 / m3 / m4 / m6）：循环所有 code !== 0 的工位，取第一个出错工位按其 uid 判上/下
+  // 多图模块（m1 / m3 / m4 / m6）：遍历所有 code !== 0 的出错工位，逐个按其 uid 判上/下
   const errItems = items.value.filter(it => it.code !== 0);
   if (errItems.length === 0) {
     // 无出错工位时默认显示上图（便于核对图片资源）
     return images.top ? [{ key: 'top', src: images.top }] : [];
   }
 
-  const uid = errItems[0].uid;
   const bottomUids = BOTTOM_JOB_UIDS[moduleUid.value] || [];
-  // m1：命中 bottom 列表 → bottom，否则 → top；其余模块：命中 top 列表 → top，否则 → bottom
-  const isTop = bottomUids.length ? !bottomUids.includes(uid) : (TOP_JOB_UIDS[moduleUid.value] || []).includes(uid);
-  const target = isTop ? images.top : images.bottom;
-  return target ? [{ key: isTop ? 'top' : 'bottom', src: target }] : [];
+  const topUids = TOP_JOB_UIDS[moduleUid.value] || [];
+  // m1：命中 bottom 列表 → bottom，其余 → top；m3/m4/m6：命中 top 列表 → top，其余 → bottom
+  const isTopUid = (uid: string) => (bottomUids.length ? !bottomUids.includes(uid) : topUids.includes(uid));
+
+  const hasTop = errItems.some(it => isTopUid(it.uid));
+  const hasBottom = errItems.some(it => !isTopUid(it.uid));
+
+  // 上、下同时有工位出错 → 展示整模块飘红图（模块名.png）；只有一侧 → 展示对应单侧图
+  if (hasTop && hasBottom) {
+    return images.all ? [{ key: 'all', src: images.all }] : [];
+  }
+  if (hasTop) return images.top ? [{ key: 'top', src: images.top }] : [];
+  return images.bottom ? [{ key: 'bottom', src: images.bottom }] : [];
 });
 
 /**
  * 左侧错误描述条内容：汇总所有 code !== 0 的出错工位。
  * 左侧图片上方错误描述条：只显示接口返回的 msg 字段（本页仅出错时进入，取所有 code!=0 工位的 msg 拼接）。
  */
-const errorMsg = computed(() => {
-  const msgs = items.value
+/** 左图上方错误描述：每个出错工位一条 msg，逐条换行展示（过长时自动折行，不再挤成一行） */
+const errorMsgs = computed<string[]>(() =>
+  items.value
     .filter(it => it.code !== 0)
     .map(it => String(it.msg || '').trim())
-    .filter(m => m.length > 0);
-  return msgs.length ? msgs.join('；') : '';
-});
+    .filter(m => m.length > 0),
+);
 
 async function fetchData() {
   try {
@@ -246,12 +260,14 @@ async function fetchData() {
     if (data.respData && Array.isArray(data.respData)) {
       items.value = data.respData;
       exDocList.splice(0, exDocList.length);
+      // 汇总所有「出错工位（code !== 0）」的 exDoc；接口返回的证本默认「不处理」（removed: 0）
       data.respData.forEach((item: ModuleItem) => {
+        if (item.code === 0) return;
         (item.exDoc || []).forEach((doc, idx) => {
           exDocList.push({
             ...doc,
             key: `${item.uid}-${idx}-${doc.fwDocSn}`,
-            removed: 1,
+            removed: 0,
             isAdded: false,
           });
         });
@@ -349,12 +365,18 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   min-height: 0;
+  // 作为错误描述浮层的定位参考
+  position: relative;
 }
 
 /* 左图上方错误描述条：只显示 msg，红字红边提示 */
 .module-err-tip {
-  width: 100%;
-  margin-bottom: 1vh;
+  // 浮在图片上方：脱离文档流，图片位置与大小不受 msg 条数影响
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
   padding: 0.6vh 0.8vw;
   font-size: 1.1vw;
   line-height: 1.4;
@@ -363,6 +385,8 @@ onMounted(() => {
   background: rgba(180, 5, 5, 0.35);
   border: 1px solid rgba(255, 80, 80, 0.6);
   border-radius: 0.3vh;
+  // 超长 msg 自动折行（含无空格的长串）
+  word-break: break-word;
 }
 
 .img-wrap {
