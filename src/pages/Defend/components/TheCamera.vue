@@ -84,7 +84,7 @@ async function transferApi(cameraObj: any) {
   flex: 1;
   min-width: 10vw;
 }
-:::v-deep(.ant-input) {
+:deep(.ant-input) {
   font-size: 1.1vw;
   background-color: transparent !important;
   color: #ffffff;

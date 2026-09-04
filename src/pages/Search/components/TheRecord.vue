@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-12vh w-94vw">
+  <div class="mt-9vh w-94vw">
     <SimpleKeyboard v-if="showKeyboard" :transform="transformValue" :input="formData[keyInput]" :max-length="30" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
     <div class="flex items-center gap-1vw">
       <a-form-item label="搜索类型" name="choose">
@@ -194,6 +194,8 @@ function onChangeKeyboard(input: string, keyboard: any) {
 
 <style scoped lang="less">
 ::v-deep(.vxe-pager) {
+  height: auto;
+  z-index: 999;
   font-size: 1vw;
   color: #cfdef1;
   background-color: transparent;

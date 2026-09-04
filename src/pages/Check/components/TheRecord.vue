@@ -63,12 +63,12 @@
               <tbody>
                 <tr v-for="(value, index) in items" :key="index">
                   <td>0{{ index + 1 }}</td>
-                  <td class="tb1-lab" :class="detail.item.docID && detail.item.checkedItem[value.key] ? 'err' : ''">
+                  <td class="tb1-lab" :class="detail.item.docID && checkResult[value.key] ? 'err' : ''">
                     <div>{{ value.name }}</div>
                   </td>
                   <td class="tb1-ico">
-                    <img v-if="detail.item.docID && !detail.item.checkedItem[value.key]" src="@/assets/image/ico_ok.png" />
-                    <img v-else-if="detail.item.docID && detail.item.checkedItem[value.key]" src="@/assets/image/ico_no.png" />
+                    <img v-if="detail.item.docID && !checkResult[value.key]" src="@/assets/image/ico_ok.png" />
+                    <img v-else-if="detail.item.docID && checkResult[value.key]" src="@/assets/image/ico_no.png" />
                     <img v-else src="@/assets/image/ico_wait.png" />
                   </td>
                 </tr>
@@ -141,7 +141,8 @@ const imgList = computed(() => {
   return list;
 });
 
-const items = [
+// 主副页检测项（结果存 checkedItem）
+const mainCheckItems = [
   { name: '主页缺色', key: 'mainColorLack' },
   { name: '主页脏污', key: 'mainDirty' },
   { name: '主页打印内容缺失', key: 'mainMissed' },
@@ -151,6 +152,20 @@ const items = [
   { name: '副页打印内容缺失', key: 'subMissed' },
   { name: '副页折角', key: 'subWrinkle' },
 ];
+// 加注页检测项（结果存 obsvCheckedItem，字段与主副页完全不同）
+const obsvCheckItems = [
+  { name: '加注页上部脏污', key: 'upperDirty' },
+  { name: '加注页上部缺失', key: 'upperMissed' },
+  { name: '加注页下部脏污', key: 'lowerDirty' },
+  { name: '加注页下部缺失', key: 'lowerMissed' },
+];
+// 当前检测项表：随主副页(0)/加注页(1)切换
+const items = computed(() => (checkType.value === 1 ? obsvCheckItems : mainCheckItems));
+// 当前记录检测结果对象：主副页取 checkedItem，加注页取 obsvCheckedItem
+const checkResult = computed(() => {
+  const item = detail.value.item || {};
+  return checkType.value === 1 ? (item.obsvCheckedItem || {}) : (item.checkedItem || {});
+});
 
 function viewImage(list: string[]) {
   api({ images: list, options: { navbar: false, title: false, toolbar: false, rotatable: false } });

@@ -6,13 +6,7 @@
 
     <!-- 左侧模块导航（一贯 bgNav 样式） -->
     <div class="set-nav">
-      <div
-        v-for="m in modules"
-        :key="m.key"
-        class="bgNav"
-        :class="{ actived: activeModule === m.key }"
-        @click="onMenuClick(m.key)"
-      >
+      <div v-for="m in modules" :key="m.key" class="bgNav" :class="{ actived: activeModule === m.key }" @click="onMenuClick(m.key)">
         <span>{{ m.label }}</span>
       </div>
     </div>
@@ -30,13 +24,7 @@
       </section>
 
       <!-- 按选中标题渲染对应 section 子组件 -->
-      <component
-        :is="s.comp"
-        v-for="(s, si) in activeSections"
-        :key="si"
-        :cur="cur"
-        v-bind="s.props || {}"
-      />
+      <component :is="s.comp" v-for="(s, si) in activeSections" :key="si" :cur="cur" v-bind="s.props || {}" />
     </div>
 
     <!-- 底部按钮 -->
@@ -70,31 +58,22 @@ const modules = [
   {
     key: 'blank',
     label: '空白检测设置',
-    sections: [
-      { comp: ModOcrBlank },
-      { comp: ModOcrPose },
-    ],
+    sections: [{ comp: ModOcrBlank }, { comp: ModOcrPose }],
   },
   {
     key: 'laser',
     label: '激光定位设置',
-    sections: [
-      { comp: ModOcrBeforeLaser },
-    ],
+    sections: [{ comp: ModOcrBeforeLaser }],
   },
   {
     key: 'uvHigh',
     label: '喷墨定位设置（高）',
-    sections: [
-      { comp: ModOcrBeforeUv, props: { range: [0, 4] } },
-    ],
+    sections: [{ comp: ModOcrBeforeUv, props: { range: [0, 4] } }],
   },
   {
     key: 'uvLow',
     label: '喷墨定位设置（低）',
-    sections: [
-      { comp: ModOcrBeforeUv, props: { range: [4, 999] } },
-    ],
+    sections: [{ comp: ModOcrBeforeUv, props: { range: [4, 999] } }],
   },
   {
     key: 'quality',
@@ -345,9 +324,9 @@ function validateDevice(nestedObj: any, prefix: string): string[] {
   if (e1) errs.push(e1);
   const e2 = validateField(nestedObj.l2ChannelNo, 0, 255, `${prefix}通道2`);
   if (e2) errs.push(e2);
-  const e3 = validateField(nestedObj.l1Brightness, 0, 255, `${prefix}亮度1`);
+  const e3 = validateField(nestedObj.l1Brightness, 0, 999, `${prefix}亮度1`);
   if (e3) errs.push(e3);
-  const e4 = validateField(nestedObj.l2Brightness, 0, 255, `${prefix}亮度2`);
+  const e4 = validateField(nestedObj.l2Brightness, 0, 999, `${prefix}亮度2`);
   if (e4) errs.push(e4);
   return errs;
 }
@@ -573,100 +552,106 @@ onMounted(() => {
 </style>
 
 <style lang="less">
-.bgDefend {
-  .bgDefend_item {
-    margin-bottom: 3vh;
-    .bgDefend_tit {
-      font-size: 1.8vw;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      white-space: nowrap;
-      &::before,
-      &::after {
-        content: '';
-        flex: 1;
-        height: 1px;
-        min-width: 2vw;
-      }
-      &::before {
-        background: linear-gradient(270deg, #ffffff 0%, #ffffff00 100%);
-        margin-right: 1vw;
-      }
-      &::after {
-        background: linear-gradient(90deg, #ffffff 0%, #ffffff00 100%);
-        margin-left: 1vw;
-      }
-    }
-    .bg_listItem {
-      padding: 1vh 0;
-      margin: 1vh 0;
-      display: flex;
-      font-size: 1.3vw;
-      .bgDefend_itemIn {
+// 用唯一根类限定作用域，避免泄漏到「设备设置 / 设备维护」等其它页面
+.select-page-root {
+  .bgDefend {
+    .bgDefend_item {
+      margin-bottom: 3vh;
+      .bgDefend_tit {
+        font-size: 1.8vw;
+        font-weight: bold;
         display: flex;
         align-items: center;
-        margin-right: 1vw;
-        .bgDefend_itemIn_tit {
-          margin-left: 1vw;
-          padding-right: 0.3vw;
-          min-width: 5vw;
-          white-space: nowrap;
+        justify-content: center;
+        white-space: nowrap;
+        &::before,
+        &::after {
+          content: '';
+          flex: 1;
+          height: 1px;
+          min-width: 2vw;
         }
-        &:first-of-type .bgDefend_itemIn_tit:first-of-type {
-          position: relative;
-          padding-left: 1.5vw;
-          &::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 6px;
-            height: 1.2em;
-            border-radius: 50px;
-            background: #ffffff;
+        &::before {
+          background: linear-gradient(270deg, #ffffff 0%, #ffffff00 100%);
+          margin-right: 1vw;
+        }
+        &::after {
+          background: linear-gradient(90deg, #ffffff 0%, #ffffff00 100%);
+          margin-left: 1vw;
+        }
+      }
+      .bg_listItem {
+        padding: 1vh 0;
+        margin: 1vh 0;
+        display: flex;
+        font-size: 1.3vw;
+        .bgDefend_itemIn {
+          display: flex;
+          align-items: center;
+          margin-right: 1vw;
+          .bgDefend_itemIn_tit {
+            margin-left: 1vw;
+            padding-right: 0.3vw;
+            min-width: 5vw;
+            white-space: nowrap;
+          }
+          &:first-of-type .bgDefend_itemIn_tit:first-of-type {
+            position: relative;
+            padding-left: 1.5vw;
+            &::before {
+              content: '';
+              position: absolute;
+              left: 0;
+              top: 50%;
+              transform: translateY(-50%);
+              width: 6px;
+              height: 1.2em;
+              border-radius: 50px;
+              background: #ffffff;
+            }
           }
         }
+        .ant-input,
+        .ant-select-selector {
+          font-size: 1.1vw;
+          background-color: transparent !important;
+          color: #ffffff;
+          border-width: 0px !important;
+          background-color: #ffffff15 !important;
+          height: 5vh !important;
+          border-radius: 0;
+        }
+        .ant-select-selection-item {
+          line-height: 5vh !important;
+          font-size: 1.1vw;
+          color: #ffffff !important;
+        }
+        .ant-input::placeholder,
+        .ant-select-selection-placeholder {
+          color: #989ca1;
+        }
+        .ant-select-arrow {
+          right: 0.5vw !important;
+        }
+        .ant-switch-checked .ant-switch-inner {
+          background: #3662ec;
+        }
+        .ant-switch-inner {
+          background: #d8d8d8;
+        }
+        .keyInput {
+          border-color: #3662ec;
+        }
       }
-      .ant-input,
-      .ant-select-selector {
-        font-size: 1.1vw;
-        background-color: transparent !important;
-        color: #ffffff;
-        border-width: 0px !important;
-        background-color: #ffffff15 !important;
-        height: 5vh !important;
-        border-radius: 0;
-      }
-      .ant-select-selection-item {
-        line-height: 5vh !important;
-        font-size: 1.1vw;
-        color: #ffffff !important;
-      }
-      .ant-input::placeholder,
-      .ant-select-selection-placeholder {
-        color: #989ca1;
-      }
-      .ant-select-arrow {
-        right: 0.5vw !important;
-      }
-      .ant-switch-checked .ant-switch-inner {
-        background: #3662ec;
-      }
-      .ant-switch-inner {
-        background: #d8d8d8;
-      }
-      .keyInput {
-        border-color: #3662ec;
-      }
-    }
-    // 屏蔽默认小竖条，但不影响自定义小竖条（如 .inkjet-loc-tit）
-    &.no-first-bar .bg_listItem .bgDefend_itemIn:first-of-type .bgDefend_itemIn_tit:first-of-type:not(.inkjet-loc-tit) {
-      padding-left: 0;
-      &::before {
-        display: none;
+      // 屏蔽默认小竖条，但不影响自定义小竖条（如 .inkjet-loc-tit）
+      &.no-first-bar
+        .bg_listItem
+        .bgDefend_itemIn:first-of-type
+        .bgDefend_itemIn_tit:first-of-type:not(.inkjet-loc-tit) {
+        padding-left: 0;
+        &::before {
+          display: none;
+        }
       }
     }
   }

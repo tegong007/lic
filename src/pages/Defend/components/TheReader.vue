@@ -108,7 +108,7 @@ function onChangeKeyboard(input: string, keyboard: any) {
   flex: 1;
   min-width: 10vw;
 }
-:::v-deep(.ant-input) {
+:deep(.ant-input) {
   font-size: 1.1vw;
   background-color: transparent !important;
   color: #ffffff;
@@ -118,14 +118,14 @@ function onChangeKeyboard(input: string, keyboard: any) {
   border-radius: 0;
   min-width: 10vw;
 }
-:::v-deep(.ant-input::placeholder) {
+:deep(.ant-input::placeholder) {
   color: #989ca1;
 }
 // 隔行变色
-:::v-deep(section:nth-of-type(odd) > .bg_listItem) {
+:deep(section:nth-of-type(odd) > .bg_listItem) {
   background: linear-gradient(359deg, #ffffff13 1%, #008cff23 98%);
 }
-:::v-deep(section:nth-of-type(even) > .bg_listItem) {
+:deep(section:nth-of-type(even) > .bg_listItem) {
   background: linear-gradient(91deg, #b9b9b933 0%, #b9b9b91f 34%, #b9b9b917 63%, #b9b9b900 99%);
 }
 </style>

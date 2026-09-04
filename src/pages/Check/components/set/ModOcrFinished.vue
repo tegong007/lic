@@ -1,7 +1,9 @@
 <template>
   <div class="bgDefend_item no-first-bar">
-    <template v-for="(item, idx) in (cur.ocrFinished || [])" :key="idx">
-      <div class="bgDefend_tit">{{ title }}<span v-if="(cur.ocrFinished || []).length > 1">{{ idx + 1 }}</span></div>
+    <template v-for="(item, idx) in cur.ocrFinished || []" :key="idx">
+      <div class="bgDefend_tit">
+        {{ title }}<span v-if="(cur.ocrFinished || []).length > 1">{{ idx + 1 }}</span>
+      </div>
       <section class="bg_listItem" style="display: block">
         <div style="display: flex; flex-direction: column; gap: 1vh">
           <div class="bgDefend_itemIn">
@@ -51,7 +53,9 @@
           <div class="flex">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">端口1:</div>
-              <a-input v-model:value="item.irlDev.l1Port" class="w-8vw" placeholder="COM1" :maxlength="10" />
+              <a-select v-model:value="item.irlDev.l1Port" style="width: 15vw" placeholder="COM1">
+                <a-select-option v-for="n in 15" :key="n" :value="`COM${n}`">COM{{ n }}</a-select-option>
+              </a-select>
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">通道1:</div>
@@ -59,13 +63,15 @@
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">亮度1:</div>
-              <a-input v-model:value="item.irlDev.l1Brightness" :class="keyInput === `ocrFinished.${idx}.irlDev.l1Brightness` ? 'keyInput' : ''" class="w-8vw" placeholder="0~255" :maxlength="3" @click.stop="onInputFocus($event, `ocrFinished.${idx}.irlDev.l1Brightness`, 3)" />
+              <a-input v-model:value="item.irlDev.l1Brightness" :class="keyInput === `ocrFinished.${idx}.irlDev.l1Brightness` ? 'keyInput' : ''" class="w-8vw" placeholder="0~999" :maxlength="3" @click.stop="onInputFocus($event, `ocrFinished.${idx}.irlDev.l1Brightness`, 3)" />
             </div>
           </div>
           <div class="flex">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">端口2:</div>
-              <a-input v-model:value="item.irlDev.l2Port" class="w-8vw" placeholder="COM2" :maxlength="10" />
+              <a-select v-model:value="item.irlDev.l2Port" style="width: 15vw" placeholder="COM2">
+                <a-select-option v-for="n in 15" :key="n" :value="`COM${n}`">COM{{ n }}</a-select-option>
+              </a-select>
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">通道2:</div>
@@ -73,7 +79,7 @@
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">亮度2:</div>
-              <a-input v-model:value="item.irlDev.l2Brightness" :class="keyInput === `ocrFinished.${idx}.irlDev.l2Brightness` ? 'keyInput' : ''" class="w-8vw" placeholder="0~255" :maxlength="3" @click.stop="onInputFocus($event, `ocrFinished.${idx}.irlDev.l2Brightness`, 3)" />
+              <a-input v-model:value="item.irlDev.l2Brightness" :class="keyInput === `ocrFinished.${idx}.irlDev.l2Brightness` ? 'keyInput' : ''" class="w-8vw" placeholder="0~999" :maxlength="3" @click.stop="onInputFocus($event, `ocrFinished.${idx}.irlDev.l2Brightness`, 3)" />
             </div>
           </div>
         </div>
@@ -92,7 +98,9 @@
           <div class="flex">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">端口1:</div>
-              <a-input v-model:value="item.uvlDev.l1Port" class="w-8vw" placeholder="COM1" :maxlength="10" />
+              <a-select v-model:value="item.uvlDev.l1Port" style="width: 15vw" placeholder="COM1">
+                <a-select-option v-for="n in 15" :key="n" :value="`COM${n}`">COM{{ n }}</a-select-option>
+              </a-select>
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">通道1:</div>
@@ -100,13 +108,15 @@
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">亮度1:</div>
-              <a-input v-model:value="item.uvlDev.l1Brightness" :class="keyInput === `ocrFinished.${idx}.uvlDev.l1Brightness` ? 'keyInput' : ''" class="w-8vw" placeholder="0~255" :maxlength="3" @click.stop="onInputFocus($event, `ocrFinished.${idx}.uvlDev.l1Brightness`, 3)" />
+              <a-input v-model:value="item.uvlDev.l1Brightness" :class="keyInput === `ocrFinished.${idx}.uvlDev.l1Brightness` ? 'keyInput' : ''" class="w-8vw" placeholder="0~999" :maxlength="3" @click.stop="onInputFocus($event, `ocrFinished.${idx}.uvlDev.l1Brightness`, 3)" />
             </div>
           </div>
           <div class="flex">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">端口2:</div>
-              <a-input v-model:value="item.uvlDev.l2Port" class="w-8vw" placeholder="COM2" :maxlength="10" />
+              <a-select v-model:value="item.uvlDev.l2Port" style="width: 15vw" placeholder="COM2">
+                <a-select-option v-for="n in 15" :key="n" :value="`COM${n}`">COM{{ n }}</a-select-option>
+              </a-select>
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">通道2:</div>
@@ -114,7 +124,7 @@
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">亮度2:</div>
-              <a-input v-model:value="item.uvlDev.l2Brightness" :class="keyInput === `ocrFinished.${idx}.uvlDev.l2Brightness` ? 'keyInput' : ''" class="w-8vw" placeholder="0~255" :maxlength="3" @click.stop="onInputFocus($event, `ocrFinished.${idx}.uvlDev.l2Brightness`, 3)" />
+              <a-input v-model:value="item.uvlDev.l2Brightness" :class="keyInput === `ocrFinished.${idx}.uvlDev.l2Brightness` ? 'keyInput' : ''" class="w-8vw" placeholder="0~999" :maxlength="3" @click.stop="onInputFocus($event, `ocrFinished.${idx}.uvlDev.l2Brightness`, 3)" />
             </div>
           </div>
         </div>
@@ -133,7 +143,9 @@
           <div class="flex">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">端口1:</div>
-              <a-input v-model:value="item.wlDev.l1Port" class="w-8vw" placeholder="COM1" :maxlength="10" />
+              <a-select v-model:value="item.wlDev.l1Port" style="width: 15vw" placeholder="COM1">
+                <a-select-option v-for="n in 15" :key="n" :value="`COM${n}`">COM{{ n }}</a-select-option>
+              </a-select>
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">通道1:</div>
@@ -141,13 +153,15 @@
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">亮度1:</div>
-              <a-input v-model:value="item.wlDev.l1Brightness" :class="keyInput === `ocrFinished.${idx}.wlDev.l1Brightness` ? 'keyInput' : ''" class="w-8vw" placeholder="0~255" :maxlength="3" @click.stop="onInputFocus($event, `ocrFinished.${idx}.wlDev.l1Brightness`, 3)" />
+              <a-input v-model:value="item.wlDev.l1Brightness" :class="keyInput === `ocrFinished.${idx}.wlDev.l1Brightness` ? 'keyInput' : ''" class="w-8vw" placeholder="0~999" :maxlength="3" @click.stop="onInputFocus($event, `ocrFinished.${idx}.wlDev.l1Brightness`, 3)" />
             </div>
           </div>
           <div class="flex">
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">端口2:</div>
-              <a-input v-model:value="item.wlDev.l2Port" class="w-8vw" placeholder="COM2" :maxlength="10" />
+              <a-select v-model:value="item.wlDev.l2Port" style="width: 15vw" placeholder="COM2">
+                <a-select-option v-for="n in 15" :key="n" :value="`COM${n}`">COM{{ n }}</a-select-option>
+              </a-select>
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">通道2:</div>
@@ -155,7 +169,7 @@
             </div>
             <div class="bgDefend_itemIn">
               <div class="bgDefend_itemIn_tit">亮度2:</div>
-              <a-input v-model:value="item.wlDev.l2Brightness" :class="keyInput === `ocrFinished.${idx}.wlDev.l2Brightness` ? 'keyInput' : ''" class="w-8vw" placeholder="0~255" :maxlength="3" @click.stop="onInputFocus($event, `ocrFinished.${idx}.wlDev.l2Brightness`, 3)" />
+              <a-input v-model:value="item.wlDev.l2Brightness" :class="keyInput === `ocrFinished.${idx}.wlDev.l2Brightness` ? 'keyInput' : ''" class="w-8vw" placeholder="0~999" :maxlength="3" @click.stop="onInputFocus($event, `ocrFinished.${idx}.wlDev.l2Brightness`, 3)" />
             </div>
           </div>
         </div>

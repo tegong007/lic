@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute top-10vh flex justify-start">
+  <div class="set-page-root absolute top-10vh flex justify-start">
     <div class="flex justify-start">
       <!-- 左侧导航 -->
       <div class="ml-1vw w-20vw flex-shrink-0 text-1.5vw">
@@ -156,140 +156,147 @@ function saveData() {
 </style>
 
 <style lang="less">
-.bgDefend {
-  .bg_listItem {
-    padding: 2vh 0;
-    margin: 1vh 0;
-    font-size: 1.4vw;
-    // 隔行变色
-    &:nth-of-type(odd) {
-      background: linear-gradient(359deg, #ffffff13 1%, #008cff23 98%);
-    }
-    &:nth-of-type(even) {
-      background: linear-gradient(91deg, #b9b9b933 0%, #b9b9b91f 34%, #b9b9b917 63%, #b9b9b900 99%);
-    }
-  }
-  .bgDefend_item {
-    margin-top: 2vh;
-    margin-bottom: 3vh;
-    .bgDefend_tit {
-      font-size: 1.8vw;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      white-space: nowrap;
-      &::before,
-      &::after {
-        content: '';
-        flex: 1;
-        height: 1px;
-        min-width: 2vw;
-      }
-      &::before {
-        background: linear-gradient(270deg, #ffffff 0%, #ffffff00 100%);
-        margin-right: 1vw;
-      }
-      &::after {
-        background: linear-gradient(90deg, #ffffff 0%, #ffffff00 100%);
-        margin-left: 1vw;
-      }
-    }
+// 用唯一根类限定作用域，避免 .bgDefend 全局样式泄漏到「设备维护 / 质检设置」等其它页面
+.set-page-root {
+  .bgDefend {
     .bg_listItem {
-      padding: 1vh 0;
+      padding: 2vh 0;
       margin: 1vh 0;
-      display: flex;
-      font-size: 1.3vw;
-      .bgDefend_itemIn {
+      font-size: 1.4vw;
+      // 隔行变色
+      &:nth-of-type(odd) {
+        background: linear-gradient(359deg, #ffffff13 1%, #008cff23 98%);
+      }
+      &:nth-of-type(even) {
+        background: linear-gradient(91deg, #b9b9b933 0%, #b9b9b91f 34%, #b9b9b917 63%, #b9b9b900 99%);
+      }
+    }
+    .bgDefend_item {
+      margin-top: 2vh;
+      margin-bottom: 3vh;
+      .bgDefend_tit {
+        font-size: 1.8vw;
+        font-weight: bold;
         display: flex;
         align-items: center;
-        margin-right: 2vw;
-        .bgDefend_itemIn_tit {
-          margin-left: 2vw;
-          padding-right: 0.5vw;
-          min-width: 7vw;
-          white-space: nowrap;
+        justify-content: center;
+        white-space: nowrap;
+        &::before,
+        &::after {
+          content: '';
+          flex: 1;
+          height: 1px;
+          min-width: 2vw;
         }
-        &:first-of-type .bgDefend_itemIn_tit:first-of-type {
-          position: relative;
-          padding-left: 1.5vw;
-          &::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 6px;
-            height: 1.2em;
-            border-radius: 50px;
-            background: #ffffff;
+        &::before {
+          background: linear-gradient(270deg, #ffffff 0%, #ffffff00 100%);
+          margin-right: 1vw;
+        }
+        &::after {
+          background: linear-gradient(90deg, #ffffff 0%, #ffffff00 100%);
+          margin-left: 1vw;
+        }
+      }
+      .bg_listItem {
+        padding: 1vh 0;
+        margin: 1vh 0;
+        display: flex;
+        font-size: 1.3vw;
+        .bgDefend_itemIn {
+          display: flex;
+          align-items: center;
+          margin-right: 2vw;
+          .bgDefend_itemIn_tit {
+            margin-left: 2vw;
+            padding-right: 0.5vw;
+            min-width: 7vw;
+            white-space: nowrap;
+          }
+          &:first-of-type .bgDefend_itemIn_tit:first-of-type {
+            position: relative;
+            padding-left: 1.5vw;
+            &::before {
+              content: '';
+              position: absolute;
+              left: 0;
+              top: 50%;
+              transform: translateY(-50%);
+              width: 6px;
+              height: 1.2em;
+              border-radius: 50px;
+              background: #ffffff;
+            }
           }
         }
+        // 原 ::v-deep 写在全局块里不会被编译（死样式），改裸选择器；外层已用 .set-page-root 限定作用域
+        .ant-form-item {
+          margin-bottom: 0vh;
+        }
+        .ant-form-item-label {
+          line-height: 3vh !important;
+        }
+        .ant-form-item-label label {
+          color: #ffffff;
+          font-size: 1.4vw;
+        }
+        .ant-input,
+        .ant-select-selector {
+          font-size: 1.1vw;
+          background-color: transparent !important;
+          color: #ffffff;
+          border-width: 0px !important;
+          background-color: #ffffff15 !important;
+          height: 5vh !important;
+          border-radius: 0;
+          min-width: 15vw;
+        }
+        .ant-select-selector {
+          min-width: 12vw !important;
+        }
+        .ant-select-selection-item {
+          line-height: 5vh !important;
+          font-size: 1.1vw;
+          color: #ffffff !important;
+        }
+        .ant-input::placeholder,
+        .ant-select-selection-placeholder {
+          color: #989ca1;
+        }
+        .ant-select-arrow {
+          right: 0.5vw !important;
+        }
+        .ant-switch-checked .ant-switch-inner {
+          background: #3662ec;
+        }
+        .ant-switch-inner {
+          background: #d8d8d8;
+        }
+        .keyInput {
+          border-color: #3662ec;
+        }
       }
-      ::v-deep(.ant-form-item) {
-        margin-bottom: 0vh;
-      }
-      ::v-deep(.ant-form-item-label) {
-        line-height: 3vh !important;
-      }
-      ::v-deep(.ant-form-item-label label) {
-        color: #ffffff;
-        font-size: 1.4vw;
-      }
-      .ant-input,
-      .ant-select-selector {
-        font-size: 1.1vw;
-        background-color: transparent !important;
-        color: #ffffff;
-        border-width: 0px !important;
-        background-color: #ffffff15 !important;
-        height: 5vh !important;
-        border-radius: 0;
-        min-width: 15vw;
-      }
-      .ant-select-selector {
-        min-width: 12vw !important;
-      }
-      .ant-select-selection-item {
-        line-height: 5vh !important;
-        font-size: 1.1vw;
-        color: #ffffff !important;
-      }
-      .ant-input::placeholder,
-      .ant-select-selection-placeholder {
-        color: #989ca1;
-      }
-      .ant-select-arrow {
-        right: 0.5vw !important;
-      }
-      .ant-switch-checked .ant-switch-inner {
-        background: #3662ec;
-      }
-      .ant-switch-inner {
-        background: #d8d8d8;
-      }
-      .keyInput {
-        border-color: #3662ec;
+      // 屏蔽默认小竖条，但不影响自定义小竖条（如 .inkjet-loc-tit）
+      &.no-first-bar
+        .bg_listItem
+        .bgDefend_itemIn:first-of-type
+        .bgDefend_itemIn_tit:first-of-type:not(.inkjet-loc-tit) {
+        padding-left: 0;
+        &::before {
+          display: none;
+        }
       }
     }
-    // 屏蔽默认小竖条，但不影响自定义小竖条（如 .inkjet-loc-tit）
-    &.no-first-bar .bg_listItem .bgDefend_itemIn:first-of-type .bgDefend_itemIn_tit:first-of-type:not(.inkjet-loc-tit) {
-      padding-left: 0;
-      &::before {
-        display: none;
-      }
+    &::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
     }
-  }
-  &::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
-  }
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: #3662ec;
-    border-radius: 2px;
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #3662ec;
+      border-radius: 2px;
+    }
   }
 }
 </style>

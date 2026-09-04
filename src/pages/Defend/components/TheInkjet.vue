@@ -135,7 +135,7 @@ function onChangeKeyboard(input: string, keyboard: any) {
   color: #ffffff !important;
 }
 ::v-deep(.ant-input::placeholder),
-:v-deep(.ant-select-selection-placeholder) {
+::v-deep(.ant-select-selection-placeholder) {
   color: #989ca1;
 }
 ::v-deep(.ant-select-arrow) {

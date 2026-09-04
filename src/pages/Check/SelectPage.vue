@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute top-10vh w-100% flex justify-start">
+  <div class="select-page-root absolute top-10vh w-100% flex justify-start">
     <div class="ml-1vw flex justify-start">
       <div class="bgDefend ml-2vw h-71vh w-90vw overflow-auto">
         <TheSet v-if="choose === 2" />
@@ -101,16 +101,19 @@ const choose = ref(Number(route.query.key || '1'));
 </style>
 
 <style lang="less">
-.bgDefend {
-  .bg_listItem {
-    padding: 2vh 0;
-    margin: 1vh 0;
-    font-size: 1.4vw;
-    &:nth-of-type(odd) {
-      background: linear-gradient(359deg, #ffffff13 1%, #008cff23 98%);
-    }
-    &:nth-of-type(even) {
-      background: linear-gradient(91deg, #b9b9b933 0%, #b9b9b91f 34%, #b9b9b917 63%, #b9b9b900 99%);
+// 用唯一根类限定作用域，避免 .bgDefend .bg_listItem 全局样式泄漏到「设备设置 / 设备维护」等其它页面
+.select-page-root {
+  .bgDefend {
+    .bg_listItem {
+      padding: 2vh 0;
+      margin: 1vh 0;
+      font-size: 1.4vw;
+      &:nth-of-type(odd) {
+        background: linear-gradient(359deg, #ffffff13 1%, #008cff23 98%);
+      }
+      &:nth-of-type(even) {
+        background: linear-gradient(91deg, #b9b9b933 0%, #b9b9b91f 34%, #b9b9b917 63%, #b9b9b900 99%);
+      }
     }
   }
 }
