@@ -1,10 +1,11 @@
 {
+  "_comment": "流水线最新配置",
   "fullscreen": true,
   "devTools": false,
   "width": 1440,
   "height": 900,
-  "serverAddress": "http://192.168.100.102:6102",
-  "timeOut": 10000,
-  "biometricIP": "http://192.168.100.102:6130",
+  "serverAddress": "http://192.168.100.70:6102",
+  "timeOut": 20000,
+  "biometricIP": "http://192.168.100.70:6130",
   "cameraIp": "http://192.168.100.106:18832"
 }

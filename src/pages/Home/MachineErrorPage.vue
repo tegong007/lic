@@ -73,11 +73,9 @@ const sections = ref<ModuleSection[]>(
   })),
 );
 
-/** 模块五、模块八飘红也禁止点击跳转 */
-const NOT_CLICKABLE_UIDS = new Set(['m5', 'm8']);
-
+/** 所有出错的模块区段均可点击跳转（m5 / m8 新需求放开） */
 function isClickable(section: ModuleSection): boolean {
-  return section.error && !NOT_CLICKABLE_UIDS.has(section.moduleUid);
+  return section.error;
 }
 
 /** 区段覆盖层高度 = 图片高度的 90%（top:10% + 90% = 100%，正好填满机器图主体，避免溢出下沿） */
@@ -195,7 +193,7 @@ onUnmounted(() => {
   background-color: rgba(180, 5, 5, 0.6);
 }
 
-/* 飘红且非 m5/m8 时可点击：手型 + hover 加深 + 描边提示 */
+/* 飘红可点击：手型 + hover 加深 + 描边提示 */
 .module-cell.is-clickable {
   cursor: pointer;
 }

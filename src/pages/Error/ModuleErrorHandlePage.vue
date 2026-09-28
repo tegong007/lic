@@ -20,7 +20,7 @@
             <img :src="img.src" :alt="img.key" />
           </div>
         </div>
-        <a-button type="link" class="btn_normal view-action-btn mb1vh !mr-0" @click="handleViewAction">查看动作</a-button>
+        <a-button v-if="showViewAction" type="link" class="btn_normal view-action-btn mb1vh !mr-0" @click="handleViewAction">查看动作</a-button>
       </div>
 
       <!-- 右侧：表单 + 底部按钮 -->
@@ -83,10 +83,12 @@ import m3All from '@/assets/image/bigScreen/error/m3.png';
 import m4Bottom from '@/assets/image/bigScreen/error/m4-bottom.png';
 import m4Top from '@/assets/image/bigScreen/error/m4-top.png';
 import m4All from '@/assets/image/bigScreen/error/m4.png';
+import m5 from '@/assets/image/bigScreen/error/m5.png';
 import m6Bottom from '@/assets/image/bigScreen/error/m6-bottom.png';
 import m6Top from '@/assets/image/bigScreen/error/m6-top.png';
 import m6All from '@/assets/image/bigScreen/error/m6.png';
 import m7 from '@/assets/image/bigScreen/error/m7.png';
+import m8 from '@/assets/image/bigScreen/error/m8.png';
 import ViewActionModal from '@/components/ViewActionModal.vue';
 
 interface ExDoc {
@@ -137,6 +139,8 @@ const MODULE_IMAGES: Record<string, { top?: string; bottom?: string; single?: st
   m4: { top: m4Top, bottom: m4Bottom, all: m4All },
   m6: { top: m6Top, bottom: m6Bottom, all: m6All },
   m7: { single: m7 },
+  m5: { single: m5 },
+  m8: { single: m8 },
 };
 
 const items = ref<ModuleItem[]>([]);
@@ -145,6 +149,9 @@ const exDocList = reactive<ExDocRow[]>([]);
 const newDocID = ref('');
 /** 查看动作弹框显隐 */
 const showActionModal = ref(false);
+/** 进入模块五 / 模块八时屏蔽「查看动作」按钮（无对应动作配置） */
+const HIDE_VIEW_ACTION_UIDS = new Set(['m5', 'm8']);
+const showViewAction = computed(() => !HIDE_VIEW_ACTION_UIDS.has(moduleUid.value));
 
 // --- 虚拟键盘（参考维护设置页 SetGeneral）---
 const showKeyboard = ref(false);
