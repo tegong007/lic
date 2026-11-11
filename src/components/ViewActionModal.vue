@@ -96,10 +96,10 @@ const MODULE_ACTIONS: Record<string, ActionGroup[]> = {
   m2: [
     {
       items: [
-        { jobUid: 'M1_BELT_JOB', motion: 1, label: '开门' },
+        { jobUid: 'M1_PRE_WASTE_JOB', motion: 1, label: '开门' },
         { jobUid: 'M1_TURN1_JOB', motion: 1, label: '翻页松开1' },
         { jobUid: 'M1_TURN2_JOB', motion: 1, label: '翻页松开2' },
-        { jobUid: 'M1_PRE_WASTE_JOB', motion: 1, label: '皮带松开' },
+        { jobUid: 'M1_BELT_JOB', motion: 1, label: '皮带松开' },
       ],
     },
   ],
@@ -109,22 +109,22 @@ const MODULE_ACTIONS: Record<string, ActionGroup[]> = {
       name: '送本工位',
       items: [
         { jobUid: 'M2_DELIVER_JOB', motion: 1, label: '气缸升起' },
-        { jobUid: 'M2_DELIVER_JOB', motion: 2, label: '导轨气缸升起' },
-        { jobUid: 'M2_DELIVER_JOB', motion: 3, label: '马达初始化' },
-        { jobUid: 'M2_DELIVER_JOB', motion: 4, label: '气缸下降' },
-        { jobUid: 'M2_DELIVER_JOB', motion: 5, label: '导轨气缸下降' },
+        { jobUid: 'M2_DELIVER_JOB', motion: 2, label: '气缸下降' },
+        { jobUid: 'M2_DELIVER_JOB', motion: 3, label: '导轨气缸升起' },
+        { jobUid: 'M2_DELIVER_JOB', motion: 4, label: '导轨气缸下降' },
+        { jobUid: 'M2_DELIVER_JOB', motion: 5, label: '马达初始化' },
       ],
     },
     {
       name: '激光工位',
       items: [
         { jobUid: 'M2_LASER_JOB', motion: 1, label: '低平台升起' },
-        { jobUid: 'M2_LASER_JOB', motion: 2, label: '导轨气缸升起' },
-        { jobUid: 'M2_LASER_JOB', motion: 3, label: '低平台放下' },
+        { jobUid: 'M2_LASER_JOB', motion: 2, label: '低平台放下' },
+        { jobUid: 'M2_LASER_JOB', motion: 3, label: '导轨气缸升起' },
         { jobUid: 'M2_LASER_JOB', motion: 4, label: '扣子气缸放下' },
       ],
     },
-    { name: '皮带工位', items: [{ jobUid: 'M2_BELT_JOB', motion: 1, label: '皮带松开' }] },
+    { name: '皮带工位', items: [{ jobUid: 'M2_BELT_JOB', motion: 1, label: '松开皮带' }] },
   ],
   // ── 模块四 ──
   m4: [
@@ -132,18 +132,18 @@ const MODULE_ACTIONS: Record<string, ActionGroup[]> = {
       name: '送本工位',
       items: [
         { jobUid: 'M3_DELIVER_JOB', motion: 1, label: '气缸升起' },
-        { jobUid: 'M3_DELIVER_JOB', motion: 2, label: '导轨气缸升起' },
-        { jobUid: 'M3_DELIVER_JOB', motion: 3, label: '马达初始化' },
-        { jobUid: 'M3_DELIVER_JOB', motion: 4, label: '气缸下降' },
-        { jobUid: 'M3_DELIVER_JOB', motion: 5, label: '导轨气缸下降' },
+        { jobUid: 'M3_DELIVER_JOB', motion: 2, label: '气缸下降' },
+        { jobUid: 'M3_DELIVER_JOB', motion: 3, label: '导轨气缸升起' },
+        { jobUid: 'M3_DELIVER_JOB', motion: 4, label: '导轨气缸下降' },
+        { jobUid: 'M3_DELIVER_JOB', motion: 5, label: '马达初始化' },
       ],
     },
     {
       name: '喷墨工位',
       items: [
         { jobUid: 'M3_INKJET_JOB', motion: 1, label: '低平台升起' },
-        { jobUid: 'M3_INKJET_JOB', motion: 2, label: '导轨气缸升起' },
-        { jobUid: 'M3_INKJET_JOB', motion: 3, label: '低平台放下' },
+        { jobUid: 'M3_INKJET_JOB', motion: 2, label: '低平台放下' },
+        { jobUid: 'M3_INKJET_JOB', motion: 3, label: '导轨气缸升起' },
         { jobUid: 'M3_INKJET_JOB', motion: 4, label: '扣子气缸放下' },
       ],
     },
@@ -155,18 +155,18 @@ const MODULE_ACTIONS: Record<string, ActionGroup[]> = {
       name: '送本工位',
       items: [
         { jobUid: 'M5_DELIVER_JOB', motion: 1, label: '气缸升起' },
-        { jobUid: 'M5_DELIVER_JOB', motion: 2, label: '导轨气缸升起' },
-        { jobUid: 'M5_DELIVER_JOB', motion: 3, label: '马达初始化' },
-        { jobUid: 'M5_DELIVER_JOB', motion: 4, label: '气缸下降' },
-        { jobUid: 'M5_DELIVER_JOB', motion: 5, label: '导轨气缸下降' },
+        { jobUid: 'M5_DELIVER_JOB', motion: 2, label: '气缸下降' },
+        { jobUid: 'M5_DELIVER_JOB', motion: 3, label: '导轨气缸升起' },
+        { jobUid: 'M5_DELIVER_JOB', motion: 4, label: '导轨气缸下降' },
+        { jobUid: 'M5_DELIVER_JOB', motion: 5, label: '马达初始化' },
       ],
     },
     {
       name: '喷墨工位',
       items: [
         { jobUid: 'M5_INKJET_JOB', motion: 1, label: '低平台升起' },
-        { jobUid: 'M5_INKJET_JOB', motion: 2, label: '导轨气缸升起' },
-        { jobUid: 'M5_INKJET_JOB', motion: 3, label: '低平台放下' },
+        { jobUid: 'M5_INKJET_JOB', motion: 2, label: '低平台放下' },
+        { jobUid: 'M5_INKJET_JOB', motion: 3, label: '导轨气缸升起' },
         { jobUid: 'M5_INKJET_JOB', motion: 4, label: '扣子气缸放下' },
       ],
     },

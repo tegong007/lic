@@ -248,6 +248,33 @@ const tssMock: Record<string, (params?: any) => any> = {
           ],
         },
       ],
+      // 新放开跳转的模块：补 mock 数据，点进去才能看到图与证本列表
+      m5: [
+        {
+          uid: 'M5_PRINTER_JOB',
+          code: 3,
+          msg: '打印机卡纸',
+          mainCode: 5,
+          subCode: 1,
+          exDoc: [
+            { fwBookSn: 20260825001, fwDocSn: 202608251510, docID: '52345678987654321' },
+            { fwBookSn: 20260825002, fwDocSn: 202608251511, docID: '52345678987654322' },
+          ],
+        },
+      ],
+      m8: [
+        {
+          uid: 'M8_INKJET2_JOB',
+          code: 3,
+          msg: '喷头堵塞',
+          mainCode: 8,
+          subCode: 1,
+          exDoc: [
+            { fwBookSn: 20260828001, fwDocSn: 202608281510, docID: '82345678987654321' },
+            { fwBookSn: 20260828002, fwDocSn: 202608281511, docID: '82345678987654322' },
+          ],
+        },
+      ],
     };
     // 直接返回数组即可，findMockResponse 会统一包一层 { code, respData, msg }
     return moduleMock[moduleUid] || [];

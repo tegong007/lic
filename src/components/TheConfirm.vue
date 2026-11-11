@@ -1,7 +1,7 @@
 <template>
   <a-modal width="44vw" :get-container="false" :open="props.open" :closable="false" centered force-render>
-    <SimpleKeyboard v-if="focus && props.title === '补打备注'" :transform="transformValue" :input="text" :max-length="20" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
-    <SimpleKeyboard v-if="focus && props.title === '开始进本'" :transform="transformValue" layout="num" :input="text" :max-length="20" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
+    <SimpleKeyboard v-if="focus && props.title === '补打备注'" :transform="transformValue" :input="text" :max-length="20" keyboard-width="w50%" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
+    <SimpleKeyboard v-if="focus && props.title === '开始进本'" :transform="transformValue" layout="num" :input="text" :max-length="20" keyboard-width="w30%" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
     <template v-if="props.title === '补打备注'">
       <div class="w-full pb-6vh pt-7vh text-center text-2.5vw color-#ffffff">{{ `${props.title}前请输入证本号` }}</div>
       <a-input v-model:value="text" :class="focus ? 'keyInput' : ''" class="mb-6vh w-100% py-10px text-1.5vw" placeholder="请输入证本号" :maxlength="15" @click.stop="onInputFocus($event)" />
@@ -228,7 +228,7 @@ function onInputFocus(event: any) {
   cursorPosition.value = event;
   const rect = event.target.getBoundingClientRect();
   const top = rect.bottom + rect.height + window.scrollY;
-  transformValue.value = [-200, top - 280];
+  transformValue.value = [-250, top - 280];
 }
 
 function onChangeKeyboard(input: string, keyboard: any) {

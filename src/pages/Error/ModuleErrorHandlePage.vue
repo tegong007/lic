@@ -90,6 +90,7 @@ import m6All from '@/assets/image/bigScreen/error/m6.png';
 import m7 from '@/assets/image/bigScreen/error/m7.png';
 import m8 from '@/assets/image/bigScreen/error/m8.png';
 import ViewActionModal from '@/components/ViewActionModal.vue';
+import { useAppStore } from '@/store';
 
 interface ExDoc {
   fwBookSn?: number;
@@ -149,6 +150,8 @@ const exDocList = reactive<ExDocRow[]>([]);
 const newDocID = ref('');
 /** 查看动作弹框显隐 */
 const showActionModal = ref(false);
+/** 全局提交等待框（App.vue 的 a-spin）：提交时弹「加载中…」遮罩，接口返回后自动消失 */
+const appStore = useAppStore();
 /** 进入模块五 / 模块八时屏蔽「查看动作」按钮（无对应动作配置） */
 const HIDE_VIEW_ACTION_UIDS = new Set(['m5', 'm8']);
 const showViewAction = computed(() => !HIDE_VIEW_ACTION_UIDS.has(moduleUid.value));
@@ -309,6 +312,8 @@ function handleAdd() {
 }
 
 async function handleSubmit() {
+  // 防重复点击：全局等待框已弹出时直接忽略（a-spin 遮罩本身也挡住页面所有点击）
+  if (appStore.spinning) return;
   const submitInfo = exDocList.map((row) => {
     const base: any = {
       fwDocSn: row.fwDocSn,
@@ -320,6 +325,8 @@ async function handleSubmit() {
     return base;
   });
   console.log('🚀 ~ handleSubmit ~ submitInfo:', submitInfo);
+  // 弹出全局「加载中…」等待框，接口返回后（成功或失败）在 finally 中关闭、自动消失
+  appStore.setSpinning(true);
   try {
     await ErrorModule.submitError({ submitInfo });
     notification.success({ message: '成功', description: '提交成功', class: 'notification-custom-class', placement: 'bottomRight' });
@@ -327,6 +334,8 @@ async function handleSubmit() {
     await fetchData();
   } catch (e) {
     notification.error({ message: '错误', description: `提交失败：${String(e)}`, class: 'notificationE-custom-class', placement: 'bottomRight' });
+  } finally {
+    appStore.setSpinning(false);
   }
 }
 
