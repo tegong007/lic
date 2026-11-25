@@ -28,3 +28,7 @@ release
 # lockfile
 package-lock.json
 pnpm-lock.yaml
+
+# 龙芯 loong64 Electron 离线包（112MB，不提交仓库，仅本地/拷机使用）
+vendor/
+.cache/

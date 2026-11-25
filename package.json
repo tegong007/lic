@@ -35,6 +35,9 @@
     "lodash.escaperegexp": "^4.1.2",
     "lodash.isequal": "^4.5.0",
     "build:linux": "vite build && electron-builder --linux",
+    "loong64:install": "npm install --ignore-scripts && node scripts/setup-loongarch64.cjs",
+    "loong64:setup": "node scripts/setup-loongarch64.cjs",
+    "loong64:build": "bash scripts/build-loongarch64.sh",
     "up": "taze major -I"
   },
   "dependencies": {
@@ -57,7 +60,7 @@
     "@unocss/preset-rem-to-px": "^0.61.5",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vueuse/core": "^10.11.0",
-    "electron": "^35.2.1",
+    "electron": "35.4.0",
     "electron-builder": "^24.13.3",
     "eslint": "^9.25.1",
     "eslint-plugin-format": "^1.0.1",
