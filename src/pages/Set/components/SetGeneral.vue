@@ -1,15 +1,6 @@
 <template>
   <div>
-    <SimpleKeyboard
-      v-if="showKeyboard"
-      :layout="keyInput === 'ipTMS' || keyInput === 'ipLocal' ? 'floatNum' : 'num'"
-      :transform="transformValue"
-      :input="getKeyboardValue()"
-        keyboard-width="w-30vw"
-      :max-length="limitInput"
-      @on-change="onChangeKeyboard"
-      @closekeyboard="hideKeyboard"
-    />
+    <SimpleKeyboard v-if="showKeyboard" :layout="keyInput === 'ipTMS' || keyInput === 'ipLocal' ? 'floatNum' : 'num'" :transform="transformValue" :input="getKeyboardValue()" keyboard-width="w-20vw" :max-length="limitInput" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
 
     <div class="bgDefend_item no-first-bar">
       <section class="bg_listItem">
@@ -30,14 +21,7 @@
         </div>
         <div class="bgDefend_itemIn">
           <div class="bgDefend_itemIn_tit">历史记录保留时间:</div>
-          <a-input
-            v-model:value="data.systemConfig.historyAliveDays"
-            :class="keyInput === 'historyAliveDays' ? 'keyInput' : ''"
-            class="w-14vw"
-            placeholder="7~90天"
-            :maxlength="2"
-            @click.stop="onInputFocus($event, 'historyAliveDays', 2)"
-          />
+          <a-input v-model:value="data.systemConfig.historyAliveDays" :class="keyInput === 'historyAliveDays' ? 'keyInput' : ''" class="w-14vw" placeholder="7~90天" :maxlength="2" @click.stop="onInputFocus($event, 'historyAliveDays', 2)" />
           <div class="ml-1vw" style="color: #989ca1; font-size: 1vw">天</div>
         </div>
       </section>
@@ -45,25 +29,11 @@
       <section class="bg_listItem">
         <div class="bgDefend_itemIn">
           <div class="bgDefend_itemIn_tit">TMS ip地址:</div>
-          <a-input
-            v-model:value="data.systemConfig.ipTMS"
-            :class="keyInput === 'ipTMS' ? 'keyInput' : ''"
-            class="w-20vw"
-            placeholder="请输入"
-            :maxlength="15"
-            @click.stop="onInputFocus($event, 'ipTMS', 15)"
-          />
+          <a-input v-model:value="data.systemConfig.ipTMS" :class="keyInput === 'ipTMS' ? 'keyInput' : ''" class="w-20vw" placeholder="请输入" :maxlength="15" @click.stop="onInputFocus($event, 'ipTMS', 15)" />
         </div>
         <div class="bgDefend_itemIn">
           <div class="bgDefend_itemIn_tit">本机IP:</div>
-          <a-input
-            v-model:value="data.systemConfig.ipLocal"
-            :class="keyInput === 'ipLocal' ? 'keyInput' : ''"
-            class="w-20vw"
-            placeholder="请输入"
-            :maxlength="15"
-            @click.stop="onInputFocus($event, 'ipLocal', 15)"
-          />
+          <a-input v-model:value="data.systemConfig.ipLocal" :class="keyInput === 'ipLocal' ? 'keyInput' : ''" class="w-20vw" placeholder="请输入" :maxlength="15" @click.stop="onInputFocus($event, 'ipLocal', 15)" />
         </div>
       </section>
 
@@ -174,7 +144,7 @@ async function load() {
 
 function validateIp(ip: string, label: string): string | null {
   if (!ip || String(ip).trim() === '') return null; // 允许为空
-  const ipv4Regex = /^((25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)\.){3}(25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)$/;
+  const ipv4Regex = /^(?:(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)$/;
   if (!ipv4Regex.test(String(ip))) return `${label}格式不正确，请输入有效的IP地址（如 192.168.1.1）`;
   return null;
 }
@@ -194,7 +164,7 @@ function validateAll(): string[] {
   } else {
     const n = Number(days);
     if (!Number.isFinite(n) || !Number.isInteger(n) || n < 7 || n > 90) {
-      errors.push('历史记录保留时间超出范围（7~90天），当前值：' + days);
+      errors.push(`历史记录保留时间超出范围（7~90天），当前值：${days}`);
     }
   }
   return errors;

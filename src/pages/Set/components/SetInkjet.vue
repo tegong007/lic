@@ -2,7 +2,7 @@
   <div>
     <TheConfirm title="舍弃当前修改" :open="showConfirm" :handle-ok="onConfirmDiscard" :handle-cancel="onConfirmCancel" />
 
-    <SimpleKeyboard v-if="showKeyboard" layout="num" keyboard-width="w-30vw" :transform="transformValue" :input="getKeyboardValue()" :max-length="limitInput" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
+    <SimpleKeyboard v-if="showKeyboard" layout="num" keyboard-width="w-20vw" :transform="transformValue" :input="getKeyboardValue()" :max-length="limitInput" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
 
     <!-- 喷墨起始位置 -->
     <div class="bgDefend_item no-first-bar">

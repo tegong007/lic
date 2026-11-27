@@ -2,7 +2,7 @@
   <div class="set-wrap flex">
     <TheConfirm title="舍弃当前修改" :open="showConfirm" :handle-ok="onConfirmDiscard" :handle-cancel="onConfirmCancel" />
 
-    <SimpleKeyboard v-if="showKeyboard" :layout="isFloatKey ? 'fNum' : 'num'" keyboard-width="w-30vw" :transform="transformValue" :input="getKeyboardValue()" :max-length="limitInput" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
+    <SimpleKeyboard v-if="showKeyboard" :layout="isFloatKey ? 'fNum' : 'num'" keyboard-width="w-20vw" :transform="transformValue" :input="getKeyboardValue()" :max-length="limitInput" @on-change="onChangeKeyboard" @closekeyboard="hideKeyboard" />
 
     <!-- 左侧模块导航（一贯 bgNav 样式） -->
     <div class="set-nav">
